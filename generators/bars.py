@@ -7,7 +7,7 @@ template="bars/template.svg"
 class Bars(object):
     def __init__(self):
         self.values = []
-        self.id_prefixes = [ "tarkka", "arvo", "aika", "pylvas" ]
+        self.id_prefixes = [ "arvo", "aika", "pylvas" ]
     def scale(self, min, max):
         step = (max - min) / 5
         self.scale = range(min, max + step, step)
@@ -22,18 +22,21 @@ class Bars(object):
         # self._debug()
 
     def _process_pylvas(self, index, elem):
-        # TODO:
-        print "# process_pylvas: " + str(elem)
+        # print "# process_pylvas: " + str(elem)
+        # TODO: stepping
+        # step = (max - min) / 5
+        # x = int(self.values[index][1]) * 73 / 10 # step
+        y = 435 - (int(self.values[index][1]) * 10 * 73 / 100)
+        h = 433 - y
+        # print "\ty: " + str(y)
+        # print "\th: " + str(h)
+        elem.set("height", str(h))
+        elem.set("y", str(y))
 
     def _process_aika(self, index, elem):
         # print "# process_aika: " + str(elem)
         tspan = elem.getchildren()[0]
         tspan.text = str(self.values[index][0])
-
-    def _process_tarkka(self, index, elem):
-        # print "# process_tarkka: " + str(elem)
-        tspan = elem.getchildren()[0]
-        tspan.text = str(self.values[index][1])
 
     def _process_arvo(self, index, elem):
         # print "# process_arvo: " + str(elem)

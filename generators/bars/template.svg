@@ -109,13 +109,6 @@
        style="opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        width="70.710678"
-       height="71.72084"
-       x="171.929"
-       y="362.3671"
-       id="pylvas0"
-       style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <rect
-       width="70.710678"
        height="108.59141"
        x="259.52899"
        y="325.49649"
@@ -203,59 +196,12 @@
          x="619.71796"
          y="479.23514"
          id="tspan2430">2006</tspan></text>
-    <text
-       x="206.68277"
-       y="356.6965"
-       id="tarkka0"
-       xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><tspan
-         x="206.68277"
-         y="356.6965"
-         id="tspan2454">100</tspan></text>
-    <text
-       x="294.28278"
-       y="320.63559"
-       id="tarkka1"
-       xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><tspan
-         x="294.28278"
-         y="320.63559"
-         id="tspan3252">150</tspan></text>
-    <text
-       x="382.39548"
-       y="284.65588"
-       id="tarkka2"
-       xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><tspan
-         x="382.39548"
-         y="284.65588"
-         id="tspan3256">200</tspan></text>
-    <text
-       x="469.95447"
-       y="208.7168"
-       id="tarkka3"
-       xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><tspan
-         x="469.95447"
-         y="208.7168"
-         id="tspan3260">300</tspan></text>
-    <text
-       x="557.93726"
-       y="136.67618"
-       id="tarkka4"
-       xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><tspan
-         x="557.93726"
-         y="136.67618"
-         id="tspan3264">400</tspan></text>
-    <text
-       x="645.14081"
-       y="62.63559"
-       id="tarkka5"
-       xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><tspan
-         x="645.14081"
-         y="62.63559"
-         id="tspan3268">500</tspan></text>
+    <rect
+       width="70.710678"
+       height="71.72084"
+       x="171.929"
+       y="362.3671"
+       id="pylvas0"
+       style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
 </svg>
