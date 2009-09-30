@@ -2,3 +2,9 @@ Beauty Bar
 ------------------------
 
 Project to make bars look nicer.
+
+Run
+------------------------
+
+cd ..
+./app-engine/dev_appserver.py beautybar/
