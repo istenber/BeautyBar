@@ -24,7 +24,7 @@ class Bars(object):
         print "# process_pylvas: " + str(elem)
 
     def _process_aika(self, index, elem):
-        print "# process_aika: " + str(elem)
+        # print "# process_aika: " + str(elem)
         tspan = elem.getchildren()[0]
         tspan.text = str(self.values[index][0])
 
@@ -34,11 +34,9 @@ class Bars(object):
         tspan.text = str(self.values[index][1])
 
     def _process_arvo(self, index, elem):
-        # TODO:
-        print "# process_arvo: " + str(elem)
-        #for key in elem.keys():
-        #    print ("\tkey: " + str(key) + 
-        #           "\t-> " + str(elem.get(key)))
+        # print "# process_arvo: " + str(elem)
+        tspan = elem.getchildren()[0]
+        tspan.text = str(self.scale[index])
 
     def _generate_output(self):
         for elem in self.tree.iter():
