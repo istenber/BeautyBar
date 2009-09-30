@@ -8,8 +8,10 @@ class Bars(object):
     def __init__(self):
         self.values = []
         self.id_prefixes = [ "tarkka", "arvo", "aika", "pylvas" ]
-    def scale(self, scale):
-        self.scale = scale
+    def scale(self, min, max):
+        step = (max - min) / 5
+        self.scale = range(min, max + step, step)
+        print "# scale " + str(self.scale)
     def add(self, name, value):
         self.values.append([name, value])
     def output(self, filename):
@@ -71,7 +73,7 @@ class Bars(object):
 
 def main():
     bars = Bars()
-    bars.scale([0, 10, 20, 30, 40, 50])
+    bars.scale(0, 50)
     bars.add("Ilpo", 28)
     bars.add("Lasse", 24)
     bars.add("Sanna", 27)
