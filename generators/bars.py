@@ -24,12 +24,12 @@ class Bars(object):
         print "# process_pylvas: " + str(elem)
 
     def _process_aika(self, index, elem):
-        # TODO:
         print "# process_aika: " + str(elem)
+        tspan = elem.getchildren()[0]
+        tspan.text = str(self.values[index][0])
 
     def _process_tarkka(self, index, elem):
         # print "# process_tarkka: " + str(elem)
-        # print "\t index: " + str(index)
         tspan = elem.getchildren()[0]
         tspan.text = str(self.values[index][1])
 
@@ -80,7 +80,7 @@ def main():
     bars.add("Ilpo", 28)
     bars.add("Lasse", 24)
     bars.add("Sanna", 27)
-    bars.output("bars_test.svg")
+    bars.output("/tmp/bars_test.svg")
 
 if __name__ == "__main__":
     main()
