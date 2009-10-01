@@ -1,5 +1,38 @@
 <html>
+<head>
+<title>BeautyBar</title>
+</head>
 <body>
-<h1>Hello {{ name }}!</h1>
+
+<h1>BeautyBar<br><font size="-1">nice graphs online</font></h1>
+
+<table>
+<tr>
+<td valign=top>
+<!-- Data part -->
+<h2>Data</h2>
+<table border=1 width=300>
+<tr><th>Title</th><th>Value</th></tr>
+<tr><td>Ilpo</td><td>28</td></tr>
+<tr><td>Sanna</td><td>27</td></tr>
+<tr><td>Lasse</td><td>24</td></tr>
+<tr><td>Ilpo</td><td>28</td></tr>
+<tr><td>Sanna</td><td>27</td></tr>
+<tr><td>Lasse</td><td>24</td></tr>
+</table>
+
+</td>
+<td valign=top>
+<!-- Graph part -->
+<h2>Bar</h2>
+<img src="tmp.png" width=200 height=200>
+<form method=post action="/export">
+<input type="submit" value="Export">
+</form>
+
+</td>
+</tr>
+</table>
+
 </body>
 </html>
