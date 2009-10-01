@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from lxml import etree
+from xml.dom import minidom
 
 template="bars/template.svg"
 
@@ -11,14 +11,15 @@ class Bars(object):
     def scale(self, min, max):
         step = (max - min) / 5
         self.scale = range(min, max + step, step)
-        print "# scale " + str(self.scale)
+        # print "# scale " + str(self.scale)
     def add(self, name, value):
         self.values.append([name, value])
-    def output(self, filename):
-        self.tree = etree.parse(template)
-        self._generate_output()        
-        with open(filename, 'w') as f:
-           f.write(self.output)
+    def output(self):
+        self.doc = minidom.parse(template)
+        # self._generate_output()        
+        return "hello" # self.output
+        # with open("/tmp/bars_output.svg", 'w') as f:
+        #     f.write(self.output)
         # self._debug()
 
     def _process_pylvas(self, index, elem):
@@ -30,49 +31,47 @@ class Bars(object):
         h = 433 - y
         # print "\ty: " + str(y)
         # print "\th: " + str(h)
-        elem.set("height", str(h))
-        elem.set("y", str(y))
+        elem.setAttribute("height", str(h))
+        elem.setAttribute("y", str(y))
 
     def _process_aika(self, index, elem):
         # print "# process_aika: " + str(elem)
-        tspan = elem.getchildren()[0]
-        tspan.text = str(self.values[index][0])
+        tspan = elem.childNodes[0]
+        old_txt = tspan.childNodes[0]
+        new_txt = self.doc.createTextNode(str(self.values[index][0]))
+        tspan.replaceChild(new_txt, old_txt)
 
     def _process_arvo(self, index, elem):
         # print "# process_arvo: " + str(elem)
-        tspan = elem.getchildren()[0]
-        tspan.text = str(self.scale[index])
+        tspan = elem.childNodes[0]
+        old_txt = tspan.childNodes[0]
+        new_txt = self.doc.createTextNode(str(self.scale[index]))
+        tspan.replaceChild(new_txt, old_txt)
 
-    def _generate_output(self):
-        for elem in self.tree.iter():
-            id = elem.get("id")
+    def _elem(self, elem):
+        # print "elem: " + str(elem.nodeValue)
+        try:
+            id = elem.getAttribute("id")
             for id_prefix in self.id_prefixes:
                 if id.startswith(id_prefix):
                     func = "_process_" + id_prefix
-                    index = int(str(elem.get("id"))[len(id_prefix):])
-                    print ("# Calling self." + str(func) + "(" + str(index) +
-                           ", <Element...>)")
+                    index = int(id[len(id_prefix):])
+                    # print ("# Calling self." + str(func) + "(" + str(index) +
+                    #        ", <Element...>)")
                     self.__getattribute__(func)(index, elem)
+        except AttributeError:
+            pass
+        for child in elem.childNodes:
+            self._elem(child)
 
-        self.output = etree.tostring(self.tree)
+    def _generate_output(self):
+        self._elem(self.doc)
+        self.output = self.doc.toprettyxml()
 
     def _read_template(self):
         self.template = ""
         with open(template, 'r') as f:
             self.template = f.read()
-
-    def _debug(self):
-        for value in self.values:
-            print "val: " + str(value)
-        for s in self.scale:
-            print "s: " + str(s)
-        # print "tmplate\n" + str(self.output)
-        # for action, elem in self.tree.iter():
-            # print "act: " + str(action) + "\telem: " + str(elem)
-        for elem in self.tree.iter():
-            print "elem: " + str(elem)
-            for key in elem.keys():
-                print "\tkey: " + str(key) + "\t-> " + str(elem.get(key))
 
 def main():
     bars = Bars()
@@ -83,7 +82,7 @@ def main():
     bars.add("Ilpo", 28)
     bars.add("Lasse", 24)
     bars.add("Sanna", 27)
-    bars.output("/tmp/bars_test.svg")
+    bars.output()
 
 if __name__ == "__main__":
     main()
