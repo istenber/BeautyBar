@@ -20,12 +20,42 @@
 
 </td>
 <td valign=top>
+
 <!-- Graph part -->
 <h2>Bar</h2>
-<object data="/output_image" type="image/svg+xml" />
+<table>
+<tr><td>
+   <!-- image -->
+<object data="/output_image" type="image/svg+xml" height="200" width="300" />
+</td></tr>
+<tr><td>
+   <!-- choose graph type -->
+<form action="/" method="POST">
+<!-- TODO: loop through and show pictures -->
+bars: <input type="radio" name="bartype" value="bars">
+pie chart: <input type="radio" name="bartype" value="piechart">
+</form>
+</td></tr>
+<tr><td>
+   <!-- choose graph parameters -->
+<form action="/" method="POST">
+<!-- TODO: read from different template -->
+<table>
+<tr>
+<td>background: </td><td><input type="file" name="g_bgimage" value=""></td>
+</tr><tr>
+<td>color: </td><td><input type="text" name="g_color" value="blue"></td>
+</tr>
+</table>
+</td></tr>
+
+</table>
 </td>
 </tr>
 </table>
+
+<hr />
+DEBUG: {{ debug }}
 
 </body>
 </html>
