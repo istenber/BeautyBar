@@ -3,8 +3,45 @@ Beauty Bar
 
 Project to make bars look nicer.
 
+TODOs
+------------------------
+
++ db stuff
+  + store images to db
+  + make images accessible later on
+    (http://<host>/s/<image_name>(.svg|.png)
+  + save data based on session id
+  + save data based on "chosen name"
+
++ platform stuff
+  + upload to google
+  + svg to png conversion
+  + integration to google docs
+  + save data with google account
+
++ ui stuff
+  + switches to control generators
+  + ajax modification for data
+  + export / import buttons and functionality
+  + expandable table (now fixed to 6)
+  + "start from scratch" -button (kill cookie)
+  + export image as high quality
+  + ui to nicer
+
++ logic
+  + keep state when changing "bar" type
+  + calculate statistics
+  + calculate how much processing power is used
+
++ generators
+  + pie chart
+  + different kind of generators
+  + change background image
+  + generators to nicer
+
 Run
 ------------------------
 
 cd ..
 ./app-engine/dev_appserver.py beautybar/
+
