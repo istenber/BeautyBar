@@ -73,7 +73,7 @@ def main():
     bars.add("Ilpo", 28)
     bars.add("Lasse", 24)
     bars.add("Sanna", 27)
-    bars.output()
+    print bars.output()
 
 if __name__ == "__main__":
     main()
