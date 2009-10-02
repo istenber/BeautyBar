@@ -32,19 +32,28 @@
 </table>
 </td></tr>
 <tr><td>
-<form action="/" method="POST">
 <table>
 <tr>
+<form action="/save" method="POST">
 <td><input type="text" name="f_savefile" value=""></td>
-<td><input type="button" name="f_save"  value="Save"></td>
+<td><input type="submit" name="f_save"  value="Save"></td>
+</form>
 </tr>
 <tr>
+<form action="/load" method="POST">
 <td><input type="text" name="f_loadfile" value=""></td>
-<td><input type="button" name="f_load"  value="Load"></td>
-</tr>
-<tr><td></td><td><input type="button" name="f_clean" value="Clean"></td></tr>
-</table>
+<td><input type="submit" name="f_load"  value="Load"></td>
 </form>
+</tr>
+<tr>
+<td></td>
+<td>
+<form action="/clean" method="POST">
+<input type="submit" name="f_clean" value="Clean">
+</form>
+</td>
+</tr>
+</table>
 </td></tr>
 </table>
 
