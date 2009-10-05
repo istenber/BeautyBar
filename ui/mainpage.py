@@ -5,16 +5,7 @@ from google.appengine.ext.webapp import template
 
 from model.data import Item, Data
 
-#class Item(object):
-
-#     def __init__(self, name, value):
-#         self.name  = name
-#         self.value = value
-
-# TODO: make clean/new button
-
 # TODO: store and read data from db based on session
-
 # TODO: make data fields editable with ajax
 
 class MainPage(webapp.RequestHandler):
