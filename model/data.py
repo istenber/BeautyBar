@@ -12,7 +12,11 @@ class Data(object):
         self.items = items
 
     def add_item(self, item):
-        self.items.append(item)
+        if len(self.items) < 6:
+            self.items.append(item)
+        else:
+            pass
+            # print "too much items"
 
     def as_list(self):
         return self.items
@@ -47,6 +51,7 @@ def main():
     print "\n  # as_list:   \n" + str(d.as_list())
     print "\n  # generator: \n"
     d.to_generator(TestGenerator())
+    d.add_item(Item("one", "60"))
 
 if __name__ == "__main__":
     main()
