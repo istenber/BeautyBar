@@ -17,6 +17,10 @@ class Data(object):
     def as_list(self):
         return self.items
 
+    def to_generator(self, generator):
+        for item in self.items:
+            generator.add(item.name, item.value)
+
     @staticmethod
     def default():
         return Data([Item("a", "10"),
@@ -33,9 +37,16 @@ class Data(object):
             out += str(item.name) + "\t" + str(item.value) + "\n"
         return out
 
+class TestGenerator(object):
+    def add(self, name, value):
+        print "name: " + str(name) + "\tvalue: " + str(value)
+
 def main():
     d = Data.default()
-    print "data: \n" + str(d)
+    print "\n  # data:      \n" + str(d)
+    print "\n  # as_list:   \n" + str(d.as_list())
+    print "\n  # generator: \n"
+    d.to_generator(TestGenerator())
 
 if __name__ == "__main__":
     main()

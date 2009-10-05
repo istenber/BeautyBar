@@ -1,17 +1,14 @@
 from google.appengine.ext import webapp
 from generators.bars import Bars
+from model.data import Item, Data
 
 class OutputImage(webapp.RequestHandler):
     
     def get(self):
         self.response.headers['Content-Type'] = "image/svg+xml"
+        data = Data.default()
         bars = Bars()
         bars.scale(0, 50)
-        bars.add("Ilpo", 40)
-        bars.add("Lasse", 24)
-        bars.add("Sanna", 27)
-        bars.add("Ilpo", 28)
-        bars.add("Lasse", 24)
-        bars.add("Sanna", 27)
+        data.to_generator(bars)
         self.response.out.write(bars.output())
 

@@ -7,8 +7,8 @@ template="generators/bars/template.svg"
 
 class Bars(object):
 
-    def __init__(self):
-        self.values = []
+    def __init__(self, values=[]):
+        self.values = values
         # TODO: change to english
         self.id_prefixes = [ "arvo", "aika", "pylvas" ]
     def scale(self, min, max):
