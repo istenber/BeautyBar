@@ -3,11 +3,19 @@ import random
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
-class Item(object):
+from model.data import Item, Data
 
-    def __init__(self, name, value):
-        self.name  = name
-        self.value = value
+#class Item(object):
+
+#     def __init__(self, name, value):
+#         self.name  = name
+#         self.value = value
+
+# TODO: make clean/new button
+
+# TODO: store and read data from db based on session
+
+# TODO: make data fields editable with ajax
 
 class MainPage(webapp.RequestHandler):
     
@@ -17,15 +25,12 @@ class MainPage(webapp.RequestHandler):
         else:
             session = str(random.randint(1, 10000000))
 
-        debug = "( session:" + str(session) + " )"
+        data = Data.default()
+        items = data.as_list()
+        # debug = "( data:" + str(data.as_list()) + " )"
+        # debug = "( session:" + str(session) + " )"
         # debug = "(" + str(dir(self.response)) + ")"
-        items = [ Item("Ilpo", "28"),
-                  Item("Ilpo", "28"),
-                  Item("Lars", "24"),
-                  Item("Lars", "24"),
-                  Item("Sande", "27"),
-                  Item("Sande", "27"),
-                  ]
+        debug = "(none)"
         values = {
             'items' : items,
             'debug' : debug
