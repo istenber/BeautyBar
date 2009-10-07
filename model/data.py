@@ -8,15 +8,14 @@ class Item(object):
 
 class Data(object):
 
-    def __init__(self, items=[]):
-        self.items = items
+    def __init__(self):
+        self.items = []
 
     def add_item(self, item):
         if len(self.items) < 6:
             self.items.append(item)
         else:
             pass
-            # print "too much items"
 
     def as_list(self):
         return self.items

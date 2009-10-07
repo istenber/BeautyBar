@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import logging
+
 from xml.dom import minidom
 
 # TODO: read path with some other way?
@@ -7,8 +9,8 @@ template="generators/bars/template.svg"
 
 class Bars(object):
 
-    def __init__(self, values=[]):
-        self.values = values
+    def __init__(self):
+        self.values = []
         # TODO: change to english
         self.id_prefixes = [ "arvo", "aika", "pylvas" ]
     def scale(self, min, max):
@@ -60,11 +62,21 @@ class Bars(object):
             pass
         for child in elem.childNodes:
             self._elem(child)
+
     def _generate_output(self):
         self._elem(self.doc)
         self.output = self.doc.toprettyxml()
+        logging.info(self._debug_values())
+        
+    def _debug_values(self):
+        out = "saving ("
+        for v in self.values:
+            out += str(v) + ","
+        out = out[:-1] + ")"
+        return out
 
 def main():
+    logging.getLogger().setLevel(logging.INFO)
     bars = Bars()
     bars.scale(0, 50)
     bars.add("Ilpo", 28)
