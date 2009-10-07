@@ -6,8 +6,15 @@ data.modify = function(x, y, val) {
     new Ajax.Request('/modify_data?' + params, {
 	    method    : 'get',
 	    onSuccess : function(out) {
+		var resp = out.responseText.substr(4);
 		$('debug').update("[" + x + "," + y + "]: " + val + 
-				  " - " + out.responseText);
+				  " - " + resp);
+		if(x == 1) {
+		    $('name' + y).setValue(resp);
+		}
+		if(x == 2) {
+		    $('value' + y).setValue(resp);
+		}
 		start_update_timer();
 	    },
 	    onFailure : function() { 
@@ -37,7 +44,7 @@ update_image = function() {
 start_update_timer = function() {
     if(timer_on == 0) {
 	timer_on = 1;
-	setTimeout("update_image();", 1000);
+	setTimeout("update_image();", 100);
     }
 };
 

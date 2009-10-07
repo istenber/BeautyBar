@@ -9,6 +9,8 @@
 </head>
 <body>
 
+<center>
+
 <table width="1000">
 <tr>
 <td width="100" bgcolor="yellow"></td>
@@ -24,27 +26,27 @@
 
 <table>
 <tr>
-<td valign=top width=400>
+<td valign="top" width="400">
 
 <!-- Data part -->
-<h2>Data</h2>
-<table>
-<tr><td bgcolor="yellow">
+<table width="100%">
+<tr><td colspan="2" bgcolor="khaki"><h3>Data</h3></td></tr>
+<tr><td bgcolor="khaki">
 <table border="0" width="300">
 <form action="/modify_data" method="GET">
 <tr><th>Name</th><th>Value</th></tr>
 {% for item in items %}
 <tr>
 <td><input type="text" id="name{{ forloop.counter }}" value="{{ item.name }}"
-	   onkeyup="fm('name{{ forloop.counter }}');" /></td>
+	   onblur="fm('name{{ forloop.counter }}');" /></td>
 <td><input type="text" id="value{{ forloop.counter }}" value="{{ item.value }}" 
-	   onkeyup="fm('value{{ forloop.counter }}');" /></td>
+	   onblur="fm('value{{ forloop.counter }}');" /></td>
 </tr>
 {% endfor %}
 </form>
 </table>
 </td></tr>
-<tr><td>
+<tr><td bgcolor="khaki">
 <table>
 <tr>
 <form action="/save" method="POST">
@@ -74,15 +76,15 @@
 <td valign="top" width="400">
 
 <!-- Graph part -->
-<h2>Bar</h2>
-<table>
-<tr><td>
+<table width="100%">
+<tr><td colspan="2" bgcolor="olive"><h2>Bar</h2></td></tr>
+<tr><td bgcolor="olive">
    <!-- image -->
 <span id="output_image">
 <object data="/output_image" type="image/svg+xml" height="200" width="300" />
 </span>
 </td></tr>
-<tr><td>
+<tr><td bgcolor="olive">
    <!-- choose graph type -->
 <form action="/" method="POST">
 <!-- TODO: loop through and show pictures -->
@@ -90,7 +92,7 @@ bars: <input type="radio" name="bartype" value="bars" />
 pie chart: <input type="radio" name="bartype" value="piechart" />
 </form>
 </td></tr>
-<tr><td>
+<tr><td bgcolor="olive">
    <!-- choose graph parameters -->
 <form action="/" method="POST">
 <!-- TODO: read from different template -->
@@ -116,6 +118,8 @@ DEBUG: <span id="debug">{{ debug }}</debug>
 </td>
 </tr>
 </table>
+
+</center>
 
 </body>
 </html>
