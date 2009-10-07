@@ -7,7 +7,6 @@ class OutputImage(webapp.RequestHandler):
     
     def get(self):
         self.response.headers['Content-Type'] = "image/svg+xml"
-        # data = Data.default()
         if self.request.cookies.has_key("session"):            
             session = str(self.request.cookies["session"])
             data = DataDAO.load(session)
