@@ -1,18 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
 <title>BeautyBar</title>
 </head>
 <body>
 
-<table width=1000>
+<table width="1000">
 <tr>
-<td width=100 bgcolor=yellow></td>
-<td width=800>
+<td width="100" bgcolor="yellow"></td>
+<td width="800">
 
+<!-- Logo -->
 <table>
 <tr>
-<td><img src="/images/logo.png"></td>
+<td><img src="/images/logo.png" /></td>
 <td><br><h1>BeautyBar<br><font size="-1">nice graphs online</font></h1></td>
 </tr>
 </table>
@@ -20,11 +23,12 @@
 <table>
 <tr>
 <td valign=top width=400>
+
 <!-- Data part -->
 <h2>Data</h2>
 <table>
 <tr><td>
-<table border=1 width=300>
+<table border="1" width="300">
 <tr><th>Name</th><th>Value</th></tr>
 {% for item in items %}
 <tr><td>{{ item.name }}</td><td>{{ item.value }}</td></tr>
@@ -35,21 +39,21 @@
 <table>
 <tr>
 <form action="/save" method="POST">
-<td><input type="text" name="f_savefile" value=""></td>
-<td><input type="submit" name="f_save"  value="Save"></td>
+<td><input type="text" name="f_savefile" value="" /></td>
+<td><input type="submit" name="f_save"  value="Save" /></td>
 </form>
 </tr>
 <tr>
 <form action="/load" method="POST">
-<td><input type="text" name="f_loadfile" value=""></td>
-<td><input type="submit" name="f_load"  value="Load"></td>
+<td><input type="text" name="f_loadfile" value="" /></td>
+<td><input type="submit" name="f_load"  value="Load" /></td>
 </form>
 </tr>
 <tr>
 <td></td>
 <td>
 <form action="/clean" method="POST">
-<input type="submit" name="f_clean" value="Clean">
+<input type="submit" name="f_clean" value="Clean" />
 </form>
 </td>
 </tr>
@@ -58,7 +62,7 @@
 </table>
 
 </td>
-<td valign=top width=400>
+<td valign="top" width="400">
 
 <!-- Graph part -->
 <h2>Bar</h2>
@@ -71,8 +75,8 @@
    <!-- choose graph type -->
 <form action="/" method="POST">
 <!-- TODO: loop through and show pictures -->
-bars: <input type="radio" name="bartype" value="bars">
-pie chart: <input type="radio" name="bartype" value="piechart">
+bars: <input type="radio" name="bartype" value="bars" />
+pie chart: <input type="radio" name="bartype" value="piechart" />
 </form>
 </td></tr>
 <tr><td>
@@ -81,9 +85,9 @@ pie chart: <input type="radio" name="bartype" value="piechart">
 <!-- TODO: read from different template -->
 <table>
 <tr>
-<td>background: </td><td><input type="file" name="g_bgimage" value=""></td>
+<td>background: </td><td><input type="file" name="g_bgimage" value="" /></td>
 </tr><tr>
-<td>color: </td><td><input type="text" name="g_color" value="blue"></td>
+<td>color: </td><td><input type="text" name="g_color" value="blue" /></td>
 </tr>
 </table>
 </td></tr>
@@ -97,7 +101,7 @@ pie chart: <input type="radio" name="bartype" value="piechart">
 DEBUG: {{ debug }}
 
 </td>
-<td width=100 bgcolor=yellow>
+<td width="100" bgcolor="yellow">
 </td>
 </tr>
 </table>
