@@ -3,8 +3,22 @@
 class Item(object):
 
     def __init__(self, name, value):
-        self.name  = name
-        self.value = value
+        self.name  = self._validate_name(name)
+        self.value = self._validate_value(value)
+
+    def _validate_name(self, name):
+        return name
+
+    def _validate_value(self, value):
+        try:
+            v = int(value)
+        except ValueError:
+            v = 0
+        if v < 0:
+            return 0
+        if v > 50:
+            return 50
+        return v
 
 class Data(object):
 
@@ -26,13 +40,14 @@ class Data(object):
 
     @staticmethod
     def default():
-        return Data([Item("a", "10"),
-                     Item("b", "15"),
-                     Item("c", "20"),
-                     Item("d", "30"),
-                     Item("e", "40"),
-                     Item("f", "50"),
-                     ])
+        d = Data()
+        d.add_item(Item("a", "10"))
+        d.add_item(Item("b", "15"))
+        d.add_item(Item("c", "20"))
+        d.add_item(Item("d", "30"))
+        d.add_item(Item("e", "40"))
+        d.add_item(Item("f", "50"))
+        return d
     
     def __str__(self):
         out = ""
@@ -51,6 +66,12 @@ def main():
     print "\n  # generator: \n"
     d.to_generator(TestGenerator())
     d.add_item(Item("one", "60"))
+    i = Item("ilpo", "xx")
+    print "\n  # item(xx) \nn:" + str(i.name) + "\tv:" + str(i.value)
+    i = Item("ilpo", "-2")
+    print "\n  # item(-2) \nn:" + str(i.name) + "\tv:" + str(i.value)
+    i = Item("ilpo", "99")
+    print "\n  # item(99) \nn:" + str(i.name) + "\tv:" + str(i.value)
 
 if __name__ == "__main__":
     main()
