@@ -3,6 +3,8 @@
 <html>
 <head>
 <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/js/prototype.js"></script>
+<script type="text/javascript" src="/js/beautybar.js"></script>
 <title>BeautyBar</title>
 </head>
 <body>
@@ -27,12 +29,19 @@
 <!-- Data part -->
 <h2>Data</h2>
 <table>
-<tr><td>
-<table border="1" width="300">
+<tr><td bgcolor="yellow">
+<table border="0" width="300">
+<form action="/modify_data" method="GET">
 <tr><th>Name</th><th>Value</th></tr>
 {% for item in items %}
-<tr><td>{{ item.name }}</td><td>{{ item.value }}</td></tr>
+<tr>
+<td><input type="text" id="name{{ forloop.counter }}" value="{{ item.name }}"
+	   onkeyup="fm('name{{ forloop.counter }}');" /></td>
+<td><input type="text" id="value{{ forloop.counter }}" value="{{ item.value }}" 
+	   onkeyup="fm('value{{ forloop.counter }}');" /></td>
+</tr>
 {% endfor %}
+</form>
 </table>
 </td></tr>
 <tr><td>
@@ -98,7 +107,7 @@ pie chart: <input type="radio" name="bartype" value="piechart" />
 </table>
 
 <hr />
-DEBUG: {{ debug }}
+DEBUG: <span id="debug">{{ debug }}</debug>
 
 </td>
 <td width="100" bgcolor="yellow">

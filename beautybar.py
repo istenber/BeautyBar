@@ -4,8 +4,10 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from ui.mainpage import MainPage
 from ui.output_image import OutputImage
 from ui.data_operations import CleanData
+from ui.ajax_modify import AjaxModify
 
 application = webapp.WSGIApplication([('/', MainPage),
+                                      ('/modify_data', AjaxModify),
                                       ('/clean', CleanData),
                                       ('/output_image', OutputImage)],
                                       debug=True)
