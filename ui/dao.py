@@ -5,12 +5,23 @@ class ItemDAO(db.Model):
     name     = db.StringProperty(required=True)
     value    = db.StringProperty(required=True)
     data_ref = db.StringProperty(required=True)
+    row      = db.StringProperty(required=True)
 
     @staticmethod
-    def save(ref, item):
-        dao = ItemDAO(name     = str(item.name),
-                      value    = str(item.value),
-                      data_ref = str(ref))
+    def save(ref, c, item):
+        old = db.GqlQuery("SELECT * FROM ItemDAO WHERE" +
+                          " row = :1 AND data_ref = :2", 
+                          str(c), str(ref))
+        if not old.count() == 0:
+            dao = old[0]
+            dao.name = str(item.name)
+            dao.value = str(item.value)
+        else:
+            dao = ItemDAO(name     = str(item.name),
+                          value    = str(item.value),
+                          data_ref = str(ref),
+                          row      = str(c),
+                          )
         dao.put()
 
 class DataDAO(db.Model):
@@ -19,15 +30,20 @@ class DataDAO(db.Model):
     @staticmethod
     def load(name):
         data = Data()
-        items = db.GqlQuery("SELECT * FROM ItemDAO WHERE data_ref = :1",
-                            name)
+        items = db.GqlQuery("SELECT * FROM ItemDAO WHERE data_ref = :1 " +
+                            "ORDER BY row", name)
         for item in items:
             data.add_item(Item(item.name, item.value))
         return data
     
     @staticmethod
     def save(data, name):
-        dao = DataDAO(name = str(name))
-        for item in data.items:
-            ItemDAO.save(name, item)
-        dao.put()
+        old = db.GqlQuery("SELECT * FROM DataDAO WHERE name = :1",
+                          name)
+        if not old.count() == 0:
+            dao = old[0]
+        else:
+            dao = DataDAO(name = str(name))
+            dao.put()
+        for c in range(0, len(data.items)):
+            ItemDAO.save(name, c, data.items[c])
