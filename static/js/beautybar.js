@@ -2,7 +2,8 @@
 var data = {};
 
 data.modify = function(x, y, val) {
-    new Ajax.Request('/modify_data', {
+    params = "x=" + x + "&y=" + y + "&val=" + val;
+    new Ajax.Request('/modify_data?' + params, {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		$('debug').update("[" + x + "," + y + "]: " + val + 
@@ -15,5 +16,9 @@ data.modify = function(x, y, val) {
 };
 
 fm = function(val) {
-    data.modify(1, 1, $(val).getValue());
+    if(val.indexOf("name")!=-1) {
+	data.modify(1, val.substr(4), $(val).getValue());
+    } else {
+	data.modify(2, val.substr(5), $(val).getValue());
+    }
 };
