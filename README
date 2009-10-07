@@ -12,6 +12,8 @@ TODOs
     (http://<host>/s/<image_name>(.svg|.png)
   + save data based on session id
   + save data based on "chosen name"
+  + use memcache 
+    http://code.google.com/intl/fi-FI/appengine/docs/python/memcache/usingmemcache.html
 
 + platform stuff
   + upload to google
@@ -27,11 +29,15 @@ TODOs
   + "start from scratch" -button (kill cookie)
   + export image as high quality
   + ui to nicer
+  + "download source" button
 
 + logic
   + keep state when changing "bar" type
   + calculate statistics
   + calculate how much processing power is used
+  + import data from csv and excel files
+  + read data from "live" sources
+  + export images as service
 
 + generators
   + pie chart
@@ -43,5 +49,5 @@ Run
 ------------------------
 
 cd ..
-./app-engine/dev_appserver.py beautybar/
+python2.5 ./app-engine/dev_appserver.py beautybar/
 
