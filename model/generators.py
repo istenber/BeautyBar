@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 import os
+from singleton import Singleton
 
-class Generators(object):
-    __instance = None
+class Generators(Singleton):
     __generators_path="generators"
 
     def __init__(self):
@@ -17,17 +17,14 @@ class Generators(object):
             if file.endswith(".py"):
                 self.generators.append(file[:-3])
 
-    @staticmethod
-    def _get_instance():
-        if Generators.__instance is None:
-            Generators.__instance = Generators()
-        return Generators.__instance
-
-    @staticmethod
-    def list():
-        return Generators._get_instance().generators
+    @classmethod
+    def list(self):
+        # raise Exception("inst: " + str(self.instance()))
+        return self.instance().generators
 
 def main():
+    print "instance:   " + str(Generators().instance())
+    print "generators: " + str(Generators().list())
     g = Generators()
     print "generators: " + str(g.list())
 

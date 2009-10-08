@@ -6,9 +6,6 @@ from model.data import Item, Data
 from ui.dao import ItemDAO, DataDAO
 from model.generators import Generators
 
-# TODO: store and read data from db based on session
-# TODO: make data fields editable with ajax
-
 class MainPage(webapp.RequestHandler):
     
     def get(self):
@@ -29,7 +26,7 @@ class MainPage(webapp.RequestHandler):
 
         values = {
             'items'      : items,
-            'generators' : Generators.list(),
+            'generators' : Generators().list(),
             'debug'      : debug,
             }
         path = os.path.join(os.path.dirname(__file__), 
