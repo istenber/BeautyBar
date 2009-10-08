@@ -5,14 +5,16 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from ui.mainpage import MainPage
 from ui.output_image import OutputImage
-from ui.data_operations import CleanData
+from ui.data_operations import CleanData, LoadData, SaveData
 from ui.ajax_modify import AjaxModify
 
 application = webapp.WSGIApplication([('/', MainPage),
                                       ('/modify_data', AjaxModify),
                                       ('/clean', CleanData),
+                                      ('/save', SaveData),
+                                      ('/load', LoadData),
                                       ('/output_image', OutputImage)],
-                                      debug=True)
+                                     debug=True)
 
 def main():
     logging.getLogger().setLevel(logging.INFO)
