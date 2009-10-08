@@ -4,6 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from model.data import Item, Data
 from ui.dao import ItemDAO, DataDAO
+from model.generators import Generators
 
 # TODO: store and read data from db based on session
 # TODO: make data fields editable with ajax
@@ -27,8 +28,9 @@ class MainPage(webapp.RequestHandler):
         # debug = "(" + str(dir(self.response)) + ")"
 
         values = {
-            'items' : items,
-            'debug' : debug
+            'items'      : items,
+            'generators' : Generators.list(),
+            'debug'      : debug,
             }
         path = os.path.join(os.path.dirname(__file__), 
                             '../templates/index.html')

@@ -87,9 +87,10 @@
 <tr><td bgcolor="olive">
    <!-- choose graph type -->
 <form action="/" method="POST">
+{% for generator in generators %}
 <!-- TODO: loop through and show pictures -->
-bars: <input type="radio" name="bartype" value="bars" />
-pie chart: <input type="radio" name="bartype" value="piechart" />
+{{ generator }}: <input type="radio" name="generator" value="{{ generator }}" />
+{% endfor %}
 </form>
 </td></tr>
 <tr><td bgcolor="olive">
