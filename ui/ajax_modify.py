@@ -12,10 +12,13 @@ class AjaxModify(webapp.RequestHandler):
         y = int(self.request.get("y")) - 1
         val = self.request.get("val")
         if x == 1:
-            data.items[y] = Item(val, data.items[y].value)
+            item = Item(val, data.items[y].value)
+            out = item.name
         if x == 2:
-            data.items[y] = Item(data.items[y].name, val)
+            item = Item(data.items[y].name, val)
+            out = item.value
+        data.items[y] = item
         DataDAO.save(data, session)
         self.response.headers['Content-Type'] = "text/plain"
         # TODO: return something useful
-        self.response.out.write("done")
+        self.response.out.write("out:" + str(out))
