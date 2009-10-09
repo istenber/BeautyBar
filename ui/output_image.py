@@ -1,7 +1,6 @@
 import logging
 
 from google.appengine.ext import webapp
-from generators.bars import Bars
 from model.data import Item, Data
 from ui.dao import ItemDAO, DataDAO
 
@@ -21,6 +20,12 @@ class OutputImage(webapp.RequestHandler):
         self.response.out.write(f(data))
 
     def _bars(self, data):
+        x = "bars"
+        classname = x.capitalize()
+        filename = "generators." + x
+        import_cmd = "from " + filename + " import " + classname
+        logging.info(import_cmd)
+        exec(import_cmd)
         bars = Bars()
         bars.scale(0, 50)
         data.to_generator(bars)
