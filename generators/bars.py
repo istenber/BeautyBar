@@ -4,10 +4,13 @@ import logging
 
 from xml.dom import minidom
 
+# from gui_interface import GuiInterface
+from attributes.bgcolor import BgColor
+
 # TODO: read path with some other way?
 template="generators/bars/template.svg"
 
-class Bars(object):
+class Bars(object): # GuiInterface):
 
     def __init__(self):
         self.values = []
@@ -78,29 +81,23 @@ class Bars(object):
         out = out[:-1] + ")"
         return out
 
-class TestBars(): # unittest.TestCase):
-
-    def setUp(self):
-        bars = Bars()
-        bars.scale(0, 50)
-        bars.add("Ilpo", 28)
-        bars.add("Lasse", 24)
-        bars.add("Sanna", 27)
-        bars.add("Ilpo", 28)
-        bars.add("Lasse", 24)
-        bars.add("Sanna", 27)
-
-    def test_values(self):
-        self.assertEqual(20, 20)
+    def name(self):
+        return "Simple bars"
+    
+    def attributes(self):
+        return [BgColor()]
 
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
-    #import unittest
-
-    # TestBars().main()
-    #unittest.main()
-    # BarsTest()
-    # print bars.output()
+    bars = Bars()
+    bars.scale(0, 50)
+    bars.add("Ilpo", 28)
+    bars.add("Lasse", 24)
+    bars.add("Sanna", 27)
+    bars.add("Ilpo", 28)
+    bars.add("Lasse", 24)
+    bars.add("Sanna", 27)
+    print bars.output()
 
 if __name__ == "__main__":
     main()
