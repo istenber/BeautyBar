@@ -4,13 +4,13 @@ import logging
 
 from xml.dom import minidom
 
-# from gui_interface import GuiInterface
+from gui_interface import GuiInterface
 from attributes.bgcolor import BgColor
 
 # TODO: read path with some other way?
 template="generators/bars/template.svg"
 
-class Bars(object): # GuiInterface):
+class Bars(GuiInterface):
 
     def __init__(self):
         self.values = []

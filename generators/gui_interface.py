@@ -42,7 +42,7 @@ def test_generator(filename):
     import_cmd = "from " + filename[:-3] + " import " + classname
     try:
         exec(import_cmd)
-    except ImportError as err:
+    except ImportError:
         usage("import failed from \"" + filename + "\"")
     # print "import cmd = " + import_cmd
     # print "classname = " + classname
