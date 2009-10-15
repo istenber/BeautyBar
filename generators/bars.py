@@ -27,10 +27,13 @@ class Bars(object):
         #     f.write(self.output)
         # self._debug()
 
+    # 1 = 3.2 pixel
     def _process_pylvas(self, index, elem):
         # print "# process_pylvas: " + str(elem)
-        y = 435 - (int(self.values[index][1]) * self.step * 73 / 100)
-        h = 433 - y
+        # y = 435 - (int(self.values[index][1]) * self.step * 73 / 100)
+        # h = 433 - y
+        h = int(self.values[index][1]) * 3.2
+        y = 177 - h
         # print "\ty: " + str(y)
         # print "\th: " + str(h)
         elem.setAttribute("height", str(h))
@@ -75,17 +78,29 @@ class Bars(object):
         out = out[:-1] + ")"
         return out
 
+class TestBars(): # unittest.TestCase):
+
+    def setUp(self):
+        bars = Bars()
+        bars.scale(0, 50)
+        bars.add("Ilpo", 28)
+        bars.add("Lasse", 24)
+        bars.add("Sanna", 27)
+        bars.add("Ilpo", 28)
+        bars.add("Lasse", 24)
+        bars.add("Sanna", 27)
+
+    def test_values(self):
+        self.assertEqual(20, 20)
+
 def main():
-    logging.getLogger().setLevel(logging.INFO)
-    bars = Bars()
-    bars.scale(0, 50)
-    bars.add("Ilpo", 28)
-    bars.add("Lasse", 24)
-    bars.add("Sanna", 27)
-    bars.add("Ilpo", 28)
-    bars.add("Lasse", 24)
-    bars.add("Sanna", 27)
-    print bars.output()
+    logging.getLogger().setLevel(logging.DEBUG)
+    #import unittest
+
+    # TestBars().main()
+    #unittest.main()
+    # BarsTest()
+    # print bars.output()
 
 if __name__ == "__main__":
     main()
