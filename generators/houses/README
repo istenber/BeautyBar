@@ -1,0 +1,13 @@
+valitse: 
+ house1, jos 0-10
+ house2, jos 10-20, jne...
+
+keskitä talo kohtaan x ja skaalaa
+
+lisaa base.svg:n päälle
+
+transform="matrix(scale, 0, 0, scale, x, y)" 
+scale 0.1 -> 0.6
+
+x(eka) = 40, 80,120, 160, 200, 235
+y= -1 
