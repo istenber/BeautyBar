@@ -5,6 +5,10 @@ from singleton import Singleton
 
 skip_files = ["__init__.py", "gui_interface.py"]
 
+class Simple(object):
+    def name(self):
+        return "no name"
+
 class Generators(Singleton):
     __generators_path="generators"
 
@@ -17,7 +21,24 @@ class Generators(Singleton):
         for file in files:
             if file in skip_files: continue
             if file.endswith(".py"):
-                self.generators.append(file[:-3])
+                self.generators.append(self._get_generator(file))
+
+    def _get_generator(self, filename):
+        classname = filename[:-3].capitalize()
+        # if not classname == "Bars": return Simple()
+        icmd = "from generators." + filename[:-3] + " import " + classname
+        # print "icmd: " + icmd
+        try:
+            exec(icmd)
+        except ImportError, error:
+            # TODO: remove this and simple class
+            return Simple()
+            import sys
+            raise Exception("\n" + 
+                            "msg      => " + str(error) + "\n" + 
+                            "icmd     => " + icmd + "\n"
+                            "sys.path => " + str(sys.path) + "\n")
+        return eval(classname)()
 
     @classmethod
     def list(self):
@@ -25,10 +46,16 @@ class Generators(Singleton):
         return self.instance().generators
 
 def main():
+    import sys
+    sys.path = ["/home/ippe/dev/beautybar"] + sys.path
+    print "sys.path: " + str(sys.path)
+    print "\n"
     print "instance:   " + str(Generators().instance())
     print "generators: " + str(Generators().list())
     g = Generators()
     print "generators: " + str(g.list())
+    for one in g.list():
+        print "-> " + str(one.name())
 
 if __name__ == "__main__":
     main()
