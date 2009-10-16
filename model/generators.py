@@ -3,6 +3,8 @@
 import os
 from singleton import Singleton
 
+skip_files = ["__init__.py", "gui_interface.py"]
+
 class Generators(Singleton):
     __generators_path="generators"
 
@@ -13,7 +15,7 @@ class Generators(Singleton):
         files = os.listdir(Generators.__generators_path)
         self.generators = []
         for file in files:
-            if file == "__init__.py": continue
+            if file in skip_files: continue
             if file.endswith(".py"):
                 self.generators.append(file[:-3])
 
