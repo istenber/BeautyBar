@@ -4,7 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from model.data import Item, Data
 from ui.dao import ItemDAO, DataDAO
-from model.generators import Generators
+from model.generator_factory import GeneratorFactory
 
 class MainPage(webapp.RequestHandler):
     
@@ -26,7 +26,7 @@ class MainPage(webapp.RequestHandler):
 
         values = {
             'items'      : items,
-            'generators' : Generators().list(),
+            'generators' : GeneratorFactory().list(),
             'debug'      : debug,
             }
         path = os.path.join(os.path.dirname(__file__), 
