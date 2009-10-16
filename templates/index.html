@@ -32,7 +32,7 @@
 <table width="100%">
 <tr><td colspan="2" bgcolor="khaki"><h3>Data</h3></td></tr>
 <tr><td bgcolor="khaki">
-<table border="0" width="300">
+<table border="0" width="300"  cellspacing=0   cellpadding=0>
 <form action="/modify_data" method="GET">
 <tr><th>Name</th><th>Value</th></tr>
 {% for item in items %}
@@ -87,10 +87,16 @@
 <tr><td bgcolor="olive">
    <!-- choose graph type -->
 <form action="/" method="POST">
-{% for generator in generators %}
 <!-- TODO: loop through and show pictures -->
-{{ generator }}: <input type="radio" name="generator" value="{{ generator }}" />
+<!-- TODO: select selected -->
+<table width="100%">
+{% for generator in generators %}
+<tr>
+<td>{{ generator.name }}: </td>
+<td><input type="radio" name="generator" value="{{ generator.name }}" /></td>
+</tr>
 {% endfor %}
+</table>
 </form>
 </td></tr>
 <tr><td bgcolor="olive">
