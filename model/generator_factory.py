@@ -4,39 +4,37 @@ import os
 from singleton import Singleton
 
 skip_files = ["__init__.py", "gui_interface.py"]
+generators_folder = "generators"
 
 class Simple(object):
     def name(self):
         return "no name"
 
-class Generators(Singleton):
-    __generators_path="generators"
+class GeneratorFactory(Singleton):
 
     def __init__(self):
         self._update()
 
     def _update(self):    
-        files = os.listdir(Generators.__generators_path)
+        files = os.listdir(generators_folder)
         self.generators = []
         for file in files:
             if file in skip_files: continue
             if file.endswith(".py"):
                 self.generators.append(self._get_generator(file))
 
-    def _get_generator(self, filename):
-        classname = filename[:-3].capitalize()
+    def _get_generator(self, file):
+        classname = file[:-3].capitalize()
+        modulename = "generators." + file[:-3]
         # if not classname == "Bars": return Simple()
-        icmd = "from generators." + filename[:-3] + " import " + classname
-        # print "icmd: " + icmd
         try:
-            exec(icmd)
+            exec("from " + modulename + " import " + classname)
         except ImportError, error:
             # TODO: remove this and simple class
-            return Simple()
+            # return Simple()
             import sys
             raise Exception("\n" + 
                             "msg      => " + str(error) + "\n" + 
-                            "icmd     => " + icmd + "\n"
                             "sys.path => " + str(sys.path) + "\n")
         return eval(classname)()
 
@@ -50,9 +48,9 @@ def main():
     sys.path = ["/home/ippe/dev/beautybar"] + sys.path
     print "sys.path: " + str(sys.path)
     print "\n"
-    print "instance:   " + str(Generators().instance())
-    print "generators: " + str(Generators().list())
-    g = Generators()
+    print "instance:   " + str(GeneratorFactory().instance())
+    print "generators: " + str(GeneratorFactory().list())
+    g = GeneratorFactory()
     print "generators: " + str(g.list())
     for one in g.list():
         print "-> " + str(one.name())
