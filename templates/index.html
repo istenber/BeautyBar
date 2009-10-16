@@ -11,84 +11,107 @@
 
 <center>
 
-<table width="1000">
-<tr>
-<td width="100" bgcolor="yellow"></td>
-<td width="800">
+<table width="800" cellspacing="0">
 
 <!-- Logo -->
-<table>
 <tr>
-<td><img src="/images/logo.png" /></td>
-<td><br><h1>BeautyBar<br><font size="-1">nice graphs online</font></h1></td>
+<td colspan="2">
+<h1>BeautyBar</h1><font size="-1">nice graphs online</font>
+</td>
 </tr>
-</table>
 
-<table>
-<tr>
-<td valign="top" width="400">
 
 <!-- Data part -->
-<table width="100%">
-<tr><td colspan="2" bgcolor="khaki"><h3>Data</h3></td></tr>
-<tr><td bgcolor="khaki">
-<table border="0" width="300"  cellspacing=0   cellpadding=0>
-<form action="/modify_data" method="GET">
+<tr>
+<td width="400" bgcolor="lightgreen">
+
+
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td colspan="2" align="center"><h3>Data</h3></td></tr>
 <tr><th>Name</th><th>Value</th></tr>
+
 {% for item in items %}
 <tr>
-<td><input type="text" id="name{{ forloop.counter }}" value="{{ item.name }}"
-	   onblur="fm('name{{ forloop.counter }}');" /></td>
-<td><input type="text" id="value{{ forloop.counter }}" value="{{ item.value }}" 
-	   onblur="fm('value{{ forloop.counter }}');" /></td>
+<td width="50%" align="right">
+<input type="text" id="name{{ forloop.counter }}" value="{{ item.name }}"
+       onblur="fm('name{{ forloop.counter }}');" />
+</td>
+<td width="50%" align="left">
+<input type="text" id="value{{ forloop.counter }}" value="{{ item.value }}" 
+       onblur="fm('value{{ forloop.counter }}');" />
+</td>
 </tr>
 {% endfor %}
-</form>
-</table>
-</td></tr>
-<tr><td bgcolor="khaki">
-<table>
 <tr>
-<form action="/save" method="POST">
-<td><input type="text" name="f_savefile" value="" /></td>
-<td><input type="submit" name="f_save"  value="Save" /></td>
-</form>
-</tr>
-<tr>
-<form action="/load" method="POST">
-<td><input type="text" name="f_loadfile" value="" /></td>
-<td><input type="submit" name="f_load"  value="Load" /></td>
-</form>
-</tr>
-<tr>
-<td></td>
-<td>
+<td colspan="2" align="center">
+<br />
 <form action="/clean" method="POST">
 <input type="submit" name="f_clean" value="Clean" />
 </form>
+<br />
 </td>
 </tr>
 </table>
-</td></tr>
-</table>
-
 </td>
-<td valign="top" width="400">
 
 <!-- Graph part -->
+<td width="400">
+
 <table width="100%">
-<tr><td colspan="2" bgcolor="olive"><h3>Bar</h3></td></tr>
+<tr><td colspan="2" align="center"><h3>Preview</h3></td></tr>
 <tr><td>
-   <!-- image -->
 <span id="output_image">
 <object data="/output_image" type="image/svg+xml" height="200" width="300" />
 </span>
 </td></tr>
-<tr><td bgcolor="olive">
-   <!-- choose graph type -->
+</table>
+</td>
+
+<!-- File part -->
+</tr><tr>
+<td width="400" bgcolor="lightpink">
+
+<table width="100%">
+<tr><td colspan="2" align="center"><h3>File</h3></td></tr>
+<tr>
+<form action="/save" method="POST">
+<td width="50%" align="right">
+<input type="text" name="f_savefile" value="" />
+</td>
+<td width="50%" align="left">
+<input type="submit" name="f_save"  value="Save" />
+</td>
+</form>
+</tr>
+<tr>
+<form action="/load" method="POST">
+<td width="50%" align="right">
+<input type="text" name="f_loadfile" value="" />
+</td>
+<td width="50%" align="left">
+<input type="submit" name="f_load"  value="Load" />
+</td>
+</form>
+</tr>
+</table>
+</td>
+
+<!-- Modify part -->
+<td width="400" bgcolor="lightblue">
+<table width="100%">
+<tr><td colspan="2" align="center"><h3>Modify</h3></td></tr>
+<tr>
+<td align="right" width="50%">-</td>
+<td align="left" width="50%">-</td>
+</tr>
+</table>
+
+</td></tr>
+</table>
+
+
+<!-- 
 <form action="/" method="POST">
-<!-- TODO: loop through and show pictures -->
-<!-- TODO: select selected -->
 <table width="100%">
 {% for generator in generators %}
 <tr>
@@ -96,41 +119,14 @@
 <td><input type="radio" name="generator" value="{{ generator.name }}" /></td>
 </tr>
 {% endfor %}
-</table>
+</table> 
 </form>
-</td></tr>
-<tr><td bgcolor="olive">
-   <!-- choose graph parameters -->
-<form action="/" method="POST">
-<!-- TODO: read from different template -->
-<table>
-<tr>
-<td>background: </td><td><input type="file" name="g_bgimage" value="" /></td>
-</tr><tr>
-<td>color: </td><td><input type="text" name="g_color" value="blue" /></td>
-</tr>
-</table>
-</td></tr>
-
-</table>
-</td>
-</tr>
-</table>
-
-<hr />
-
-<img src="http://code.google.com/appengine/images/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" />
-<br />
-DEBUG: <span id="debug">{{ debug }}</debug>
-
-
-</td>
-<td width="100" bgcolor="yellow">
-</td>
-</tr>
-</table>
-
+-->
 </center>
+
+<font color="white">
+debug: <span id="debug">{{ debug }}</debug>
+</font>
 
 </body>
 </html>
