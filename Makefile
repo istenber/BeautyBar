@@ -1,4 +1,4 @@
-DEV_SERVER="../app-engine/dev_appserver.py"
+DEV_SERVER="../google_appengine/dev_appserver.py"
 
 
 all:
