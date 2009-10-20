@@ -10,13 +10,9 @@ TODOs
   + store images to db
   + make images accessible later on
     (http://<host>/s/<image_name>(.svg|.png)
-  + save data based on session id
-  + save data based on "chosen name"
   + use memcache 
-    http://code.google.com/intl/fi-FI/appengine/docs/python/memcache/usingmemcache.html
 
 + platform stuff
-  + upload to google
   + svg to png conversion
   + integration to google docs
   + save data with google account
@@ -26,7 +22,6 @@ TODOs
   + ajax modification for data
   + export / import buttons and functionality
   + expandable table (now fixed to 6)
-  + "start from scratch" -button (kill cookie)
   + export image as high quality
   + ui to nicer
   + "download source" button
@@ -40,10 +35,22 @@ TODOs
   + export images as service
 
 + generators
-  + pie chart
-  + different kind of generators
+  + only bar generators
   + change background image
   + generators to nicer
+
++ required skills
+  + marketing   - to get users
+  + statistics  - to help to modify data
+  + data mining - to create "default" graph pictures
+  + graphical   - to make bars nicer & page nicer
+  + programming - to code more flexible architecture
+
+Ideas
+------------------------
+
+data sources directly from common sources (e.g. UN free data + stat.fi)
+few nice and common examples population development through time
 
 Run
 ------------------------
