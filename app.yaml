@@ -14,6 +14,9 @@ handlers:
 - url: /js
   static_dir: static/js
 
+- url: /svgweb
+  static_dir: static/svgweb
+
 - url: /.*
   script: beautybar.py
 
