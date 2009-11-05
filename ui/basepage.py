@@ -2,6 +2,7 @@ import os
 import random
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from ui.data_operations import make_clean_session
 
 class BasePage(webapp.RequestHandler):
     
@@ -10,10 +11,9 @@ class BasePage(webapp.RequestHandler):
         
     def get(self):
         if self.request.cookies.has_key("session"):            
-            session = str(self.request.cookies["session"])
+            self.session = str(self.request.cookies["session"])
         else:
-            # TODO: should use data_operations.py / CleanData
-            session = str(random.randint(1, 10000000))
+            self.session = make_clean_session()
 
         values = self._get_values()
         if not 'debug' in values:
@@ -22,5 +22,5 @@ class BasePage(webapp.RequestHandler):
 
         path = os.path.join(os.path.dirname(__file__), 
                             '../templates/base.html')
-        self.response.headers['Set-Cookie'] = "session=" + session
+        self.response.headers['Set-Cookie'] = "session=" + self.session
         self.response.out.write(template.render(path, values))

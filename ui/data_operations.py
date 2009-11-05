@@ -4,6 +4,12 @@ from google.appengine.ext.webapp import template
 from model.data import Item, Data
 from ui.dao import ItemDAO, DataDAO
 
+def make_clean_session():
+    session = str(random.randint(1, 10000000))
+    data = Data.default()
+    DataDAO.save(data, session)
+    return session
+
 class SaveData(webapp.RequestHandler):
     def post(self):
         id = self.request.get("f_savefile")
@@ -28,8 +34,6 @@ class CleanData(webapp.RequestHandler):
     def post(self):
         self._clean()        
     def _clean(self):
-        session = str(random.randint(1, 10000000))
-        data = Data.default()
-        DataDAO.save(data, session)
+        session = make_clean_session()
         self.response.headers['Set-Cookie'] = "session=" + session
         self.redirect("/")
