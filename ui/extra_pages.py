@@ -17,8 +17,9 @@ class BasePage(webapp.RequestHandler):
 
         values = self._get_values()
         if not 'debug' in values:
-            values['debug'] = "(none)"
-        #    'template'   : "learnpage.html", # TODO:
+            values['debug'] = "(none)"        
+        values['template'] = self.__class__.__name__.lower() + ".html"
+
         path = os.path.join(os.path.dirname(__file__), 
                             '../templates/base.html')
         self.response.headers['Set-Cookie'] = "session=" + session
@@ -27,9 +28,9 @@ class BasePage(webapp.RequestHandler):
 class LearnPage(BasePage):
     
     def _get_values(self):
-        return { 'template' : "learnpage.html" }
+        return { }
 
 class InfoPage(BasePage):
     
     def _get_values(self):
-        return { 'template' : "infopage.html" }
+        return { }
