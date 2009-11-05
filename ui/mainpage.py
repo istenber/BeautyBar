@@ -25,11 +25,12 @@ class MainPage(webapp.RequestHandler):
         # debug = "(" + str(dir(self.response)) + ")"
 
         values = {
+            'template'   : "mainpage.html",
             'items'      : items,
             'generators' : GeneratorFactory().list(),
             'debug'      : debug,
             }
         path = os.path.join(os.path.dirname(__file__), 
-                            '../templates/index.html')
+                            '../templates/base.html')
         self.response.headers['Set-Cookie'] = "session=" + session
         self.response.out.write(template.render(path, values))

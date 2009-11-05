@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/js/prototype.js"></script>
+<script type="text/javascript" src="/js/beautybar.js"></script>
+<title>BeautyBar</title>
+</head>
+<body>
+
+<center>
+
+<table width="800" cellspacing="0" border="0">
+
+<!-- Logo -->
+<tr>
+<td colspan="2">
+<h1>BeautyBar</h1><font size="-1">nice graphs online</font>
+</td>
+</tr>
+
+<!-- Toolbar -->
+<tr>
+<td colspan="2" bgcolor="yellow">
+<table width="100%" border="0">
+<tr>
+<td align="center" width="25%">[ <a href="/">Build</a> ]</td>
+<td align="center" width="25%">[ <a href="/learn">Learn</a> ]</td>
+<td align="center" width="25%"> </td>
+<td align="center" width="25%">[ <a href="/info">Info</a> ]</td>
+</tr>
+</table>
+</td>
+</tr>
+
+{% include template %}
+
+</table>
+
+</center>
+
+<font color="white">
+debug: <span id="debug">{{ debug }}</debug>
+</font>
+
+</body>
+</html>
