@@ -15,6 +15,7 @@ class MainPage(BasePage):
             'items'      : items,
             'generators' : GeneratorFactory().list(),
             'debug'      : debug,
+            'cur_gen'    : "bars",
             }
         return values
 
