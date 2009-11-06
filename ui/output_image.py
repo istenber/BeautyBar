@@ -31,3 +31,15 @@ class OutputImage(webapp.RequestHandler):
         data.to_generator(bars)
         return bars.output()
 
+    def _paper(self, data):
+        x = "paper"
+        classname = x.capitalize()
+        filename = "generators." + x
+        import_cmd = "from " + filename + " import " + classname
+        logging.info(import_cmd)
+        exec(import_cmd)
+        paper = Paper()
+        paper.scale(0, 50)
+        data.to_generator(paper)
+        return paper.output()
+
