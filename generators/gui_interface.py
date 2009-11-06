@@ -16,6 +16,9 @@ class GuiInterface(object):
         in human readble form"""
         return []
 
+    def x_name(self):
+        return self.__class__.__name__.lower()
+
 def usage(msg):
     import sys
     print "ERROR MSG: " + str(msg)
@@ -48,7 +51,7 @@ def test_generator(filename):
     # print "classname = " + classname
     g = eval(classname)()
     print ""
-    print "GuiInterface of \"" + str(g.name()) + "\""
+    print "GuiInterface of \"" + g.name() + "\" (" + g.x_name() + ")"
     print "---------------------------------------"
     for attr in g.attributes():
         print attr.name()
