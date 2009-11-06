@@ -77,27 +77,24 @@
 
 <!-- Modify part -->
 <td width="400" bgcolor="lightblue">
+<form action="/" method="POST">
+
 <table width="100%">
 <tr><td colspan="2" align="center"><h3>Modify</h3></td></tr>
+
+
+{% for generator in generators %}
 <tr>
-<td align="right" width="50%">-</td>
-<td align="left" width="50%">-</td>
+<td>{{ generator.name }}: </td>
+<td><input type="radio" {% ifequal generator.x_name cur_gen %}checked="yes"{% endifequal %} name="generator" value="{{ generator.x_name }}" /></td>
 </tr>
+{% endfor %}
+
 </table>
+</form>
+
 
 </td></tr>
 
 
-<!-- 
-<form action="/" method="POST">
-<table width="100%">
-{% for generator in generators %}
-<tr>
-<td>{{ generator.name }}: </td>
-<td><input type="radio" name="generator" value="{{ generator.name }}" /></td>
-</tr>
-{% endfor %}
-</table> 
-</form>
--->
 
