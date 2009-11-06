@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# change Inkscape produced svg image to use static images from /images folder
+
 FILE=template.svg
 TMP=$FILE.tmp
 
