@@ -3,7 +3,7 @@
 import os
 from singleton import Singleton
 
-skip_files = ["__init__.py", "gui_interface.py"]
+skip_files = ["__init__.py", "gui_interface.py", "houses.py", "empty.py"]
 generators_folder = "generators"
 
 class Simple(object):
