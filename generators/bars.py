@@ -87,6 +87,9 @@ class Bars(GuiInterface):
     def attributes(self):
         return [BgColor()]
 
+    def disabled(self):
+        return False
+
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
     bars = Bars()

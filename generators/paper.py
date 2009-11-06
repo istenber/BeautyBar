@@ -86,6 +86,9 @@ class Paper(GuiInterface):
     def attributes(self):
         return [BgColor()]
 
+    def disabled(self):
+        return True
+
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
     paper = Paper()
