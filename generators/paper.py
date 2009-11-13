@@ -87,7 +87,7 @@ class Paper(GuiInterface):
         return [BgColor()]
 
     def disabled(self):
-        return True
+        return False
 
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
