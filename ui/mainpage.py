@@ -1,5 +1,5 @@
 from model.data import Item, Data
-from ui.dao import ItemDAO, DataDAO
+from ui.dao import ItemDAO, DataDAO, GeneratorDAO
 from model.generator_factory import GeneratorFactory
 from ui.basepage import BasePage
 
@@ -15,7 +15,7 @@ class MainPage(BasePage):
             'items'      : items,
             'generators' : GeneratorFactory().list(),
             'debug'      : debug,
-            'cur_gen'    : "bars",
+            'cur_gen'    : GeneratorDAO.load(self.session)
             }
         return values
 
