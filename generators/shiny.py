@@ -86,11 +86,11 @@ class Shiny(GuiInterface):
         self.values.append([name, value])
 
     def _append_bars(self, scaler):
-        for inx in range(0, 6):
+        for index in range(0, 6):
             bar = Bar(Shiny.__red_bar[3, 0])
-            bar.set_color(self.colors[inx])
-            bar.set_pos(inx)
-            bar.set_size(10)
+            bar.set_color(self.colors[index])
+            bar.set_pos(index)
+            bar.set_size(self.values[index][1])
             scaler.append(bar.bar)
 
     def _get_vertical_meter(self):
@@ -98,7 +98,6 @@ class Shiny(GuiInterface):
                            d="M 50,30 L 50,150",
                            style="stroke:#000000;stroke-width:1px")
         vertical_meter = SVG("g", vertical_bar)
-        # TODO: change
         for val in range(0, 5):
             t = Text(20, 34+val*30, 
                      str(40-val*10), 
@@ -111,11 +110,9 @@ class Shiny(GuiInterface):
                              d="M 50,150 L 260,150",
                              style="stroke:#000000;stroke-width:1px")        
         horizontal_meter = SVG("g", horizontal_bar)
-        # TODO: change
-        names = ["2000", "2001", "2002", "2003", "2004", "2005"]
         for val in range(0, 6):
             t = Text(58+val*35, 170,
-                     names[val], 
+                     self.values[val][0],
                      font_size=10).SVG()
             horizontal_meter.append(t)
         return horizontal_meter
