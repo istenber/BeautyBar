@@ -45,7 +45,6 @@ class Bar(object):
         x = -250+70*pos
         self.bar["transform"] = "translate(" + str(x) + ", -300)"
     def set_size(self, size):
-        # TODO: if size < 8, then line and bar is gone!
         n = (5.9 * size)
         v = [n,
              600 - n,
@@ -55,11 +54,12 @@ class Bar(object):
         self.bar[0]["y"] = v[1]
         self.bar[1,0]["height"] = v[0]
         self.bar[1,0]["y"] = v[1]
-        # self.bar[1,2]["transform"] = "translate(153,-57.714286)"
         self.bar[1,2]["transform"] = "translate(153," + str(v[2]) + ")"
-
-        # self.bar[1,1]["d"] = "M 328,419.36219 L 328,600.79076"
         self.bar[1,1]["d"] = ("M 328, " + str(v[3]) + " L 328,600.79076")
+        if size < 8: self._remove_ball_and_line()
+    def _remove_ball_and_line(self):
+        self.bar[1, 1] = ""
+        self.bar[1, 2] = ""
 
 def main():
     """ 
@@ -74,19 +74,16 @@ def main():
 
     rbar = Bar(bar)
     rbar.set_color("red")
-    # rbar.set_size(0)
     rbar.set_size(10)
     rbar.set_pos(1)
 
     bbar = Bar(bar)
     bbar.set_color("blue")
-    # bbar.set_size(1)
     bbar.set_size(20)
     bbar.set_pos(2)
 
     gbar = Bar(bar)
     gbar.set_color("green")
-    # gbar.set_size(2)
     gbar.set_size(30)
     gbar.set_pos(3)
 
