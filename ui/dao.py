@@ -9,16 +9,25 @@ class GeneratorDAO(db.Model):
 
     @staticmethod
     def save(session, generator):
-        if GeneratorDAO.load(session) is None:
-            GeneratorDAO(session = session,
-                         generator = generator).put()
+        o = GeneratorDAO.load_obj(session)
+        if o is None:
+            o = GeneratorDAO(session = session,
+                             generator = generator)
+        else:
+            o.generator = generator
+        o.put()
+
+    @staticmethod
+    def load_obj(session):
+        return db.GqlQuery("SELECT * FROM GeneratorDAO WHERE session = :1",
+                           session).get()
+
     @staticmethod
     def load(session):
-        o = db.GqlQuery("SELECT * FROM GeneratorDAO WHERE session = :1", 
-                        session).get()
+        o = GeneratorDAO.load_obj(session)
         if o is not None:
             return o.generator
-        else: return None    
+        else: return "bars"
 
 class ItemDAO(db.Model):
     name     = db.StringProperty(required=True)

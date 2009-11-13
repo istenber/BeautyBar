@@ -84,7 +84,7 @@
 {% for generator in generators %}
 <tr>
 <td>{{ generator.name }}: </td>
-<td><input type="radio" {% ifequal generator.x_name cur_gen %}checked="yes"{% endifequal %} name="generator" value="{{ generator.x_name }}" {% if generator.disabled %}disabled="true"{% endif %} /></td>
+<td><input type="radio" {% ifequal generator.x_name cur_gen %}checked="yes"{% endifequal %} name="generator" value="{{ generator.x_name }}" {% if generator.disabled %}disabled="true"{% endif %} onclick="gen('{{ generator.x_name }}');" /></td>
 </tr>
 {% endfor %}
 

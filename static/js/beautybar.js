@@ -20,7 +20,21 @@ data.modify = function(x, y, val) {
 	    onFailure : function() { 
 		$('debug').update("ajax failed");
 	    },
-  });
+    });
+};
+
+var generator = {};
+
+generator.modify = function(val) {
+    new Ajax.Request('/set_generator?name=' + val, {
+	    method    : 'get',
+	    onSuccess : function(out) {
+		update_image();
+	    },
+	    onFailure : function() { 
+		$('debug').update("ajax failed");
+	    },
+    });
 };
 
 fm = function(val) {
@@ -29,6 +43,11 @@ fm = function(val) {
     } else {
 	data.modify(2, val.substr(5), $(val).getValue());
     }
+};
+
+gen = function(val) {
+    $('debug').update("generator: " + val);
+    generator.modify(val); 
 };
 
 var timer_on = 0;
