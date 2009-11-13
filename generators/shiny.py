@@ -3,15 +3,15 @@
 # TODO: remove!
 if __name__ == "__main__":
     import sys
-    LIB_PATH = "/home/sankari/dev/beautybar/lib"
+    LIB_PATH = "/home/sankari/dev/beautybar/"
     sys.path.append(LIB_PATH)
 
 import logging
 import re
 
-from gui_interface import GuiInterface
+from lib.svgfig import *
 
-from svgfig import *
+from gui_interface import GuiInterface
 
 template="generators/shiny/red.svg"
 
