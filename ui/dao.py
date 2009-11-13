@@ -1,5 +1,24 @@
+import logging
+
 from google.appengine.ext import db
 from model.data import Item, Data
+
+class GeneratorDAO(db.Model):
+    session   = db.StringProperty(required=True)
+    generator = db.StringProperty(required=True)
+
+    @staticmethod
+    def save(session, generator):
+        if GeneratorDAO.load(session) is None:
+            GeneratorDAO(session = session,
+                         generator = generator).put()
+    @staticmethod
+    def load(session):
+        o = db.GqlQuery("SELECT * FROM GeneratorDAO WHERE session = :1", 
+                        session).get()
+        if o is not None:
+            return o.generator
+        else: return None    
 
 class ItemDAO(db.Model):
     name     = db.StringProperty(required=True)
