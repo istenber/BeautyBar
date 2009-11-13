@@ -55,7 +55,7 @@ class Bar(object):
         self.bar[1,0]["height"] = v[0]
         self.bar[1,0]["y"] = v[1]
         self.bar[1,2]["transform"] = "translate(153," + str(v[2]) + ")"
-        self.bar[1,1]["d"] = ("M 328, " + str(v[3]) + " L 328,600.79076")
+        self.bar[1,1]["d"] = ("M 328," + str(v[3]) + " L 328,600.79076")
         if size < 8: self._remove_ball_and_line()
     def _remove_ball_and_line(self):
         self.bar[1, 1] = ""
