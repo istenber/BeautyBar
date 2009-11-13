@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+# TODO: remove!
 if __name__ == "__main__":
     import sys
     LIB_PATH = "/home/sankari/dev/beautybar/lib"
@@ -8,7 +9,11 @@ if __name__ == "__main__":
 import logging
 import re
 
+from gui_interface import GuiInterface
+
 from svgfig import *
+
+template="generators/shiny/red.svg"
 
 def convert_color(style, sub_func):
     str_in = style["style"]
@@ -42,7 +47,7 @@ class Bar(object):
         for style in styles:
             f(style)    
     def set_pos(self, pos):
-        x = -250+70*pos
+        x = -250+70*(pos+1)
         self.bar["transform"] = "translate(" + str(x) + ", -300)"
     def set_size(self, size):
         n = (5.9 * size)
@@ -61,89 +66,89 @@ class Bar(object):
         self.bar[1, 1] = ""
         self.bar[1, 2] = ""
 
-def main():
-    """ 
-    Convert red.svg to blue.svg and green.svg, and
-    combine all together as all.svg.
-    """
-    logging.getLogger().setLevel(logging.DEBUG)
-    svg = load("red.svg")
-    attr = svg.attr
-    filters = svg[0]
-    bar = svg[3, 0]
+class Shiny(GuiInterface):
+    __red_bar = None
 
-    rbar = Bar(bar)
-    rbar.set_color("red")
-    rbar.set_size(10)
-    rbar.set_pos(1)
+    def __init__(self):
+        if Shiny.__red_bar is None:
+            Shiny.__red_bar = load(template)
+            # bar = svg[3, 0]
+        self.attr = Shiny.__red_bar.attr
+        self.colors = ["red", "blue", "green",
+                       "red", "blue", "green"]
+        self.values = []
 
-    bbar = Bar(bar)
-    bbar.set_color("blue")
-    bbar.set_size(20)
-    bbar.set_pos(2)
+    def scale(self, min, max):
+        # TODO: some functionality?
+        pass
+    
+    def add(self, name, value):
+        self.values.append([name, value])
 
-    gbar = Bar(bar)
-    gbar.set_color("green")
-    gbar.set_size(30)
-    gbar.set_pos(3)
+    def _append_bars(self, scaler):
+        for inx in range(0, 6):
+            bar = Bar(Shiny.__red_bar[3, 0])
+            bar.set_color(self.colors[inx])
+            bar.set_pos(inx)
+            bar.set_size(10)
+            scaler.append(bar.bar)
 
-    rbar2 = Bar(bar)
-    rbar2.set_color("red")
-    rbar2.set_size(40)
-    rbar2.set_pos(4)
+    def _get_vertical_meter(self):
+        vertical_bar = SVG("path",
+                           d="M 50,30 L 50,150",
+                           style="stroke:#000000;stroke-width:1px")
+        vertical_meter = SVG("g", vertical_bar)
+        # TODO: change
+        for val in range(0, 5):
+            t = Text(20, 34+val*30, 
+                     str(40-val*10), 
+                     font_size=15).SVG()
+            vertical_meter.append(t)
+        return vertical_meter
 
-    bbar2 = Bar(bar)
-    bbar2.set_color("blue")
-    bbar2.set_size(45)
-    bbar2.set_pos(5)
+    def _get_horizontal_meter(self):
+        horizontal_bar = SVG("path",
+                             d="M 50,150 L 260,150",
+                             style="stroke:#000000;stroke-width:1px")        
+        horizontal_meter = SVG("g", horizontal_bar)
+        # TODO: change
+        names = ["2000", "2001", "2002", "2003", "2004", "2005"]
+        for val in range(0, 6):
+            t = Text(58+val*35, 170,
+                     names[val], 
+                     font_size=10).SVG()
+            horizontal_meter.append(t)
+        return horizontal_meter
 
-    gbar2 = Bar(bar)
-    gbar2.set_color("green")
-    gbar2.set_size(5)
-    gbar2.set_pos(6)
+    def _get_meters(self):
+        return SVG("g",
+                   self._get_vertical_meter(),
+                   self._get_horizontal_meter())
 
-    scaler = SVG("g", 
-                 rbar.bar, bbar.bar, gbar.bar, 
-                 rbar2.bar, bbar2.bar, gbar2.bar, 
+    def output(self):
+        filters = Shiny.__red_bar[0]
+        scaler = SVG("g", 
                  transform="scale(0.5)")
+        self._append_bars(scaler)
+        meters = self._get_meters()
+        svg = SVG("svg", filters, meters, scaler)
+        svg.attr = Shiny.__red_bar.attr
+        svg.attr["height"] = 200
+        svg.attr["width"] = 300
+        # return "" 
+        return svg.standalone_xml()
 
-    vertical_bar = SVG("path",
-                       d="M 50,30 L 50,150",
-                       style="stroke:#000000;stroke-width:1px")
-
-    vertical_meter = SVG("g", 
-                         vertical_bar)
-
-    for val in range(0, 5):
-        t = Text(20, 34+val*30, 
-                 str(40-val*10), 
-                 font_size=15).SVG()
-        vertical_meter.append(t)
-
-    horizontal_bar = SVG("path",
-                         d="M 50,150 L 260,150",
-                         style="stroke:#000000;stroke-width:1px")
-
-    horizontal_meter = SVG("g", 
-                           horizontal_bar)
-
-    names = ["2000", "2001", "2002", "2003", "2004", "2005"]
-
-    for val in range(0, 6):
-        t = Text(58+val*35, 170,
-                 names[val], 
-                 font_size=10).SVG()
-        horizontal_meter.append(t)
-
-    meters = SVG("g",
-                 vertical_meter,
-                 horizontal_meter)                 
-
-    all = SVG("svg", filters, meters, scaler)
-    attr["height"] = 200
-    attr["width"] = 300
-    all.attr = attr
-    all.save("all.svg")
+def main():
+    logging.getLogger().setLevel(logging.DEBUG)
+    bars = Shiny()
+    bars.scale(0, 50)
+    bars.add("Ilpo", 28)
+    bars.add("Lasse", 24)
+    bars.add("Sanna", 27)
+    bars.add("Ilpo", 28)
+    bars.add("Lasse", 24)
+    bars.add("Sanna", 27)
+    print bars.output()
 
 if __name__ == "__main__":
     main()
