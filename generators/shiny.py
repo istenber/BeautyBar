@@ -138,6 +138,16 @@ class Shiny(GuiInterface):
         # return "" 
         return svg.standalone_xml()
 
+    def name(self):
+        return "Shiny bars"
+    
+    def attributes(self):
+        return []
+
+    def disabled(self):
+        return False
+
+
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
     bars = Shiny()
