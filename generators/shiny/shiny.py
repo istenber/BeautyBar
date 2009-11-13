@@ -41,7 +41,48 @@ class Bar(object):
         for style in styles:
             f(style)    
     def set_pos(self, pos):
+        # -387, -386 is top corner
+        if pos == 1: self._set_real_pos("-180, -300")
+        if pos == 2: self._set_real_pos("-110, -300")
+        if pos == 3: self._set_real_pos("-40, -300")
+        if pos == 4: self._set_real_pos("30, -300")
+        if pos == 5: self._set_real_pos("100, -300")
+        if pos == 6: self._set_real_pos("170, -300")
+    def _set_real_pos(self, pos):
         self.bar["transform"] = "translate(" + pos + ")"
+    def set_size(self, size):
+
+        v = [[100,
+              498,
+              48,
+              519],
+             [205,
+              393,
+              -58,
+              419],
+             ]
+        self.bar[0]["height"] = v[size][0]
+        self.bar[0]["y"] = v[size][1]
+        self.bar[1,0]["height"] = v[size][0]
+        self.bar[1,0]["y"] = v[size][1]
+        # self.bar[1,2]["transform"] = "translate(153,-57.714286)"
+        self.bar[1,2]["transform"] = "translate(153," + str(v[size][2]) + ")"
+
+        # self.bar[1,1]["d"] = "M 328,419.36219 L 328,600.79076"
+        self.bar[1,1]["d"] = ("M 328," + str(v[size][3]) + 
+                              ".36219 L 328,600.79076")
+
+    def _old(self):
+
+        self.bar[0]["height"] = 100
+        self.bar[0]["y"] = 498
+        self.bar[1,0]["height"] = 100
+        self.bar[1,0]["y"] = 498
+        # self.bar[1,2]["transform"] = "translate(153,-57.714286)"
+        self.bar[1,2]["transform"] = "translate(153," + "48" + ")"
+
+        # self.bar[1,1]["d"] = "M 328,419.36219 L 328,600.79076"
+        self.bar[1,1]["d"] = "M 328," + "519" + ".36219 L 328,600.79076"
 
 def main():
     """ 
@@ -56,24 +97,69 @@ def main():
 
     rbar = Bar(bar)
     rbar.set_color("red")
-    rbar.set_pos("-287, -386")
+    rbar.set_size(0)
+    rbar.set_pos(1)
 
     bbar = Bar(bar)
     bbar.set_color("blue")
-    bbar.set_pos("-187, -386")
+    bbar.set_size(1)
+    bbar.set_pos(2)
 
     gbar = Bar(bar)
     gbar.set_color("green")
-    gbar.set_pos("-87, -386")
+    gbar.set_size(0)
+    gbar.set_pos(3)
+
+    rbar2 = Bar(bar)
+    rbar2.set_color("red")
+    rbar2.set_pos(4)
+
+    bbar2 = Bar(bar)
+    bbar2.set_color("blue")
+    bbar2.set_pos(5)
 
     gbar2 = Bar(bar)
     gbar2.set_color("green")
-    gbar2.set_pos("23, -386")
+    gbar2.set_pos(6)
 
     scaler = SVG("g", 
-                 rbar.bar, bbar.bar, gbar.bar, gbar2.bar,
+                 rbar.bar, bbar.bar, gbar.bar, 
+                 rbar2.bar, bbar2.bar, gbar2.bar, 
                  transform="scale(0.5)")
-    all = SVG("svg", filters, scaler)
+
+    vertical_bar = SVG("path",
+                       d="M 50,30 L 50,150",
+                       style="stroke:#000000;stroke-width:1px")
+
+    vertical_meter = SVG("g", 
+                         vertical_bar)
+
+    for val in range(0, 5):
+        t = Text(20, 34+val*30, 
+                 str(40-val*10), 
+                 font_size=15).SVG()
+        vertical_meter.append(t)
+
+    horizontal_bar = SVG("path",
+                         d="M 50,150 L 260,150",
+                         style="stroke:#000000;stroke-width:1px")
+
+    horizontal_meter = SVG("g", 
+                           horizontal_bar)
+
+    names = ["2000", "2001", "2002", "2003", "2004", "2005"]
+
+    for val in range(0, 6):
+        t = Text(58+val*35, 170,
+                 names[val], 
+                 font_size=10).SVG()
+        horizontal_meter.append(t)
+
+    meters = SVG("g",
+                 vertical_meter,
+                 horizontal_meter)                 
+
+    all = SVG("svg", filters, meters, scaler)
     attr["height"] = 200
     attr["width"] = 300
     all.attr = attr
