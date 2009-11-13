@@ -2,12 +2,13 @@ import random
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from model.data import Item, Data
-from ui.dao import ItemDAO, DataDAO
+from ui.dao import ItemDAO, DataDAO, GeneratorDAO
 
 def make_clean_session():
     session = str(random.randint(1, 10000000))
     data = Data.default()
     DataDAO.save(data, session)
+    GeneratorDAO.save(session, "bars")
     return session
 
 class SaveData(webapp.RequestHandler):
