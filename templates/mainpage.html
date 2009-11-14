@@ -21,14 +21,32 @@
 </tr>
 {% endfor %}
 <tr>
+</table>
+
+<br />
+
+<table width="90%" align="center" border="0">
+
+<form action="/import_csv" method="POST" enctype="multipart/form-data">
+<tr>
+<td colspan="2"><b>Import CSV</b></td>
+</tr>
+
+<tr>
+<td><input type="file" name="f_file" /></td>
+<td><input type="submit" name="f_import" value="Import" /></td>
+</tr>
+</form>
+
+<tr>
 <td colspan="2" align="center">
 <br />
 <form action="/clean" method="POST">
-<input type="submit" name="f_clean" value="Clean" />
+<input type="submit" name="f_clean" value="Reset data" />
 </form>
-<br />
 </td>
 </tr>
+
 </table>
 </td>
 

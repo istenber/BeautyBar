@@ -1,4 +1,6 @@
 import random
+import logging
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from model.data import Item, Data
@@ -28,6 +30,34 @@ class LoadData(webapp.RequestHandler):
             data = DataDAO.load(id)
         DataDAO.save(data, session)
         self.redirect("/")
+
+class ImportData(webapp.RequestHandler):
+    def post(self):
+        logging.info("import data")
+        file = self.request.get("f_file")
+        self.data = Data()
+        self._parse_csv(file, self._append_data)
+
+        if self.request.cookies.has_key("session"):            
+            session = str(self.request.cookies["session"])
+        DataDAO.save(self.data, session)
+        
+        self.redirect("/")
+
+    def _append_data(self, name, value):
+        self.data.add_item(Item(name, value))
+
+    def _parse_csv(self, csv, f):
+        for line in csv.splitlines():
+            if line == "": continue
+            try:
+                (name, value) = line.split(",")
+            except ValueError, e:
+                print str(e) + " in \"" + line + "\""
+                continue
+            name = name.strip()
+            value = value.strip()
+            f(name, value)
 
 class CleanData(webapp.RequestHandler):
     def get(self):
