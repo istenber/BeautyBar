@@ -30,35 +30,31 @@ def usage(msg):
     sys.exit(0)
 
 def main():
+
+    # TODO: this should be default for all files?!
     import sys
+    sys.path = ["/home/sankari/dev/beautybar"] + sys.path
+
     import getopt
+    from model.generator_factory import GeneratorFactory
     try:
         opts, args = getopt.getopt(sys.argv[1:], "", [])
     except getopt.error:
         usage("extra args...")
     if not len(args) == 1:
         usage("provide exact one class to test")
-    generator = get_generator(args[0])
+    filename = args[0]
+    if filename[:10] == "generators":
+        filename = filename[11:]
+    gf = GeneratorFactory().instance()
+    generator = gf.get_generator(filename)
+    if generator is None:
+        usage("import failed from \"" + filename + "\"")        
     print generator
     if generator_is_valid(generator):
         print generator.name() + " is valid"
     else:
         print generator.name() + " is invalid"
-
-def get_generator(filename):
-    if filename[:10] == "generators":
-        filename = filename[11:]
-    # print "filename = " + filename    
-    classname = filename[:-3].capitalize()
-    # import_cmd = "from generators." + filename[:-3] + " import " + classname
-    import_cmd = "from " + filename[:-3] + " import " + classname
-    try:
-        exec(import_cmd)
-    except ImportError:
-        usage("import failed from \"" + filename + "\"")
-    # print "import cmd = " + import_cmd
-    # print "classname = " + classname
-    return eval(classname)()
 
 def generator_is_valid(generator):
     return True

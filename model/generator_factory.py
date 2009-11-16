@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 import os
+import logging 
+
 from singleton import Singleton
 
-skip_files = ["__init__.py", "gui_interface.py", "houses.py", "empty.py"]
+skip_files = ["__init__.py", "gui_interface.py", "skel.py"]
 generators_folder = "generators"
 
 class Simple(object):
@@ -21,22 +23,18 @@ class GeneratorFactory(Singleton):
         for file in files:
             if file in skip_files: continue
             if file.endswith(".py"):
-                self.generators.append(self._get_generator(file))
+                self.generators.append(self.get_generator(file))
 
-    def _get_generator(self, file):
+    def get_generator(self, file):
         classname = file[:-3].capitalize()
-        modulename = "generators." + file[:-3]
-        # if not classname == "Bars": return Simple()
-        try:
-            exec("from " + modulename + " import " + classname)
-        except ImportError, error:
-            # TODO: remove this and simple class
-            # return Simple()
-            import sys
-            raise Exception("\n" + 
-                            "msg      => " + str(error) + "\n" + 
-                            "sys.path => " + str(sys.path) + "\n")
-        return eval(classname)()
+        modulenames = ["generators." + file[:-3], file[:-3]]
+        for modulename in modulenames:
+            try:
+                exec("from " + modulename + " import " + classname)
+                return eval(classname)()
+            except ImportError, error:
+                logging.info("missing generator: " + modulename)
+        return None # TODO: or skel generator?            
 
     @classmethod
     def list(self):
@@ -44,8 +42,9 @@ class GeneratorFactory(Singleton):
         return self.instance().generators
 
 def main():
+    logging.getLogger().setLevel(logging.DEBUG)
     import sys
-    sys.path = ["/home/ippe/dev/beautybar"] + sys.path
+    sys.path = ["/home/sankari/dev/beautybar"] + sys.path
     print "sys.path: " + str(sys.path)
     print "\n"
     print "instance:   " + str(GeneratorFactory().instance())
