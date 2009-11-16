@@ -25,7 +25,7 @@ class GuiInterface(object):
                self.x_name() + ")\n" +
                "---------------------------------------\n")
         for attr in self.attributes():
-            out += attr.name() + "\n"
+            out += attr.name() + " : " + attr.type() + "\n"
         out += "---------------------------------------\n"
         return out
 
