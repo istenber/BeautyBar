@@ -16,7 +16,7 @@ class Item(object):
         return out
 
     def is_in_range(self, min, max):
-        return (self.value < max and self.value > min)
+        return (self.value <= max and self.value >= min)
 
 class Data(object):
 
@@ -29,8 +29,15 @@ class Data(object):
         if len(self.items) < 6:
             if item.is_in_range(self.min, self.max):
                 self.items.append(item)
+            else:
+                logging.info("# Object not in range")
         else:
             logging.info("# Too many objects")
+
+    def set_item(self, index, item):
+        if index < 0 or index > 5: return False
+        if item.is_in_range(self.min, self.max):
+            self.items[index] = item
 
     def _all_in_range(self, min, max):
         for item in self.items:
@@ -55,6 +62,8 @@ class Data(object):
 
     def to_generator(self, generator):
         # TODO: set scale/range!
+        if len(self.items) != 6:
+            logging.info("# Too few items: " + str(len(self.items)))
         for item in self.items:
             generator.add(item.name, item.value)
 
