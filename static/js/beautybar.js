@@ -23,6 +23,36 @@ data.modify = function(x, y, val) {
     });
 };
 
+data.set_min = function(min) {
+    new Ajax.Request('/modify_data?min=' + min, {
+	    method    : 'get',
+	    onSuccess : function(out) {
+		var resp = out.responseText.substr(4);
+		$('debug').update("min set to " + resp);
+		$('r_min').setValue(resp);
+		start_update_timer();
+	    },
+	    onFailure : function() { 
+		$('debug').update("ajax failed");
+	    },
+    });
+};
+
+data.set_max = function(max) {
+    new Ajax.Request('/modify_data?max=' + max, {
+	    method    : 'get',
+	    onSuccess : function(out) {
+		var resp = out.responseText.substr(4);
+		$('debug').update("max set to " + resp);
+		$('r_max').setValue(resp);
+		start_update_timer();
+	    },
+	    onFailure : function() { 
+		$('debug').update("ajax failed");
+	    },
+    });
+};
+
 var generator = {};
 
 generator.modify = function(val) {
@@ -48,6 +78,16 @@ fm = function(val) {
 gen = function(val) {
     $('debug').update("generator: " + val);
     generator.modify(val); 
+};
+
+set_min = function() {
+    $('debug').update("set_min");
+    data.set_min($('r_min').getValue());
+};
+
+set_max = function() {
+    $('debug').update("set_max");
+    data.set_max($('r_max').getValue());
 };
 
 var timer_on = 0;
