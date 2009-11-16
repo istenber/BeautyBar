@@ -37,20 +37,33 @@ def main():
         print "usage: ./generators/gui_interface.py <filename.py>"        
         sys.exit(0)
 
-    def have_required_field(generator, field):
+    def have_required_field(field):
         try:
             f = getattr(generator, field)
         except AttributeError, er:
             print "# missing field " + field
+            print "#  " + str(er)
             return False
         if type(f) is types.MethodType: return True
         return False
 
-    def generator_is_valid(generator):
+    def is_derived_from_gui_interface():
+        # TODO: buggy Python, we cannot use 
+        #   if isinstance(generator, GuiInterface):
+        for base in generator.__class__.__bases__:
+            print str(base)
+            if str(base) == "<class 'gui_interface.GuiInterface'>":
+                return True
+        print "# not derived from GuiInterface"
+        print "#  " + str(generator.__class__.__bases__)
+        return False
+
+    def generator_is_valid():
         ok = True
         required_fields = ["name", "x_name", "attributes"]
         for f in required_fields:
-            ok &= have_required_field(generator, f)
+            ok &= have_required_field(f)
+        ok &= is_derived_from_gui_interface()
         return ok
 
     # TODO: this should be default for all files?!
@@ -74,7 +87,7 @@ def main():
     if generator is None:
         usage("import failed from \"" + filename + "\"")        
     print generator
-    if generator_is_valid(generator):
+    if generator_is_valid():
         print generator.name() + " is valid"
     else:
         print generator.name() + " is invalid"
