@@ -15,6 +15,9 @@ class Item(object):
             out = 0
         return out
 
+    def is_in_scale(self, min, max):
+        return (self.value < max and self.value > min)
+
 class Data(object):
 
     def __init__(self):
@@ -24,16 +27,17 @@ class Data(object):
 
     def add_item(self, item):
         if len(self.items) < 6:
-            if (isinstance(item.value, int) and
-                item.value < self.max and item.value > self.min):
+            if item.is_in_scale(self.min, self.max):
                 self.items.append(item)
         else:
             logging.info("# Too many objects")
 
     def set_max(self, max):
+        # TODO: check all existing datas...
         self.max = max
 
     def set_min(self, min):
+        # TODO: check all existing datas...
         self.min = min
 
     def as_list(self):
