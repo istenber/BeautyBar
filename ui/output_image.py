@@ -3,6 +3,7 @@ import logging
 from google.appengine.ext import webapp
 from model.data import Item, Data
 from ui.dao import ItemDAO, DataDAO, GeneratorDAO
+from model.generator_factory import GeneratorFactory
 
 default_generator="shiny"
 
@@ -19,13 +20,8 @@ class OutputImage(webapp.RequestHandler):
 
     def _get_generator(self, data, name):
         logging.debug("# output_image/_get_generator [" + name + "]")
-        # TODO: verify that generator exists...
-        classname = name.capitalize()
-        filename = "generators." + name
-        import_cmd = "from " + filename + " import " + classname
-        logging.info(import_cmd)
-        exec(import_cmd)
-        bars = eval(classname + "()")
+        gf = GeneratorFactory().instance()
+        bars = gf.get_generator(name + ".py")
         bars.scale(0, 50)
         data.to_generator(bars)
         return bars.output()
