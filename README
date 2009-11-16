@@ -57,6 +57,8 @@ Store images to db (PRIO 5 - POSTPONED)
 Others (PRIO 5)
 --------
 
++ fix pages to XHTML compliant (PRIO 3)
+
 + platform stuff
   + integration to google docs
   + save data with google account
