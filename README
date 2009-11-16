@@ -57,6 +57,9 @@ Store images to db (PRIO 5 - POSTPONED)
 Others (PRIO 5)
 --------
 
++ check against python coding guidelines: (PRIO 1)
+  http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
+
 + fix pages to XHTML compliant (PRIO 3)
 
 + platform stuff
