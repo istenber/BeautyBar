@@ -42,13 +42,13 @@ class Data(object):
         if self._all_in_range(self.min, max):
             self.max = max
         else:
-            logging.info("# Try to set range too high?")
+            logging.info("# Try to set max too low?")
 
     def set_min(self, min):
         if self._all_in_range(min, self.max):
             self.min = min
         else:
-            logging.info("# Try to set range too low?")
+            logging.info("# Try to set min too high?")
 
     def as_list(self):
         return self.items
