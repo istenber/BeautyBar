@@ -1,35 +1,40 @@
 #!/usr/bin/env python
 
+import logging
+
 class Item(object):
 
     def __init__(self, name, value):
-        self.name  = self._validate_name(name)
-        self.value = self._validate_value(value)
-
-    def _validate_name(self, name):
-        return name
-
-    def _validate_value(self, value):
+        self.name  = name
+        self.value = self._to_int(value)
+        
+    def _to_int(self, value):
         try:
-            v = int(value)
-        except ValueError:
-            v = 0
-        if v < 0:
-            return 0
-        if v > 50:
-            return 50
-        return v
+            out = int(value)
+        except ValueError, er:
+            out = 0
+        return out
 
 class Data(object):
 
     def __init__(self):
         self.items = []
+        self.min = 0
+        self.max = 50
 
     def add_item(self, item):
         if len(self.items) < 6:
-            self.items.append(item)
+            if (isinstance(item.value, int) and
+                item.value < self.max and item.value > self.min):
+                self.items.append(item)
         else:
-            pass
+            logging.info("# Too many objects")
+
+    def set_max(self, max):
+        self.max = max
+
+    def set_min(self, min):
+        self.min = min
 
     def as_list(self):
         return self.items
@@ -60,6 +65,7 @@ class TestGenerator(object):
         print "name: " + str(name) + "\tvalue: " + str(value)
 
 def main():
+    logging.getLogger().setLevel(logging.DEBUG)
     d = Data.default()
     print "\n  # data:      \n" + str(d)
     print "\n  # as_list:   \n" + str(d.as_list())
