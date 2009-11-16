@@ -27,6 +27,13 @@ Write architecture design (PRIO 2)
 + logging?
 + naming conventions / file system
 
+Tools to process SVG (PRIO 2)
+--------
++ extract bars from svg
++ make generator skel based on svg image?
++ mofify svg size?
++ find more tools?! Inkscape is good, but more?
+
 Style formatter (PRIO 2)
 --------
 One can first create a style with beautybar by choosing
