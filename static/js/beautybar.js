@@ -30,6 +30,7 @@ generator.modify = function(val) {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		update_image();
+		update_attribute_table(val);
 	    },
 	    onFailure : function() { 
 		$('debug').update("ajax failed");
@@ -47,6 +48,8 @@ fm = function(val) {
 
 gen = function(val) {
     $('debug').update("generator: " + val);
+    var msg = "<br /><center>Attribute table loading...</center>";
+    $('attribute_table').update(msg);
     generator.modify(val); 
 };
 
@@ -86,6 +89,18 @@ set_max = function() {
 
 var timer_on = 0;
 
+update_attribute_table = function(generator) {
+    new Ajax.Request('/attr_table?gen=' + generator, {
+	    method    : 'get',
+	    onSuccess : function(out) {
+		$('attribute_table').update(out.responseText);
+	    },
+	    onFailure : function() { 
+		$('debug').update("ajax failed");
+	    },
+    });
+};
+
 update_image = function() {
     $('output_image').update(
   "<object data=\"/output_image?" + Math.floor(Math.random() * 1000000) + 
@@ -100,4 +115,10 @@ start_update_timer = function() {
 	setTimeout("update_image();", 100);
     }
 };
+
+init = function() {
+    update_attribute_table("bars");
+};
+
+Event.observe(window, 'load', init, false); 
 
