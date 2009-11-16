@@ -2,22 +2,26 @@
 
 class GuiInterface(object):
     """Abstract base class for all generators"""
-
     def __init__(self):
         if self.__class__ is GuiInterface:
             raise NotImplementedError
-
     def name(self):
         """Should return human readble name of generator"""
         return "no name"
-
     def attributes(self):
         """Should return list of all attributes that generator can take
         in human readble form"""
         return []
-
     def x_name(self):
         return self.__class__.__name__.lower()
+    def __str__(self):
+        out = ("\nGuiInterface of \"" + self.name() + "\" (" + 
+               self.x_name() + ")\n" +
+               "---------------------------------------\n")
+        for attr in self.attributes():
+            out += attr.name() + "\n"
+        out += "---------------------------------------\n"
+        return out
 
 def usage(msg):
     import sys
@@ -34,9 +38,14 @@ def main():
         usage("extra args...")
     if not len(args) == 1:
         usage("provide exact one class to test")
-    test_generator(args[0])
+    generator = get_generator(args[0])
+    print generator
+    if generator_is_valid(generator):
+        print generator.name() + " is valid"
+    else:
+        print generator.name() + " is invalid"
 
-def test_generator(filename):
+def get_generator(filename):
     if filename[:10] == "generators":
         filename = filename[11:]
     # print "filename = " + filename    
@@ -49,13 +58,10 @@ def test_generator(filename):
         usage("import failed from \"" + filename + "\"")
     # print "import cmd = " + import_cmd
     # print "classname = " + classname
-    g = eval(classname)()
-    print ""
-    print "GuiInterface of \"" + g.name() + "\" (" + g.x_name() + ")"
-    print "---------------------------------------"
-    for attr in g.attributes():
-        print attr.name()
-    print "---------------------------------------"
+    return eval(classname)()
+
+def generator_is_valid(generator):
+    return True
 
 if __name__ == "__main__":
     main()
