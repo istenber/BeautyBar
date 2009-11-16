@@ -3,19 +3,21 @@ import logging
 from google.appengine.ext import db
 from model.data import Item, Data
 
+default_generator="bars"
+
 class GeneratorDAO(db.Model):
     session   = db.StringProperty(required=True)
     generator = db.StringProperty(required=True)
 
     @staticmethod
     def save(session, generator):
-        o = GeneratorDAO.load_obj(session)
-        if o is None:
-            o = GeneratorDAO(session = session,
-                             generator = generator)
-        else:
-            o.generator = generator
-        o.put()
+        dao = GeneratorDAO.load_obj(session)
+        if dao is None:
+            # TODO: we have now many names for session number,
+            #       name, session, data_ref - fix to one
+            dao = GeneratorDAO(session = session)
+        dao.generator = generator
+        dao.put()
 
     @staticmethod
     def load_obj(session):
@@ -24,10 +26,10 @@ class GeneratorDAO(db.Model):
 
     @staticmethod
     def load(session):
-        o = GeneratorDAO.load_obj(session)
-        if o is not None:
-            return o.generator
-        else: return "bars"
+        dao = GeneratorDAO.load_obj(session)
+        if dao is not None:
+            return dao.generator
+        else: return default_generator
 
 class ItemDAO(db.Model):
     name     = db.StringProperty(required=True)
@@ -37,41 +39,45 @@ class ItemDAO(db.Model):
 
     @staticmethod
     def save(ref, c, item):
-        old = db.GqlQuery("SELECT * FROM ItemDAO WHERE" +
+        dao = db.GqlQuery("SELECT * FROM ItemDAO WHERE" +
                           " row = :1 AND data_ref = :2", 
-                          str(c), str(ref))
-        if not old.count() == 0:
-            dao = old[0]
-            dao.name = str(item.name)
-            dao.value = str(item.value)
-        else:
-            dao = ItemDAO(name     = str(item.name),
-                          value    = str(item.value),
-                          data_ref = str(ref),
-                          row      = str(c),
-                          )
+                          str(c), str(ref)).get()
+        if dao is None:
+            dao = ItemDAO(name = item.name,
+                          data_ref = str(ref))
+        dao.value = str(item.value)        
+        dao.row = str(c)
         dao.put()
 
 class DataDAO(db.Model):
     name       = db.StringProperty(required=True)
-    
+    title      = db.StringProperty(required=True) # TODO: reserved for future
+    # TODO: use integers?
+    min       = db.StringProperty(required=True)
+    max       = db.StringProperty(required=True)
+
     @staticmethod
     def load(name):
         data = Data()
         items = db.GqlQuery("SELECT * FROM ItemDAO WHERE data_ref = :1 " +
                             "ORDER BY row", name)
         for item in items:
+            # TODO: how about row number?!
             data.add_item(Item(item.name, item.value))
+        o = db.GqlQuery("SELECT * FROM DataDAO WHERE name = :1", name).get()
+        data.set_min(int(o.min))
+        data.set_max(int(o.max))
         return data
     
     @staticmethod
     def save(data, name):
-        old = db.GqlQuery("SELECT * FROM DataDAO WHERE name = :1",
-                          name)
-        if not old.count() == 0:
-            dao = old[0]
-        else:
+        dao = db.GqlQuery("SELECT * FROM DataDAO WHERE name = :1",
+                        name).get()
+        if dao is None:
             dao = DataDAO(name = str(name))
-            dao.put()
+        dao.title = "no title"
+        dao.min = str(data.min)
+        dao.max = str(data.max)
+        dao.put()
         for c in range(0, len(data.items)):
             ItemDAO.save(name, c, data.items[c])
