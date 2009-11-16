@@ -15,7 +15,9 @@ class MainPage(BasePage):
             'items'      : items,
             'generators' : GeneratorFactory().list(),
             'debug'      : debug,
-            'cur_gen'    : GeneratorDAO.load(self.session)
+            'cur_gen'    : GeneratorDAO.load(self.session),
+            'r_min'      : data.min,
+            'r_max'      : data.max,            
             }
         return values
 
