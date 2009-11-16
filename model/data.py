@@ -15,7 +15,7 @@ class Item(object):
             out = 0
         return out
 
-    def is_in_scale(self, min, max):
+    def is_in_range(self, min, max):
         return (self.value < max and self.value > min)
 
 class Data(object):
@@ -27,23 +27,34 @@ class Data(object):
 
     def add_item(self, item):
         if len(self.items) < 6:
-            if item.is_in_scale(self.min, self.max):
+            if item.is_in_range(self.min, self.max):
                 self.items.append(item)
         else:
             logging.info("# Too many objects")
 
+    def _all_in_range(self, min, max):
+        for item in self.items:
+            if not item.is_in_range(min, max):
+                return False
+        return True
+
     def set_max(self, max):
-        # TODO: check all existing datas...
-        self.max = max
+        if self._all_in_range(self.min, max):
+            self.max = max
+        else:
+            logging.info("# Try to set range too high?")
 
     def set_min(self, min):
-        # TODO: check all existing datas...
-        self.min = min
+        if self._all_in_range(min, self.max):
+            self.min = min
+        else:
+            logging.info("# Try to set range too low?")
 
     def as_list(self):
         return self.items
 
     def to_generator(self, generator):
+        # TODO: set scale/range!
         for item in self.items:
             generator.add(item.name, item.value)
 
@@ -82,6 +93,9 @@ def main():
     print "\n  # item(-2) \nn:" + str(i.name) + "\tv:" + str(i.value)
     i = Item("ilpo", "99")
     print "\n  # item(99) \nn:" + str(i.name) + "\tv:" + str(i.value)
+    d.set_min(10)
+    d.set_max(99)
+    print "\n  # max: " + str(d.max)
 
 if __name__ == "__main__":
     main()
