@@ -64,6 +64,8 @@ def main():
         for f in required_fields:
             ok &= have_required_field(f)
         ok &= is_derived_from_gui_interface()
+        for a in generator.attributes():
+            ok &= is_valid_attribute(a)
         return ok
 
     # TODO: this should be default for all files?!
@@ -72,7 +74,10 @@ def main():
 
     import types
     import getopt
+
     from model.generator_factory import GeneratorFactory
+    from generators.attributes.attribute import Attribute, is_valid_attribute
+
     try:
         opts, args = getopt.getopt(sys.argv[1:], "", [])
     except getopt.error:

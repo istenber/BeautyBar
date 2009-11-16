@@ -1,5 +1,7 @@
-#!/usr/bin/env python
+from attribute import Attribute
 
-class BgColor(object):
+class BgColor(Attribute):
     def name(self):
         return "Background color"
+    def type(self):
+        return "Color"
