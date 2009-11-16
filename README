@@ -6,40 +6,73 @@ Project to make bars look nicer.
 TODOs
 ------------------------
 
-+ db stuff
-  + store images to db
+<host> = beauty-bar.appspot.com
+
+Control generators (PRIO 1)
+--------
+Make generators controllable through UI.
++ change background image
+  + color
+  + image (clipart vs. upload)
+
+Write architecture design (PRIO 2)
+--------
++ structure of model/view/controller
++ services (svg-to-png, live-data-import, image-store)
++ generator interface
++ database interface
+  - database tools?
++ hooks for information collection
+  - use meter
++ logging?
++ naming conventions / file system
+
+Style formatter (PRIO 2)
+--------
+One can first create a style with beautybar by choosing
+bar type and options. Then one can use that style within
+his blog with various data by calling:
+http://<host>/style/<style_name>?data="one",1;"hello world",2; ...
+
+Change to use JQuery library (PRIO 2)
+--------
+Design look-and-feel.
+
+Store images to db (PRIO 5 - POSTPONED)
+--------
+  + svg to png conversion
+   --> tried twice, do not support python tools to make it,
+       and Batik (Java) cannot be used as it uses java.awt.
   + make images accessible later on
     (http://<host>/s/<image_name>(.svg|.png)
   + use memcache 
 
+Others (PRIO 5)
+--------
+
 + platform stuff
-  + svg to png conversion
   + integration to google docs
   + save data with google account
 
 + ui stuff
-  + switches to control generators
-  + ajax modification for data
-  + export / import buttons and functionality
-  + expandable table (now fixed to 6)
-  + export image as high quality
-  + ui to nicer
-  + "download source" button
+  + expandable table (now fixed to 6) (PRIO 3)
 
 + logic
   + keep state when changing "bar" type
-  + calculate statistics
-  + calculate how much processing power is used
-  + import data from csv and excel files
-  + read data from "live" sources
+  + calculate statistics (PRIO 4)
+  + calculate how much processing power is used (PRIO 6 - OPTIMIZATION)
+  + read data from "live" sources (PRIO 3)
+    + weather diagram
+    + do we need separate "data-conversion service for this?"
   + export images as service
 
-+ generators
-  + only bar generators
-  + change background image
-  + generators to nicer
++ business plan (PRIO 5)
 
-+ required skills
++ tutorials / docs
+  + training video to Youtube (PRIO 4)
+
+Required skills
+------------------------
   + marketing   - to get users
   + statistics  - to help to modify data
   + data mining - to create "default" graph pictures
@@ -51,6 +84,15 @@ Ideas
 
 data sources directly from common sources (e.g. UN free data + stat.fi)
 few nice and common examples population development through time
+
+Dependencies
+------------------------
+
+Prototype.js
+SVGWeb
+SVGFig
+Google App Engine / Python
+(Inkscape)
 
 Run
 ------------------------
