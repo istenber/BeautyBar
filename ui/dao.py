@@ -5,6 +5,38 @@ from model.data import Item, Data
 
 default_generator="bars"
 
+# TODO: refactor to use base class!!!
+
+class GenParamsDAO(db.Model):
+    session = db.StringProperty()   # TODO: lets use real foreign key
+    generator = db.StringProperty() #         session+generator
+    content = db.StringProperty()
+
+    @staticmethod
+    def save(session, gen):
+        dao = GenParamsDAO.load_obj(session, gen)
+        if dao is None:
+            dao = GeneratorDAO()
+        dao.session = session
+        dao.generator = gen
+        # TODO: GeneratorFAc...generator.export_attributes()
+        dao.content = "no params"
+        dao.put()
+
+    @staticmethod
+    def load_obj(session, gen):
+        return db.GqlQuery("SELECT * FROM GenParamsDAO WHERE " + 
+                           "session = :1 AND generator = :2",
+                           session, gen).get()
+
+    @staticmethod
+    def load(session, gen):
+        dao = GenParamsDAO.load_obj(session, gen)
+        if dao is not None:
+            # TODO: GeneratorFAc... <-- g, g.import_attributes()
+            return dao.generator
+        else: return default_generator
+
 class GeneratorDAO(db.Model):
     session   = db.StringProperty()
     generator = db.StringProperty()
