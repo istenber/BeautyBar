@@ -5,7 +5,7 @@ import logging
 from xml.dom import minidom
 
 from gui_interface import GuiInterface
-from attributes.bgcolor import BgColor
+from attributes.color import Color
 
 # TODO: read path with some other way?
 template="generators/houses/base.svg"
@@ -106,7 +106,8 @@ class Houses(GuiInterface):
         return "House bars"
     
     def attributes(self):
-        return [BgColor()]
+        bg = Color("bgcolor", "Background Color", None, None)
+        return [bg]
 
     def disabled(self):
         return True
