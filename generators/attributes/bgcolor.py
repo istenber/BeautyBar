@@ -1,7 +1,10 @@
 from attribute import Attribute
 
-class BgColor(Attribute):
+class Color(Attribute):
+    def __init__(self, text, callback):
+        self.text = text
+        self.callback = callback
     def name(self):
-        return "Background color"
+        return self.text
     def type(self):
         return "Color"
