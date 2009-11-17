@@ -8,7 +8,7 @@ from ui.extra_pages import LearnPage, InfoPage
 from ui.output_image import OutputImage
 from ui.data_operations import CleanData, LoadData, SaveData, ImportData
 from ui.ajax_modify import AjaxModify
-from ui.ajax_generator import AjaxGenerator, AjaxAttributes
+from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 
 application = webapp.WSGIApplication([('/', MainPage),
                                       ('/info', InfoPage),
@@ -20,6 +20,7 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ('/load', LoadData),
                                       ('/import_csv', ImportData),
                                       ('/attr_table', AjaxAttributes),
+                                      ('/set_attr', AjaxSetAttribute),
                                       ('/output_image', OutputImage)],
                                      debug=True)
 

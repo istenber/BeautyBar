@@ -16,7 +16,7 @@ class Bars(GuiInterface):
         self.values = []
         # TODO: change to english
         self.id_prefixes = [ "arvo", "aika", "pylvas", "tausta" ]
-        self.bg_color = "#0000ff"
+        self.bg_color = "0000ff"
     def scale(self, min, max):
         self.step = (max - min) / 5
         self.scale = range(min, max + self.step, self.step)
@@ -33,7 +33,7 @@ class Bars(GuiInterface):
 
     def _process_tausta(self, index, elem):
         style = elem.getAttribute("style")
-        ns = style.replace("fill:#0000ff;", "fill:" + self.bg_color + ";")
+        ns = style.replace("fill:#0000ff;", "fill:#" + self.bg_color + ";")
         elem.setAttribute("style", ns)
     # 1 = 3.2 pixel
     def _process_pylvas(self, index, elem):
@@ -86,15 +86,19 @@ class Bars(GuiInterface):
         out = out[:-1] + ")"
         return out
 
-    def _bg_color(self):
-        # TODO:
-        pass
+    def _set_bg(self, color):
+        self.bg_color = color
+
+    def _get_bg(self):
+        return self.bg_color
 
     def name(self):
         return "Simple bars"
     
     def attributes(self):
-        return [Color("Background Color", self._bg_color)]
+        bg_color = Color("bgcolor", "Background Color", 
+                         self._set_bg, self._get_bg)
+        return [bg_color]
 
     def disabled(self):
         return False

@@ -1,4 +1,21 @@
 
+var attr = {};
+
+attr.set_color = function(val) {
+    var color = $(val).getValue();
+    $('debug').update("set_color(" + val + ", " + color + ")");
+    var params = val + "=\"" + color + "\"";
+    new Ajax.Request('/set_attr?' + params, {
+	    method    : 'get',
+	    onSuccess : function(out) {
+		start_update_timer();
+	    },
+	    onFailure : function() { 
+		$('debug').update("ajax failed");
+	    },
+    });
+};
+
 var data = {};
 
 data.modify = function(x, y, val) {
