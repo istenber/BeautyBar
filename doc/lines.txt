@@ -1,0 +1,31 @@
+STATUS: 17.11.2009
+
+$ wc `find . | grep \.py | grep -v svgfig` -l
+
+   32 ./beautybar.py
+   18 ./generators/attributes/color.py
+    0 ./generators/attributes/__init__.py
+   17 ./generators/attributes/attribute.py
+    0 ./generators/__init__.py
+  132 ./generators/houses.py
+  101 ./generators/gui_interface.py
+  119 ./generators/bars.py
+   17 ./generators/skel.py
+  161 ./generators/shiny.py
+  104 ./generators/paper.py
+    0 ./lib/__init__.py
+   26 ./ui/basepage.py
+   53 ./ui/ajax_generator.py
+   70 ./ui/data_operations.py
+   27 ./ui/output_image.py
+    0 ./ui/__init__.py
+   11 ./ui/extra_pages.py
+   23 ./ui/mainpage.py
+  118 ./ui/dao.py
+   52 ./ui/ajax_modify.py
+  110 ./model/data.py
+    0 ./model/__init__.py
+   58 ./model/generator_factory.py
+   42 ./model/singleton.py
+
+ 1291 total
