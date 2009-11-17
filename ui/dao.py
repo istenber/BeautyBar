@@ -6,8 +6,8 @@ from model.data import Item, Data
 default_generator="bars"
 
 class GeneratorDAO(db.Model):
-    session   = db.StringProperty(required=True)
-    generator = db.StringProperty(required=True)
+    session   = db.StringProperty()
+    generator = db.StringProperty()
 
     @staticmethod
     def save(session, generator):
@@ -33,10 +33,10 @@ class GeneratorDAO(db.Model):
         else: return default_generator
 
 class ItemDAO(db.Model):
-    name     = db.StringProperty(required=True)
-    value    = db.StringProperty(required=True)
-    data_ref = db.StringProperty(required=True)
-    row      = db.StringProperty(required=True)
+    name     = db.StringProperty()
+    value    = db.StringProperty()
+    data_ref = db.StringProperty()
+    row      = db.StringProperty()
 
     @staticmethod
     def save(ref, c, item):
@@ -52,11 +52,11 @@ class ItemDAO(db.Model):
         dao.put()
 
 class DataDAO(db.Model):
-    name       = db.StringProperty(required=True)
-    title      = db.StringProperty(required=True) # TODO: reserved for future
+    name       = db.StringProperty()
+    title      = db.StringProperty() # TODO: reserved for future
     # TODO: use integers?
-    min       = db.StringProperty(required=True)
-    max       = db.StringProperty(required=True)
+    min       = db.StringProperty()
+    max       = db.StringProperty()
 
     @staticmethod
     def load(name):
