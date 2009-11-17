@@ -5,7 +5,7 @@ import logging
 from xml.dom import minidom
 
 from gui_interface import GuiInterface
-from attributes.bgcolor import BgColor
+from attributes.color import Color
 
 # TODO: read path with some other way?
 template="generators/bars/template.svg"
@@ -86,11 +86,15 @@ class Bars(GuiInterface):
         out = out[:-1] + ")"
         return out
 
+    def _bg_color(self):
+        # TODO:
+        pass
+
     def name(self):
         return "Simple bars"
     
     def attributes(self):
-        return [BgColor()]
+        return [Color("Background Color", self._bg_color)]
 
     def disabled(self):
         return False
