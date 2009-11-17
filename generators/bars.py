@@ -15,7 +15,8 @@ class Bars(GuiInterface):
     def __init__(self):
         self.values = []
         # TODO: change to english
-        self.id_prefixes = [ "arvo", "aika", "pylvas" ]
+        self.id_prefixes = [ "arvo", "aika", "pylvas", "tausta" ]
+        self.bg_color = "#0000ff"
     def scale(self, min, max):
         self.step = (max - min) / 5
         self.scale = range(min, max + self.step, self.step)
@@ -30,6 +31,10 @@ class Bars(GuiInterface):
         #     f.write(self.output)
         # self._debug()
 
+    def _process_tausta(self, index, elem):
+        style = elem.getAttribute("style")
+        ns = style.replace("fill:#0000ff;", "fill:" + self.bg_color + ";")
+        elem.setAttribute("style", ns)
     # 1 = 3.2 pixel
     def _process_pylvas(self, index, elem):
         # print "# process_pylvas: " + str(elem)
