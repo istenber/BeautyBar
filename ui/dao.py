@@ -5,6 +5,92 @@ from model.data import Item, Data
 
 default_generator="bars"
 
+class DAO(db.Model):
+    # DAOs must be in this file or within same file with objects...
+
+    # TODO: handle lists...
+    # TODO: take care of reference loops
+
+    @classmethod
+    def _get_dao(self, obj):
+        dao_class = obj.__class__.__name__ + "DAO"
+        try:
+            return eval(dao_class)()
+        except NameError, er:
+            module = obj.__module__
+            logging.info("# dao class missing, lets import: " + module)
+            import_cmd = "from " + module + " import " + dao_class
+            exec(import_cmd)
+        try: 
+            return eval(dao_class)()
+        except NameError, er:
+            logging.info("# import didn't help")
+            return None
+
+    @classmethod
+    def _obj_to_dao(self, obj):
+        dao = self._get_dao(obj)
+        for prop in dao.properties():
+            if prop.endswith("_ref"):
+                obj_prop = prop[:-4]
+                obj_ref = getattr(obj, obj_prop)
+                
+                # TODO: check missing __dbkey__, means that object is not
+                #       stored yet. do we need to store object anyway
+                setattr(dao, prop, obj_ref.__dbkey__)
+                continue
+            if hasattr(obj, prop):
+                setattr(dao, prop, getattr(obj, prop))
+            else:
+                logging.info("# prop \"" + prop + "\" not found")
+        return dao
+
+    @classmethod
+    def save(self, obj):
+        logging.info("# saving " + str(obj))
+        dao = self._obj_to_dao(obj)
+        dao.put()
+        obj.__dbkey__ = dao.key()
+
+    @classmethod
+    def _get_obj(self, dao):
+        obj_class = self.__name__[:-3]
+        try:
+            return eval(obj_class)()
+        except NameError, er:
+            module = dao.__module__
+            logging.info("# obj class missing, lets import: " + module)
+            import_cmd = "from " + module + " import " + obj_class
+            exec(import_cmd)
+        try: 
+            return eval(obj_class)()
+        except NameError, er:
+            logging.info("# import didn't help")
+            return None
+
+    @classmethod
+    def _dao_to_obj(self, dao):
+        obj = self._get_obj(dao)
+        for prop in dao.properties():
+            if prop.endswith("_ref"):
+                obj_prop = prop[:-4]
+                ref_dao = getattr(dao, prop)
+                ref_obj = ref_dao._dao_to_obj(ref_dao)
+                setattr(obj, obj_prop, ref_obj)
+                continue
+            if hasattr(obj, prop):
+                setattr(obj, prop, getattr(dao, prop))
+            else:
+                logging.info("# prop \"" + prop + "\" not found")        
+        return obj
+
+    @classmethod
+    def load(self, name):
+        logging.info("# loading " + str(name))
+        dao = self.gql("WHERE name = :1", name).get()
+        if dao is None: return None
+        return self._dao_to_obj(dao)
+
 # TODO: refactor to use base class!!!
 
 class GenParamsDAO(db.Model):
@@ -116,3 +202,4 @@ class DataDAO(db.Model):
         dao.put()
         for c in range(0, len(data.items)):
             ItemDAO.save(name, c, data.items[c])
+
