@@ -24,10 +24,12 @@ class TestDAO(DAO):
     value = db.StringProperty()
     name = db.StringProperty()
 
+    def get_object_module(self):
+        return "ui.test.dao"
+
 class TestWithRefDAO(DAO):
     name = db.StringProperty()
     test_ref = db.ReferenceProperty(TestDAO)
-
 
 def test_dao():
     out = ""

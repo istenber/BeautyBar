@@ -10,6 +10,7 @@ class DAO(db.Model):
 
     # TODO: handle lists...
     # TODO: take care of reference loops
+    # TODO: support to other properties (not StringProperty)
 
     @classmethod
     def _get_dao(self, obj):
@@ -34,7 +35,7 @@ class DAO(db.Model):
             if prop.endswith("_ref"):
                 obj_prop = prop[:-4]
                 obj_ref = getattr(obj, obj_prop)
-                
+                logging.info("# XXX: references are not saved!")
                 # TODO: check missing __dbkey__, means that object is not
                 #       stored yet. do we need to store object anyway
                 setattr(dao, prop, obj_ref.__dbkey__)
@@ -58,7 +59,9 @@ class DAO(db.Model):
         try:
             return eval(obj_class)()
         except NameError, er:
-            module = dao.__module__
+            if hasattr(dao, "get_object_module"):
+                module = dao.get_object_module()
+            else: module = dao.__module__
             logging.info("# obj class missing, lets import: " + module)
             import_cmd = "from " + module + " import " + obj_class
             exec(import_cmd)
