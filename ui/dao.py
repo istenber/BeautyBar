@@ -1,5 +1,6 @@
 import logging
 
+from google.appengine.ext.db import GqlQuery
 from google.appengine.ext import db
 from model.data import Item, Data
 
@@ -134,13 +135,20 @@ class DAO(db.Model):
         return obj
 
     @classmethod
-    def load(self, name, dao=""):
-        # TODO: if class is not derived use dao as class name
-        #         error check one is ok
+    def load(self, name, class_name=None):
         logging.info("# loading " + str(name))
-        dao = self.gql("WHERE name = :1", name).get()
-        if dao is None: return None
-        return self._dao_to_obj(dao)
+        if class_name:
+            dao_class = class_name + "DAO"
+            dao = GqlQuery("SELECT * FROM " + dao_class +
+                           " WHERE name = :1", name).get()
+        else:
+            dao = self.gql("WHERE name = :1", name).get()
+        if dao is None:
+            logging.info("# object not found from db")
+            return None
+        obj = dao._dao_to_obj(dao)
+        obj.__dbkey__ = dao.key()
+        return obj
 
     def lists(self):
         """ Override me with name of lists in class. """
@@ -149,11 +157,14 @@ class DAO(db.Model):
 class DataDAO(DAO):
     name = db.StringProperty()
     locked = db.StringProperty()
-    min = db.StringProperty()
-    max = db.StringProperty()
+    min = db.IntegerProperty()
+    max = db.IntegerProperty()
 
     def lists(self):
         return ["items"]
+
+    def get_object_module(self):
+        return "model.data"
 
 class StyleDAO(DAO):
     name = db.StringProperty()
@@ -192,23 +203,12 @@ class AttributeDAO(DAO):
 
 class ItemDAO(DAO):
     name = db.StringProperty()
-    value = db.StringProperty()
-    row = db.StringProperty()
+    value = db.IntegerProperty()
+    row = db.IntegerProperty()
     data_ref = db.ReferenceProperty(DataDAO)
 
-class Item(object):
-    def __init__(self, name="", value="", row=""):
-        self.name = name
-        self.value = value
-        self.row = row
-
-class Data(object):
-    def __init__(self, name="", min="", max=""):
-        self.name = name
-        self.locked = "false" # TODO: fix to boolean
-        self.min = min
-        self.max = max
-        self.items = []
+    def get_object_module(self):
+        return "model.data"
 
 class Output(object):
     def __init__(self, name=""):

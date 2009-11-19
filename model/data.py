@@ -4,9 +4,11 @@ import logging
 
 class Item(object):
 
-    def __init__(self, name, value):
-        self.name  = name
+    def __init__(self, name="", value="", row=""):
+        self.name = name
         self.value = self._to_int(value)
+        # TODO: row range?!
+        self.row = row
         
     def _to_int(self, value):
         try:
@@ -18,12 +20,15 @@ class Item(object):
     def is_in_range(self, min, max):
         return (self.value <= max and self.value >= min)
 
+
 class Data(object):
 
-    def __init__(self):
+    def __init__(self, name="", min=0, max=50):
+        self.name = name
+        self.locked = "false" # TODO: fix to boolean
+        self.min = min
+        self.max = max
         self.items = []
-        self.min = 0
-        self.max = 50
 
     def add_item(self, item):
         if len(self.items) < 6:
