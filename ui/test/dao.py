@@ -3,11 +3,10 @@ import logging
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 
-from ui.dao import DAO
-# TODO: move to model.<name>
-from ui.dao import Output, Session, Style, Generator, Attribute
-from ui.dao import SessionDAO
+from ui.dao import DAO, SessionDAO
+from ui.dao import Output, Session, Style
 from model.data import Data, Item
+from model.generator import Generator, Attribute
 
 # --------------- test program -------------------
 

@@ -182,6 +182,9 @@ class GeneratorDAO(DAO):
     def lists(self):
         return ["attributes"]
 
+    def get_object_module(self):
+        return "model.generator"
+
 class OutputDAO(DAO):
     name = db.StringProperty()
     # TODO: fix to db diagram
@@ -200,6 +203,9 @@ class AttributeDAO(DAO):
     name = db.StringProperty()
     value = db.StringProperty()
     generator_ref = db.ReferenceProperty(GeneratorDAO)
+
+    def get_object_module(self):
+        return "model.generator"
 
 class ItemDAO(DAO):
     name = db.StringProperty()
@@ -231,14 +237,4 @@ class Style(object):
         self.locked = "false" # TODO: fix to boolean
         self.generators = []
 
-class Generator(object):
-    def __init__(self, name=""):
-        self.name = name
-        self.active = "false" # TODO: fix to boolean
-        self.attributes = []
-
-class Attribute(object):
-    def __init__(self, name="", value=""):
-        self.name = name
-        self.value = value
 
