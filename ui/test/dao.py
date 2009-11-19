@@ -128,10 +128,6 @@ class TestDao(webapp.RequestHandler):
     def get(self):        
         self.response.headers['Content-Type'] = "text/plain"
 
-        self.response.out.write("\ntest_query()\n")
-        self.response.out.write("--------------------------\n")
-        self.response.out.write(test_query())
-
         self.response.out.write("\ntest_base_dao()\n")
         self.response.out.write("--------------------------\n")
         self.response.out.write(test_base_dao())
@@ -139,3 +135,7 @@ class TestDao(webapp.RequestHandler):
         self.response.out.write("\ntest_daos() \n")
         self.response.out.write("--------------------------\n")
         self.response.out.write(test_daos())
+
+        self.response.out.write("\ntest_query()\n")
+        self.response.out.write("--------------------------\n")
+        self.response.out.write(test_query())
