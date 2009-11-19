@@ -4,8 +4,8 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 
 from ui.dao import DAO
-
-# test_dao # TestDAO, Test, TrDAO, Tr
+# TODO: move to model.<name>
+from ui.dao import Item, Data, Output, Session, Style, Generator, Attribute
 
 # --------------- test program -------------------
 
@@ -49,26 +49,51 @@ def test_base_dao():
     out += "   " + ltr.test.name + ":" + ltr.test.value + "\n"
     return out
 
+
+def make_data():
+    d = Data(name="ds")
+    for c in range(0, 3):
+        name = "n" + str(c)
+        value = "v" + str(c)
+        i = Item(name=name, value=value, row=str(c))
+        d.items.append(i)
+    return d
+
+def make_style():
+    s = Style(name="cust-style")
+    g = Generator(name="gengen")
+    a = Attribute(name="color", value="red")
+    g.attributes.append(a)
+    a = Attribute(name="bgcolor", value="blue")
+    g.attributes.append(a)
+    s.generators.append(g)
+    g.active = "true"
+    return s
+
+def make_output(d, s):
+    o = Output(name="outti")
+    o.content = "hello world"
+    o.data = d
+    o.style = s
+    return o
+
 def test_daos():
     out = ""
-    from ui.dao import Item, ItemDAO
-    from ui.dao import Data, DataDAO
-    from ui.dao import Output, OutputDAO
-    from ui.dao import Session, SessionDAO
-    from ui.dao import Style, StyleDAO
-    from ui.dao import Generator, GeneratorDAO
-    from ui.dao import Attribute, AttributeDAO
-    i1 = Item()
-    # DAO.save(i1)
-    out += "i1: " + str(i1) + "\n"
-    i2 = Item()
-    # DAO.save(i2)
-    out += "i2: " + str(i2) + "\n"
-    d = Data()
-    d.items = [i1, i2]
+    ses = Session("test-session-123")
+    out += "session: " + ses.name + "\n"
+    d = make_data()
+    out += "data: " + d.name + "\n"
+    for i in d.items:
+        out += "   + " + i.name + "\n"
     DAO.save(d)
-    out += "d: " + str(d) + "\n"
-    out += "i2.__data_ref__: " + str(i2.__data_ref__) + "\n"
+    s = make_style()
+    out += "style: " + s.name + "\n"
+    o = make_output(d, s)
+    out += "output: " + o.name + "\n"
+    ses.data = d
+    ses.style = s
+    ses.output = o
+    DAO.save(ses)
     return out
 
 class TestDao(webapp.RequestHandler):

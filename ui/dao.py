@@ -11,19 +11,29 @@ class DAO(db.Model):
     # TODO: handle lists...
     # TODO: take care of reference loops
     # TODO: support to other properties (not StringProperty)
+    # TODO: only single ReferenceProperty for each class type allowed
+
+    @classmethod
+    def _new_or_load(self, dao_class, obj, import_cmd=None):
+        # TODO: catch import error!?
+        if import_cmd: exec(import_cmd)
+        if hasattr(obj, "__dbkey__"):
+            return eval(dao_class).get(obj.__dbkey__)
+        else:
+            return eval(dao_class)()
 
     @classmethod
     def _get_dao(self, obj):
         dao_class = obj.__class__.__name__ + "DAO"
         try:
-            return eval(dao_class)()
+            return self._new_or_load(dao_class, obj)
         except NameError, er:
             module = obj.__module__
-            logging.info("# dao class missing, lets import: " + module)
-            import_cmd = "from " + module + " import " + dao_class
-            exec(import_cmd)
+            logging.info("# \"" + dao_class + "\" class missing, " +
+                         "lets import it from \"" + module + "\"")
+        import_cmd = "from " + module + " import " + dao_class
         try: 
-            return eval(dao_class)()
+            return self._new_or_load(dao_class, obj, import_cmd)
         except NameError, er:
             logging.info("# import didn't help")
             return None
@@ -56,14 +66,10 @@ class DAO(db.Model):
         obj_prop = prop[:-4]
         if hasattr(obj, obj_prop):
             obj_ref = getattr(obj, obj_prop)
-            # TODO: check missing __dbkey__, means that object is not
-            #       stored yet. do we need to store object anyway
-            if hasattr(obj_ref, "__dbkey__"):
-                return obj_ref.__dbkey__
-            else:
-                # TODO:
-                logging.info("# __dbkey__ missing")
-                return None
+            if not hasattr(obj_ref, "__dbkey__"):
+                logging.info("# saving referenced object " + str(obj_ref))
+                DAO.save(obj_ref)
+            return obj_ref.__dbkey__
         logging.info("# prop_ref \"" + obj_prop + "\" and \"" +
                      ref_str + "\" missing!")
         return None
@@ -89,9 +95,8 @@ class DAO(db.Model):
         logging.info("# saving " + str(obj))
         dao = self._obj_to_dao(obj)
         dao.put()
-        if hasattr(dao, "lists"):
-            lists = self._get_lists(dao, obj)
-            dao._save_lists(lists)
+        lists = self._get_lists(dao, obj)
+        dao._save_lists(lists)
         obj.__dbkey__ = dao.key()
 
     @classmethod
@@ -137,6 +142,9 @@ class DAO(db.Model):
         if dao is None: return None
         return self._dao_to_obj(dao)
 
+    def lists(self):
+        """ Override me with name of lists in class. """
+        return []
 
 class DataDAO(DAO):
     name = db.StringProperty()
@@ -150,14 +158,18 @@ class DataDAO(DAO):
 class StyleDAO(DAO):
     name = db.StringProperty()
     locked = db.StringProperty()
-    # TODO: we cannot use name GeneratorDAO, as it is not defined yet,
-    #       and we cannot define it before StyleDAO as there is dependency
-    #       there. So just use unnamed reference
-    generator_ref = db.ReferenceProperty()
+
+    def lists(self):
+        return ["generators"]
 
 class GeneratorDAO(DAO):
     name = db.StringProperty()
+    # TODO: fix to db diagram
+    active = db.StringProperty()
     style_ref = db.ReferenceProperty(StyleDAO)
+
+    def lists(self):
+        return ["attributes"]
 
 class OutputDAO(DAO):
     name = db.StringProperty()
@@ -189,7 +201,6 @@ class Item(object):
         self.name = name
         self.value = value
         self.row = row
-        # self.data = None # TODO: data_ref
 
 class Data(object):
     def __init__(self, name="", min="", max=""):
@@ -204,30 +215,30 @@ class Output(object):
         self.name = name
         self.content_type = "text/plain"
         self.content = None
-        self.data = None # TODO: data_ref
-        self.style = None # TODO: style_ref
+        self.data = None
+        self.style = None
 
 class Session(object):
     def __init__(self, name=""):
         self.name = name
-        self.data = None # TODO: data_ref
-        self.style = None # TODO: style_ref
-        self.output = None # TODO: output_ref
+        self.data = None
+        self.style = None
+        self.output = None
 
 class Style(object):
     def __init__(self, name=""):
         self.name = name
         self.locked = "false" # TODO: fix to boolean
-        self.generator = None # TODO: generator_ref
+        self.generators = []
 
 class Generator(object):
     def __init__(self, name=""):
         self.name = name
-        self.style = None # TODO: style_ref
+        self.active = "false" # TODO: fix to boolean
+        self.attributes = []
 
 class Attribute(object):
     def __init__(self, name="", value=""):
         self.name = name
         self.value = value
-        self.generator = None # TODO: generator_ref
 
