@@ -173,6 +173,9 @@ class StyleDAO(DAO):
     def lists(self):
         return ["generators"]
 
+    def get_object_module(self):
+        return "model.style"
+
 class GeneratorDAO(DAO):
     name = db.StringProperty()
     # TODO: fix to db diagram
@@ -193,11 +196,17 @@ class OutputDAO(DAO):
     data_ref = db.ReferenceProperty(DataDAO)
     style_ref = db.ReferenceProperty(StyleDAO)
 
+    def get_object_module(self):
+        return "model.output"
+
 class SessionDAO(DAO):
     name = db.StringProperty()
     data_ref = db.ReferenceProperty(DataDAO)
     style_ref = db.ReferenceProperty(StyleDAO)
     output_ref = db.ReferenceProperty(OutputDAO)
+
+    def get_object_module(self):
+        return "model.session"
 
 class AttributeDAO(DAO):
     name = db.StringProperty()
@@ -215,26 +224,3 @@ class ItemDAO(DAO):
 
     def get_object_module(self):
         return "model.data"
-
-class Output(object):
-    def __init__(self, name=""):
-        self.name = name
-        self.content_type = "text/plain"
-        self.content = None
-        self.data = None
-        self.style = None
-
-class Session(object):
-    def __init__(self, name=""):
-        self.name = name
-        self.data = None
-        self.style = None
-        self.output = None
-
-class Style(object):
-    def __init__(self, name=""):
-        self.name = name
-        self.locked = "false" # TODO: fix to boolean
-        self.generators = []
-
-
