@@ -10,34 +10,33 @@ from ui.data_operations import CleanData, LoadData, SaveData, ImportData
 from ui.ajax_modify import AjaxModify
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 
-# TODO: use environment variable "debug"
-debug=True
-if debug:
-    from ui.test.dao import TestDao
-    test_pages = [('/test/dao', TestDao)]
-    log_level = logging.DEBUG
-else:
-    test_pages = []
-    log_level = logging.INFO
-
-pages = [('/', MainPage),
-         ('/info', InfoPage),
-         ('/learn', LearnPage),
-         ('/modify_data', AjaxModify),
-         ('/set_generator', AjaxGenerator),
-         ('/clean', CleanData),
-         ('/save', SaveData),
-         ('/load', LoadData),
-         ('/import_csv', ImportData),
-         ('/attr_table', AjaxAttributes),
-         ('/set_attr', AjaxSetAttribute),
-         ('/output_image', OutputImage)]
-
-application = webapp.WSGIApplication(pages + test_pages,
-                                     debug=debug)
 
 def main():
+    # TODO: use environment variable "debug"
+    debug=True
+    if debug:
+        from ui.test.dao import TestDao
+        test_pages = [('/test/dao', TestDao)]
+        log_level = logging.DEBUG
+    else:
+        test_pages = []
+        log_level = logging.INFO
     logging.getLogger().setLevel(log_level)
+        
+    pages = [('/', MainPage),
+             ('/info', InfoPage),
+             ('/learn', LearnPage),
+             ('/modify_data', AjaxModify),
+             ('/set_generator', AjaxGenerator),
+             ('/clean', CleanData),
+             ('/save', SaveData),
+             ('/load', LoadData),
+             ('/import_csv', ImportData),
+             ('/attr_table', AjaxAttributes),
+             ('/set_attr', AjaxSetAttribute),
+             ('/output_image', OutputImage)]
+    application = webapp.WSGIApplication(pages + test_pages,
+                                         debug=debug)
     run_wsgi_app(application)
 
 if __name__ == "__main__":
