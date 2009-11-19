@@ -8,12 +8,14 @@ TODOs
 
 <host> = beauty-bar.appspot.com
 
-Control generators (PRIO 1)
+Control generators (PRIO 2)
 --------
+(done some, needs improvement though)
 Make generators controllable through UI.
 + change background image
   + color
   + image (clipart vs. upload)
++ preload generator parts
 
 Write architecture design (PRIO 2)
 --------
@@ -27,7 +29,7 @@ Write architecture design (PRIO 2)
 + logging?
 + naming conventions / file system
 
-Tools to process SVG (PRIO 2)
+Tools to process SVG (PRIO 3)
 --------
 + extract bars from svg
 + make generator skel based on svg image?
@@ -40,8 +42,9 @@ One can first create a style with beautybar by choosing
 bar type and options. Then one can use that style within
 his blog with various data by calling:
 http://<host>/style/<style_name>?data="one",1;"hello world",2; ...
+make google Chart API compatible
 
-Change to use JQuery library (PRIO 2)
+Change to use JQuery library (PRIO 1)
 --------
 Design look-and-feel.
 
@@ -57,10 +60,16 @@ Store images to db (PRIO 5 - POSTPONED)
 Others (PRIO 5)
 --------
 
++ fix database to use new database model (PRIO 1)
++ add statistical (edited) and history (versions) to database (PRIO 4)
+
++ implement user accounts
+ + add user accounting in database
+
 + check against python coding guidelines: (PRIO 1)
   http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 
-+ fix pages to XHTML compliant (PRIO 3)
++ fix pages to XHTML compliant (PRIO 2)
 
 + platform stuff
   + integration to google docs
@@ -70,7 +79,6 @@ Others (PRIO 5)
   + expandable table (now fixed to 6) (PRIO 3)
 
 + logic
-  + keep state when changing "bar" type
   + calculate statistics (PRIO 4)
   + calculate how much processing power is used (PRIO 6 - OPTIMIZATION)
   + read data from "live" sources (PRIO 3)
