@@ -4,7 +4,7 @@ import logging
 
 class Item(object):
 
-    def __init__(self, name="", value="", row=""):
+    def __init__(self, name="", value=0, row=0):
         self.name = name
         self.value = self._to_int(value)
         # TODO: row range?!

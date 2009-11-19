@@ -4,44 +4,66 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from model.data import Item, Data
-from ui.dao import ItemDAO, DataDAO, GeneratorDAO
+from model.session import Session
+from model.output import Output
+from model.style import Style
+from ui.dao import DAO
+
+def _generate_session_id():
+    return str(random.randint(1, 10000000))
 
 def make_clean_session():
-    session = str(random.randint(1, 10000000))
-    data = Data.default()
-    DataDAO.save(data, session)
-    GeneratorDAO.save(session, "bars")
-    return session
+    ses = Session(name=_generate_session_id())
 
+    data = Data.default()
+    data.locked = "true"
+
+    style = Style.default()
+    style.locked = "true"
+
+    output = Output()
+    output.data = data
+    output.style = style
+
+    ses.data = data
+    ses.output = output
+    ses.style = style
+
+    DAO.save(ses)
+    return ses
+
+# TODO: note saves data AND style
 class SaveData(webapp.RequestHandler):
     def post(self):
-        id = self.request.get("f_savefile")
-        if self.request.cookies.has_key("session"):            
-            session = str(self.request.cookies["session"])
-            data = DataDAO.load(session)
-        DataDAO.save(data, id)
+        new_name = self.request.get("f_savefile")
+        if self.request.cookies.has_key("session"):
+            name = str(self.request.cookies["session"])
+            session = DAO.load(name=name, class_name="Session")
+        self.response.headers['Set-Cookie'] = "session=" + new_name
+        session.name = new_name
+        # TODO: delete old entry?
+        DAO.save(session)
         self.redirect("/")
 
+# TODO: note loads data AND style
 class LoadData(webapp.RequestHandler):
     def post(self):
-        id = self.request.get("f_loadfile")
-        if self.request.cookies.has_key("session"):            
-            session = str(self.request.cookies["session"])
-            data = DataDAO.load(id)
-        DataDAO.save(data, session)
+        old_name = self.request.get("f_loadfile")
+        self.response.headers['Set-Cookie'] = "session=" + old_name
         self.redirect("/")
 
 class ImportData(webapp.RequestHandler):
     def post(self):
         logging.info("import data")
         file = self.request.get("f_file")
+        # TODO: if there is no session!!?
+        if self.request.cookies.has_key("session"):
+            name = str(self.request.cookies["session"])
+            session = DAO.load(name=name, class_name="Session")
         self.data = Data()
         self._parse_csv(file, self._append_data)
-
-        if self.request.cookies.has_key("session"):            
-            session = str(self.request.cookies["session"])
-        DataDAO.save(self.data, session)
-        
+        session.data = self.data
+        DAO.save(session)
         self.redirect("/")
 
     def _append_data(self, name, value):
@@ -63,8 +85,8 @@ class CleanData(webapp.RequestHandler):
     def get(self):
         self._clean()
     def post(self):
-        self._clean()        
+        self._clean()
     def _clean(self):
         session = make_clean_session()
-        self.response.headers['Set-Cookie'] = "session=" + session
+        self.response.headers['Set-Cookie'] = "session=" + session.name
         self.redirect("/")
