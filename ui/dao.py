@@ -29,21 +29,59 @@ class DAO(db.Model):
             return None
 
     @classmethod
+    def _get_lists(self, dao, obj):
+        out = {}
+        for list_name in dao.lists():
+            if hasattr(obj, list_name):
+                l = getattr(obj, list_name)
+                out[list_name] = l
+            else:
+                logging.info("# missing list \"" + list_name + "\"")
+        return out
+
+    # @classmethod
+    def _save_lists(self, lists):
+        for l in lists.iterkeys():
+            logging.info("# saving list \"" + l + "\"")
+            for obj in lists[l]:
+                ref = "__" + self.__class__.__name__[:-3].lower() + "_ref__"
+                setattr(obj, ref, self.key())
+                DAO.save(obj)
+
+    @classmethod
+    def _get_ref_key(self, dao, obj, prop):
+        ref_str = "__" + prop + "__"
+        if hasattr(obj, ref_str):
+            return getattr(obj, ref_str)
+        obj_prop = prop[:-4]
+        if hasattr(obj, obj_prop):
+            obj_ref = getattr(obj, obj_prop)
+            # TODO: check missing __dbkey__, means that object is not
+            #       stored yet. do we need to store object anyway
+            if hasattr(obj_ref, "__dbkey__"):
+                return obj_ref.__dbkey__
+            else:
+                # TODO:
+                logging.info("# __dbkey__ missing")
+                return None
+        logging.info("# prop_ref \"" + obj_prop + "\" and \"" +
+                     ref_str + "\" missing!")
+        return None
+
+    @classmethod
     def _obj_to_dao(self, obj):
         dao = self._get_dao(obj)
         for prop in dao.properties():
             if prop.endswith("_ref"):
-                obj_prop = prop[:-4]
-                obj_ref = getattr(obj, obj_prop)
-                logging.info("# XXX: references are not saved!")
-                # TODO: check missing __dbkey__, means that object is not
-                #       stored yet. do we need to store object anyway
-                setattr(dao, prop, obj_ref.__dbkey__)
+                ref_key = self._get_ref_key(dao, obj, prop)
+                if ref_key is None:
+                    logging.info("# reference key not found " + prop)
+                setattr(dao, prop, ref_key)
                 continue
             if hasattr(obj, prop):
                 setattr(dao, prop, getattr(obj, prop))
-            else:
-                logging.info("# prop \"" + prop + "\" not found")
+                continue
+            logging.info("# prop \"" + prop + "\" not saved")
         return dao
 
     @classmethod
@@ -51,6 +89,9 @@ class DAO(db.Model):
         logging.info("# saving " + str(obj))
         dao = self._obj_to_dao(obj)
         dao.put()
+        if hasattr(dao, "lists"):
+            lists = self._get_lists(dao, obj)
+            dao._save_lists(lists)
         obj.__dbkey__ = dao.key()
 
     @classmethod
@@ -88,121 +129,105 @@ class DAO(db.Model):
         return obj
 
     @classmethod
-    def load(self, name):
+    def load(self, name, dao=""):
+        # TODO: if class is not derived use dao as class name
+        #         error check one is ok
         logging.info("# loading " + str(name))
         dao = self.gql("WHERE name = :1", name).get()
         if dao is None: return None
         return self._dao_to_obj(dao)
 
-# TODO: refactor to use base class!!!
 
-class GenParamsDAO(db.Model):
-    session = db.StringProperty()   # TODO: lets use real foreign key
-    generator = db.StringProperty() #         session+generator
+class DataDAO(DAO):
+    name = db.StringProperty()
+    locked = db.StringProperty()
+    min = db.StringProperty()
+    max = db.StringProperty()
+
+    def lists(self):
+        return ["items"]
+
+class StyleDAO(DAO):
+    name = db.StringProperty()
+    locked = db.StringProperty()
+    # TODO: we cannot use name GeneratorDAO, as it is not defined yet,
+    #       and we cannot define it before StyleDAO as there is dependency
+    #       there. So just use unnamed reference
+    generator_ref = db.ReferenceProperty()
+
+class GeneratorDAO(DAO):
+    name = db.StringProperty()
+    style_ref = db.ReferenceProperty(StyleDAO)
+
+class OutputDAO(DAO):
+    name = db.StringProperty()
+    # TODO: fix to db diagram
+    content_type = db.StringProperty()
     content = db.StringProperty()
+    data_ref = db.ReferenceProperty(DataDAO)
+    style_ref = db.ReferenceProperty(StyleDAO)
 
-    @staticmethod
-    def save(session, gen):
-        dao = GenParamsDAO.load_obj(session, gen)
-        if dao is None:
-            dao = GeneratorDAO()
-        dao.session = session
-        dao.generator = gen
-        # TODO: GeneratorFAc...generator.export_attributes()
-        dao.content = "no params"
-        dao.put()
+class SessionDAO(DAO):
+    name = db.StringProperty()
+    data_ref = db.ReferenceProperty(DataDAO)
+    style_ref = db.ReferenceProperty(StyleDAO)
+    output_ref = db.ReferenceProperty(OutputDAO)
 
-    @staticmethod
-    def load_obj(session, gen):
-        return db.GqlQuery("SELECT * FROM GenParamsDAO WHERE " + 
-                           "session = :1 AND generator = :2",
-                           session, gen).get()
+class AttributeDAO(DAO):
+    name = db.StringProperty()
+    value = db.StringProperty()
+    generator_ref = db.ReferenceProperty(GeneratorDAO)
 
-    @staticmethod
-    def load(session, gen):
-        dao = GenParamsDAO.load_obj(session, gen)
-        if dao is not None:
-            # TODO: GeneratorFAc... <-- g, g.import_attributes()
-            return dao.generator
-        else: return default_generator
+class ItemDAO(DAO):
+    name = db.StringProperty()
+    value = db.StringProperty()
+    row = db.StringProperty()
+    data_ref = db.ReferenceProperty(DataDAO)
 
-class GeneratorDAO(db.Model):
-    session   = db.StringProperty()
-    generator = db.StringProperty()
+class Item(object):
+    def __init__(self, name="", value="", row=""):
+        self.name = name
+        self.value = value
+        self.row = row
+        # self.data = None # TODO: data_ref
 
-    @staticmethod
-    def save(session, generator):
-        dao = GeneratorDAO.load_obj(session)
-        if dao is None:
-            # TODO: we have now many names for session number,
-            #       name, session, data_ref - fix to one
-            dao = GeneratorDAO()
-        dao.session = session
-        dao.generator = generator
-        dao.put()
+class Data(object):
+    def __init__(self, name="", min="", max=""):
+        self.name = name
+        self.locked = "false" # TODO: fix to boolean
+        self.min = min
+        self.max = max
+        self.items = []
 
-    @staticmethod
-    def load_obj(session):
-        return db.GqlQuery("SELECT * FROM GeneratorDAO WHERE session = :1",
-                           session).get()
+class Output(object):
+    def __init__(self, name=""):
+        self.name = name
+        self.content_type = "text/plain"
+        self.content = None
+        self.data = None # TODO: data_ref
+        self.style = None # TODO: style_ref
 
-    @staticmethod
-    def load(session):
-        dao = GeneratorDAO.load_obj(session)
-        if dao is not None:
-            return dao.generator
-        else: return default_generator
+class Session(object):
+    def __init__(self, name=""):
+        self.name = name
+        self.data = None # TODO: data_ref
+        self.style = None # TODO: style_ref
+        self.output = None # TODO: output_ref
 
-class ItemDAO(db.Model):
-    name     = db.StringProperty()
-    value    = db.StringProperty()
-    data_ref = db.StringProperty()
-    row      = db.StringProperty()
+class Style(object):
+    def __init__(self, name=""):
+        self.name = name
+        self.locked = "false" # TODO: fix to boolean
+        self.generator = None # TODO: generator_ref
 
-    @staticmethod
-    def save(ref, c, item):
-        dao = db.GqlQuery("SELECT * FROM ItemDAO WHERE" +
-                          " row = :1 AND data_ref = :2", 
-                          str(c), str(ref)).get()
-        if dao is None:
-            dao = ItemDAO()
-        dao.name = item.name
-        dao.data_ref = str(ref)
-        dao.value = str(item.value)        
-        dao.row = str(c)
-        dao.put()
+class Generator(object):
+    def __init__(self, name=""):
+        self.name = name
+        self.style = None # TODO: style_ref
 
-class DataDAO(db.Model):
-    name       = db.StringProperty()
-    title      = db.StringProperty() # TODO: reserved for future
-    # TODO: use integers?
-    min       = db.StringProperty()
-    max       = db.StringProperty()
-
-    @staticmethod
-    def load(name):
-        data = Data()
-        items = db.GqlQuery("SELECT * FROM ItemDAO WHERE data_ref = :1 " +
-                            "ORDER BY row", name)
-        for item in items:
-            # TODO: how about row number?!
-            data.add_item(Item(item.name, item.value))
-        o = db.GqlQuery("SELECT * FROM DataDAO WHERE name = :1", name).get()
-        data.set_min(int(o.min))
-        data.set_max(int(o.max))
-        return data
-    
-    @staticmethod
-    def save(data, name):
-        dao = db.GqlQuery("SELECT * FROM DataDAO WHERE name = :1",
-                        name).get()
-        if dao is None:
-            dao = DataDAO()
-        dao.name = str(name)
-        dao.title = "no title"
-        dao.min = str(data.min)
-        dao.max = str(data.max)
-        dao.put()
-        for c in range(0, len(data.items)):
-            ItemDAO.save(name, c, data.items[c])
+class Attribute(object):
+    def __init__(self, name="", value=""):
+        self.name = name
+        self.value = value
+        self.generator = None # TODO: generator_ref
 
