@@ -4,8 +4,8 @@ all:
 	python2.5 $(DEV_SERVER) .
 
 dbview:
-	dia doc/database.dia -e database.png
-	eog database.png
+	dia doc/database.dia -e /tmp/database.png
+	eog /tmp/database.png
 
 update:
 	@echo "1. edit app.yaml: add version number 1"
