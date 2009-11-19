@@ -3,6 +3,10 @@ DEV_SERVER="../google_appengine/dev_appserver.py"
 all:
 	python2.5 $(DEV_SERVER) .
 
+dbview:
+	dia doc/database.dia -e database.png
+	eog database.png
+
 update:
 	@echo "1. edit app.yaml: add version number 1"
 	@echo "2. make clean clone?"
