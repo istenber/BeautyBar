@@ -2,16 +2,19 @@ import logging
 
 from google.appengine.ext import webapp
 from model.data import Item, Data
-from ui.dao import ItemDAO, DataDAO
+from ui.dao import DAO
 
 class AjaxBase(webapp.RequestHandler):
+
     def get(self):
         if self.request.cookies.has_key("session"):            
-            self.session = str(self.request.cookies["session"])
-            self.data = DataDAO.load(self.session)
+            session_name = str(self.request.cookies["session"])
+            self.session = DAO.load(name=session_name, class_name="Session")
+            self.data = self.session.data
         out = self.real_get()
         self.response.headers['Content-Type'] = "text/plain"
         self.response.out.write("out:" + str(out))
+
 
 class AjaxModify(AjaxBase):
 
@@ -32,13 +35,10 @@ class AjaxModify(AjaxBase):
         x = int(self.request.get("x"))
         y = int(self.request.get("y")) - 1
         val = self.request.get("val")
-        if x == 1: item = Item(val, self.data.items[y].value)
-        if x == 2: item = Item(self.data.items[y].name, val)
-        if self.data.set_item(y, item):
-            return val # succesful case
-        else:
-            if x == 1: return self.data.items[y].name
-            if x == 2: return self.data.items[y].value
+        # TODO: sanity checks!
+        if x == 1: self.data.items[y].name = val
+        if x == 2: self.data.items[y].value = val
+        return val
 
     def real_get(self):
         # TODO: handle missing args and cookie
@@ -47,6 +47,7 @@ class AjaxModify(AjaxBase):
             out = self._handle_scale_update()
         else:
             out = self._handle_data_update()
-        DataDAO.save(self.data, self.session)
+        # TODO: fix bug, session.data is not saved when session is!
+        DAO.save(self.session.data)
         return out
 
