@@ -78,6 +78,10 @@ Bugs (PRIO 3)
 
 + DB bug, data is not saved with session!!!
 
++ save should be implemented other way... we should continue modifying
+  "session name" image after save and it should remain as it was,
+  and also with load
+
 Different size datasets (PRIO 6)
 --------
 + from 2 to 10 bars
