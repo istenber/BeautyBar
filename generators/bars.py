@@ -77,7 +77,7 @@ class Bars(GuiInterface):
     def _generate_output(self):
         self._elem(self.doc)
         self.output = self.doc.toprettyxml()
-        logging.info(self._debug_values())
+        # logging.info(self._debug_values())
         
     def _debug_values(self):
         out = "saving ("
