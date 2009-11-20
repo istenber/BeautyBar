@@ -135,6 +135,10 @@ Others (PRIO 5)
 + make chart-api caching
   - if same request comes again it should read result from cache
 
++ internalionalization (PRIO 2)
+  + finnish and english
+  + flags in top corner?
+
 Required skills
 ------------------------
   + marketing   - to get users
