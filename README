@@ -58,14 +58,40 @@ Store images to db (PRIO 5 - POSTPONED)
     (http://<host>/s/<image_name>(.svg|.png)
   + use memcache 
 
-Others (PRIO 5)
+Testing (PRIO 4)
 --------
++ test with other browsers
+ + opera
+ + internet explorer
++ test with many users
++ write test plan
++ write some automate tests to verify that atleast something works
+  before upload
 
+Bugs (PRIO 3)
+--------
 + DB (?) bug: sometimes all generators go active:false
+  - this must be caused by many process using same data
+    and style paraller. It should be prevented with locks
+    + how to implement multiuser system?
+    + how about one user (aka. session) with many tabs (or windows)?
 
 + DB bug, data is not saved with session!!!
 
-+ fix database to use new database model (PRIO 1)
+Different size datasets (PRIO 6)
+--------
++ from 2 to 10 bars
++ another dimension
++ etc.
+
+Others (PRIO 5)
+--------
+
++ check what tools there are for: svg, app engine, python, etc.
+
++ Database tool to backup database & restore database
+  + does google have one already?
+
 + add statistical (edited) and history (versions) to database (PRIO 4)
 
 + implement user accounts
@@ -82,6 +108,8 @@ Others (PRIO 5)
 
 + ui stuff
   + expandable table (now fixed to 6) (PRIO 3)
+    - maybe 2 to 10 and can be vary with bar type, but needs to be 
+      shown in page
 
 + logic
   + calculate statistics (PRIO 4)
@@ -95,6 +123,17 @@ Others (PRIO 5)
 
 + tutorials / docs
   + training video to Youtube (PRIO 4)
+
++ learn pages
+  + learn basic use
+  + learn template use
+  (invent more user scenarios)
+  + make nice examples
+
++ make default templates for common blogging schemas
+
++ make chart-api caching
+  - if same request comes again it should read result from cache
 
 Required skills
 ------------------------
