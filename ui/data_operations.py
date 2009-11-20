@@ -43,7 +43,20 @@ class SaveData(webapp.RequestHandler):
 class LoadData(webapp.RequestHandler):
     def post(self):
         old_name = self.request.get("f_loadfile")
-        self.response.headers['Set-Cookie'] = "session=" + old_name
+        if self.request.cookies.has_key("session"):
+            name = str(self.request.cookies["session"])
+        old = DAO.load(name=old_name, class_name="Session")
+        session = old.copy()
+        session.name = name
+
+        # TODO: remove old files!!!
+        # TODO: make db to support removes
+        #       then remove this hack!
+        cur = DAO.load(name=name, class_name="Session")
+        cur.name = "_deleted"
+        DAO.save(cur)
+
+        DAO.save(session)
         self.redirect("/")
 
 class ImportData(webapp.RequestHandler):
