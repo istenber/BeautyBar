@@ -14,14 +14,14 @@ class BasePage(webapp.RequestHandler):
         if self.request.cookies.has_key("session"):            
             session_name = str(self.request.cookies["session"])
             self.session = DAO.load(name=session_name, class_name="Session")
+            if not self.session:
+                self.session = make_clean_session()
         else:
             self.session = make_clean_session()
-
         values = self._get_values()
         if not 'debug' in values:
             values['debug'] = "(none)"        
         values['template'] = self.__class__.__name__.lower() + ".html"
-
         path = os.path.join(os.path.dirname(__file__), 
                             '../templates/base.html')
         self.response.headers['Set-Cookie'] = "session=" + self.session.name
