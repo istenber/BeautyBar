@@ -25,9 +25,14 @@ class ChartPage(webapp.RequestHandler):
     def _get_style(self):
         name = self.request.get("cht")
         if name == "": return self._default_style("missing style")
-        s = DAO.load(name=name, class_name="Style")
+        # TODO: now style loading is based on session, fix it to
+        #       use style when there is style naming
+        session = DAO.load(name=name, class_name="Session")
+        if session is None:
+            return self._default_style("session \"" + name + "\" not found")
+        s = session.style
         if s is None:
-            return self._default_style("style \"" + name + "\" not found")
+            return self._default_style("style not found")
         return s
 
     def _default_data(self, msg):
