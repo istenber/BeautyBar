@@ -9,6 +9,7 @@ from ui.output_image import OutputImage
 from ui.data_operations import CleanData, LoadData, SaveData, ImportData
 from ui.ajax_modify import AjaxModify
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
+from ui.chart_api import ChartPage
 
 
 def main():
@@ -22,7 +23,8 @@ def main():
         test_pages = []
         log_level = logging.INFO
     logging.getLogger().setLevel(log_level)
-        
+
+    # TODO: split pages to groups: infopages, normalpages, ajaxpages, etc.
     pages = [('/', MainPage),
              ('/info', InfoPage),
              ('/learn', LearnPage),
@@ -34,6 +36,7 @@ def main():
              ('/import_csv', ImportData),
              ('/attr_table', AjaxAttributes),
              ('/set_attr', AjaxSetAttribute),
+             ('/chart', ChartPage),
              ('/output_image', OutputImage)]
     application = webapp.WSGIApplication(pages + test_pages,
                                          debug=debug)
