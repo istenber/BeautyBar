@@ -36,8 +36,8 @@ class AjaxModify(AjaxBase):
         y = int(self.request.get("y")) - 1
         val = self.request.get("val")
         # TODO: sanity checks!
-        if x == 1: self.data.items[y].name = val
-        if x == 2: self.data.items[y].value = val
+        if x == 1: self.data.items[y].set_name(val)
+        if x == 2: self.data.items[y].set_value(val)
         return val
 
     def real_get(self):
