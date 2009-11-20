@@ -15,23 +15,33 @@ class AjaxGenerator(AjaxBase):
         DAO.save(self.session.style)
         return "ok."
 
-class AjaxSetAttribute(webapp.RequestHandler):
+class AjaxSetAttribute(AjaxBase):
 
-    def get(self):
-        if self.request.cookies.has_key("session"):            
-            session = str(self.request.cookies["session"])
+    def real_get(self):
         color = self.request.get("bgcolor")
+        # TODO: implement functionality!
         logging.info("# GOT COLOR " + color)
+        return "ok."
 
+# TODO: fix to use AjaxHtmlBase or similar
 class AjaxAttributes(webapp.RequestHandler):
 
     def get(self):
-        # TODO: handle missing args and cookie
         if self.request.cookies.has_key("session"):            
-            session = str(self.request.cookies["session"])
-        gen_name = GeneratorDAO.load(session)
+            session_name = str(self.request.cookies["session"])
+            self.session = DAO.load(name=session_name, class_name="Session")
+        values = self.real_get()
+        self.response.headers['Content-Type'] = "text/html"
+        path = os.path.join(os.path.dirname(__file__),
+                            '../templates/attribute_table.html')
+        self.response.out.write(template.render(path, values))
+
+    def real_get(self):
         gf = GeneratorFactory().instance()
-        generator = gf.get_generator(gen_name + ".py")
+        # TODO: implement missing arg
+        g_name = self.request.get("gen") + ".py"
+        #g_name = self.session.style.get_active_generator().name + ".py"
+        generator = gf.get_generator(g_name)
         values = {}
         parts = []
         for attr in generator.attributes():
@@ -41,10 +51,7 @@ class AjaxAttributes(webapp.RequestHandler):
             out = eval(part_f)(attr)
             parts.append(out) # self._part_Color())
         values["parts"] = parts
-        self.response.headers['Content-Type'] = "text/html"
-        path = os.path.join(os.path.dirname(__file__), 
-                            '../templates/attribute_table.html')
-        self.response.out.write(template.render(path, values))
+        return values
     
     def _part_Color(self, attr):
         return ("<tr>\n<td>" + attr.name() + "</td>\n<td>" +
