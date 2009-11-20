@@ -111,8 +111,8 @@ class DAO(db.Model):
             if hasattr(dao, "get_object_module"):
                 module = dao.get_object_module()
             else: module = dao.__module__
-            logging.info("# eval failed, lets import \"" +
-                         obj_class + "\" from \"" + module + "\"")
+            # logging.info("# eval failed, lets import \"" +
+            #              obj_class + "\" from \"" + module + "\"")
         import_cmd = "from " + module + " import " + obj_class
         exec(import_cmd)
         try: 
