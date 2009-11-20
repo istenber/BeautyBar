@@ -13,7 +13,8 @@ class BasePage(webapp.RequestHandler):
         if self.request.cookies.has_key("session"):            
             self.session = str(self.request.cookies["session"])
         else:
-            self.session = make_clean_session()
+            ses = make_clean_session()
+            self.session = ses.name
 
         values = self._get_values()
         if not 'debug' in values:
