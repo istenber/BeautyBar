@@ -4,7 +4,8 @@ from google.appengine.ext.db import GqlQuery
 from google.appengine.ext import db
 from model.data import Item, Data
 
-default_generator="bars"
+default_generator = "bars"
+max_query_items = 100
 
 class DAO(db.Model):
     # DAOs must be in this file or within same file with objects...
@@ -13,6 +14,7 @@ class DAO(db.Model):
     # TODO: take care of reference loops
     # TODO: support to other properties (not StringProperty)
     # TODO: only single ReferenceProperty for each class type allowed
+    # TODO: implement blacklist as cross reference check
 
     @classmethod
     def _new_or_load(self, dao_class, obj, import_cmd=None):
@@ -102,16 +104,17 @@ class DAO(db.Model):
 
     @classmethod
     def _get_obj(self, dao):
-        obj_class = self.__name__[:-3]
+        obj_class = dao.__class__.__name__[:-3]
         try:
             return eval(obj_class)()
         except NameError, er:
             if hasattr(dao, "get_object_module"):
                 module = dao.get_object_module()
             else: module = dao.__module__
-            logging.info("# obj class missing, lets import: " + module)
-            import_cmd = "from " + module + " import " + obj_class
-            exec(import_cmd)
+            logging.info("# eval failed, lets import \"" +
+                         obj_class + "\" from \"" + module + "\"")
+        import_cmd = "from " + module + " import " + obj_class
+        exec(import_cmd)
         try: 
             return eval(obj_class)()
         except NameError, er:
@@ -119,19 +122,52 @@ class DAO(db.Model):
             return None
 
     @classmethod
-    def _dao_to_obj(self, dao):
+    def _get_old_ref(self, refs, prop):
+        for ref in refs:
+            if ref[0] == prop: return ref[1]
+        return None
+
+    @classmethod
+    def _get_ref_obj(self, dao, prop, refs):
+        old_ref = self._get_old_ref(refs, prop)
+        if old_ref: return old_ref
+        ref_dao = getattr(dao, prop)
+        return ref_dao._dao_to_obj(ref_dao, refs)
+
+    @classmethod
+    def _load_lists(self, dao, obj, refs):
+        my_ref = dao.__class__.__name__[:-3].lower() + "_ref"
+        my_val = dao.key()
+        refs.append([my_ref, obj])
+        for list_name in dao.lists():
+            # logging.info("# loading list \"" + list_name + "\"")
+            list_class = list_name[:-1].capitalize() + "DAO"
+            q = eval(list_class).gql("WHERE " + my_ref + " = :1", my_val)
+            l = []
+            for list_dao in q.fetch(max_query_items):
+                l_obj = list_dao._dao_to_obj(list_dao, refs)
+                setattr(l_obj, "__" + my_ref + "__", obj) # TODO: dao or obj?
+                l.append(l_obj)
+            setattr(obj, list_name, l)
+
+    @classmethod
+    def _dao_to_obj(self, dao, refs):
+        # logging.info("# _dao_to_obj: loading " + str(dao))
         obj = self._get_obj(dao)
         for prop in dao.properties():
             if prop.endswith("_ref"):
+                ref_obj = self._get_ref_obj(dao, prop, refs)
                 obj_prop = prop[:-4]
-                ref_dao = getattr(dao, prop)
-                ref_obj = ref_dao._dao_to_obj(ref_dao)
                 setattr(obj, obj_prop, ref_obj)
                 continue
             if hasattr(obj, prop):
                 setattr(obj, prop, getattr(dao, prop))
             else:
-                logging.info("# prop \"" + prop + "\" not found")        
+                # TODO: this can be sometimes ok as well, as we have
+                #       make list reference!
+                logging.info("# prop \"" + prop + "\" not found")
+        self._load_lists(dao, obj, refs)
+        obj.__dbkey__ = dao.key()
         return obj
 
     @classmethod
@@ -146,8 +182,7 @@ class DAO(db.Model):
         if dao is None:
             logging.info("# object not found from db")
             return None
-        obj = dao._dao_to_obj(dao)
-        obj.__dbkey__ = dao.key()
+        obj = dao._dao_to_obj(dao, [])
         return obj
 
     def lists(self):
