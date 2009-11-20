@@ -18,6 +18,13 @@ class Generator(object):
             g.attributes.append(attr.copy())
         return g
 
+    def get_attribute(self, name):
+        for attr in self.attributes:
+            if attr.name == name: return attr
+        a = Attribute(name=name)
+        self.attributes.append(a)
+        return a
+
 
 class Attribute(object):
 

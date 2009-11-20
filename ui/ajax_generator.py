@@ -19,8 +19,13 @@ class AjaxSetAttribute(AjaxBase):
 
     def real_get(self):
         color = self.request.get("bgcolor")
-        # TODO: implement functionality!
-        logging.info("# GOT COLOR " + color)
+        g_name = self.request.get("gen")
+        # TODO: make _find_generator public method
+        g = self.session.style._find_generator(g_name)
+        a = g.get_attribute("bgcolor")
+        a.value = color
+        DAO.save(self.session.style)
+        # TODO: check that value is valid
         return "ok."
 
 # TODO: fix to use AjaxHtmlBase or similar
@@ -39,10 +44,10 @@ class AjaxAttributes(webapp.RequestHandler):
     def real_get(self):
         gf = GeneratorFactory().instance()
         # TODO: implement missing arg
-        g_name = self.request.get("gen") + ".py"
+        g_name = self.request.get("gen")
         #g_name = self.session.style.get_active_generator().name + ".py"
-        generator = gf.get_generator(g_name)
-        values = {}
+        generator = gf.get_generator(g_name + ".py")
+        values = { 'cur_gen' : g_name }
         parts = []
         for attr in generator.attributes():
             # TODO: select parts for correct attribute type

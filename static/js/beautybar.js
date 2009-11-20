@@ -3,8 +3,9 @@ var attr = {};
 
 attr.set_color = function(val) {
     var color = $(val).getValue();
+    var generator = $('generator_name').getValue();
     $('debug').update("set_color(" + val + ", " + color + ")");
-    var params = val + "=\"" + color + "\"";
+    var params = val + "=\"" + color + "\"&gen=" + generator;
     new Ajax.Request('/set_attr?' + params, {
 	    method    : 'get',
 	    onSuccess : function(out) {
