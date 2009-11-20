@@ -55,7 +55,7 @@ class DAO(db.Model):
     # @classmethod
     def _save_lists(self, lists):
         for l in lists.iterkeys():
-            logging.info("# saving list \"" + l + "\"")
+            # logging.info("# saving list \"" + l + "\"")
             for obj in lists[l]:
                 ref = "__" + self.__class__.__name__[:-3].lower() + "_ref__"
                 setattr(obj, ref, self.key())
@@ -95,7 +95,7 @@ class DAO(db.Model):
 
     @classmethod
     def save(self, obj):
-        logging.info("# saving " + str(obj))
+        # logging.info("# saving " + str(obj))
         dao = self._obj_to_dao(obj)
         dao.put()
         lists = self._get_lists(dao, obj)
@@ -172,7 +172,7 @@ class DAO(db.Model):
 
     @classmethod
     def load(self, name, class_name=None):
-        logging.info("# loading " + str(name))
+        # logging.info("# loading " + str(name))
         if class_name:
             dao_class = class_name + "DAO"
             dao = GqlQuery("SELECT * FROM " + dao_class +
