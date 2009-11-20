@@ -28,6 +28,7 @@ Write architecture design (PRIO 2)
   - use meter
 + logging?
 + naming conventions / file system
++ use staticmethods? or only classmethods
 
 Tools to process SVG (PRIO 3)
 --------
@@ -59,6 +60,10 @@ Store images to db (PRIO 5 - POSTPONED)
 
 Others (PRIO 5)
 --------
+
++ DB (?) bug: sometimes all generators go active:false
+
++ DB bug, data is not saved with session!!!
 
 + fix database to use new database model (PRIO 1)
 + add statistical (edited) and history (versions) to database (PRIO 4)
