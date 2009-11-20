@@ -40,6 +40,16 @@ class Style(object):
         g.active = "true"
         cur_gen.active = "false"
 
+    def copy(self):
+        s = Style()
+        s.name = self.name
+        s.locked = self.locked
+        s.generators = []
+        for g in self.generators:
+            s.generators.append(g.copy())
+        return s
+
+
 def main():
     pass
 

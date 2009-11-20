@@ -29,6 +29,12 @@ class Item(object):
     def is_in_range(self, min, max):
         return (self.value <= max and self.value >= min)
 
+    def copy(self):
+        i = Item()
+        i.name = self.name
+        i.value = self.value
+        i.row = self.row
+        return i
 
 class Data(object):
 
@@ -76,15 +82,26 @@ class Data(object):
         for item in self.items:
             generator.add(item.name, item.value)
 
+    def copy(self):
+        d = Data()
+        d.name = self.name
+        d.locked = self.locked
+        d.max = self.max
+        d.min = self.min
+        d.items = []
+        for item in self.items:
+            d.items.append(item.copy())
+        return d
+
     @staticmethod
     def default():
         d = Data()
-        d.add_item(Item("a", "10"))
-        d.add_item(Item("b", "15"))
-        d.add_item(Item("c", "20"))
-        d.add_item(Item("d", "30"))
-        d.add_item(Item("e", "40"))
-        d.add_item(Item("f", "50"))
+        d.items.append(Item("a", "10"))
+        d.items.append(Item("b", "15"))
+        d.items.append(Item("c", "20"))
+        d.items.append(Item("d", "30"))
+        d.items.append(Item("e", "40"))
+        d.items.append(Item("f", "50"))
         return d
     
     def __str__(self):

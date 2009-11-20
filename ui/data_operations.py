@@ -14,21 +14,16 @@ def _generate_session_id():
 
 def make_clean_session():
     ses = Session(name=_generate_session_id())
-
     data = Data.default()
     data.locked = "true"
-
     style = Style.default()
     style.locked = "true"
-
     output = Output()
     output.data = data
     output.style = style
-
     ses.data = data
     ses.output = output
     ses.style = style
-
     DAO.save(ses)
     return ses
 
@@ -39,10 +34,9 @@ class SaveData(webapp.RequestHandler):
         if self.request.cookies.has_key("session"):
             name = str(self.request.cookies["session"])
             session = DAO.load(name=name, class_name="Session")
-        self.response.headers['Set-Cookie'] = "session=" + new_name
-        session.name = new_name
-        # TODO: delete old entry?
-        DAO.save(session)
+        copy = session.copy()
+        copy.name = new_name
+        DAO.save(copy)
         self.redirect("/")
 
 # TODO: note loads data AND style
