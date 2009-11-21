@@ -91,6 +91,9 @@ Different size datasets (PRIO 6)
 Others (PRIO 5)
 --------
 
++ make database separate tables for saved data, session data, and
+  deleted data - or atleast make db attribute for them.
+
 + check what tools there are for: svg, app engine, python, etc.
 
 + Database tool to backup database & restore database
