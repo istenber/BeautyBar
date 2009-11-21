@@ -10,7 +10,11 @@ from ui.data_operations import CleanData, LoadData, SaveData, ImportData
 from ui.ajax_modify import AjaxModify
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 from ui.chart_api import ChartPage
+from ui.feedback import FeedbackProcessor, FeedbackReader
 
+def get_admin_pages():
+    # TODO: these should be protected by password...
+    return [('/admin/feedback', FeedbackReader)]
 
 def main():
     # TODO: use environment variable "debug"
@@ -37,8 +41,11 @@ def main():
              ('/attr_table', AjaxAttributes),
              ('/set_attr', AjaxSetAttribute),
              ('/chart', ChartPage),
+             ('/feedback', FeedbackProcessor),
              ('/output_image', OutputImage)]
-    application = webapp.WSGIApplication(pages + test_pages,
+    application = webapp.WSGIApplication(pages +
+                                         test_pages +
+                                         get_admin_pages(),
                                          debug=debug)
     run_wsgi_app(application)
 
