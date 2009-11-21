@@ -23,7 +23,7 @@ Write architecture design (PRIO 2)
 + services (svg-to-png, live-data-import, image-store)
 + generator interface
 + database interface
-  - database tools?
++ database tools for gae
 + hooks for information collection
   - use meter
 + logging?
@@ -36,14 +36,6 @@ Tools to process SVG (PRIO 3)
 + make generator skel based on svg image?
 + mofify svg size?
 + find more tools?! Inkscape is good, but more?
-
-Style formatter (PRIO 2)
---------
-One can first create a style with beautybar by choosing
-bar type and options. Then one can use that style within
-his blog with various data by calling:
-http://<host>/style/<style_name>?data="one",1;"hello world",2; ...
-make google Chart API compatible
 
 Change to use JQuery library (PRIO 1)
 --------
@@ -68,33 +60,52 @@ Testing (PRIO 4)
 + write some automate tests to verify that atleast something works
   before upload
 
-Bugs (PRIO 3)
+Bug fixing (PRIO 3)
 --------
 + DB (?) bug: sometimes all generators go active:false
   - this must be caused by many process using same data
     and style paraller. It should be prevented with locks
     + how to implement multiuser system?
     + how about one user (aka. session) with many tabs (or windows)?
-
 + DB bug, data is not saved with session!!!
-
 + save should be implemented other way... we should continue modifying
   "session name" image after save and it should remain as it was,
   and also with load
 
-Different size datasets (PRIO 6)
+Different size datasets (PRIO 3)
 --------
-+ from 2 to 10 bars
++ from 2 to 10 bars and can be vary with bar type,
+  but needs to be shown in page
 + another dimension
-+ etc.
 
-Others (PRIO 5)
+Database improvements (PRIO 4)
 --------
-
 + make database separate tables for saved data, session data, and
   deleted data - or atleast make db attribute for them.
 
-+ check what tools there are for: svg, app engine, python, etc.
+User documentation (PRIO 5)
+--------
++ tutorials / docs
+  + training video to Youtube (PRIO 4)
++ invent more user scenarios
++ make nice examples
+
+Make more generators (PRIO 3)
+--------
++ make default templates for common blogging schemas
++ weather diagram
++ improve current diagrams
+
+Live data sources (PRIO 5)
+--------
+data sources directly from common sources (e.g. UN free data + stat.fi)
+few nice and common examples population development through time
++ do we need separate "data-conversion service for this?"
+
+Others (PRIO 5)
+--------
++ add message db field to session, which is shown when user views
+  page next time and can be used to send error messages and infos
 
 + Database tool to backup database & restore database
   + does google have one already?
@@ -113,31 +124,12 @@ Others (PRIO 5)
   + integration to google docs
   + save data with google account
 
-+ ui stuff
-  + expandable table (now fixed to 6) (PRIO 3)
-    - maybe 2 to 10 and can be vary with bar type, but needs to be 
-      shown in page
-
 + logic
   + calculate statistics (PRIO 4)
   + calculate how much processing power is used (PRIO 6 - OPTIMIZATION)
-  + read data from "live" sources (PRIO 3)
-    + weather diagram
-    + do we need separate "data-conversion service for this?"
   + export images as service
 
 + business plan (PRIO 5)
-
-+ tutorials / docs
-  + training video to Youtube (PRIO 4)
-
-+ learn pages
-  + learn basic use
-  + learn template use
-  (invent more user scenarios)
-  + make nice examples
-
-+ make default templates for common blogging schemas
 
 + make chart-api caching
   - if same request comes again it should read result from cache
@@ -153,12 +145,6 @@ Required skills
   + data mining - to create "default" graph pictures
   + graphical   - to make bars nicer & page nicer
   + programming - to code more flexible architecture
-
-Ideas
-------------------------
-
-data sources directly from common sources (e.g. UN free data + stat.fi)
-few nice and common examples population development through time
 
 Dependencies
 ------------------------
