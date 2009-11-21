@@ -104,6 +104,8 @@ few nice and common examples population development through time
 
 Others (PRIO 5)
 --------
++ add custom 404 (page missing) and 500 (server error) pages
+
 + add message db field to session, which is shown when user views
   page next time and can be used to send error messages and infos
 
