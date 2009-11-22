@@ -71,6 +71,8 @@ Bug fixing (PRIO 3)
 + save should be implemented other way... we should continue modifying
   "session name" image after save and it should remain as it was,
   and also with load
++ bars can now be larger than scale max - there is no checking for it
+  now... do unit tests to cover these cases.
 
 Different size datasets (PRIO 3)
 --------
@@ -139,6 +141,9 @@ Others (PRIO 5)
 + internalionalization (PRIO 2)
   + finnish and english
   + flags in top corner?
+
++ make development version to run offline as well,
+  currenty it uses google ajax api
 
 Required skills
 ------------------------
