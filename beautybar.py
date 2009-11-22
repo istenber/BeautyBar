@@ -11,10 +11,13 @@ from ui.ajax_modify import AjaxModify
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 from ui.chart_api import ChartPage
 from ui.feedback import FeedbackProcessor, FeedbackReader
+from ui.view_sessions import ViewSessions
 
 def get_admin_pages():
     # TODO: these should be protected by password...
-    return [('/admin/feedback', FeedbackReader)]
+    return [('/admin/feedback', FeedbackReader),
+            ('/admin/sessions', ViewSessions),
+            ]
 
 def main():
     # TODO: use environment variable "debug"

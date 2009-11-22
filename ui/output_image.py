@@ -16,9 +16,10 @@ class OutputImage(webapp.RequestHandler):
     def get(self):
         # TODO: use content type from output
         self.response.headers['Content-Type'] = "image/svg+xml"
-        if self.request.cookies.has_key("session"):            
+        name = self.request.get("session")
+        if name == "" and self.request.cookies.has_key("session"):
             name = str(self.request.cookies["session"])
-            self.session = DAO.load(name=name, class_name="Session")
+        self.session = DAO.load(name=name, class_name="Session")
         self.response.out.write(self._get_generator())
 
     def _get_generator(self):
