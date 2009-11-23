@@ -59,6 +59,9 @@ Testing (PRIO 4)
 + write test plan
 + write some automate tests to verify that atleast something works
   before upload
++ nosetests? 
+ http://somethingaboutorange.com/mrl/projects/nose/0.11.1/
+ http://code.google.com/p/bridal/source/browse/trunk/demo/src/demo/tests/__init__.py
 
 Bug fixing (PRIO 3)
 --------
@@ -73,6 +76,9 @@ Bug fixing (PRIO 3)
   and also with load
 + bars can now be larger than scale max - there is no checking for it
   now... do unit tests to cover these cases.
++ attributes should use "default" values, not null values
+  - maybe all default values could be saved to somewhere and used from
+    there?
 
 Different size datasets (PRIO 3)
 --------
