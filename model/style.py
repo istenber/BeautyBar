@@ -5,24 +5,25 @@ import logging
 from model.generator import Generator
 from model.generator_factory import GeneratorFactory
 
+
 class Style(object):
+
     def __init__(self, name=""):
         self.name = name
-        self.locked = "false" # TODO: fix to boolean & implement
+        self.locked = False
         self.generators = []
 
     @staticmethod
     def default():
         s = Style("default style")
         g = Generator("bars")
-        g.active = "true"
+        g.active = True
         s.generators.append(g)
         return s
 
     def get_active_generator(self):
         for g in self.generators:
-            if g.active == "true": # TODO: fix to bool
-                return g
+            if g.active: return g
         logging.info("# cannot find active generator")
         return None
 
@@ -32,13 +33,13 @@ class Style(object):
         return None
 
     def set_active_generator(self, name):
-        cur_gen = self.get_active_generator()
+        old_gen = self.get_active_generator()
         g = self._find_generator(name)
         if not g:
             g = Generator(name)
             self.generators.append(g)
-        g.active = "true"
-        cur_gen.active = "false"
+        g.active = True
+        old_gen.active = False
 
     def copy(self):
         s = Style()

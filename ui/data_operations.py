@@ -15,9 +15,9 @@ def _generate_session_id():
 def make_clean_session():
     ses = Session(name=_generate_session_id())
     data = Data.default()
-    data.locked = "true"
+    data.locked = True
     style = Style.default()
-    style.locked = "true"
+    style.locked = True
     output = Output()
     output.data = data
     output.style = style

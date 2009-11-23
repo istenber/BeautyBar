@@ -2,6 +2,7 @@
 
 import logging
 
+
 class Item(object):
 
     def __init__(self, name="", value=0, row=0):
@@ -40,7 +41,7 @@ class Data(object):
 
     def __init__(self, name="", min=0, max=50):
         self.name = name
-        self.locked = "false" # TODO: fix to boolean
+        self.locked = False
         self.min = min
         self.max = max
         self.items = []

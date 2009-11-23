@@ -6,7 +6,7 @@ class Generator(object):
 
     def __init__(self, name=""):
         self.name = name
-        self.active = "false" # TODO: fix to boolean
+        self.active = False
         self.attributes = []
 
     def copy(self):

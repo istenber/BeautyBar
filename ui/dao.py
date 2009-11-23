@@ -4,8 +4,10 @@ from google.appengine.ext.db import GqlQuery
 from google.appengine.ext import db
 from model.data import Item, Data
 
+
 default_generator = "bars"
 max_query_items = 100
+
 
 class DAO(db.Model):
     # DAOs must be in this file or within same file with objects...
@@ -32,13 +34,13 @@ class DAO(db.Model):
             return self._new_or_load(dao_class, obj)
         except NameError, er:
             module = obj.__module__
-            logging.info("# \"" + dao_class + "\" class missing, " +
-                         "lets import it from \"" + module + "\"")
+            # logging.info("# \"" + dao_class + "\" class missing, " +
+            #              "lets import it from \"" + module + "\"")
         import_cmd = "from " + module + " import " + dao_class
         try: 
             return self._new_or_load(dao_class, obj, import_cmd)
         except NameError, er:
-            logging.info("# import didn't help")
+            logging.info("# import failed for dao_class " + dao_class)
             return None
 
     @classmethod
@@ -70,7 +72,7 @@ class DAO(db.Model):
         if hasattr(obj, obj_prop):
             obj_ref = getattr(obj, obj_prop)
             if not hasattr(obj_ref, "__dbkey__"):
-                logging.info("# saving referenced object " + str(obj_ref))
+                # logging.info("# saving referenced object " + str(obj_ref))
                 DAO.save(obj_ref)
             return obj_ref.__dbkey__
         logging.info("# prop_ref \"" + obj_prop + "\" and \"" +
@@ -118,7 +120,7 @@ class DAO(db.Model):
         try: 
             return eval(obj_class)()
         except NameError, er:
-            logging.info("# import didn't help")
+            logging.info("# import failed for obj_class " + obj_class)
             return None
 
     @classmethod
@@ -189,9 +191,10 @@ class DAO(db.Model):
         """ Override me with name of lists in class. """
         return []
 
+
 class DataDAO(DAO):
     name = db.StringProperty()
-    locked = db.StringProperty()
+    locked = db.BooleanProperty()
     min = db.IntegerProperty()
     max = db.IntegerProperty()
 
@@ -201,9 +204,10 @@ class DataDAO(DAO):
     def get_object_module(self):
         return "model.data"
 
+
 class StyleDAO(DAO):
     name = db.StringProperty()
-    locked = db.StringProperty()
+    locked = db.BooleanProperty()
 
     def lists(self):
         return ["generators"]
@@ -211,10 +215,10 @@ class StyleDAO(DAO):
     def get_object_module(self):
         return "model.style"
 
+
 class GeneratorDAO(DAO):
     name = db.StringProperty()
-    # TODO: fix to db diagram
-    active = db.StringProperty()
+    active = db.BooleanProperty()
     style_ref = db.ReferenceProperty(StyleDAO)
 
     def lists(self):
@@ -223,9 +227,9 @@ class GeneratorDAO(DAO):
     def get_object_module(self):
         return "model.generator"
 
+
 class OutputDAO(DAO):
     name = db.StringProperty()
-    # TODO: fix to db diagram
     content_type = db.StringProperty()
     content = db.StringProperty()
     data_ref = db.ReferenceProperty(DataDAO)
@@ -233,6 +237,7 @@ class OutputDAO(DAO):
 
     def get_object_module(self):
         return "model.output"
+
 
 class SessionDAO(DAO):
     name = db.StringProperty()
@@ -243,6 +248,7 @@ class SessionDAO(DAO):
     def get_object_module(self):
         return "model.session"
 
+
 class AttributeDAO(DAO):
     name = db.StringProperty()
     value = db.StringProperty()
@@ -250,6 +256,7 @@ class AttributeDAO(DAO):
 
     def get_object_module(self):
         return "model.generator"
+
 
 class ItemDAO(DAO):
     name = db.StringProperty()
