@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<style type="text/css">
+
+ .yellow { background-color:yellow; }
+ .green { background-color:green; }
+ .white { background-color:white; }
+
+ .width_bar { width: 2%; }
+ .width_small { width: 15%; }
+ .width_medium { width: 25%; }
+ .width_half { width: 50%; }
+ .width_most { width: 80%; }
+ .width_full { width: 100%; }
+ .width_max { width: 800px; margin-left: auto; margin-right: auto; }
+
+ .height_bar { height: 10px; }
+
+</style>
+<title>BeautyBar</title>
+</head>
+<body>
+
+<table class="width_max" border="0" cellspacing="0" cellpadding="0">
+
+<!-- header part -->
+<tr>
+  <td class="white"></td>
+  <td class="green" colspan="5">
+    <!-- header -->
+    {% include "header.html" %}
+  </td>
+  <td class="white"></td>
+</tr>
+
+<!-- space -->
+<tr><td class="green" colspan="7"><div class="height_bar"></div></td></tr>
+<tr>
+  <td class="green"></td>
+  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
+  <td class="green"></td>
+</tr>
+
+<!-- main part -->
+<tr>
+  <td class="green width_bar"></td>
+  <td class="yellow width_bar"></td>
+  <td class="green width_bar"></td>
+  <td class="white width_most">
+
+    <table class="width_full" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="green" colspan="2"><div class="height_bar"></div></td>
+      <td class="yellow"></td>
+      <td class="green" colspan="3"></td>
+      <td class="yellow"></td>
+      <td class="green" colspan="2"></td>
+    </tr>
+    <tr>
+      <td class="width_medium">
+	<!-- header / style info -->
+	{% include "style_info.html" %}
+      </td>
+      <td class="green width_bar"></td>
+      <td class="yellow width_bar"></td>
+      <td class="green width_bar"></td>
+      <td class="width_half">
+	<!-- header / preview -->
+	{% include "preview_image.html" %}
+      </td>
+      <td class="green width_bar"></td>
+      <td class="yellow width_bar"></td>
+      <td class="green width_bar"></td>
+      <td class="width_small">
+	<!-- header / style list -->
+	{% include "style_list.html" %}
+      </td>
+    </tr>
+    <tr>
+      <td class="green" colspan="2"><div class="height_bar"></div></td>
+      <td class="yellow"></td>
+      <td class="green" colspan="3"></td>
+      <td class="yellow"></td>
+      <td class="green" colspan="2"></td>
+    </tr>
+    </table>
+
+  </td>
+  <td class="green width_bar"></td>
+  <td class="yellow width_bar"></td>
+  <td class="green width_bar"></td>
+</tr>
+
+<!-- space -->
+<tr>
+  <td class="green"></td>
+  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
+  <td class="green"></td>
+</tr>
+<tr><td class="green" colspan="7"><div class="height_bar"></div></td></tr>
+<tr>
+  <td class="green"></td>
+  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
+  <td class="green"></td>
+</tr>
+
+<!-- data part -->
+<tr>
+  <td class="green"></td>
+  <td class="yellow"></td>
+  <td class="green"></td>
+  <td class="white">
+
+    <table class="width_full" cellspacing="0" border="0">
+    <tr><td class="green"><div class="height_bar"></div></td></tr>
+    <tr>
+      <td>
+	<!-- data content -->
+	{% include "data_content.html" %}
+      </td>
+    </tr>
+    <tr><td class="green"><div class="height_bar"></div></td></tr>
+    </table>
+
+  </td>
+  <td class="green"></td>
+  <td class="yellow"></td>
+  <td class="green"></td>
+</tr>
+
+<!-- space -->
+<tr>
+  <td class="green"></td>
+  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
+  <td class="green"></td>
+</tr>
+<tr><td class="green" colspan="7"><div class="height_bar"></div></td>
+</tr>
+
+</table>
+
+</body>
+</html>
