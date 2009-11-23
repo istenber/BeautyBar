@@ -1,0 +1,35 @@
+UI ideas
+-------------
+top level menu
++ Learn (=tutorial)
+ - should contain clear picture of result!
++ Info
++ Build (=mainpage)
+
+Build
+-------------
+Data
++ row (name + value)
++ import csv (/other files)
++ "connect live source"
+File
++ save to database
++ load from database
++ publish
++ export as .png
++ use as style "..."
+Preview image [big?]
+Generator
++ popular ones... (preview, choose)
++ choose one
++ attributes
++ (decorators)
+
+-------------------------
+TEST IN PAGE / DOC IDEA!!!
++ user should be able to click button "test in real use" which opens a window
+  where the bar is put in page with some specified color theme
+
++ left button above image
+  + open mouse edit menu (add title, etc. generator stuff)
+  + "export .png"
