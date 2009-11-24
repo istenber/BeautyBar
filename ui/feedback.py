@@ -51,5 +51,5 @@ class FeedbackProcessor(webapp.RequestHandler):
         fb.put()        
         self._send_message("Feedback sent.")
         # TODO: redirect to page where message was sent
-        self.redirect("/info")
+        self.redirect("/about")
 
