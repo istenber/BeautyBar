@@ -1,58 +1,14 @@
 
-<h1>Basic use</h1>
+<h1>Learn to use <i>BeautyBar</i></h1>
 
-Basic use of <i>BeautyBar</i> means creating nice bar chart by using
-tools provided. This chart can then be used in blogs, part of presentations
-or documentation. Following steps are required to make chart:
+<i>BeautyBar</i> can be used for two purposes: 
+<ul>
+<li>To create nice chart with specific data 
+(read more on <a href="/learn?page=basics">Basics</a>)</li>
+<li>To create style for many bars (read more on
+<a href="/learn?page=style">Style</a>).</li>
+</ul>
 
-<h3>Setting data</h3>
-<p>
-In basic use one should first change default datas to new ones.
-This can be done either by clicking chart fields under data section
-and writing data values and names there, or by importing data in
-CSV (<i>comma separated values</i>) format. Import file should have
-six rows with two values each row comma separated.
-</p>
-
-<h3>Building chart layout</h3>
-<p>
-Next one starts to build the chart. It is done by choosing chart
-template type from list. Templates have options that can are shown
-when template is active. One can use options to finetune template
-to meet his needs.
-</p>
-<p>
-Building chart layout can be done also, before setting data.
-</p>
-
-<h3>Saving results</h3>
-<p>
-Final part of process is saving and using created chart. Currently
-it is only possible to save the <i>preview</i> image from page with 
-browser tools: right click and save as. The image is in <i>SVG</i>
-format and can be included in all kind of presentations. One can
-also save data and layout to <i>BeautyBar</i> database by choosing
-a name and clicking <i>Save</i>, and load by clicking <i>Load</i>.
-This makes it possible to continue working later on.
-</p>
-<p>
-<b>Export images as .png files is not yet supported.</b>
-</p>
-
-<h1>Template layouts</h1>
-
-<p>
-Once one have succesfully created one chart, he can use its layout
-as a template layout for other charts. This is done by using 
-<i>Google Chart API</i>
-(<a href="http://code.google.com/apis/chart/"><i>http://code.google.com/apis/chart/</i></a>). 
-One should have save chart to database. Then one can create URL following 
-chart API specification and using saved chart name as chart name parameter
-(<i>cht</i>). This produces <i>SVG</i> image with old style, but 
-with new data.
-</p>
-<p>
-For example: <a href="/chart?cht=def&chd=t:10,11,12,13,14,20&chs=250x100&chl=Hello|World|a|b|helo|worl">http://<i>host</i>/chart?cht=def&chd=t:10,11,12,13,14,20&chs=250x100&chl=Hello|World|a|b|helo|worl</a>
-</p>
-<b>Template layouts are heavily under construction.</b>
-</p>
+{% comment %}
+add youtube videos and examples here
+{% endcomment %}

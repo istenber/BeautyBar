@@ -1,9 +1,12 @@
 import os
 import random
+import logging
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from ui.data_operations import make_clean_session
 from ui.dao import DAO
+
 
 class BasePage(webapp.RequestHandler):
     
@@ -20,8 +23,11 @@ class BasePage(webapp.RequestHandler):
             self.session = make_clean_session()
         values = self._get_values()
         if not 'debug' in values:
-            values['debug'] = "(none)"        
-        values['template'] = self.__class__.__name__.lower() + ".html"
+            values['debug'] = "(none)"
+        if 'template' in values:
+            values['template'] += ".html"
+        else:
+            values['template'] = self.__class__.__name__.lower() + ".html"
         path = os.path.join(os.path.dirname(__file__), 
                             '../templates/base.html')
         self.response.headers['Set-Cookie'] = "session=" + self.session.name
