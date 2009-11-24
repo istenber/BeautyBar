@@ -1,3 +1,4 @@
+
  .yellow { background-color:yellow; }
  .green { background-color:green; }
  .white { background-color:white; }
@@ -24,16 +25,45 @@
  .height_bbuttons { height: 40px; }
  .height_header { height: 80px; }
  .height_preview { height: 250px; }
- .height_data { height: 250px; }
  .height_arrow { height: 30px; }
  .height_lsmall { }
  .height_lmiddle { }
  .height_llarge { }
- .height_info { height: 575px; } /* TODO: fix to correct size */
  .example_small { width: 25px; }
  .example_middle { width: 50px; }
  .example_large { width: 80px; }
 
- body { background-color: white; }
+ .info {
+     height            : 590px;
+     width             : 700px;
+     margin            : 5px 5px 5px 5px;
+ }
 
+ .data {
+     height            : 240px;
+     width             : 700px;
+     margin            : 5px 5px 5px 5px;
+ }
+
+ h1 {
+     margin            : 0px 0px 0px 0px;
+     padding           : 5px 5px 5px 5px;
+ }
+
+ h2 {
+     margin            : 0px 0px 0px 0px;
+     padding           : 5px 5px 5px 5px;
+ }
+
+ h3 {
+     margin            : 0px 0px 0px 0px;
+     padding           : 5px 5px 5px 5px;
+ }
+
+ body {
+     background-color  : white;
+     font-face         : Arial;
+ }
+
+ /* TODO: remove this as unused */
  a img {border: none;}
