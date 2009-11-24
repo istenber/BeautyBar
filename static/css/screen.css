@@ -22,15 +22,14 @@
 
  .height_bar { height: 15px; }
  .height_bbuttons { height: 40px; }
- .height_header { height: 100px; }
+ .height_header { height: 80px; }
  .height_preview { height: 250px; }
  .height_data { height: 250px; }
  .height_arrow { height: 30px; }
  .height_lsmall { }
  .height_lmiddle { }
  .height_llarge { }
- .height_info { height: 600px; }
-
+ .height_info { height: 575px; }
  .example_small { width: 25px; }
  .example_middle { width: 50px; }
  .example_large { width: 80px; }

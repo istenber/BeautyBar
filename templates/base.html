@@ -75,6 +75,9 @@ TODO:
   <td class="green"></td>
 </tr>
 
+{% if complex %}
+{% include template %}
+{% else %}
 <!-- info part -->
 <tr>
   <td class="green width_bar"></td>
@@ -82,7 +85,7 @@ TODO:
   <td class="green width_bar"></td>
   <td class="white width_most">
 
-    <table class="width_most" cellspacing="0" border="0">
+    <table class="width_most" cellspacing="0" border="0" cellpadding="0">
     <tr><td class="green"><div class="height_bar"></div></td></tr>
     <tr>
       <td>
@@ -100,6 +103,7 @@ TODO:
   <td class="yellow width_bar"></td>
   <td class="green width_bar"></td>
 </tr>
+{% endif %}
 
 <!-- space -->
 <tr>
@@ -119,7 +123,9 @@ TODO:
 
 </table>
 
+{% comment %}
 <span id="debug">{{ debug }}</span>
+{% endcomment %}
 
 </body>
 </html>

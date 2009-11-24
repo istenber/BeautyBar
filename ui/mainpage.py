@@ -13,6 +13,7 @@ class MainPage(BasePage):
             'cur_gen'    : cur_gen,
             'r_min'      : self.session.data.min,
             'r_max'      : self.session.data.max,
+            'complex'    : True,
             }
         return values
 

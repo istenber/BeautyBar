@@ -1,120 +1,130 @@
-<table width="100%" cellspacing="0" cellpadding="0">
-<tr><td bgcolor="lightgreen">
-
-<!-- Data part -->
-<table width="100%" cellspacing="0" cellpadding="0">
-<tr><td colspan="2" align="center"><h3>Data</h3></td></tr>
-<tr><th>Name</th><th>Value</th></tr>
-
-{% for item in items %}
+<!-- main part -->
 <tr>
-<td width="50%" align="right">
-<input type="text" id="name{{ forloop.counter }}" value="{{ item.name }}"
-       onblur="fm('name{{ forloop.counter }}');" />
-</td>
-<td width="50%" align="left">
-<input type="text" id="value{{ forloop.counter }}" value="{{ item.value }}" 
-       onblur="fm('value{{ forloop.counter }}');" />
-</td>
+  <td class="green width_bar"></td>
+  <td class="yellow width_bar"></td>
+  <td class="green width_bar"></td>
+  <td class="white width_most">
+
+    <table class="width_most" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="green" colspan="2"><div class="height_bar"></div></td>
+      <td class="yellow"></td>
+      <td class="green" colspan="3"><div class="height_bar"></div></td>
+      <td class="yellow"></td>
+      <td class="green" colspan="2"><div class="height_bar"></div></td>
+    </tr>
+    <tr>
+      <td class="width_medium">
+	<!-- main / style info -->
+      </td>
+      <td class="green width_bar"></td>
+      <td class="yellow width_bar"></td>
+      <td class="green width_bar"></td>
+      <td class="width_half">
+	<div class="height_preview">
+	<!-- main / preview -->
+	<span id="output_image">
+	  <object data="/output_image" type="image/svg+xml" 
+		  height="200" width="300" id="mySVGObject" />
+	</span>
+	</div>
+      </td>
+      <td class="green width_bar"></td>
+      <td class="yellow width_bar"></td>
+      <td class="green width_bar"></td>
+      <td class="width_small">
+	<table class="width_small" border="0" cellspacing="0" cellpadding="0">
+	<tr><td><div class="height_arrow">
+	      <img src="/images/up.png" alt="up" />
+	</div></td></tr>
+	<tr><td><div class="height_lsmall">
+	      <img src="/images/" class="example_small" alt="example1" />
+	</div></td></tr>
+	<tr><td><div class="height_lmiddle">
+	      <img src="/images/" class="example_middle" alt="example2" />
+	</div></td></tr>
+	<tr><td><div class="height_llarge">
+	      <img src="/images/" class="example_large" alt="example3" />
+	</div></td></tr>
+	<tr><td><div class="height_lmiddle">
+	      <img src="/images/" class="example_middle" alt="example4" />
+	</div></td></tr>
+	<tr><td><div class="height_lsmall">
+	      <img src="/images/" class="example_small" alt="example5" />
+	</div></td></tr>
+	<tr><td><div class="height_arrow">
+	      <img src="/images/down.png" alt="down" />
+	</div></td></tr>
+	</table>
+	<!-- main / style list -->
+      </td>
+    </tr>
+    <tr>
+      <td class="green" colspan="2"><div class="height_bar"></div></td>
+      <td class="yellow"></td>
+      <td class="green" colspan="3"></td>
+      <td class="yellow"></td>
+      <td class="green" colspan="2"></td>
+    </tr>
+    </table>
+
+  </td>
+  <td class="green width_bar"></td>
+  <td class="yellow width_bar"></td>
+  <td class="green width_bar"></td>
 </tr>
-{% endfor %}
+
+<!-- space -->
 <tr>
-</table>
-
-<br />
-
-<center>
-Range from <input type="text" size="4" id="r_min" value="{{ r_min }}" onblur="set_min();"> to <input size="4" type="text" id="r_max" value="{{ r_max }}" onblur="set_max();">.
-</center>
-
-
-<br />
-
-<table width="90%" align="center" border="0">
-
-<form action="/import_csv" method="POST" enctype="multipart/form-data">
+  <td class="green"></td>
+  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
+  <td class="green"></td>
+</tr>
+<tr><td class="green" colspan="7"><div class="height_bar"></div></td></tr>
 <tr>
-<td colspan="2"><b>Import CSV</b></td>
+  <td class="green"></td>
+  <td class="yellow" colspan="5"><div class="height_bbuttons">
+      <table class="width_full" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="width_edge"></td>
+        <td class="width_bbutton">
+	  <img class="bbutton" src="/images/data_off.png" alt="data" />
+	</td>
+        <td class="width_bbutton">
+	  <img class="bbutton" src="/images/style_off.png" alt="style" />
+	</td>
+        <td class="width_bbspace"></td>
+        <td class="width_bbutton">
+	  <img class="bbutton" src="/images/file_off.png" alt="file" />
+	</td>
+        <td class="width_edge"></td>
+      </tr>
+      </table>
+  </div></td>
+  <td class="green"></td>
 </tr>
 
+<!-- data part -->
 <tr>
-<td><input type="file" name="f_file" /></td>
-<td><input type="submit" name="f_import" value="Import" /></td>
+  <td class="green"></td>
+  <td class="yellow"></td>
+  <td class="green"></td>
+  <td class="white">
+
+    <table class="width_most" cellspacing="0" border="0" cellpadding="0">
+    <tr><td class="green"><div class="height_bar"></div></td></tr>
+    <tr>
+      <td>
+	<div class="height_data">
+	<!-- data content -->
+	</div>
+      </td>
+    </tr>
+    <tr><td class="green"><div class="height_bar"></div></td></tr>
+    </table>
+
+  </td>
+  <td class="green"></td>
+  <td class="yellow"></td>
+  <td class="green"></td>
 </tr>
-</form>
-
-<tr>
-<td colspan="2" align="center">
-<br />
-<form action="/clean" method="POST">
-<input type="submit" name="f_clean" value="Reset data" />
-</form>
-</td>
-</tr>
-
-</table>
-</td>
-
-<!-- Graph part -->
-<td width="400">
-
-<table width="100%">
-<tr><td colspan="2" align="center"><h3>Preview</h3></td></tr>
-<tr><td>
-<span id="output_image">
-<object data="/output_image" type="image/svg+xml" 
-	height="200" width="300" id="mySVGObject" />
-</span>
-</td></tr>
-</table>
-</td>
-
-<!-- File part -->
-</tr><tr>
-<td width="400" bgcolor="lightpink">
-
-<table width="100%">
-<tr><td colspan="2" align="center"><h3>File</h3></td></tr>
-<tr>
-<form action="/save" method="POST">
-<td width="50%" align="right">
-<input type="text" name="f_savefile" value="" />
-</td>
-<td width="50%" align="left">
-<input type="submit" name="f_save"  value="Save" />
-</td>
-</form>
-</tr>
-<tr>
-<form action="/load" method="POST">
-<td width="50%" align="right">
-<input type="text" name="f_loadfile" value="" />
-</td>
-<td width="50%" align="left">
-<input type="submit" name="f_load"  value="Load" />
-</td>
-</form>
-</tr>
-</table>
-</td>
-
-<!-- Modify part -->
-<td width="400" bgcolor="lightblue">
-
-<table width="100%">
-<tr><td colspan="2" align="center"><h3>Modify</h3></td></tr>
-{% for generator in generators %}
-<tr>
-<td>{{ generator.name }}: </td>
-<td><input type="radio" {% ifequal generator.x_name cur_gen.name %}checked="yes"{% endifequal %} name="generator" value="{{ generator.x_name }}" {% if generator.disabled %}disabled="true"{% endif %} onclick="gen('{{ generator.x_name }}');" /></td>
-</tr>
-{% endfor %}
-
-</table>
-
-<span id="attribute_table">
-<br /><center>Attribute table loading...</center>
-</span>
-
-</tr>
-</table>
