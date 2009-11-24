@@ -4,7 +4,7 @@
 
  .width_bar { width: 15px; }
  .width_small { width: 100px; text-align: center; }
- .width_medium { width: 170px; }
+ .width_medium { width: 170px; vertical-align: top; }
  .width_half { width: 350px; text-align: center; }
  .width_most { width: 710px; }
  .width_full { width: 770px; }
@@ -29,7 +29,7 @@
  .height_lsmall { }
  .height_lmiddle { }
  .height_llarge { }
- .height_info { height: 575px; }
+ .height_info { height: 575px; } /* TODO: fix to correct size */
  .example_small { width: 25px; }
  .example_middle { width: 50px; }
  .example_large { width: 80px; }
