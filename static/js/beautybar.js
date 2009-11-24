@@ -68,7 +68,7 @@ gen = function(val) {
     $('debug').update("generator: " + val);
     var msg = "<br /><center>Attribute table loading...</center>";
     $('attribute_table').update(msg);
-    $('generator_name').update(val);
+    $('gen_name').update(val);
     generator.modify(val); 
 };
 
