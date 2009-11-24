@@ -79,6 +79,7 @@ Bug fixing (PRIO 3)
 + attributes should use "default" values, not null values
   - maybe all default values could be saved to somewhere and used from
     there?
++ clicking buttons too fast cause active generator lost
 
 Different size datasets (PRIO 3)
 --------
