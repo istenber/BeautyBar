@@ -1,13 +1,17 @@
 
-<h3>Save and load data from database</h3>
+<div style="margin-left: 10px">
+
+<h3>Data and Style storage</h3>
+
+Saving data and style to come back later continue working with it.
 
 <form action="/save" method="POST">
 <table>
 <tr>
-<td width="50%" align="right">
+<td align="right">
 <input type="text" name="f_savefile" value="" />
 </td>
-<td width="50%" align="left">
+<td align="left">
 <input type="submit" name="f_save"  value="Save" />
 </td>
 </tr>
@@ -17,12 +21,29 @@
 <form action="/load" method="POST">
 <table>
 <tr>
-<td width="50%" align="right">
+<td align="right">
 <input type="text" name="f_loadfile" value="" />
 </td>
-<td width="50%" align="left">
+<td align="left">
 <input type="submit" name="f_load"  value="Load" />
 </td>
 </tr>
 </table>
 </form>
+
+<h3>Import Data</h3>
+
+Import data from comma separeted files.
+
+<form action="/import_csv" method="POST" enctype="multipart/form-data">
+<table>
+<tr>
+<td align="right"><input type="file" name="f_file" /></td>
+<td align="left">
+  <input type="submit" name="f_import" value="Import CSV" />
+</td>
+</tr>
+</table>
+</form>
+
+</div>
