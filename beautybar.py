@@ -4,7 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from ui.mainpage import MainPage
-from ui.extra_pages import LearnPage, InfoPage
+from ui.extra_pages import LearnPage, AboutPage
 from ui.output_image import OutputImage
 from ui.data_operations import CleanData, LoadData, SaveData, ImportData
 from ui.ajax_modify import AjaxModify
@@ -33,7 +33,7 @@ def main():
 
     # TODO: split pages to groups: infopages, normalpages, ajaxpages, etc.
     pages = [('/', MainPage),
-             ('/info', InfoPage),
+             ('/about', AboutPage),
              ('/learn', LearnPage),
              ('/modify_data', AjaxModify),
              ('/set_generator', AjaxGenerator),
