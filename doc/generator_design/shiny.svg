@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" inkscape:version="0.46" xmlns:svg="http://www.w3.org/2000/svg" height="200" width="300" inkscape:output_extension="org.inkscape.output.svg.inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:cc="http://creativecommons.org/ns#" sodipodi:version="0.32" sodipodi:docname="red.svg" id="svg2" xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+<defs id="defs4">
+
+<inkscape:perspective sodipodi:type="inkscape:persp3d" inkscape:persp3d-origin="372.04724 : 350.78739 : 1" inkscape:vp_z="744.09448 : 526.18109 : 1" inkscape:vp_x="0 : 526.18109 : 1" inkscape:vp_y="0 : 1000 : 0" id="perspective10"/>
+
+<filter height="1.0740339" width="1.3165217" y="-0.037016949" x="-0.15826087" id="filter3163" inkscape:collect="always">
+
+<feGaussianBlur stdDeviation="3.2499999" id="feGaussianBlur3165" inkscape:collect="always"/>
+
+</filter>
+
+<filter height="1.0616092" width="3.2971428" y="-0.030804598" x="-1.1485714" id="filter3171" inkscape:collect="always">
+
+<feGaussianBlur stdDeviation="2.3928571" id="feGaussianBlur3173" inkscape:collect="always"/>
+
+</filter>
+
+</defs>
+
+<g>
+
+<g>
+
+<path style="stroke: rgb(0, 0, 0); stroke-width: 1px;" d="M 50,30 L 50,150"/>
+
+<text font-size="15" stroke="none" y="34" x="20" fill="black">40</text>
+
+<text font-size="15" stroke="none" y="64" x="20" fill="black">30</text>
+
+<text font-size="15" stroke="none" y="94" x="20" fill="black">20</text>
+
+<text font-size="15" stroke="none" y="124" x="20" fill="black">10</text>
+
+<text font-size="15" stroke="none" y="154" x="20" fill="black">0</text>
+
+</g>
+
+<g>
+
+<path style="stroke: rgb(0, 0, 0); stroke-width: 1px;" d="M 50,150 L 260,150"/>
+
+<text font-size="10" stroke="none" y="170" x="58" fill="black">a</text>
+
+<text font-size="10" stroke="none" y="170" x="93" fill="black">b</text>
+
+<text font-size="10" stroke="none" y="170" x="128" fill="black">c</text>
+
+<text font-size="10" stroke="none" y="170" x="163" fill="black">d</text>
+
+<text font-size="10" stroke="none" y="170" x="198" fill="black">e</text>
+
+<text font-size="10" stroke="none" y="170" x="233" fill="black">f</text>
+
+</g>
+
+</g>
+
+<g transform="scale(0.5, 0.5)">
+
+<g id="bar" transform="translate(-180, -300)">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(255, 171, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(255, 112, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline; filter: url(#filter3163);" transform="matrix(1.12124, 0, 0, 1.01916, -38.9583, -6.78889)" height="135.7" width="44.285713" y="464.3" x="298" id="rect3157"/>
+
+<g id="g3177">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(255, 171, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(255, 112, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" height="135.7" width="44.285713" y="464.3" x="297.85715" id="rect2383"/>
+
+<path style="overflow: visible; marker: none; opacity: 1; fill: rgb(255, 170, 170); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(255, 110, 110); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" d="M 328,484.3 L 328,600.79076" id="path3155"/>
+
+<path sodipodi:rx="5" sodipodi:ry="5.7142859" style="overflow: visible; marker: none; opacity: 1; fill: rgb(255, 171, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(255, 112, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" sodipodi:type="arc" d="M 180,470.21933 A 5,5.7142859 0 1 1 170,470.21933 A 5,5.7142859 0 1 1 180,470.21933 z" transform="translate(153, 14.3)" sodipodi:cy="470.21933" sodipodi:cx="175" id="path3175"/>
+
+</g>
+
+</g>
+
+<g id="bar" transform="translate(-110, -300)">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 171, 255); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 112, 255); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline; filter: url(#filter3163);" transform="matrix(1.12124, 0, 0, 1.01916, -38.9583, -6.78889)" height="177.0" width="44.285713" y="423.0" x="298" id="rect3157"/>
+
+<g id="g3177">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 171, 255); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 112, 255); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" height="177.0" width="44.285713" y="423.0" x="297.85715" id="rect2383"/>
+
+<path style="overflow: visible; marker: none; opacity: 1; fill: rgb(170, 170, 255); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(110, 110, 255); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" d="M 328,443.0 L 328,600.79076" id="path3155"/>
+
+<path sodipodi:rx="5" sodipodi:ry="5.7142859" style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 171, 255); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 112, 255); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" sodipodi:type="arc" d="M 180,470.21933 A 5,5.7142859 0 1 1 170,470.21933 A 5,5.7142859 0 1 1 180,470.21933 z" transform="translate(153, -27)" sodipodi:cy="470.21933" sodipodi:cx="175" id="path3175"/>
+
+</g>
+
+</g>
+
+<g id="bar" transform="translate(-40, -300)">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 255, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 255, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline; filter: url(#filter3163);" transform="matrix(1.12124, 0, 0, 1.01916, -38.9583, -6.78889)" height="135.7" width="44.285713" y="464.3" x="298" id="rect3157"/>
+
+<g id="g3177">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 255, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 255, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" height="135.7" width="44.285713" y="464.3" x="297.85715" id="rect2383"/>
+
+<path style="overflow: visible; marker: none; opacity: 1; fill: rgb(170, 255, 170); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(110, 255, 110); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" d="M 328,484.3 L 328,600.79076" id="path3155"/>
+
+<path sodipodi:rx="5" sodipodi:ry="5.7142859" style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 255, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 255, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" sodipodi:type="arc" d="M 180,470.21933 A 5,5.7142859 0 1 1 170,470.21933 A 5,5.7142859 0 1 1 180,470.21933 z" transform="translate(153, 14.3)" sodipodi:cy="470.21933" sodipodi:cx="175" id="path3175"/>
+
+</g>
+
+</g>
+
+<g id="bar" transform="translate(30, -300)">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(255, 171, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(255, 112, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline; filter: url(#filter3163);" transform="matrix(1.12124, 0, 0, 1.01916, -38.9583, -6.78889)" height="188.8" width="44.285713" y="411.2" x="298" id="rect3157"/>
+
+<g id="g3177">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(255, 171, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(255, 112, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" height="188.8" width="44.285713" y="411.2" x="297.85715" id="rect2383"/>
+
+<path style="overflow: visible; marker: none; opacity: 1; fill: rgb(255, 170, 170); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(255, 110, 110); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" d="M 328,431.2 L 328,600.79076" id="path3155"/>
+
+<path sodipodi:rx="5" sodipodi:ry="5.7142859" style="overflow: visible; marker: none; opacity: 1; fill: rgb(255, 171, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(255, 112, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" sodipodi:type="arc" d="M 180,470.21933 A 5,5.7142859 0 1 1 170,470.21933 A 5,5.7142859 0 1 1 180,470.21933 z" transform="translate(153, -38.8)" sodipodi:cy="470.21933" sodipodi:cx="175" id="path3175"/>
+
+</g>
+
+</g>
+
+<g id="bar" transform="translate(100, -300)">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 171, 255); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 112, 255); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline; filter: url(#filter3163);" transform="matrix(1.12124, 0, 0, 1.01916, -38.9583, -6.78889)" height="188.8" width="44.285713" y="411.2" x="298" id="rect3157"/>
+
+<g id="g3177">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 171, 255); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 112, 255); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" height="188.8" width="44.285713" y="411.2" x="297.85715" id="rect2383"/>
+
+<path style="overflow: visible; marker: none; opacity: 1; fill: rgb(170, 170, 255); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(110, 110, 255); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" d="M 328,431.2 L 328,600.79076" id="path3155"/>
+
+<path sodipodi:rx="5" sodipodi:ry="5.7142859" style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 171, 255); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 112, 255); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" sodipodi:type="arc" d="M 180,470.21933 A 5,5.7142859 0 1 1 170,470.21933 A 5,5.7142859 0 1 1 180,470.21933 z" transform="translate(153, -38.8)" sodipodi:cy="470.21933" sodipodi:cx="175" id="path3175"/>
+
+</g>
+
+</g>
+
+<g id="bar" transform="translate(170, -300)">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 255, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 255, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline; filter: url(#filter3163);" transform="matrix(1.12124, 0, 0, 1.01916, -38.9583, -6.78889)" height="188.8" width="44.285713" y="411.2" x="298" id="rect3157"/>
+
+<g id="g3177">
+
+<rect style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 255, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 255, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" height="188.8" width="44.285713" y="411.2" x="297.85715" id="rect2383"/>
+
+<path style="overflow: visible; marker: none; opacity: 1; fill: rgb(170, 255, 170); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(110, 255, 110); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" d="M 328,431.2 L 328,600.79076" id="path3155"/>
+
+<path sodipodi:rx="5" sodipodi:ry="5.7142859" style="overflow: visible; marker: none; opacity: 1; fill: rgb(171, 255, 171); fill-opacity: 1; fill-rule: evenodd; stroke: rgb(112, 255, 112); stroke-width: 5; stroke-linecap: butt; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0pt; stroke-opacity: 1; visibility: visible; display: inline;" sodipodi:type="arc" d="M 180,470.21933 A 5,5.7142859 0 1 1 170,470.21933 A 5,5.7142859 0 1 1 180,470.21933 z" transform="translate(153, -38.8)" sodipodi:cy="470.21933" sodipodi:cx="175" id="path3175"/>
+
+</g>
+
+</g>
+
+</g>
+
+</svg>
