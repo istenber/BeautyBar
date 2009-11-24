@@ -1,50 +1,125 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <script src="svgweb/svg.js" data-path="svgweb"></script>
-<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
 <script src="http://www.google.com/jsapi"></script>
 <script>google.load("prototype", "1.6.1.0");</script>
 <script type="text/javascript" src="/js/beautybar.js"></script>
+<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
 <title>BeautyBar</title>
 </head>
 <body>
 
-<center>
+{% comment %}
+TODO:
+ + css: 
+  + change "width_" (etc.) blocks to cover whole style of block, not
+    only one aspect (width)
+  + fonts and text colors
 
-<table width="800" cellspacing="0" border="0">
+ + "info" is changed to "about"
 
-<!-- Logo -->
+{% endcomment %}
+
+<table class="width_max" border="0" cellspacing="0" cellpadding="0">
+
+<!-- header part -->
 <tr>
-<td colspan="2">
-<h1>BeautyBar</h1><font size="-1">nice graphs online</font>
-</td>
+  <td class="white width_bar"></td>
+  <td colspan="5">
+    <!-- header -->
+    <table class="width_full" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="width_logo">
+	<img class="logo" src="/images/logo.png" alt="logo" />
+      </td>
+      <td class="width_bspace"><div class="height_header"></div></td>
+      <td class="width_button">
+	<a href="/">
+	  <img class="button" src="/images/build_on.png" alt="build" />
+	</a>
+      </td>
+      <td class="width_button">
+	<a href="/learn">
+	  <img class="button" src="/images/learn_off.png" alt="learn" />
+	</a>
+      </td>
+      <td class="width_button">
+	<a href="/info">
+	  <img class="button" src="/images/about_off.png" alt="about" />
+	</a>
+      </td>
+    </tr>
+    </table>
+
+  </td>
+  <td class="white width_bar"></td>
 </tr>
 
-<!-- Toolbar -->
+<!-- space -->
 <tr>
-<td colspan="2" bgcolor="yellow">
-<table width="100%" border="0">
-<tr>
-<td align="center" width="25%">[ <a href="/">Build</a> ]</td>
-<td align="center" width="25%">[ <a href="/learn">Learn</a> ]</td>
-<td align="center" width="25%"> </td>
-<td align="center" width="25%">[ <a href="/info">Info</a> ]</td>
+  <td><div class="height_bar">
+      <img width="15" height="15" src="/images/tl.png" alt="" />
+  </div></td>
+  <td class="green" colspan="5"></td>
+  <td><div class="height_bar">
+      <img width="15" height="15" src="/images/tr.png" alt="" />
+  </div></td>
 </tr>
+<tr>
+  <td class="green"></td>
+  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
+  <td class="green"></td>
+</tr>
+
+<!-- info part -->
+<tr>
+  <td class="green width_bar"></td>
+  <td class="yellow width_bar"></td>
+  <td class="green width_bar"></td>
+  <td class="white width_most">
+
+    <table class="width_most" cellspacing="0" border="0">
+    <tr><td class="green"><div class="height_bar"></div></td></tr>
+    <tr>
+      <td>
+	<div class="height_info">
+	<!-- info content -->
+	{% include template %}
+	</div>
+      </td>
+    </tr>
+    <tr><td class="green"><div class="height_bar"></div></td></tr>
+    </table>
+
+  </td>
+  <td class="green width_bar"></td>
+  <td class="yellow width_bar"></td>
+  <td class="green width_bar"></td>
+</tr>
+
+<!-- space -->
+<tr>
+  <td class="green"></td>
+  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
+  <td class="green"></td>
+</tr>
+<tr>
+  <td><div class="height_bar">
+      <img width="15" height="15" src="/images/bl.png" alt="" />
+  </div></td>
+  <td class="green" colspan="5"><div class="height_bar"></div></td>
+  <td><div class="height_bar">
+      <img width="15" height="15" src="/images/br.png" alt="" />
+  </div></td>
+</tr>
+
 </table>
-</td>
-</tr>
 
-{% include template %}
-
-</table>
-
-</center>
-
-<font color="white">
-debug: <span id="debug">{{ debug }}</debug>
-</font>
+<span id="debug">{{ debug }}</span>
 
 </body>
 </html>
