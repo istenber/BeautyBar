@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<title>Admin / View sessions</title>
+</head>
+<body>
+
+<h1>Admin / View sessions</h1>
+
+<table border="1">
+
+{% for session in sessions %}
+<tr>
+<td valign="top"><h3>session: {{ session.name }}</h3>
+<object data="/output_image?session={{ session.name }}" 
+	type="image/svg+xml" height="200" width="300" />
+</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<hr />
+
+</body>
+</html>
