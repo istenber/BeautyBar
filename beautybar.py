@@ -9,6 +9,7 @@ from ui.output_image import OutputImage
 from ui.data_operations import CleanData, LoadData, SaveData, ImportData
 from ui.ajax_modify import AjaxModify
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
+from ui.ajax_main import AjaxMain
 from ui.chart_api import ChartPage
 from ui.feedback import FeedbackProcessor, FeedbackReader
 from ui.view_sessions import ViewSessions
@@ -43,6 +44,7 @@ def main():
              ('/import_csv', ImportData),
              ('/attr_table', AjaxAttributes),
              ('/set_attr', AjaxSetAttribute),
+             ('/main', AjaxMain),
              ('/chart', ChartPage),
              ('/feedback', FeedbackProcessor),
              ('/output_image', OutputImage)]

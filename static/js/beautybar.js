@@ -134,8 +134,23 @@ start_update_timer = function() {
     }
 };
 
+update_part = function(part) {
+    new Ajax.Request('/main?part=' + part, {
+	    method    : 'get',
+	    onSuccess : function(out) {
+		$('part_' + part).update(out.responseText);
+	    },
+	    onFailure : function() {
+		$('debug').update("ajax failed");
+	    },
+    });
+};
+
 init = function() {
-    update_attribute_table("bars");
+    // update_attribute_table("bars");
+    update_part("list");
+    update_part("info");
+    update_part("edit");
 };
 
 Event.observe(window, 'load', init, false); 
