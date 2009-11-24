@@ -45,7 +45,10 @@ class AjaxMain(webapp.RequestHandler):
                      'r_max'    : self.session.data.max,
                      }
         if s == "style":
-            return { 'template' : 'editstyle' }
+            return { 'template'   : 'editstyle',
+                     'generators' : GeneratorFactory().list(),
+                     'cur_gen'    : self.session.style.get_active_generator(),
+                     }
         if s == "file":
             return { 'template' : 'editfile' }
         logging.info("# part edit missing or incorrect sub \"" + s + "\"")

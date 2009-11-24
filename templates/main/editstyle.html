@@ -1,1 +1,13 @@
-<h1>Edit</h1>
+<table width="100%">
+{% for generator in generators %}
+<tr>
+<td>{{ generator.name }}: </td>
+<td><input type="radio" {% ifequal generator.x_name cur_gen.name %}checked="yes"{% endifequal %} name="generator" value="{{ generator.x_name }}" {% if generator.disabled %}disabled="true"{% endif %} onclick="gen('{{ generator.x_name }}');" /></td>
+</tr>
+{% endfor %}
+
+</table>
+
+<span id="attribute_table">
+<br /><center>Attribute table loading...</center>
+</span>
