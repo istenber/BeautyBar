@@ -1,12 +1,14 @@
-<table width="100%">
-{% for generator in generators %}
+<table>
 <tr>
-<td>{{ generator.name }}: </td>
-<td><input type="radio" {% ifequal generator.x_name cur_gen.name %}checked="yes"{% endifequal %} name="generator" value="{{ generator.x_name }}" {% if generator.disabled %}disabled="true"{% endif %} onclick="gen('{{ generator.x_name }}');" /></td>
-</tr>
+{% for generator in generators %}
+<td>
+<img src="/images/{{ generator.x_name }}-bars.png" {% if not generator.disabled %}onclick="gen('{{ generator.x_name }}');"{% endif %} />
+</td>
 {% endfor %}
-
+</tr>
 </table>
+
+<h3>Attributes for <span id="generator_name">{{ cur_gen.name }}</span> generator</h3>
 
 <span id="attribute_table">
 <br /><center>Attribute table loading...</center>
