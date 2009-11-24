@@ -153,6 +153,10 @@ update_edit = function(s) {
     update_part("edit", "&s=" + edit.s);
 };
 
+process_button = function(but) {
+    update_edit(but);
+};
+
 init = function() {
     // update_attribute_table("bars");
     update_part("list", "");
