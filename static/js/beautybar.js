@@ -134,8 +134,8 @@ start_update_timer = function() {
     }
 };
 
-update_part = function(part) {
-    new Ajax.Request('/main?part=' + part, {
+update_part = function(part, params) {
+    new Ajax.Request('/main?part=' + part + params, {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		$('part_' + part).update(out.responseText);
@@ -146,11 +146,19 @@ update_part = function(part) {
     });
 };
 
+var edit = { s : 'data' };
+
+update_edit = function(s) {
+    edit.s = s;
+    update_part("edit", "&s=" + edit.s);
+};
+
 init = function() {
     // update_attribute_table("bars");
-    update_part("list");
-    update_part("info");
-    update_part("edit");
+    update_part("list", "");
+    update_part("info", "");
+    update_edit("data");
+    update_image(); // must be last, but why?
 };
 
 Event.observe(window, 'load', init, false); 

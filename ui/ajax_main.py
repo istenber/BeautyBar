@@ -6,6 +6,7 @@ from google.appengine.ext.webapp import template
 from ui.dao import DAO
 from model.generator_factory import GeneratorFactory
 
+
 class AjaxMain(webapp.RequestHandler):
 
     def _is_valid_part(self, part):
@@ -36,4 +37,16 @@ class AjaxMain(webapp.RequestHandler):
         return { 'template' : 'info' }
 
     def get_edit(self):
-        return { 'template' : 'edit' }
+        s = self.request.get("s")
+        if s == "data":
+            return { 'template' : 'editdata',
+                     'items'    : self.session.data.as_list(),
+                     'r_min'    : self.session.data.min,
+                     'r_max'    : self.session.data.max,
+                     }
+        if s == "style":
+            return { 'template' : 'editstyle' }
+        if s == "file":
+            return { 'template' : 'editfile' }
+        logging.info("# part edit missing or incorrect sub \"" + s + "\"")
+        return { 'template' : 'editdata' }
