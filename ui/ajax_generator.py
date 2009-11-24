@@ -45,6 +45,8 @@ class AjaxAttributes(webapp.RequestHandler):
         gf = GeneratorFactory().instance()
         # TODO: implement missing arg
         g_name = self.request.get("gen")
+        if g_name == "session": 
+            g_name = self.session.style.get_active_generator().name
         #g_name = self.session.style.get_active_generator().name + ".py"
         generator = gf.get_generator(g_name + ".py")
         values = { 'cur_gen' : g_name }

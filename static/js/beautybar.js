@@ -146,11 +146,14 @@ update_part = function(part, params) {
     });
 };
 
-var edit = { s : 'data' };
+var edit = { 
+    s : 'data'
+};
 
 update_edit = function(s) {
     edit.s = s;
     update_part("edit", "&s=" + edit.s);
+    if (edit.s == 'style') { update_attribute_table("session"); }
 };
 
 process_button = function(but) {
@@ -158,7 +161,6 @@ process_button = function(but) {
 };
 
 init = function() {
-    // update_attribute_table("bars");
     update_part("list", "");
     update_part("info", "");
     update_edit("data");
