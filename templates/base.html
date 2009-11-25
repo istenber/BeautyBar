@@ -7,9 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 {% if use_javascript %}
-<script src="svgweb/svg.js" data-path="svgweb"></script>
-<script src="http://www.google.com/jsapi"></script>
-<script>google.load("prototype", "1.6.1.0");</script>
+<!-- TODO: latest version of svgweb should support setting data-path
+     with meta tag -->
+<script type="text/javascript" src="svgweb/svg.js" data-path="svgweb"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("prototype", "1.6.1.0");</script>
 <script type="text/javascript" src="/js/beautybar.js"></script>
 {% endif %}
 <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
