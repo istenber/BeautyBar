@@ -20,6 +20,7 @@ class GeneratorFactory(Singleton):
     def _update(self):    
         files = os.listdir(generators_folder)
         self.generators = []
+        files.sort()
         for file in files:
             if file in skip_files: continue
             if file.endswith(".py"):
