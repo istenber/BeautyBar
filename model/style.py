@@ -34,6 +34,8 @@ class Style(object):
 
     def set_active_generator(self, name):
         old_gen = self.get_active_generator()
+        if old_gen.name == name:
+            return
         g = self._find_generator(name)
         if not g:
             g = Generator(name)
@@ -44,7 +46,7 @@ class Style(object):
     def copy(self):
         s = Style()
         s.name = self.name
-        s.locked = self.locked
+        s.locked = False
         s.generators = []
         for g in self.generators:
             s.generators.append(g.copy())
