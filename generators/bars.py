@@ -5,7 +5,7 @@ import logging
 from xml.dom import minidom
 
 from gui_interface import GuiInterface
-from attributes.color import Color
+from attributes.common import Color, Boolean
 
 # TODO: read path with some other way?
 template="generators/bars/template.svg"
@@ -18,6 +18,7 @@ class Bars(GuiInterface):
         self.id_prefixes = [ "arvo", "aika", "pylvas", "tausta" ]
         self.bg_color = "0000ff"
         self.bar_color = "ff0000"
+        self.have_grid = True
     def scale(self, min, max):
         self.step = (max - min) / 5
         self.scale = range(min, max + self.step, self.step)
@@ -91,16 +92,27 @@ class Bars(GuiInterface):
         return out
 
     def _set_bg(self, color):
+        # logging.info("#### SET_BGCOLOR")
         self.bg_color = color
 
     def _get_bg(self):
+        # logging.info("#### GET_BGCOLOR")
         return self.bg_color
 
+    def _set_grid(self, boolean):
+        # logging.info("#### SET_GRID: " + str(boolean))
+        self.have_grid = boolean
+
+    def _get_grid(self):
+        # logging.info("#### GET_GRID: " + str(self.have_grid))
+        return self.have_grid
+
     def _set_barc(self, color):
-        self.bar_color = "00ff00"
-        # TODO: enable self.bar_color = color
+        # logging.info("#### SET_BARCOLOR")
+        self.bar_color = color
 
     def _get_barc(self):
+        # logging.info("#### GET_BARCOLOR")
         return self.bar_color
 
     def name(self):
@@ -111,7 +123,9 @@ class Bars(GuiInterface):
                          self._set_bg, self._get_bg)
         bar_color = Color("barcolor", "Color of bars",
                           self._set_barc, self._get_barc)
-        return [bg_color, bar_color]
+        grid = Boolean("grid", "Grid",
+                       self._set_grid, self._get_grid)
+        return [bg_color, bar_color, grid]
 
     def disabled(self):
         return False

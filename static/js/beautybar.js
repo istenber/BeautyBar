@@ -17,6 +17,22 @@ attr.set_color = function(val) {
     });
 };
 
+attr.set_boolean = function(val, b) {
+    var generator = $('generator_name').getValue();
+    $('debug').update("set_boolean(" + val + ", " + b + ")");
+    // TODO: remove gen param
+    var params = val + "=" + b + "&gen=" + generator;
+    new Ajax.Request('/set_attr?' + params, {
+	    method    : 'get',
+	    onSuccess : function(out) {
+		start_update_timer();
+	    },
+	    onFailure : function() {
+		$('debug').update("ajax failed");
+	    },
+    });
+};
+
 var data = {};
 
 data.modify = function(x, y, val) {

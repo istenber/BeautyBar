@@ -5,7 +5,7 @@ import logging
 from xml.dom import minidom
 
 from gui_interface import GuiInterface
-from attributes.color import Color
+from attributes.common import Color
 
 # TODO: read path with some other way?
 template="generators/houses/base.svg"
