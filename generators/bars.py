@@ -17,6 +17,7 @@ class Bars(GuiInterface):
         # TODO: change to english
         self.id_prefixes = [ "arvo", "aika", "pylvas", "tausta" ]
         self.bg_color = "0000ff"
+        self.bar_color = "ff0000"
     def scale(self, min, max):
         self.step = (max - min) / 5
         self.scale = range(min, max + self.step, self.step)
@@ -46,6 +47,9 @@ class Bars(GuiInterface):
         # print "\th: " + str(h)
         elem.setAttribute("height", str(h))
         elem.setAttribute("y", str(y))
+        style = elem.getAttribute("style")
+        ns = style.replace("fill:#ff0000;", "fill:#" + self.bar_color + ";")
+        elem.setAttribute("style", ns)
     def _process_aika(self, index, elem):
         # print "# process_aika: " + str(elem)
         tspan = elem.childNodes[0]
@@ -92,13 +96,22 @@ class Bars(GuiInterface):
     def _get_bg(self):
         return self.bg_color
 
+    def _set_barc(self, color):
+        self.bar_color = "00ff00"
+        # TODO: enable self.bar_color = color
+
+    def _get_barc(self):
+        return self.bar_color
+
     def name(self):
         return "Simple bars"
     
     def attributes(self):
         bg_color = Color("bgcolor", "Background Color", 
                          self._set_bg, self._get_bg)
-        return [bg_color]
+        bar_color = Color("barcolor", "Color of bars",
+                          self._set_barc, self._get_barc)
+        return [bg_color, bar_color]
 
     def disabled(self):
         return False
