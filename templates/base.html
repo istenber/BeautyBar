@@ -4,10 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+{% if use_javascript %}
 <script src="svgweb/svg.js" data-path="svgweb"></script>
 <script src="http://www.google.com/jsapi"></script>
 <script>google.load("prototype", "1.6.1.0");</script>
 <script type="text/javascript" src="/js/beautybar.js"></script>
+{% endif %}
 <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
 <title>BeautyBar</title>
 </head>

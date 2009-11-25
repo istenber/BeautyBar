@@ -1,9 +1,9 @@
 import logging
 
-from ui.basepage import BasePage
+from ui.basepage import ExtraPage
 
 
-class LearnPage(BasePage):
+class LearnPage(ExtraPage):
     
     def _is_valid_page(self, page):
         return page in ['basics', 'style']
@@ -15,7 +15,7 @@ class LearnPage(BasePage):
         return { }
 
 
-class AboutPage(BasePage):
+class AboutPage(ExtraPage):
     
     def _get_values(self):
         return { }
