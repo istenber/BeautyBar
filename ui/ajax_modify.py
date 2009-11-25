@@ -35,10 +35,15 @@ class AjaxModify(AjaxBase):
         x = int(self.request.get("x"))
         y = int(self.request.get("y")) - 1
         val = self.request.get("val")
-        # TODO: sanity checks!
-        if x == 1: self.data.items[y].set_name(val)
-        if x == 2: self.data.items[y].set_value(val)
-        return val
+        if x == 1:
+            self.data.items[y].set_name(val)
+            return self.data.items[y].name
+        if x == 2:
+            if self.data.value_ok(val):
+                self.data.items[y].set_value(val)
+            return self.data.items[y].value
+        logging.info("# some tries to send data out of range")
+        return "failed." # TODO: raise error?
 
     def real_get(self):
         # TODO: handle missing args and cookie

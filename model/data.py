@@ -27,15 +27,13 @@ class Item(object):
     def set_row(self, name):
         self.row = self._to_int(row)
 
-    def is_in_range(self, min, max):
-        return (self.value <= max and self.value >= min)
-
     def copy(self):
         i = Item()
         i.name = self.name
         i.value = self.value
         i.row = self.row
         return i
+
 
 class Data(object):
 
@@ -46,9 +44,21 @@ class Data(object):
         self.max = max
         self.items = []
 
+    def value_ok(self, value, min=None, max=None):
+        try:
+            value = int(value)
+        except ValueError, er:
+            # logging.info("# value is not integer: " + str(value))
+            return False
+        if min is None: min = self.min
+        if max is None: max = self.max
+        # logging.info("# range: " + str(min) + " < " + str(value) + " < " +
+        #              str(max) + " is " + str(value <= max and value >= min))
+        return (value <= max and value >= min)
+
     def add_item(self, item):
         if len(self.items) < 6:
-            if item.is_in_range(self.min, self.max):
+            if self.value_ok(item.value):
                 self.items.append(item)
             else:
                 logging.info("# Object not in range")
@@ -57,7 +67,7 @@ class Data(object):
 
     def _all_in_range(self, min, max):
         for item in self.items:
-            if not item.is_in_range(min, max):
+            if not self.value_ok(item.value, min, max):
                 return False
         return True
 
@@ -111,9 +121,11 @@ class Data(object):
             out += str(item.name) + "\t" + str(item.value) + "\n"
         return out
 
+
 class TestGenerator(object):
     def add(self, name, value):
         print "name: " + str(name) + "\tvalue: " + str(value)
+
 
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
