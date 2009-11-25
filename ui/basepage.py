@@ -13,12 +13,11 @@ class Page(webapp.RequestHandler):
         webapp.RequestHandler.__init__(self)
         self.values = {}
 
-    # TODO: change to get_values
-    def _get_values(self):
+    def get_values(self):
         """Override me!"""
 
     def get(self):
-        self.values.update(self._get_values())
+        self.values.update(self.get_values())
         if not 'debug' in self.values:
             self.values['debug'] = "(none)"
         if 'template' in self.values:
@@ -34,7 +33,7 @@ class ExtraPage(Page):
     pass
 
 
-class BasePage(Page):
+class ActivePage(Page):
 
     def get(self):
         self.get_session()

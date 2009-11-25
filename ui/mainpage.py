@@ -1,10 +1,10 @@
 from model.data import Item, Data
 from model.generator_factory import GeneratorFactory
-from ui.basepage import BasePage
+from ui.basepage import ActivePage
 
 
-class MainPage(BasePage):
+class MainPage(ActivePage):
     
-    def _get_values(self):
+    def get_values(self):
         return { 'complex'    : True }
 
