@@ -29,7 +29,5 @@ class OutputImage(webapp.RequestHandler):
         for attr in chart.attributes():
             v = self._unquote(g.get_attribute(attr.x_name()).value)
             attr.set(v)
-        # TODO: use real scale
-        chart.scale(0, 50)
         self.session.data.to_generator(chart)
         return chart.output()

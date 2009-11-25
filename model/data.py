@@ -87,11 +87,11 @@ class Data(object):
         return self.items
 
     def to_generator(self, generator):
-        # TODO: set scale/range!
         if len(self.items) != 6:
             logging.info("# Too few items: " + str(len(self.items)))
         for item in self.items:
             generator.add(item.name, item.value)
+        generator.scale(self.min, self.max)
 
     def copy(self):
         d = Data()
