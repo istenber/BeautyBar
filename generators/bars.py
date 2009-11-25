@@ -15,7 +15,7 @@ class Bars(GuiInterface):
     def __init__(self):
         self.values = []
         # TODO: change to english
-        self.id_prefixes = [ "arvo", "aika", "pylvas", "tausta" ]
+        self.id_prefixes = [ "arvo", "aika", "pylvas", "tausta", "grid" ]
         self.bg_color = "0000ff"
         self.bar_color = "ff0000"
         self.have_grid = True
@@ -32,7 +32,10 @@ class Bars(GuiInterface):
         # with open("/tmp/bars_output.svg", 'w') as f:
         #     f.write(self.output)
         # self._debug()
-
+    def _process_grid(self, index, elem):
+        if self.have_grid: return
+        p = elem.parentNode
+        p.removeChild(elem)
     def _process_tausta(self, index, elem):
         style = elem.getAttribute("style")
         ns = style.replace("fill:#0000ff;", "fill:#" + self.bg_color + ";")
@@ -101,11 +104,13 @@ class Bars(GuiInterface):
 
     def _set_grid(self, boolean):
         # logging.info("#### SET_GRID: " + str(boolean))
-        self.have_grid = boolean
+        if boolean == "true": self.have_grid = True
+        else: self.have_grid = False
 
     def _get_grid(self):
         # logging.info("#### GET_GRID: " + str(self.have_grid))
-        return self.have_grid
+        if self.have_grid: return "true"
+        else: return "false"
 
     def _set_barc(self, color):
         # logging.info("#### SET_BARCOLOR")

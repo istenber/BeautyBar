@@ -92,12 +92,12 @@ class AjaxAttributes(webapp.RequestHandler):
         else: c = ""
         out += ("Yes:<input type=\"radio\" id=\"" + n + "\"" +
                 " name=\"" + n + "\"" + c + " value=\"true\"" +
-                " onblur=\"attr.set_boolean('" + n + "', true);\">\n")
+                " onchange=\"attr.set_boolean('" + n + "', true);\">\n")
         out += " "
         if not attr.get(): c = " checked=\"true\""
         else: c = ""
         out += ("No:<input type=\"radio\" id=\"" + n + "\"" +
                 " name=\"" + n + "\"" + c + " value=\"false\"" +
-                " onblur=\"attr.set_boolean('" + n + "', false);\">\n")
+                " onchange=\"attr.set_boolean('" + n + "', false);\">\n")
         out += "\n</td>\n</tr>"
         return out
