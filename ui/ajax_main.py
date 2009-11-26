@@ -34,7 +34,13 @@ class AjaxMain(webapp.RequestHandler):
         return { 'template' : 'list' }
 
     def get_info(self):
-        return { 'template' : 'info' }
+        # TODO: these three lines to one method to generator.py
+        gf = GeneratorFactory().instance()
+        g = self.session.style.get_active_generator()
+        chart = gf.get_generator(g.name + ".py")
+        return { 'template' : 'info',
+                 'desc'     : chart.name(),
+                 }
 
     def get_edit(self):
         s = self.request.get("s")

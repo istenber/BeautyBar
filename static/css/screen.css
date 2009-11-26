@@ -5,7 +5,6 @@
 
  .width_bar { width: 15px; }
  .width_small { width: 100px; text-align: center; }
- .width_medium { width: 170px; vertical-align: top; }
  .width_half { width: 350px; text-align: center; }
  .width_most { width: 710px; }
  .width_full { width: 770px; }
@@ -32,6 +31,12 @@
  .example_small { width: 25px; }
  .example_middle { width: 50px; }
  .example_large { width: 80px; }
+
+ .generator_info {
+     width             : 170px;
+     vertical-align    : top;
+     margin            : 5px 5px 5px 5px;
+ }
 
  .attr_cell {
      height            : 25px;

@@ -63,6 +63,7 @@ generator.modify = function(val) {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		update_image();
+		update_part("info", "");
 		update_attribute_table(val);
 	    },
 	    onFailure : function() { 
