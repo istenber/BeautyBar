@@ -1,7 +1,12 @@
 <input type="hidden" id="generator_name" value="{{ cur_gen }}">
-<table>
+<table border="0">
+<tr>
 {% for part in parts %}
 {{ part }}
+{% if not forloop.last %}
+{% if forloop.counter|divisibleby:"2" %}</tr><tr>{% endif %}
+{% else %}</tr>
+{% endif %}
 {% endfor %}
 </table>
 

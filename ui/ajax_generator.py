@@ -41,6 +41,7 @@ class AjaxSetAttribute(AjaxBase):
         DAO.save(self.session.style)
         return "ok."
 
+
 # TODO: fix to use AjaxHtmlBase or similar
 class AjaxAttributes(webapp.RequestHandler):
 
@@ -78,12 +79,11 @@ class AjaxAttributes(webapp.RequestHandler):
                          "\" named \"" + attr.x_name() + "\"")
             return None
         else:
-            out = "<tr>\n"
+            out = ""
             out += self._part_common(attr)
             out += "<td class=\"attr_cell\">"
             out += eval(part_f)(attr)
             out += "</td>\n"
-            out += "</tr>\n"
             return out
 
     def _part_common(self, attr):
