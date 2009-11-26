@@ -28,6 +28,7 @@ class OutputImage(webapp.RequestHandler):
         chart = gf.get_generator(g.name + ".py")
         for attr in chart.attributes():
             v = self._unquote(g.get_attribute(attr.x_name()).value)
-            attr.set(v)
+            if v != "":
+                attr.set(v)
         self.session.data.to_generator(chart)
         return chart.output()
