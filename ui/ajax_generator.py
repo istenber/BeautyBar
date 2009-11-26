@@ -65,29 +65,38 @@ class AjaxAttributes(webapp.RequestHandler):
         values = { 'cur_gen' : g_name }
         parts = []
         for attr in generator.attributes():
-            # TODO: select parts for correct attribute type
-            #       old value, name and how to handle...
-            part_f = "self._part_" + attr.type()
-            if not hasattr(self, "_part_" + attr.type()):
-                logging.info("# Unknown attribute \"" + attr.type() +
-                             "\" named \"" + attr.x_name() + "\"")
-            else:
-                out = eval(part_f)(attr)
-                parts.append(out)
+            part = self._get_html(attr)
+            if part is not None:
+                parts.append(part)
         values["parts"] = parts
         return values
     
+    def _get_html(self, attr):
+        part_f = "self._part_" + attr.type()
+        if not hasattr(self, "_part_" + attr.type()):
+            logging.info("# Unknown attribute \"" + attr.type() +
+                         "\" named \"" + attr.x_name() + "\"")
+            return None
+        else:
+            out = "<tr>\n"
+            out += self._part_common(attr)
+            out += "<td class=\"attr_cell\">"
+            out += eval(part_f)(attr)
+            out += "</td>\n"
+            out += "</tr>\n"
+            return out
+
+    def _part_common(self, attr):
+        return "<td class=\"attr_cell\">" + attr.name() + "</td>\n"
+
     def _part_Color(self, attr):
-        return ("<tr>\n<td>" + attr.name() + "</td>\n<td>" +
-                "<input type=\"text\" id=\"" + attr.x_name() + "\"" +
-                "maxlength=\"6\" size=\"6\"" +
-                " value=\"" + attr.get() + "\" onblur=\"attr.set_color('" +
-                attr.x_name() + "');\"></td>\n</tr>")
+        return ("<input type=\"text\" id=\"" + attr.x_name() + "\"" +
+                "maxlength=\"6\" size=\"6\" value=\"" + attr.get() +
+                "\" onblur=\"attr.set_color('" + attr.x_name() + "');\">")
 
     def _part_Boolean(self, attr):
-        # TODO: set initial value based on get()
         n = attr.x_name()
-        out = "<tr>\n<td>" + attr.name() + "</td>\n<td>\n"
+        out = ""
         if attr.get(): c = " checked=\"true\""
         else: c = ""
         out += ("Yes:<input type=\"radio\" id=\"" + n + "\"" +
@@ -99,5 +108,4 @@ class AjaxAttributes(webapp.RequestHandler):
         out += ("No:<input type=\"radio\" id=\"" + n + "\"" +
                 " name=\"" + n + "\"" + c + " value=\"false\"" +
                 " onchange=\"attr.set_boolean('" + n + "', false);\">\n")
-        out += "\n</td>\n</tr>"
         return out

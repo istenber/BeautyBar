@@ -33,6 +33,8 @@
  .example_middle { width: 50px; }
  .example_large { width: 80px; }
 
+ .attr_cell { height: 25px; }
+
  .preview_image {
      width             : 300px;
      height            : 200px;
