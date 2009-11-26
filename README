@@ -8,6 +8,13 @@ TODOs
 
 <host> = beauty-bar.appspot.com
 
+Upload to google helper (PRIO 1)
+--------
++ send only files that are needed: make makefile to produce such suite
++ obfuscate javascript code (and maybe css)
++ static html pages (extrapages) can be generater before upload and stored
+  in /static/html/ -folder
+
 Control generators (PRIO 2)
 --------
 (done some, needs improvement though)
@@ -16,6 +23,12 @@ Make generators controllable through UI.
   + color
   + image (clipart vs. upload)
 + preload generator parts
++ "update" button, as now update happens onBlur (should be onblur!!!)
++ make common parameters for all generators
+  + font
+  + screen color
++ implement generator attribute setters and getters only as a parameter
++ create generator info field on right and add it gui_interface
 
 Write architecture design (PRIO 2)
 --------
@@ -39,7 +52,9 @@ Tools to process SVG (PRIO 3)
 
 Change to use JQuery library (PRIO 1)
 --------
-Design look-and-feel.
++ Design look-and-feel.
++ refactor all existing javascript code
++ modified fields, onChange: sleep 2 seconds and then do as onBlur
 
 Store images to db (PRIO 5 - POSTPONED)
 --------
@@ -70,16 +85,14 @@ Bug fixing (PRIO 3)
     and style paraller. It should be prevented with locks
     + how to implement multiuser system?
     + how about one user (aka. session) with many tabs (or windows)?
-+ DB bug, data is not saved with session!!!
-+ save should be implemented other way... we should continue modifying
-  "session name" image after save and it should remain as it was,
-  and also with load
+  + clicking buttons too fast cause active generator lost
++ Data is not saved with session, but requires "DAO.save(data)"
 + bars can now be larger than scale max - there is no checking for it
   now... do unit tests to cover these cases.
 + attributes should use "default" values, not null values
   - maybe all default values could be saved to somewhere and used from
     there?
-+ clicking buttons too fast cause active generator lost
++ range is never used, but it is still shown...
 
 Different size datasets (PRIO 3)
 --------
@@ -103,7 +116,8 @@ Make more generators (PRIO 3)
 --------
 + make default templates for common blogging schemas
 + weather diagram
-+ improve current diagrams
++ improve current generators...
+  + for example none scale data based on scale
 
 Live data sources (PRIO 5)
 --------
@@ -113,6 +127,15 @@ few nice and common examples population development through time
 
 Others (PRIO 5)
 --------
++ what if corrupted or wrong csv file is sent?
+  + other error checking and data security
+
++ split code (atleast javascript) to two versions: debug, production
+
++ import from excel, openoffice-calc, google docs (PRIO 5)
+
++ disable debug more for production server (google cloud)
+
 + add custom 404 (page missing) and 500 (server error) pages
 
 + add message db field to session, which is shown when user views
@@ -130,6 +153,7 @@ Others (PRIO 5)
   http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 
 + fix pages to XHTML compliant (PRIO 2)
+  + base.html is fixed, other pages might contain something bad.
 
 + platform stuff
   + integration to google docs
