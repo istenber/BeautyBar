@@ -12,6 +12,7 @@ import re
 from lib.svgfig import *
 
 from gui_interface import GuiInterface
+from attributes.common import Color
 
 template="generators/shiny/red.svg"
 
@@ -76,6 +77,8 @@ class Shiny(GuiInterface):
         self.attr = Shiny.__red_bar.attr
         self.colors = ["red", "blue", "green",
                        "red", "blue", "green"]
+        self.bgcolor = "000000"
+        self.screencolor = "ffffff"
         self.values = []
 
     def scale(self, min, max):
@@ -122,24 +125,49 @@ class Shiny(GuiInterface):
                    self._get_vertical_meter(),
                    self._get_horizontal_meter())
 
+    def _get_sc(self):
+        return SVG("rect", width=300, height=200, x=0, y=0, id="tausta_bg",
+                   style="fill:#" + self.screencolor + ";")
+
+    def _get_background(self):
+        return SVG("rect", width=210, height=120, x=50, y=30, id="tausta_sc",
+                   style="fill:#" + self.bgcolor + ";")
+
     def output(self):
         filters = Shiny.__red_bar[0]
         scaler = SVG("g", 
                  transform="scale(0.5)")
         self._append_bars(scaler)
         meters = self._get_meters()
-        svg = SVG("svg", filters, meters, scaler)
+        background = self._get_background()
+        sc = self._get_sc()
+        svg = SVG("svg", filters, sc, background, meters, scaler)
         svg.attr = Shiny.__red_bar.attr
         svg.attr["height"] = 200
         svg.attr["width"] = 300
-        # return "" 
         return svg.standalone_xml()
 
     def name(self):
         return "Shiny bars"
     
+    def _set_bg(self, color):
+        self.bgcolor = color
+
+    def _get_bg(self):
+        return self.bgcolor
+
+    def _set_scc(self, color):
+        self.screencolor = color
+
+    def _get_scc(self):
+        return self.screencolor
+
     def attributes(self):
-        return []
+        bg_color = Color("bgcolor", "Background Color",
+                         self._set_bg, self._get_bg)
+        screen_color = Color("scc", "Screen Color",
+                             self._set_scc, self._get_scc)
+        return [bg_color, screen_color]
 
     def disabled(self):
         return False

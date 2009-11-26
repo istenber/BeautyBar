@@ -19,19 +19,12 @@ class AjaxGenerator(AjaxBase):
 
 class AjaxSetAttribute(AjaxBase):
 
-    # TODO: refactor!!!
     def real_get(self):
-        g_name = self.request.get("gen")
-        # if g_name == "session":
-        #     g_name = self.session.style.get_active_generator().name
-
-        # TODO: make _find_generator public method
-        g = self.session.style._find_generator(g_name)
-
-        # TODO: loop with gen_r.attributes()
-        # gen_r = gf.get_generator(g_name + ".py")
-        l = ["bgcolor", "barcolor", "grid"]
-        for n in l:
+        g = self.session.style.get_active_generator()
+        gf = GeneratorFactory().instance()
+        gen_r = gf.get_generator(g.name + ".py")
+        for attr in gen_r.attributes():
+            n = attr.x_name()
             i = self.request.get(n)
             if i != "":
                 # logging.info("# got \"" + n + "\" as \"" + i + "\"")
