@@ -77,7 +77,7 @@ class Shiny(GuiInterface):
         self.attr = Shiny.__red_bar.attr
         self.colors = ["red", "blue", "green",
                        "red", "blue", "green"]
-        self.bgcolor = "000000"
+        self.bgcolor = "ffffff"
         self.screencolor = "ffffff"
         self.values = []
 
