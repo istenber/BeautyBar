@@ -24,7 +24,7 @@ class Bars(GuiInterface):
     def scale(self, min, max):
         self.step = (max - min) / 50.0
         self.min = min
-        logging.info("### X: " + str(self.step))
+        # logging.info("### step size: " + str(self.step))
         self.scale_meter = range(int(min),
                                  int(max + self.step * 10),
                                  int(self.step * 10))
