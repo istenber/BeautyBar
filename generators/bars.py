@@ -19,9 +19,15 @@ class Bars(GuiInterface):
         self.bg_color = "0000ff"
         self.bar_color = "ff0000"
         self.have_grid = True
+        self.min = 0
+        self.step = 1
     def scale(self, min, max):
-        self.step = (max - min) / 5
-        self.scale = range(min, max + self.step, self.step)
+        self.step = (max - min) / 50.0
+        self.min = min
+        logging.info("### X: " + str(self.step))
+        self.scale_meter = range(int(min),
+                                 int(max + self.step * 10),
+                                 int(self.step * 10))
         # print "# scale " + str(self.scale)
     def add(self, name, value):
         self.values.append([name, value])
@@ -45,7 +51,8 @@ class Bars(GuiInterface):
         # print "# process_pylvas: " + str(elem)
         # y = 435 - (int(self.values[index][1]) * self.step * 73 / 100)
         # h = 433 - y
-        h = int(self.values[index][1]) * 3.2
+        value = float(self.values[index][1]) - self.min
+        h = value * 3.2 / self.step
         y = 177 - h
         # print "\ty: " + str(y)
         # print "\th: " + str(h)
@@ -64,7 +71,7 @@ class Bars(GuiInterface):
         # print "# process_arvo: " + str(elem)
         tspan = elem.childNodes[0]
         old_txt = tspan.childNodes[0]
-        new_txt = self.doc.createTextNode(str(self.scale[index]))
+        new_txt = self.doc.createTextNode(str(self.scale_meter[index]))
         tspan.replaceChild(new_txt, old_txt)
     def _elem(self, elem):
         # print "elem: " + str(elem.nodeValue)
