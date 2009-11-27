@@ -2,12 +2,17 @@
 
 import logging
 
+from model.generator_factory import GeneratorFactory
+from model.utils import unquote
+
+
 class Generator(object):
 
     def __init__(self, name=""):
         self.name = name
         self.active = False
         self.attributes = []
+        self.factory = GeneratorFactory().instance()
 
     def copy(self):
         g = Generator()
@@ -24,6 +29,15 @@ class Generator(object):
         a = Attribute(name=name)
         self.attributes.append(a)
         return a
+
+    def build_chart(self, data):
+        chart = self.factory.get_generator(self.name + ".py")
+        for attr in chart.attributes():
+            v = unquote(self.get_attribute(attr.x_name()).value)
+            if v != "":
+                attr.set(v)
+        data.to_generator(chart)
+        return chart.output()
 
 
 class Attribute(object):

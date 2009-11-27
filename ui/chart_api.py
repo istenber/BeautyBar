@@ -33,6 +33,7 @@ class ChartPage(webapp.RequestHandler):
         s = session.style
         if s is None:
             return self._default_style("style not found")
+        # logging.info("# STYLE: \"" + s.name + "\"  \"" + session.name + "\"")
         return s
 
     def _default_data(self, msg):
@@ -65,13 +66,6 @@ class ChartPage(webapp.RequestHandler):
         s = self._get_style()
         d = self._get_data()
         # TODO: handle size (chs)
-        g_name = s.get_active_generator().name
-        self.response.out.write(self._get_generator(d, g_name))
-
-    def _get_generator(self, data, name):
+        g = s.get_active_generator()
         logging.debug("# ChartAPI")
-        gf = GeneratorFactory().instance()
-        chart = gf.get_generator(name + ".py")
-        chart.scale(0, 50)
-        data.to_generator(chart)
-        return chart.output()
+        self.response.out.write(g.build_chart(d))
