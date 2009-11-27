@@ -3,29 +3,30 @@
 import logging
 
 
+def to_float(value):
+    try:
+        out = float(value)
+    except ValueError, er:
+        out = 0
+    return out
+
+
 class Item(object):
 
     def __init__(self, name="", value=0, row=0):
         self.name = name
-        self.value = self._to_int(value)
+        self.value = to_float(value)
         # TODO: row range?!
         self.row = row
-        
-    def _to_int(self, value):
-        try:
-            out = int(value)
-        except ValueError, er:
-            out = 0
-        return out
 
     def set_name(self, name):
         self.name = name
 
     def set_value(self, value):
-        self.value = self._to_int(value)
+        self.value = to_float(value)
 
     def set_row(self, name):
-        self.row = self._to_int(row)
+        self.row = int(row)
 
     def copy(self):
         i = Item()
@@ -37,7 +38,7 @@ class Item(object):
 
 class Data(object):
 
-    def __init__(self, name="", min=0, max=50):
+    def __init__(self, name="", min=0.0, max=50.0):
         self.name = name
         self.locked = False
         self.min = min
@@ -46,9 +47,9 @@ class Data(object):
 
     def value_ok(self, value, min=None, max=None):
         try:
-            value = int(value)
+            value = float(value)
         except ValueError, er:
-            # logging.info("# value is not integer: " + str(value))
+            # logging.info("# value is not float: " + str(value))
             return False
         if min is None: min = self.min
         if max is None: max = self.max
@@ -72,16 +73,28 @@ class Data(object):
         return True
 
     def set_max(self, max):
+        try:
+            max = float(max)
+        except ValueError, er:
+            logging.info("# max: \"" + str(max) + "\" is not float")
+            return self.max
         if self._all_in_range(self.min, max):
             self.max = max
         else:
             logging.info("# Try to set max too low?")
+        return self.max
 
     def set_min(self, min):
+        try:
+            min = float(min)
+        except ValueError, er:
+            logging.info("# min: \"" + str(min) + "\" is not float")
+            return self.max
         if self._all_in_range(min, self.max):
             self.min = min
         else:
             logging.info("# Try to set min too high?")
+        return self.min
 
     def as_list(self):
         return self.items
@@ -107,12 +120,12 @@ class Data(object):
     @staticmethod
     def default():
         d = Data()
-        d.items.append(Item("a", "10"))
-        d.items.append(Item("b", "15"))
-        d.items.append(Item("c", "20"))
-        d.items.append(Item("d", "30"))
-        d.items.append(Item("e", "40"))
-        d.items.append(Item("f", "50"))
+        d.items.append(Item("a", 10.0))
+        d.items.append(Item("b", 15.0))
+        d.items.append(Item("c", 20.0))
+        d.items.append(Item("d", 30.0))
+        d.items.append(Item("e", 40.0))
+        d.items.append(Item("f", 50.0))
         return d
     
     def __str__(self):

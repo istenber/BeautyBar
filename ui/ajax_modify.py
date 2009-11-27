@@ -22,13 +22,11 @@ class AjaxModify(AjaxBase):
         min = self.request.get("min")
         max = self.request.get("max")
         if min != "":
-            logging.info("# setting min to " + min)
-            self.data.set_min(int(min))
-            return self.data.min
+            # logging.info("# setting min to " + min)
+            return self.data.set_min(min)
         if max != "": 
-            logging.info("# setting max to " + max)
-            self.data.set_max(int(max))
-            return self.data.max
+            # logging.info("# setting max to " + max)
+            return self.data.set_max(max)
 
     def _handle_data_update(self):
         # TODO: hacky code, needs refactoring...

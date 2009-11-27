@@ -195,8 +195,8 @@ class DAO(db.Model):
 class DataDAO(DAO):
     name = db.StringProperty()
     locked = db.BooleanProperty()
-    min = db.IntegerProperty()
-    max = db.IntegerProperty()
+    min = db.FloatProperty()
+    max = db.FloatProperty()
 
     def lists(self):
         return ["items"]
@@ -260,7 +260,7 @@ class AttributeDAO(DAO):
 
 class ItemDAO(DAO):
     name = db.StringProperty()
-    value = db.IntegerProperty()
+    value = db.FloatProperty()
     row = db.IntegerProperty()
     data_ref = db.ReferenceProperty(DataDAO)
 
