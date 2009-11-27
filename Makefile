@@ -1,4 +1,5 @@
-DEV_SERVER="../google_appengine/dev_appserver.py"
+DEV_SERVER=../google_appengine/dev_appserver.py
+JS_FILE=static/js/beautybar.js
 
 all:
 	python2.5 $(DEV_SERVER) .
@@ -6,6 +7,10 @@ all:
 dbview:
 	dia doc/database.dia -e /tmp/database.png
 	eog /tmp/database.png
+
+obfusc-js:
+	# obfuscator got from http://www.shaneng.net/Main/JavaScriptObfuscator
+	java -jar utils/jso.jar $(JS_FILE) > $(JS_FILE)-obfs
 
 update:
 	@echo "1. edit app.yaml: add version number 1"
