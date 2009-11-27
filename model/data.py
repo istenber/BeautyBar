@@ -45,6 +45,15 @@ class Data(object):
         self.max = max
         self.items = []
 
+    def is_valid(self):
+        if len(self.items) != 6:
+            logging.info("# Wrong number of items: " + str(len(self.items)))
+            return False
+        if not self._all_in_range(self.min, self.max):
+            logging.info("# Some items out of range")
+            return False
+        return True
+
     def value_ok(self, value, min=None, max=None):
         try:
             value = float(value)

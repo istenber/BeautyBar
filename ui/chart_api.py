@@ -24,15 +24,15 @@ class ChartPage(webapp.RequestHandler):
 
     def _get_style(self):
         name = self.request.get("cht")
-        if name == "": return self._default_style("missing style")
+        if name == "": return self._default_style("Missing style")
         # TODO: now style loading is based on session, fix it to
         #       use style when there is style naming
         session = DAO.load(name=name, class_name="Session")
         if session is None:
-            return self._default_style("session \"" + name + "\" not found")
+            return self._default_style("Session \"" + name + "\" not found")
         s = session.style
         if s is None:
-            return self._default_style("style not found")
+            return self._default_style("Style not found")
         # logging.info("# STYLE: \"" + s.name + "\"  \"" + session.name + "\"")
         return s
 
@@ -42,21 +42,35 @@ class ChartPage(webapp.RequestHandler):
 
     def _get_data(self):
         values = self.request.get("chd")
-        if values == "": return self._default_data("missing data values")
+        if values == "": return self._default_data("Missing data values")
         names = self.request.get("chl")
-        if names == "": return self._default_data("missing data names")
-        if values[:2] != "t:": return self._default_data("incorrect data (t:)")
+        if names == "": return self._default_data("Missing data names")
+        encode = values[:2]
+        if encode != "t:":
+            if encode == "e:":
+                return self._default_data("Extended encoding \":e\" is not " +
+                                          "supported yet.")
+            if encode == "s:":
+                return self._default_data("Simple encoding \":s\" is not " +
+                                          "supported yet.")
+            return self._default_data("Incorrect encoding: only supported is" +
+                                      "\":t\", not \"" + encode + "\"")
         v_list = values[2:].split(",")
         n_list = names.split("|")
         if len(v_list) != len(n_list):
-            return self._default_data("names len is not equal to values len")
+            return self._default_data("Names len is not equal to values len")
         # TODO: fixme
         if len(v_list) != 6:
-            return self._default_data("wrong amount of data")
+            return self._default_data("Wrong amount of data")
         d = Data()
+        # TODO: these are for text encoding ":t"
+        d.set_min(0)
+        d.set_max(100)
         for i in range(0, 6):
             d.add_item(Item(n_list[i], v_list[i]))
             # logging.info("# (" + str(n_list[i]) + ":" + str(v_list[i]) + ")")
+        if not d.is_valid():
+            return self._default_data("Problems with data")
         return d
 
     def get(self):
@@ -67,5 +81,5 @@ class ChartPage(webapp.RequestHandler):
         d = self._get_data()
         # TODO: handle size (chs)
         g = s.get_active_generator()
-        logging.debug("# ChartAPI")
+        # logging.debug("# ChartAPI")
         self.response.out.write(g.build_chart(d))
