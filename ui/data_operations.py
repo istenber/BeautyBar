@@ -87,8 +87,7 @@ class ImportData(webapp.RequestHandler):
     def _parse_csv(self, csv):
         lines = []
         for line in csv.splitlines():
-            line.strip()
-            if line == "": continue
+            if line.strip() == "": continue
             lines.append(line)
         if len(lines) < Data.max_len():
             logging.info("# Too few lines (" + str(len(lines)) + ") in CSV")
@@ -102,8 +101,8 @@ class ImportData(webapp.RequestHandler):
                     logging.info("# Error in CSV line: \"" + line + "\"")
                     return None
                 if len(vals) == 2:
-                    name = unquote(vals[0].strip())
-                    value = unquote(vals[1].strip())
+                    name = unquote(vals[0])
+                    value = unquote(vals[1])
                     if not d.add_item(Item(name, value)):
                         logging.info("# Incorrect item")
                         return None
