@@ -8,9 +8,12 @@ from model.session import Session
 from model.output import Output
 from model.style import Style
 from ui.dao import DAO
+from model.utils import unquote
+
 
 def _generate_session_id():
-    return str(random.randint(1, 10000000))
+    import uuid
+    return str(uuid.uuid4())
 
 def make_clean_session():
     ses = Session(name=_generate_session_id())
@@ -27,6 +30,7 @@ def make_clean_session():
     DAO.save(ses)
     return ses
 
+
 # TODO: note saves data AND style
 class SaveData(webapp.RequestHandler):
     def post(self):
@@ -38,6 +42,7 @@ class SaveData(webapp.RequestHandler):
         copy.name = new_name
         DAO.save(copy)
         self.redirect("/")
+
 
 # TODO: note loads data AND style
 class LoadData(webapp.RequestHandler):
@@ -59,7 +64,9 @@ class LoadData(webapp.RequestHandler):
         DAO.save(session)
         self.redirect("/")
 
+
 class ImportData(webapp.RequestHandler):
+
     def post(self):
         logging.info("import data")
         file = self.request.get("f_file")
@@ -67,26 +74,43 @@ class ImportData(webapp.RequestHandler):
         if self.request.cookies.has_key("session"):
             name = str(self.request.cookies["session"])
             session = DAO.load(name=name, class_name="Session")
-        self.data = Data()
-        self._parse_csv(file, self._append_data)
-        session.data = self.data
-        DAO.save(session)
+        d = self._parse_csv(file)
+        if d is not None:
+            session.data = d
+            DAO.save(session)
         self.redirect("/")
 
-    def _append_data(self, name, value):
-        self.data.add_item(Item(name, value))
-
-    def _parse_csv(self, csv, f):
+    # Not fully compliant with csv, as ...
+    # 1. "e accept following separators ,.:\t
+    # 2. Don't allow multiline messages
+    # 3. Allow only lines with two values, all others are ignored
+    def _parse_csv(self, csv):
+        lines = []
         for line in csv.splitlines():
+            line.strip()
             if line == "": continue
-            try:
-                (name, value) = line.split(",")
-            except ValueError, e:
-                print str(e) + " in \"" + line + "\""
-                continue
-            name = name.strip()
-            value = value.strip()
-            f(name, value)
+            lines.append(line)
+        if len(lines) < Data.max_len():
+            logging.info("# Too few lines (" + str(len(lines)) + ") in CSV")
+            return None
+        for delim in [",", ".", ":", "\t"]:
+            d = Data()
+            for line in lines:
+                try:
+                    vals = line.split(delim)
+                except ValueError, e:
+                    logging.info("# Error in CSV line: \"" + line + "\"")
+                    return None
+                if len(vals) == 2:
+                    name = unquote(vals[0].strip())
+                    value = unquote(vals[1].strip())
+                    if not d.add_item(Item(name, value)):
+                        logging.info("# Incorrect item")
+                        return None
+            if d.is_valid(): return d
+        logging.info("# Cannot parse CSV")
+        return None
+
 
 class CleanData(webapp.RequestHandler):
     def get(self):

@@ -3,6 +3,9 @@
 import logging
 
 
+data_max_len=6
+
+
 def to_float(value):
     try:
         out = float(value)
@@ -46,7 +49,7 @@ class Data(object):
         self.items = []
 
     def is_valid(self):
-        if len(self.items) != 6:
+        if len(self.items) != data_max_len:
             logging.info("# Wrong number of items: " + str(len(self.items)))
             return False
         if not self._all_in_range(self.min, self.max):
@@ -67,13 +70,17 @@ class Data(object):
         return (value <= max and value >= min)
 
     def add_item(self, item):
-        if len(self.items) < 6:
+        if len(self.items) < data_max_len:
             if self.value_ok(item.value):
                 self.items.append(item)
+                return True
             else:
-                logging.info("# Object not in range")
+                logging.info("# Object (" + item.name + ":" +
+                             str(item.value) + ") not in range")
+                return False
         else:
             logging.info("# Too many objects")
+            return False
 
     def _all_in_range(self, min, max):
         for item in self.items:
@@ -109,7 +116,7 @@ class Data(object):
         return self.items
 
     def to_generator(self, generator):
-        if len(self.items) != 6:
+        if len(self.items) != data_max_len:
             logging.info("# Too few items: " + str(len(self.items)))
         for item in self.items:
             generator.add(item.name, item.value)
@@ -126,8 +133,12 @@ class Data(object):
             d.items.append(item.copy())
         return d
 
-    @staticmethod
-    def default():
+    @classmethod
+    def max_len(self):
+        return data_max_len
+
+    @classmethod
+    def default(self):
         d = Data()
         d.items.append(Item("a", 10.0))
         d.items.append(Item("b", 15.0))
