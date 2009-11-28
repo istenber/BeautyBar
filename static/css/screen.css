@@ -79,8 +79,8 @@
 
  body {
      background-color  : white;
-     font-face         : Arial;
+     font-family       : Sans-serif;
+     color             : black;
  }
 
- /* TODO: remove this as unused */
- a img {border: none;}
+ a img { border: none; }
