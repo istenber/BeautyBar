@@ -92,7 +92,7 @@ Bug fixing (PRIO 3)
 + attributes should use "default" values, not null values
   - maybe all default values could be saved to somewhere and used from
     there?
-+ range is never used, but it is still shown...
++ link to style does not work! do styles work at all?
 
 Different size datasets (PRIO 3)
 --------
@@ -124,6 +124,30 @@ Live data sources (PRIO 5)
 data sources directly from common sources (e.g. UN free data + stat.fi)
 few nice and common examples population development through time
 + do we need separate "data-conversion service for this?"
+
+DAO redo (PRIO 5)
+--------
+create dao model totally different way: lets do not have DAO mapper
+class but instead all dao classes should derive from object class
+and we should have IOCs for creating classes
+
+class Data(object):
+  def __init__(self):
+    self.item_factory = Item
+  def set_item_factory(self, item_factory):
+    self.item_factory = item_factory
+  def add_item(self, name, val):
+    self.items.append(eval(self.item_factory)(name, val))
+
+class Item(object):
+  pass
+
+class ItemDAO(db.model):
+  pass
+
+class mainprog():
+  Data.set_item_factory(ItemDAO)
+
 
 Others (PRIO 5)
 --------
@@ -159,6 +183,10 @@ Others (PRIO 5)
   + integration to google docs
   + save data with google account
 
++ move all unneeded files from generators/<name>/ to doc
+
++ use http://www.google.com/analytics/
+
 + logic
   + calculate statistics (PRIO 4)
   + calculate how much processing power is used (PRIO 6 - OPTIMIZATION)
@@ -176,6 +204,15 @@ Others (PRIO 5)
 + make development version to run offline as well,
   currenty it uses google ajax api
 
++ add title to charts
++ add name for chart axis
+
++ rename /generator to /chart and use naming generator for model part and
+  chart for isolated part
+
++ make some charts interactive like "http://g.raphaeljs.com/" style
+  when user presses "export interactive svg"
+
 Required skills
 ------------------------
   + marketing   - to get users
@@ -192,10 +229,3 @@ SVGWeb
 SVGFig
 Google App Engine / Python
 (Inkscape)
-
-Run
-------------------------
-
-cd ..
-python2.5 ./app-engine/dev_appserver.py beautybar/
-
