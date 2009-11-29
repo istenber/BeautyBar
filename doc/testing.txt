@@ -1,0 +1,43 @@
+Testing plan
+--------------
+
+BeautyBar program can be diveded in three very different kind of groups,
+which all have different needs for testing as well as different ways to
+make simple and effective testing. Testing should be automatic (gen-1)
+and show results when run "make test" (gen-2).
+
+Testing areas are described below:
+
+"ui"
+--------------
+"ui" parts are entrance point for web users. It is important that we
+don't have "dead links" or security holes. Therefore we need to make
+automated tests to verify that all pages are shown (ui-1), and that
+links in templates point to something working (ui-2). Some pages are
+meant only for maintainer and therefore should not be accesible without
+password login (ui-3). We should also verify that data is stored
+correctly (ui-4) - meaning that after save program is still working.
+
+"model"
+--------------
+"model" contains logical processing and have very strong coupling 
+between classes. Therefore we have to verify that logic works with
+unit tests (model-1). There are also few utils and general use classes.
+For those we need to provide good unit tests (model-2) and also
+usage examples which should be verified with doctests (model-3).
+
+"generators"
+--------------
+All "generators" share same interface towards model, so we should make
+testing program to verify that all generatator works according the
+interface specification (generators-1). Testing program should try to
+build basic charts (generators-2) and charts with all limit values: 
+minimums and maximums (generators-3). It should also verify that all 
+required interface functions exists and work (generators-4).
+
+Others
+--------------
+- Javascript testing
+- External libraries (svgweb, svgfig) testing
+- Non-functional testing: usability, reachability
+
