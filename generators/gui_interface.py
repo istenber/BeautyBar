@@ -51,8 +51,7 @@ def main():
         # TODO: buggy Python, we cannot use 
         #   if isinstance(generator, GuiInterface):
         for base in generator.__class__.__bases__:
-            print str(base)
-            if str(base) == "<class 'gui_interface.GuiInterface'>":
+            if str(base.__name__) == "GuiInterface":
                 return True
         print "# not derived from GuiInterface"
         print "#  " + str(generator.__class__.__bases__)
