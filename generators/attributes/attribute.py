@@ -1,5 +1,5 @@
 # TODO: read from dir?
-acceptable_types = ["Color", "Choice"]
+acceptable_types = ["Color", "Boolean"]
 
 
 class Attribute(object):
