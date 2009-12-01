@@ -50,7 +50,8 @@ def main():
              ('/output_image', OutputImage)]
     application = webapp.WSGIApplication(pages +
                                          test_pages +
-                                         get_admin_pages(),
+                                         get_admin_pages() +
+                                         [('/.*', MainPage)],
                                          debug=debug)
     run_wsgi_app(application)
 
