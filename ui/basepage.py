@@ -45,7 +45,7 @@ class ActivePage(Page):
             session_name = str(self.request.cookies["session"])
             self.session = DAO.load(name=session_name, class_name="Session")
             if not self.session:
-                self.session = make_clean_session()
+                self.session = make_clean_session(self.request.remote_addr)
         else:
-            self.session = make_clean_session()
+            self.session = make_clean_session(self.request_remote_addr)
         self.response.headers['Set-Cookie'] = "session=" + self.session.name

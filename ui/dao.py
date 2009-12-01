@@ -241,6 +241,7 @@ class OutputDAO(DAO):
 
 class SessionDAO(DAO):
     name = db.StringProperty()
+    ip_address = db.StringProperty()
     data_ref = db.ReferenceProperty(DataDAO)
     style_ref = db.ReferenceProperty(StyleDAO)
     output_ref = db.ReferenceProperty(OutputDAO)

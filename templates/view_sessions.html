@@ -13,6 +13,7 @@
 {% for session in sessions %}
 <tr>
 <td valign="top"><h3>session: {{ session.name }}</h3>
+IP address: {{ session.ip_address }}<br />
 <object data="/output_image?session={{ session.name }}" 
 	type="image/svg+xml" height="200" width="300" />
 </td>

@@ -15,7 +15,7 @@ def _generate_session_id():
     import uuid
     return str(uuid.uuid4())
 
-def make_clean_session():
+def make_clean_session(ip_address):
     ses = Session(name=_generate_session_id())
     data = Data.default()
     data.locked = True
@@ -27,6 +27,7 @@ def make_clean_session():
     ses.data = data
     ses.output = output
     ses.style = style
+    ses.ip_address = str(ip_address)
     DAO.save(ses)
     return ses
 
@@ -117,6 +118,6 @@ class CleanData(webapp.RequestHandler):
     def post(self):
         self._clean()
     def _clean(self):
-        session = make_clean_session()
+        session = make_clean_session(self.request.remote_addr)
         self.response.headers['Set-Cookie'] = "session=" + session.name
         self.redirect("/")
