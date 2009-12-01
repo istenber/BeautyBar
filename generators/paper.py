@@ -1,25 +1,22 @@
-#!/usr/bin/env python
-
 import logging
 
 from xml.dom import minidom
-
-from gui_interface import GuiInterface
+from base import BaseGenerator
 
 # TODO: read path with some other way?
 template="generators/paper/template.svg"
 
-class Paper(GuiInterface):
+class Paper(BaseGenerator):
 
     def __init__(self):
         self.values = []
         # TODO: change to english
         self.id_prefixes = [ "arvo", "nimi", "pylvas" ]
-    def scale(self, min, max):
+    def set_range(self, min, max):
         self.step = (max - min) / 5
         self.scale = range(min, max + self.step, self.step)
         # print "# scale " + str(self.scale)
-    def add(self, name, value):
+    def add_row(self, name, value, index=None):
         self.values.append([name, value])
     def output(self):
         self.doc = minidom.parse(template)
@@ -79,26 +76,8 @@ class Paper(GuiInterface):
         out = out[:-1] + ")"
         return out
 
-    def name(self):
+    def get_ui_name(self):
         return "Paper bars"
     
-    def attributes(self):
+    def get_attributes(self):
         return []
-
-    def disabled(self):
-        return False
-
-def main():
-    logging.getLogger().setLevel(logging.DEBUG)
-    paper = Paper()
-    paper.scale(0, 50)
-    paper.add("Ilpo", 28)
-    paper.add("Lasse", 24)
-    paper.add("Sanna", 27)
-    paper.add("Ilpo", 28)
-    paper.add("Lasse", 24)
-    paper.add("Sanna", 27)
-    print paper.output()
-
-if __name__ == "__main__":
-    main()

@@ -23,7 +23,7 @@ class AjaxSetAttribute(AjaxBase):
         g = self.session.style.get_active_generator()
         gf = GeneratorFactory().instance()
         gen_r = gf.get_generator(g.name + ".py")
-        for attr in gen_r.attributes():
+        for attr in gen_r.get_attributes():
             n = attr.x_name()
             i = self.request.get(n)
             if i != "":
@@ -58,7 +58,7 @@ class AjaxAttributes(webapp.RequestHandler):
         generator = gf.get_generator(g_name + ".py")
         values = { 'cur_gen' : g_name }
         parts = []
-        for attr in generator.attributes():
+        for attr in generator.get_attributes():
             part = self._get_html(attr)
             if part is not None:
                 parts.append(part)

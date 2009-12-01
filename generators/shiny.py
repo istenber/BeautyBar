@@ -1,17 +1,16 @@
-#!/usr/bin/env python
-
 # TODO: remove!
 if __name__ == "__main__":
     import sys
     LIB_PATH = "/home/sankari/dev/beautybar/"
     sys.path.append(LIB_PATH)
 
+
 import logging
 import re
 
 from lib.svgfig import *
 
-from gui_interface import GuiInterface
+from base import BaseGenerator
 from attributes.common import Color
 
 template="generators/shiny/red.svg"
@@ -67,7 +66,7 @@ class Bar(object):
         self.bar[1, 1] = ""
         self.bar[1, 2] = ""
 
-class Shiny(GuiInterface):
+class Shiny(BaseGenerator):
     __red_bar = None
 
     def __init__(self):
@@ -81,11 +80,11 @@ class Shiny(GuiInterface):
         self.screencolor = "ffffff"
         self.values = []
 
-    def scale(self, min, max):
+    def set_range(self, min, max):
         # TODO: some functionality?
         pass
     
-    def add(self, name, value):
+    def add_row(self, name, value, index=None):
         self.values.append([name, value])
 
     def _append_bars(self, scaler):
@@ -147,9 +146,10 @@ class Shiny(GuiInterface):
         svg.attr["width"] = 300
         return svg.standalone_xml()
 
-    def name(self):
+    def get_ui_name(self):
         return "Shiny bars"
-    
+
+    # TODO: remove getters and setters
     def _set_bg(self, color):
         self.bgcolor = color
 
@@ -162,28 +162,9 @@ class Shiny(GuiInterface):
     def _get_scc(self):
         return self.screencolor
 
-    def attributes(self):
+    def get_attributes(self):
         bg_color = Color("bgcolor", "Background Color",
                          self._set_bg, self._get_bg)
         screen_color = Color("scc", "Screen Color",
                              self._set_scc, self._get_scc)
         return [bg_color, screen_color]
-
-    def disabled(self):
-        return False
-
-
-def main():
-    logging.getLogger().setLevel(logging.DEBUG)
-    bars = Shiny()
-    bars.scale(0, 50)
-    bars.add("Ilpo", 28)
-    bars.add("Lasse", 24)
-    bars.add("Sanna", 27)
-    bars.add("Ilpo", 28)
-    bars.add("Lasse", 24)
-    bars.add("Sanna", 27)
-    print bars.output()
-
-if __name__ == "__main__":
-    main()

@@ -16,7 +16,7 @@ class Style(object):
     @staticmethod
     def default():
         s = Style("default style")
-        g = Generator("bars")
+        g = Generator("standard")
         g.active = True
         s.generators.append(g)
         return s

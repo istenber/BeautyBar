@@ -39,7 +39,7 @@ class AjaxMain(webapp.RequestHandler):
         g = self.session.style.get_active_generator()
         chart = gf.get_generator(g.name + ".py")
         return { 'template' : 'info',
-                 'desc'     : chart.name(),
+                 'desc'     : chart.get_ui_name(),
                  }
 
     def get_edit(self):

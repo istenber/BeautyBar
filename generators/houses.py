@@ -1,15 +1,14 @@
-#!/usr/bin/env python
-
 import logging
 
 from xml.dom import minidom
-
-from gui_interface import GuiInterface
+from base import BaseGenerator
 from attributes.common import Color
+
 
 # TODO: read path with some other way?
 template="generators/houses/base.svg"
 houses_template="generators/houses/all-houses.svg"
+
 
 class House(object):
     def parse(self):
@@ -31,17 +30,18 @@ class House(object):
         for child in elem.childNodes:
             self._elem(child)
 
-class Houses(GuiInterface):
+
+class Houses(BaseGenerator):
 
     def __init__(self):
         self.values = []
         # TODO: change to english
         self.id_prefixes = [ "arvo", "aika" ]
-    def scale(self, min, max):
+    def set_range(self, min, max):
         self.step = (max - min) / 5
         self.scale = range(min, max + self.step, self.step)
         # print "# scale " + str(self.scale)
-    def add(self, name, value):
+    def add_row(self, name, value, index=None):
         self.values.append([name, value])
     def output(self):
         self.doc = minidom.parse(template)
@@ -102,31 +102,10 @@ class Houses(GuiInterface):
         out = out[:-1] + ")"
         return out
 
-    def name(self):
+    def get_ui_name(self):
         return "House bars"
     
-    def attributes(self):
+    def get_attributes(self):
         bg = Color("bgcolor", "Background Color", None, None)
-        return [bg]
-
-    def disabled(self):
-        return True
-
-def main():
-    logging.getLogger().setLevel(logging.DEBUG)
-    house = House()
-    house.parse()
-
-def xxx():
-    houses = Houses()
-    houses.scale(0, 50)
-    houses.add("small", 10)
-    houses.add("large", 48)
-    houses.add("largetoo", 47)
-    houses.add("smalltoo", 12)
-    houses.add("medium", 23)
-    houses.add("last", 33)
-    print houses.output()
-
-if __name__ == "__main__":
-    main()
+        # TODO: add...
+        return []

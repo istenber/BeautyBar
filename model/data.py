@@ -119,8 +119,9 @@ class Data(object):
         if len(self.items) != data_max_len:
             logging.info("# Too few items: " + str(len(self.items)))
         for item in self.items:
-            generator.add(item.name, item.value)
-        generator.scale(self.min, self.max)
+            # TODO: use row index
+            generator.add_row(item.name, item.value)
+        generator.set_range(self.min, self.max)
 
     def copy(self):
         d = Data()

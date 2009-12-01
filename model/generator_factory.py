@@ -5,7 +5,8 @@ import logging
 
 from singleton import Singleton
 
-skip_files = ["__init__.py", "gui_interface.py", "skel.py"]
+# TODO: move code to generators/base.py
+
 generators_folder = "generators"
 
 class Simple(object):
@@ -15,16 +16,17 @@ class Simple(object):
 class GeneratorFactory(Singleton):
 
     def __init__(self):
+        self.generators = []
         self._update()
 
     def _update(self):    
-        files = os.listdir(generators_folder)
-        self.generators = []
-        files.sort()
-        for file in files:
-            if file in skip_files: continue
-            if file.endswith(".py"):
-                self.generators.append(self.get_generator(file))
+        # files = os.listdir(generators_folder)
+        # files = os.listdir(generators_folder)
+        # files.sort()
+        for generator in ["standard", "shiny", "houses", "paper"]:
+            #if file in skip_files: continue
+            #if file.endswith(".py"):
+            self.generators.append(self.get_generator(generator + ".py"))
 
     def get_generator(self, file):
         classname = file[:-3].capitalize()
@@ -35,7 +37,7 @@ class GeneratorFactory(Singleton):
                 return eval(classname)()
             except ImportError, error:
                 logging.info("missing generator: " + modulename)
-        return None # TODO: or skel generator?            
+        return None # TODO: or skel generator?
 
     @classmethod
     def list(self):
@@ -53,7 +55,7 @@ def main():
     g = GeneratorFactory()
     print "generators: " + str(g.list())
     for one in g.list():
-        print "-> " + str(one.name())
+        print "-> " + str(one.get_ui_name())
 
 if __name__ == "__main__":
     main()

@@ -1,16 +1,14 @@
-#!/usr/bin/env python
-
 import logging
 
 from xml.dom import minidom
 
-from gui_interface import GuiInterface
+from base import BaseGenerator
 from attributes.common import Color, Boolean
 
 # TODO: read path with some other way?
-template="generators/bars/template.svg"
+template="generators/standard/template.svg"
 
-class Bars(GuiInterface):
+class Standard(BaseGenerator):
 
     def __init__(self):
         self.values = []
@@ -21,7 +19,7 @@ class Bars(GuiInterface):
         self.have_grid = True
         self.min = 0
         self.step = 1
-    def scale(self, min, max):
+    def set_range(self, min, max):
         self.step = (max - min) / 50.0
         self.min = min
         # logging.info("### step size: " + str(self.step))
@@ -29,7 +27,7 @@ class Bars(GuiInterface):
                                  int(max + self.step * 10),
                                  int(self.step * 10))
         # print "# scale " + str(self.scale)
-    def add(self, name, value):
+    def add_row(self, name, value, index=None):
         self.values.append([name, value])
     def output(self):
         self.doc = minidom.parse(template)
@@ -127,10 +125,10 @@ class Bars(GuiInterface):
         # logging.info("#### GET_BARCOLOR")
         return self.bar_color
 
-    def name(self):
+    def get_ui_name(self):
         return "Simple bars"
     
-    def attributes(self):
+    def get_attributes(self):
         bg_color = Color("bgcolor", "Background Color", 
                          self._set_bg, self._get_bg)
         bar_color = Color("barcolor", "Color of bars",
@@ -138,21 +136,3 @@ class Bars(GuiInterface):
         grid = Boolean("grid", "Grid",
                        self._set_grid, self._get_grid)
         return [bg_color, bar_color, grid]
-
-    def disabled(self):
-        return False
-
-def main():
-    logging.getLogger().setLevel(logging.DEBUG)
-    bars = Bars()
-    bars.scale(0, 50)
-    bars.add("Ilpo", 28)
-    bars.add("Lasse", 24)
-    bars.add("Sanna", 27)
-    bars.add("Ilpo", 28)
-    bars.add("Lasse", 24)
-    bars.add("Sanna", 27)
-    print bars.output()
-
-if __name__ == "__main__":
-    main()

@@ -32,7 +32,7 @@ class Generator(object):
 
     def build_chart(self, data):
         chart = self.factory.get_generator(self.name + ".py")
-        for attr in chart.attributes():
+        for attr in chart.get_attributes():
             v = unquote(self.get_attribute(attr.x_name()).value)
             if v != "":
                 attr.set(v)

@@ -4,13 +4,13 @@
 <tr>
 {% for generator in generators %}
 <td>
-<img src="/images/{{ generator.x_name }}-bars.png" {% if not generator.disabled %}onclick="gen('{{ generator.x_name }}');"{% endif %} />
+<img src="/images/{{ generator.get_name }}-bars.png" onclick="gen('{{ generator.get_name }}');" />
 </td>
 {% endfor %}
 </tr>
 </table>
 
-<h3>Attributes for <i><span id="gen_name">{{ cur_gen.name }}</span></i> generator</h3>
+<h3>Attributes for <i><span id="gen_name">{{ cur_gen.get_ui_name }}</span></i> generator</h3>
 
 <span id="attribute_table">
 <br /><center>Attribute table loading...</center>
