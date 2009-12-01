@@ -99,40 +99,11 @@ class Standard(BaseGenerator):
         out = out[:-1] + ")"
         return out
 
-    def _set_bg(self, color):
-        # logging.info("#### SET_BGCOLOR")
-        self.bgcolor = color
-
-    def _get_bg(self):
-        # logging.info("#### GET_BGCOLOR")
-        return self.bgcolor
-
-    def _set_grid(self, boolean):
-        # logging.info("#### SET_GRID: " + str(boolean))
-        if boolean == "true": self.has_grid = True
-        else: self.has_grid = False
-
-    def _get_grid(self):
-        # logging.info("#### GET_GRID: " + str(self.has_grid))
-        if self.has_grid: return "true"
-        else: return "false"
-
-    def _set_barc(self, color):
-        # logging.info("#### SET_BARCOLOR")
-        self.barcolor = color
-
-    def _get_barc(self):
-        # logging.info("#### GET_BARCOLOR")
-        return self.barcolor
-
     def get_ui_name(self):
         return "Simple bars"
     
     def get_attributes(self):
-        bgcolor = Color("bgcolor", "Background Color",
-                         self._set_bg, self._get_bg)
-        barcolor = Color("barcolor", "Color of bars",
-                          self._set_barc, self._get_barc)
-        has_grid = Boolean("grid", "Grid",
-                       self._set_grid, self._get_grid)
+        bgcolor = Color(self, "bgcolor", "Background Color")
+        barcolor = Color(self, "barcolor", "Color of bars")
+        has_grid = Boolean(self, "has_grid", "Grid")
         return [bgcolor, barcolor, has_grid]

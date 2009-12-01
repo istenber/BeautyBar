@@ -149,22 +149,7 @@ class Shiny(BaseGenerator):
     def get_ui_name(self):
         return "Shiny bars"
 
-    # TODO: remove getters and setters
-    def _set_bg(self, color):
-        self.bgcolor = color
-
-    def _get_bg(self):
-        return self.bgcolor
-
-    def _set_scc(self, color):
-        self.screencolor = color
-
-    def _get_scc(self):
-        return self.screencolor
-
     def get_attributes(self):
-        bgcolor = Color("bgcolor", "Background Color",
-                         self._set_bg, self._get_bg)
-        screencolor = Color("scc", "Screen Color",
-                             self._set_scc, self._get_scc)
+        bgcolor = Color(self, "bgcolor", "Background Color")
+        screencolor = Color(self, "screencolor", "Screen Color")
         return [bgcolor, screencolor]

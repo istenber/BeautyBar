@@ -24,7 +24,7 @@ class AjaxSetAttribute(AjaxBase):
         gf = GeneratorFactory().instance()
         gen_r = gf.get_generator(g.name + ".py")
         for attr in gen_r.get_attributes():
-            n = attr.x_name()
+            n = attr.get_name()
             i = self.request.get(n)
             if i != "":
                 # logging.info("# got \"" + n + "\" as \"" + i + "\"")
@@ -66,10 +66,10 @@ class AjaxAttributes(webapp.RequestHandler):
         return values
     
     def _get_html(self, attr):
-        part_f = "self._part_" + attr.type()
-        if not hasattr(self, "_part_" + attr.type()):
-            logging.info("# Unknown attribute \"" + attr.type() +
-                         "\" named \"" + attr.x_name() + "\"")
+        part_f = "self._part_" + attr.get_type()
+        if not hasattr(self, "_part_" + attr.get_type()):
+            logging.info("# Unknown attribute \"" + attr.get_type() +
+                         "\" named \"" + attr.get_name() + "\"")
             return None
         else:
             out = ""
@@ -80,23 +80,23 @@ class AjaxAttributes(webapp.RequestHandler):
             return out
 
     def _part_common(self, attr):
-        return "<td class=\"attr_cell\">" + attr.name() + "</td>\n"
+        return "<td class=\"attr_cell\">" + attr.get_ui_name() + "</td>\n"
 
     def _part_Color(self, attr):
-        return ("<input type=\"text\" id=\"" + attr.x_name() + "\"" +
-                "maxlength=\"6\" size=\"6\" value=\"" + attr.get() +
-                "\" onblur=\"attr.set_color('" + attr.x_name() + "');\">")
+        return ("<input type=\"text\" id=\"" + attr.get_name() + "\"" +
+                "maxlength=\"6\" size=\"6\" value=\"" + attr.get_value() +
+                "\" onblur=\"attr.set_color('" + attr.get_name() + "');\">")
 
     def _part_Boolean(self, attr):
-        n = attr.x_name()
+        n = attr.get_name()
         out = ""
-        if attr.get(): c = " checked=\"true\""
+        if attr.get_value() == "true": c = " checked=\"true\""
         else: c = ""
         out += ("Yes:<input type=\"radio\" id=\"" + n + "\"" +
                 " name=\"" + n + "\"" + c + " value=\"true\"" +
                 " onchange=\"attr.set_boolean('" + n + "', true);\">\n")
         out += " "
-        if not attr.get(): c = " checked=\"true\""
+        if attr.get_value() == "false": c = " checked=\"true\""
         else: c = ""
         out += ("No:<input type=\"radio\" id=\"" + n + "\"" +
                 " name=\"" + n + "\"" + c + " value=\"false\"" +
