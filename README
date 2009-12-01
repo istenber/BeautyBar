@@ -149,6 +149,10 @@ class mainprog():
   Data.set_item_factory(ItemDAO)
 
 
+Link list (PRIO 3)
+--------
+List all interesting links to doc/links.html
+
 Others (PRIO 5)
 --------
 + what if corrupted or wrong csv file is sent?
@@ -174,7 +178,6 @@ Others (PRIO 5)
  + add user accounting in database
 
 + check against python coding guidelines: (PRIO 1)
-  http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 
 + fix pages to XHTML compliant (PRIO 2)
   + base.html is fixed, other pages might contain something bad.
@@ -185,12 +188,14 @@ Others (PRIO 5)
 
 + move all unneeded files from generators/<name>/ to doc
 
-+ use http://www.google.com/analytics/
++ use google analytics
 
 + logic
   + calculate statistics (PRIO 4)
   + calculate how much processing power is used (PRIO 6 - OPTIMIZATION)
   + export images as service
+
++ make pychecker and lint rules
 
 + business plan (PRIO 5)
 
@@ -207,11 +212,12 @@ Others (PRIO 5)
 + add title to charts
 + add name for chart axis
 
-+ rename /generator to /chart and use naming generator for model part and
-  chart for isolated part
-
 + make some charts interactive like "http://g.raphaeljs.com/" style
   when user presses "export interactive svg"
+
++ open source to github?
+
++ make "clean" button to datapage which set all data to "" & 0
 
 Required skills
 ------------------------
@@ -229,3 +235,9 @@ SVGWeb
 SVGFig
 Google App Engine / Python
 (Inkscape)
+py.test (python-codespeak-lib)
+epydoc (python-epydoc)
+dia
+git
+bash
+jso
