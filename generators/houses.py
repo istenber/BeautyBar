@@ -2,7 +2,6 @@ import logging
 
 from xml.dom import minidom
 from base import BaseGenerator
-from attributes.common import Color
 
 
 # TODO: read path with some other way?
@@ -106,6 +105,4 @@ class Houses(BaseGenerator):
         return "House bars"
     
     def get_attributes(self):
-        bg = Color("bgcolor", "Background Color", None, None)
-        # TODO: add...
         return []

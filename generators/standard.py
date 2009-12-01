@@ -14,9 +14,9 @@ class Standard(BaseGenerator):
         self.values = []
         # TODO: change to english
         self.id_prefixes = [ "arvo", "aika", "pylvas", "tausta", "grid" ]
-        self.bg_color = "0000ff"
-        self.bar_color = "ff0000"
-        self.have_grid = True
+        self.bgcolor = "0000ff"
+        self.barcolor = "ff0000"
+        self.has_grid = True
         self.min = 0
         self.step = 1
     def set_range(self, min, max):
@@ -37,12 +37,12 @@ class Standard(BaseGenerator):
         #     f.write(self.output)
         # self._debug()
     def _process_grid(self, index, elem):
-        if self.have_grid: return
+        if self.has_grid: return
         p = elem.parentNode
         p.removeChild(elem)
     def _process_tausta(self, index, elem):
         style = elem.getAttribute("style")
-        ns = style.replace("fill:#0000ff;", "fill:#" + self.bg_color + ";")
+        ns = style.replace("fill:#0000ff;", "fill:#" + self.bgcolor + ";")
         elem.setAttribute("style", ns)
     # 1 = 3.2 pixel
     def _process_pylvas(self, index, elem):
@@ -57,7 +57,7 @@ class Standard(BaseGenerator):
         elem.setAttribute("height", str(h))
         elem.setAttribute("y", str(y))
         style = elem.getAttribute("style")
-        ns = style.replace("fill:#ff0000;", "fill:#" + self.bar_color + ";")
+        ns = style.replace("fill:#ff0000;", "fill:#" + self.barcolor + ";")
         elem.setAttribute("style", ns)
     def _process_aika(self, index, elem):
         # print "# process_aika: " + str(elem)
@@ -101,38 +101,38 @@ class Standard(BaseGenerator):
 
     def _set_bg(self, color):
         # logging.info("#### SET_BGCOLOR")
-        self.bg_color = color
+        self.bgcolor = color
 
     def _get_bg(self):
         # logging.info("#### GET_BGCOLOR")
-        return self.bg_color
+        return self.bgcolor
 
     def _set_grid(self, boolean):
         # logging.info("#### SET_GRID: " + str(boolean))
-        if boolean == "true": self.have_grid = True
-        else: self.have_grid = False
+        if boolean == "true": self.has_grid = True
+        else: self.has_grid = False
 
     def _get_grid(self):
-        # logging.info("#### GET_GRID: " + str(self.have_grid))
-        if self.have_grid: return "true"
+        # logging.info("#### GET_GRID: " + str(self.has_grid))
+        if self.has_grid: return "true"
         else: return "false"
 
     def _set_barc(self, color):
         # logging.info("#### SET_BARCOLOR")
-        self.bar_color = color
+        self.barcolor = color
 
     def _get_barc(self):
         # logging.info("#### GET_BARCOLOR")
-        return self.bar_color
+        return self.barcolor
 
     def get_ui_name(self):
         return "Simple bars"
     
     def get_attributes(self):
-        bg_color = Color("bgcolor", "Background Color", 
+        bgcolor = Color("bgcolor", "Background Color",
                          self._set_bg, self._get_bg)
-        bar_color = Color("barcolor", "Color of bars",
+        barcolor = Color("barcolor", "Color of bars",
                           self._set_barc, self._get_barc)
-        grid = Boolean("grid", "Grid",
+        has_grid = Boolean("grid", "Grid",
                        self._set_grid, self._get_grid)
-        return [bg_color, bar_color, grid]
+        return [bgcolor, barcolor, has_grid]

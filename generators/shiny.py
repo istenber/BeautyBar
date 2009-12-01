@@ -163,8 +163,8 @@ class Shiny(BaseGenerator):
         return self.screencolor
 
     def get_attributes(self):
-        bg_color = Color("bgcolor", "Background Color",
+        bgcolor = Color("bgcolor", "Background Color",
                          self._set_bg, self._get_bg)
-        screen_color = Color("scc", "Screen Color",
+        screencolor = Color("scc", "Screen Color",
                              self._set_scc, self._get_scc)
-        return [bg_color, screen_color]
+        return [bgcolor, screencolor]
