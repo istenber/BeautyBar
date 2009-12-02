@@ -19,11 +19,12 @@ class GeneratorFactory(Singleton):
         self.generators = []
         self._update()
 
-    def _update(self):    
+    def _update(self):
         # files = os.listdir(generators_folder)
         # files = os.listdir(generators_folder)
         # files.sort()
-        for generator in ["standard", "shiny", "houses", "paper"]:
+        # TODO: houses disabled for now
+        for generator in ["standard", "shiny", "paper"]:
             #if file in skip_files: continue
             #if file.endswith(".py"):
             self.generators.append(self.get_generator(generator + ".py"))
