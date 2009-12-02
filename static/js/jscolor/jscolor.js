@@ -133,7 +133,6 @@ var jscolor = {
 
 
 	fireEvent : function(el, evnt) {
-	console.debug("event got: " + el + ": " + evnt);
 		if(!el) {
 			return;
 		}
