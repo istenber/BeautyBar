@@ -265,23 +265,23 @@
          id="tspan3371">2000</tspan></text>
     <path
        d="M 43.074379,172.52544 L 287.02943,172.52544"
-       id="path3373"
+       id="viiva0"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.98958915px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
        d="M 43.074379,139.93636 L 287.02943,139.93636"
-       id="path3381"
+       id="viiva1"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.98958915px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
     <path
        d="M 43.074379,107.34731 L 287.02943,107.34731"
-       id="path3383"
+       id="viiva2"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.98958915px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
     <path
        d="M 43.074379,74.758238 L 287.02943,74.758238"
-       id="path3385"
+       id="viiva3"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.98958915px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
     <path
        d="M 43.074379,42.169146 L 287.02943,42.169146"
-       id="path3387"
+       id="viiva4"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.98958915px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
     <g
        transform="matrix(1,0,0,0.26,1.3572116e-6,127.54669)"
@@ -298,7 +298,7 @@
          height="127.63981"
          x="46.607178"
          y="44.775932"
-         id="rect3414"
+         id="praja0"
          style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
     <g
@@ -317,7 +317,7 @@
          height="127.63981"
          x="46.607178"
          y="44.775932"
-         id="rect3232"
+         id="praja1"
          style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
     <g
@@ -336,7 +336,7 @@
          height="127.63981"
          x="46.607178"
          y="44.775932"
-         id="rect3238"
+         id="praja2"
          style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
     <g
@@ -355,7 +355,7 @@
          height="127.63981"
          x="46.607178"
          y="44.775932"
-         id="rect3244"
+         id="praja3"
          style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
     <g
@@ -374,7 +374,7 @@
          height="127.63981"
          x="46.607178"
          y="44.775932"
-         id="rect3250"
+         id="praja4"
          style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
     <g
@@ -393,7 +393,7 @@
          height="127.63981"
          x="46.607178"
          y="44.775932"
-         id="rect3262"
+         id="praja5"
          style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
   </g>

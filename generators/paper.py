@@ -2,6 +2,7 @@ import logging
 
 from xml.dom import minidom
 from base import BaseGenerator
+from attributes.common import Color
 
 # TODO: read path with some other way?
 template="generators/paper/template.svg"
@@ -11,7 +12,8 @@ class Paper(BaseGenerator):
     def __init__(self):
         self.values = []
         # TODO: change to english
-        self.id_prefixes = [ "arvo", "nimi", "pylvas" ]
+        self.id_prefixes = [ "arvo", "nimi", "pylvas", "viiva", "praja"]
+        self.linecolor = "000000"
     def get_description(self):
         return "This diagram looks like paper."
     def set_range(self, min, max):
@@ -24,7 +26,13 @@ class Paper(BaseGenerator):
         self.doc = minidom.parse(template)
         self._generate_output()        
         return self.output
-
+    def _line_color(self, elem, color_elem):
+        style = elem.getAttribute("style")
+        ns = style.replace(color_elem + ":#000000;",
+                           color_elem + ":#" + self.linecolor + ";")
+        elem.setAttribute("style", ns)
+    def _process_viiva(self, index, elem):
+        self._line_color(elem, "stroke")
     def _process_pylvas(self, index, elem):
         y_table = [ 1.4, 39, 78.4, 117.6, 156.8, 196 ]
         # logging.info("# process_pylvas: " + str(elem))
@@ -38,18 +46,22 @@ class Paper(BaseGenerator):
                           "matrix(1,0,0," + (str(s) + "," + 
                                              str(y) + "," +
                                              str(x) + ")"))
+    def _process_praja(self, index, elem):
+        self._line_color(elem, "stroke")
     def _process_nimi(self, index, elem):
         # print "# process_nimi: " + str(elem)
         tspan = elem.childNodes[0]
         old_txt = tspan.childNodes[0]
         new_txt = self.doc.createTextNode(str(self.values[index][0]))
         tspan.replaceChild(new_txt, old_txt)
+        self._line_color(elem, "fill")
     def _process_arvo(self, index, elem):
         # print "# process_arvo: " + str(elem)
         tspan = elem.childNodes[0]
         old_txt = tspan.childNodes[0]
         new_txt = self.doc.createTextNode(str(self.scale[index]))
         tspan.replaceChild(new_txt, old_txt)
+        self._line_color(elem, "fill")
     def _elem(self, elem):
         # print "elem: " + str(elem.nodeValue)
         try:
@@ -82,4 +94,5 @@ class Paper(BaseGenerator):
         return "Paper bars"
     
     def get_attributes(self):
-        return []
+        linecolor = Color(self, "linecolor", "Line color")
+        return [linecolor]
