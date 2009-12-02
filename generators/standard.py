@@ -19,6 +19,8 @@ class Standard(BaseGenerator):
         self.has_grid = True
         self.min = 0
         self.step = 1
+    def get_description(self):
+        return "This is default diagram and should work best."
     def set_range(self, min, max):
         self.step = (max - min) / 50.0
         self.min = min

@@ -24,15 +24,21 @@ class GuiInterface(object):
         """Should return value of attribute"""
         return None
 
+    def get_description(self):
+        """Should return human readble description of generator"""
+        return "no description"
+
 
 def main():
 
     def get_info(diagram):
         out = ("\nGuiInterface of \"" + diagram.get_ui_name() + "\" (" +
                diagram.get_name() + ")\n" +
+               "---------------------------------------\n" +
+               diagram.get_description() + "\n" +
                "---------------------------------------\n")
         for attr in diagram.get_attributes():
-            out += attr.name() + " : " + attr.type() + "\n"
+            out += attr.get_ui_name() + " : " + attr.get_type() + "\n"
         out += "---------------------------------------\n"
         return out
 

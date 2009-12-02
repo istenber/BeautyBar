@@ -33,13 +33,26 @@ class AjaxMain(webapp.RequestHandler):
     def get_list(self):
         return { 'template' : 'list' }
 
+    def _chart_api_link(self):
+        style = self.session.name
+        values = ""
+        names = ""
+        for item in self.session.data.as_list():
+            values += str(item.value) + ","
+            names += item.name + "|"
+        return ("http://beauty-bar.appspot.com/" +
+                "chart?cht=" + style + "&chd=t:" + values[:-1] +
+                "&chs=300x200&chl=" + names[:-1])
+
     def get_info(self):
         # TODO: these three lines to one method to generator.py
         gf = GeneratorFactory().instance()
         g = self.session.style.get_active_generator()
         chart = gf.get_generator(g.name + ".py")
-        return { 'template' : 'info',
-                 'desc'     : chart.get_ui_name(),
+        return { 'template'    : 'info',
+                 'name'        : chart.get_ui_name(),
+                 'description' : chart.get_description(),
+                 'chart_api'   : self._chart_api_link(),
                  }
 
     def get_edit(self):

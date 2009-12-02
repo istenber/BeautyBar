@@ -12,6 +12,8 @@ class Paper(BaseGenerator):
         self.values = []
         # TODO: change to english
         self.id_prefixes = [ "arvo", "nimi", "pylvas" ]
+    def get_description(self):
+        return "This diagram looks like paper."
     def set_range(self, min, max):
         self.step = (max - min) / 5
         self.scale = range(min, max + self.step, self.step)
