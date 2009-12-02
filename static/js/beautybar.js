@@ -129,6 +129,7 @@ update_attribute_table = function(generator) {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		$('attribute_table').update(out.responseText);
+		jscolor.bind();
 	    },
 	    onFailure : function() { 
 		$('debug').update("ajax failed");

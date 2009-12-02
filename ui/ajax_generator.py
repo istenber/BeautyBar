@@ -88,7 +88,8 @@ class AjaxAttributes(webapp.RequestHandler):
         return "<td class=\"attr_cell\">" + attr.get_ui_name() + "</td>\n"
 
     def _part_Color(self, attr):
-        return ("<input type=\"text\" id=\"" + attr.get_name() + "\"" +
+        return ("<input class=\"color\" type=\"text\" id=\"" +
+                attr.get_name() + "\" " +
                 "maxlength=\"6\" size=\"6\" value=\"" + attr.get_value() +
                 "\" onblur=\"attr.set_color('" + attr.get_name() + "');\">")
 
