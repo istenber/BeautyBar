@@ -27,15 +27,11 @@ Make generators controllable through UI.
 + make common parameters for all generators
   + font
   + screen color
-+ implement generator attribute setters and getters only as a parameter
-+ create generator info field on right and add it gui_interface
 
 Write architecture design (PRIO 2)
 --------
 + structure of model/view/controller
 + services (svg-to-png, live-data-import, image-store)
-+ generator interface
-+ database interface
 + database tools for gae
 + hooks for information collection
   - use meter
@@ -74,9 +70,6 @@ Testing (PRIO 4)
 + write test plan
 + write some automate tests to verify that atleast something works
   before upload
-+ nosetests? 
- http://somethingaboutorange.com/mrl/projects/nose/0.11.1/
- http://code.google.com/p/bridal/source/browse/trunk/demo/src/demo/tests/__init__.py
 
 Bug fixing (PRIO 3)
 --------
@@ -87,12 +80,6 @@ Bug fixing (PRIO 3)
     + how about one user (aka. session) with many tabs (or windows)?
   + clicking buttons too fast cause active generator lost
 + Data is not saved with session, but requires "DAO.save(data)"
-+ bars can now be larger than scale max - there is no checking for it
-  now... do unit tests to cover these cases.
-+ attributes should use "default" values, not null values
-  - maybe all default values could be saved to somewhere and used from
-    there?
-+ link to style does not work! do styles work at all?
 
 Different size datasets (PRIO 3)
 --------
@@ -148,6 +135,20 @@ class ItemDAO(db.model):
 class mainprog():
   Data.set_item_factory(ItemDAO)
 
+If cookies are not in use
+--------
++ use different session handler
+  http://github.com/aht/suas/blob/master/session.py
+
+'AjaxMain' object has no attribute 'session'
+Traceback (most recent call last):
+  File "/base/python_lib/versions/1/google/appengine/ext/webapp/__init__.py", line 507, in __call__
+    handler.get(*groups)
+  File "/base/data/home/apps/beauty-bar/6.338025281488743691/ui/ajax_main.py", line 25, in get
+    values = eval("self.get_" + part)()
+  File "/base/data/home/apps/beauty-bar/6.338025281488743691/ui/ajax_main.py", line 49, in get_edit
+    'items'    : self.session.data.as_list(),
+AttributeError: 'AjaxMain' object has no attribute 'session'
 
 Link list (PRIO 3)
 --------
@@ -155,8 +156,30 @@ List all interesting links to doc/links.html
 
 Others (PRIO 5)
 --------
-+ what if corrupted or wrong csv file is sent?
-  + other error checking and data security
+
++ chart api link uses different scale than we have by default
+
++ update gui_interface.get_description to generators_model
+
++ create aliases for style names - and use them with chart_api
+ + style_alias = "ses" + hash(session.name, 4)
+
++ svg image update, not as full image but only send diff to previous
+ -> step1. create image and save to memcache as "img<uuid>"
+ -> next time when image is requested (/output_image?imguuid) only
+    return diff image from memcache, if there is one else return
+    full image
+    (full\n<svg> ... </svg>) vs. (diff\n++patch)
+    -> full need svgweb re-registration?
+
++ implement chart api size param - and other chart api params
+ + requires scaler for all generators, and range, etc....
+
++ say error if javascript is not in use
+
++ fix range to work with all generators
+
++ error checking and data security
 
 + split code (atleast javascript) to two versions: debug, production
 
@@ -219,6 +242,10 @@ Others (PRIO 5)
 
 + make "clean" button to datapage which set all data to "" & 0
 
++ implement message showing (ui/message.py) to users...
+
++ write __doc__s for code, so epydoc can get nice api descs
+
 Required skills
 ------------------------
   + marketing   - to get users
@@ -226,6 +253,13 @@ Required skills
   + data mining - to create "default" graph pictures
   + graphical   - to make bars nicer & page nicer
   + programming - to code more flexible architecture
+
+Differences between development and production versions
+------------------------
++ templates/base.html -> google analytics disabled
++ chart api link in /templates/learnstyle.html
++ chart api link in /templates/main/info.html
++ debug is on?
 
 Dependencies
 ------------------------
@@ -241,3 +275,4 @@ dia
 git
 bash
 jso
+jscolor.js
