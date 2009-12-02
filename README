@@ -73,6 +73,9 @@ Testing (PRIO 4)
 
 Bug fixing (PRIO 3)
 --------
++ production app engine gets GQL query results as random order,
+  rows fixed, but is there others?
++ grid yes/no seems to have problem with default values?
 + DB (?) bug: sometimes all generators go active:false
   - this must be caused by many process using same data
     and style paraller. It should be prevented with locks
@@ -274,5 +277,5 @@ epydoc (python-epydoc)
 dia
 git
 bash
-jso
-jscolor.js
+jscolor.js (jscolor-1.3.0.zip from http://jscolor.com/)
+http://developer.yahoo.com/yui/compressor/
