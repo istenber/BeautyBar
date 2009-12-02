@@ -47,5 +47,5 @@ class ActivePage(Page):
             if not self.session:
                 self.session = make_clean_session(self.request.remote_addr)
         else:
-            self.session = make_clean_session(self.request_remote_addr)
+            self.session = make_clean_session(self.request.remote_addr)
         self.response.headers['Set-Cookie'] = "session=" + self.session.name
