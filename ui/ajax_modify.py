@@ -37,9 +37,11 @@ class AjaxModify(AjaxBase):
             self.data.items[y].set_name(val)
             return self.data.items[y].name
         if x == 2:
+            if ',' in val: val.replace(',', '.', 1)
             if self.data.value_ok(val):
                 self.data.items[y].set_value(val)
-            return self.data.items[y].value
+            from django.template.defaultfilters import floatformat
+            return floatformat(self.data.items[y].value)
         logging.info("# some tries to send data out of range")
         return "failed." # TODO: raise error?
 
