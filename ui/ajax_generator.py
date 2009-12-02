@@ -6,6 +6,7 @@ from google.appengine.ext.webapp import template
 from ui.dao import DAO
 from model.generator_factory import GeneratorFactory
 from ui.ajax_modify import AjaxBase
+from model.utils import unquote
 
 
 class AjaxGenerator(AjaxBase):
@@ -58,7 +59,11 @@ class AjaxAttributes(webapp.RequestHandler):
         generator = gf.get_generator(g_name + ".py")
         values = { 'cur_gen' : g_name }
         parts = []
+        # TODO: very hackish attribute setting. refactor to better
+        ag = self.session.style.get_active_generator()
         for attr in generator.get_attributes():
+            db_val = unquote(ag.get_attribute(attr.get_name()).value)
+            attr.set_value(db_val)
             part = self._get_html(attr)
             if part is not None:
                 parts.append(part)
