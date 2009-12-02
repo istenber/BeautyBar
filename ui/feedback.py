@@ -42,7 +42,7 @@ class FeedbackProcessor(webapp.RequestHandler):
             self.session = DAO.load(name=name, class_name="Session")
         if feedback == "": 
             logging.info("# feedback missing.")
-            return "failed."
+            self.redirect("/about")
         if user == "": logging.info("# user missing.")
         fb = Feedback()
         fb.user = user
