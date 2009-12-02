@@ -122,7 +122,7 @@ set_max = function() {
     });
 };
 
-var timer_on = 0;
+var timer_on = false;
 
 update_attribute_table = function(generator) {
     new Ajax.Request('/attr_table?gen=' + generator, {
@@ -137,16 +137,25 @@ update_attribute_table = function(generator) {
 };
 
 update_image = function() {
-    $('output_image').update(
-  "<object data=\"/output_image?" + Math.floor(Math.random() * 1000000) + 
-  "\" type=\"image/svg+xml\" height=\"200\" width=\"300\" />");
-    timer_on = 0;
-    $('debug').update("image updated");
+    // TODO: update to work with IE as well
+    var parent = document.getElementById("preview_frame");
+    var old_obj = document.getElementById("output_image");
+    svgweb.removeChild(old_obj, parent);
+    var obj = document.createElement('object', true);
+    obj.setAttribute('type', 'image/svg+xml');
+    var url = "/output_image?" + Math.floor(Math.random() * 1000000);
+    obj.setAttribute('data', url);
+    obj.setAttribute('width', '300');
+    obj.setAttribute('height', '200');
+    obj.setAttribute('id', 'output_image');
+    svgweb.appendChild(obj, parent);
+    // console.debug("obj:" + obj);
+    timer_on = false;
 };
 
 start_update_timer = function() {
-    if(timer_on == 0) {
-	timer_on = 1;
+    if(timer_on == false) {
+	timer_on = true;
 	setTimeout("update_image();", 100);
     }
 };
@@ -181,7 +190,7 @@ init = function() {
     update_part("list", "");
     update_part("info", "");
     update_edit("data");
-    update_image(); // must be last, but why?
+    // update_image(); // must be last, but why?
 };
 
 Event.observe(window, 'load', init, false); 
