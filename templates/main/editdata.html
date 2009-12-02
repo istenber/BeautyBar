@@ -8,7 +8,7 @@
        onblur="fm('name{{ forloop.counter }}');" />
 </td>
 <td width="50%" align="left">
-<input type="text" id="value{{ forloop.counter }}" value="{{ item.value }}" 
+<input type="text" id="value{{ forloop.counter }}" value="{{ item.value|floatformat }}" 
        onblur="fm('value{{ forloop.counter }}');" />
 </td>
 </tr>
