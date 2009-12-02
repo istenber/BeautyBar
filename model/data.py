@@ -113,12 +113,12 @@ class Data(object):
         return self.min
 
     def as_list(self):
-        return self.items
+        return sorted(self.items, lambda a, b: int(a.row - b.row))
 
     def to_generator(self, generator):
         if len(self.items) != data_max_len:
             logging.info("# Too few items: " + str(len(self.items)))
-        for item in self.items:
+        for item in self.as_list():
             # TODO: use row index
             generator.add_row(item.name, item.value)
         generator.set_range(self.min, self.max)
@@ -141,12 +141,12 @@ class Data(object):
     @classmethod
     def default(self):
         d = Data()
-        d.items.append(Item("a", 10.0))
-        d.items.append(Item("b", 15.0))
-        d.items.append(Item("c", 20.0))
-        d.items.append(Item("d", 30.0))
-        d.items.append(Item("e", 40.0))
-        d.items.append(Item("f", 50.0))
+        d.items.append(Item("a", 10.0, 1))
+        d.items.append(Item("b", 15.0, 2))
+        d.items.append(Item("c", 20.0, 3))
+        d.items.append(Item("d", 30.0, 4))
+        d.items.append(Item("e", 40.0, 5))
+        d.items.append(Item("f", 50.0, 6))
         return d
     
     def __str__(self):
