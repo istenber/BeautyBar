@@ -49,10 +49,25 @@ TODO:
     <!-- header -->
     <table class="width_full" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td class="width_logo">
+      <td class="logo_width" rowspan="2">
 	<img class="logo" src="/images/logo.png" alt="logo" />
       </td>
-      <td class="width_bspace"><div class="height_header"></div></td>
+      <td colspan="4">
+	<div class="height_hlogin llogin">
+	  {% if user %}
+	  <b>{{ user.nickname }}</b> | <a href="{{ logout_url }}">Sign out</a>
+	  {% else %}
+          <form action="/login" method="post">
+            <input class="hint" onfocus="hint_off(this);" onblur="hint_on(this, 'username');" type="text" size="10" id="login_name" value="username" />
+            <input class="hint" onfocus="hint_off(this);" onblur="hint_on(this, 'pass');" type="password" size="10" id="login_pass" value="pass" />
+            <input type="submit" value="Log in" />
+          </form>
+	  {% endif %}
+	</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="width_bspace"><div class="height_hbuttons"></div></td>
       <td class="width_button">
 	<a href="/">
 	  <img class="button" src="/images/build_off.png" alt="build" />

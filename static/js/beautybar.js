@@ -156,6 +156,20 @@ update_part = function(part, params) {
     });
 };
 
+hint_off = function(field) {
+    if (field.className == "hint") {
+	field.className = "";
+	field.value = "";
+    }
+};
+
+hint_on = function(field, text) {
+    if (field.value == "") {
+	field.className = "hint";
+	field.value = text;
+    }
+};
+
 var edit = { 
     s : 'data'
 };

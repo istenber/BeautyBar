@@ -9,7 +9,6 @@
  .width_most { width: 710px; }
  .width_full { width: 770px; }
  .width_max { width: 800px; margin-left: auto; margin-right: auto; }
- .width_logo { width: 300px; text-align: center; vertical-align: bottom; }
  .width_bspace { width: 70px; }
  .width_button { width: 100px; text-align: center; vertical-align: bottom; }
  .width_bbutton { width: 100px; text-align: center; vertical-align: bottom; }
@@ -22,7 +21,8 @@
 
  .height_bar { height: 15px; }
  .height_bbuttons { height: 40px; }
- .height_header { height: 80px; }
+ .height_hbuttons { height: 50px; }
+ .height_hlogin { height: 30px; }
  .height_preview { height: 250px; }
  .height_arrow { height: 30px; }
  .height_lsmall { }
@@ -32,10 +32,25 @@
  .example_middle { width: 50px; }
  .example_large { width: 80px; }
 
+ .llogin {
+     text-align        : right;
+     vertical-align    : middle;
+ }
+
+ .logo_width {
+     width             : 300px;
+     text-align        : center;
+     vertical-align    : bottom;
+ }
+
  .generator_info {
      width             : 170px;
      vertical-align    : top;
      margin            : 5px 5px 5px 5px;
+ }
+
+ .hint {
+     color             : grey;
  }
 
  .attr_cell {

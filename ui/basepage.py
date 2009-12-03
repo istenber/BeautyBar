@@ -4,6 +4,7 @@ import logging
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.api import users
 from ui.data_operations import make_clean_session
 from ui.dao import DAO
 
@@ -16,12 +17,17 @@ class Page(webapp.RequestHandler):
     def get_values(self):
         """Override me!"""
 
+    def get_user(self):
+        return users.get_current_user()
+
     def get(self):
         self.values.update(self.get_values())
         if 'template' in self.values:
             self.values['template'] += ".html"
         else:
             self.values['template'] = self.__class__.__name__.lower() + ".html"
+        self.values['user'] = self.get_user()
+        self.values['logout_url'] = users.create_logout_url("/")
         path = os.path.join(os.path.dirname(__file__),
                             '../templates/base.html')
         self.response.out.write(template.render(path, self.values))
