@@ -4,6 +4,7 @@ import logging
 
 from model.generator_factory import GeneratorFactory
 from model.utils import unquote
+from model.decorator import Decorator
 
 
 class Generator(object):
@@ -37,7 +38,7 @@ class Generator(object):
             if v != "":
                 attr.set_value(v)
         data.to_generator(chart)
-        return chart.output()
+        return Decorator(chart.output()).output()
 
 
 class Attribute(object):
