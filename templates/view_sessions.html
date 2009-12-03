@@ -2,6 +2,15 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
+<script type="text/javascript">
+
+show_image = function(session) {
+  var obj = document.getElementById(session + "_span");
+  obj.innerHTML = "<object data=\"/output_image?session=" + session + "\" " +
+                  "type=\"image/svg+xml\" height=\"200\" width=\"300\" />";
+};
+
+</script>
 <title>Admin / View sessions</title>
 </head>
 <body>
@@ -14,8 +23,9 @@
 <tr>
 <td valign="top"><h3>session: {{ session.name }}</h3>
 IP address: {{ session.ip_address }}<br />
-<object data="/output_image?session={{ session.name }}" 
-	type="image/svg+xml" height="200" width="300" />
+<span id="{{ session.name }}_span">
+<a href="#" onclick="show_image('{{ session.name }}');" >Show image</a>
+</span>
 </td>
 </tr>
 {% endfor %}
