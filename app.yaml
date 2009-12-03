@@ -21,6 +21,10 @@ handlers:
   static_files: static/images/favicon.ico
   upload: static/images/favicon.ico
 
+- url: /admin/.*
+  script: beautybar.py
+  login: admin
+
 - url: /.*
   script: beautybar.py
 
