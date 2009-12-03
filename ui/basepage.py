@@ -20,9 +20,9 @@ class Page(webapp.RequestHandler):
     def get_user(self):
         self.values['user'] = users.get_current_user()
         if self.values['user']:
-            self.values['user_url'] = users.create_logout_url("/")
+            self.values['user_url'] = users.create_logout_url(self.request.url)
         else:
-            self.values['user_url'] = users.create_login_url("/")
+            self.values['user_url'] = users.create_login_url(self.request.url)
 
     def get(self):
         self.values.update(self.get_values())
