@@ -18,7 +18,11 @@ class Page(webapp.RequestHandler):
         """Override me!"""
 
     def get_user(self):
-        return users.get_current_user()
+        self.values['user'] = users.get_current_user()
+        if self.values['user']:
+            self.values['user_url'] = users.create_logout_url("/")
+        else:
+            self.values['user_url'] = users.create_login_url("/")
 
     def get(self):
         self.values.update(self.get_values())
@@ -26,8 +30,7 @@ class Page(webapp.RequestHandler):
             self.values['template'] += ".html"
         else:
             self.values['template'] = self.__class__.__name__.lower() + ".html"
-        self.values['user'] = self.get_user()
-        self.values['logout_url'] = users.create_logout_url("/")
+        self.get_user()
         path = os.path.join(os.path.dirname(__file__),
                             '../templates/base.html')
         self.response.out.write(template.render(path, self.values))

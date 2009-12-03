@@ -35,6 +35,7 @@
  .llogin {
      text-align        : right;
      vertical-align    : middle;
+     font-size         : 0.8em;
  }
 
  .logo_width {
@@ -47,10 +48,6 @@
      width             : 170px;
      vertical-align    : top;
      margin            : 5px 5px 5px 5px;
- }
-
- .hint {
-     color             : grey;
  }
 
  .attr_cell {
