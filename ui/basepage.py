@@ -18,8 +18,6 @@ class Page(webapp.RequestHandler):
 
     def get(self):
         self.values.update(self.get_values())
-        if not 'debug' in self.values:
-            self.values['debug'] = "(none)"
         if 'template' in self.values:
             self.values['template'] += ".html"
         else:

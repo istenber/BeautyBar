@@ -4,7 +4,6 @@ var attr = {};
 attr.set_color = function(val) {
     var color = $(val).getValue();
     var generator = $('generator_name').getValue();
-    $('debug').update("set_color(" + val + ", " + color + ")");
     var params = val + "=\"" + color + "\"";
     new Ajax.Request('/set_attr?' + params, {
 	    method    : 'get',
@@ -12,14 +11,12 @@ attr.set_color = function(val) {
 		start_update_timer();
 	    },
 	    onFailure : function() { 
-		$('debug').update("ajax failed");
 	    },
     });
 };
 
 attr.set_boolean = function(val, b) {
     var generator = $('generator_name').getValue();
-    $('debug').update("set_boolean(" + val + ", " + b + ")");
     var params = val + "=" + b;
     new Ajax.Request('/set_attr?' + params, {
 	    method    : 'get',
@@ -27,7 +24,6 @@ attr.set_boolean = function(val, b) {
 		start_update_timer();
 	    },
 	    onFailure : function() {
-		$('debug').update("ajax failed");
 	    },
     });
 };
@@ -40,8 +36,6 @@ data.modify = function(x, y, val) {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		var resp = out.responseText.substr(4);
-		$('debug').update("[" + x + "," + y + "]: " + val + 
-				  " - " + resp);
 		if(x == 1) {
 		    $('name' + y).setValue(resp);
 		}
@@ -51,7 +45,6 @@ data.modify = function(x, y, val) {
 		start_update_timer();
 	    },
 	    onFailure : function() { 
-		$('debug').update("ajax failed");
 	    },
     });
 };
@@ -67,7 +60,6 @@ generator.modify = function(val) {
 		update_attribute_table(val);
 	    },
 	    onFailure : function() { 
-		$('debug').update("ajax failed");
 	    },
     });
 };
@@ -81,7 +73,6 @@ fm = function(val) {
 };
 
 gen = function(val) {
-    $('debug').update("generator: " + val);
     var msg = "<br /><center>Attribute table loading...</center>";
     $('attribute_table').update(msg);
     $('gen_name').update(val);
@@ -89,35 +80,29 @@ gen = function(val) {
 };
 
 set_min = function() {
-    $('debug').update("set_min");
     var val = $('r_min').getValue();
     new Ajax.Request('/modify_data?min=' + val, {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		var resp = out.responseText.substr(4);
-		$('debug').update("min set to " + resp);
 		$('r_min').setValue(resp);
 		start_update_timer();
 	    },
 	    onFailure : function() { 
-		$('debug').update("ajax failed");
 	    },
     });
 };
 
 set_max = function() {
-    $('debug').update("set_max");
     var val = $('r_max').getValue();
     new Ajax.Request('/modify_data?max=' + val, {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		var resp = out.responseText.substr(4);
-		$('debug').update("max set to " + resp);
 		$('r_max').setValue(resp);
 		start_update_timer();
 	    },
 	    onFailure : function() { 
-		$('debug').update("ajax failed");
 	    },
     });
 };
@@ -132,7 +117,6 @@ update_attribute_table = function(generator) {
 		jscolor.bind();
 	    },
 	    onFailure : function() { 
-		$('debug').update("ajax failed");
 	    },
     });
 };
@@ -168,7 +152,6 @@ update_part = function(part, params) {
 		$('part_' + part).update(out.responseText);
 	    },
 	    onFailure : function() {
-		$('debug').update("ajax failed");
 	    },
     });
 };
@@ -191,7 +174,6 @@ init = function() {
     update_part("list", "");
     update_part("info", "");
     update_edit("data");
-    // update_image(); // must be last, but why?
 };
 
 Event.observe(window, 'load', init, false); 
