@@ -31,7 +31,9 @@ class AjaxMain(webapp.RequestHandler):
     # TODO: implement part caching in javascript
 
     def get_list(self):
-        return { 'template' : 'list' }
+        return { 'template' : 'list',
+                 'generators' : GeneratorFactory().list(),
+                 }
 
     def _chart_api_link(self):
         style = self.session.name
@@ -65,7 +67,6 @@ class AjaxMain(webapp.RequestHandler):
                      }
         if s == "style":
             return { 'template'   : 'editstyle',
-                     'generators' : GeneratorFactory().list(),
                      'cur_gen'    : self.session.style.get_active_generator(),
                      }
         if s == "file":

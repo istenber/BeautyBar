@@ -57,7 +57,7 @@ generator.modify = function(val) {
 	    onSuccess : function(out) {
 		update_image();
 		update_part("info", "");
-		update_attribute_table(val);
+		if (edit.s == 'style') { update_attribute_table("session"); }
 	    },
 	    onFailure : function() { 
 	    },
@@ -74,8 +74,6 @@ fm = function(val) {
 
 gen = function(val) {
     var msg = "<br /><center>Attribute table loading...</center>";
-    $('attribute_table').update(msg);
-    $('gen_name').update(val);
     generator.modify(val); 
 };
 
@@ -150,6 +148,11 @@ update_part = function(part, params) {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		$('part_' + part).update(out.responseText);
+		if(part == "list") {
+		    new Carousel('carousel-wrapper',
+				 $$('#carousel-content .slide'),
+				 $$('a.carousel-control'));
+		}
 	    },
 	    onFailure : function() {
 	    },

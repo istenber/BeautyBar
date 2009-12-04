@@ -1,27 +1,28 @@
-{% comment %}
-
-	<table class="width_small" border="0" cellspacing="0" cellpadding="0">
-	<tr><td><div class="height_arrow">
-	      <img src="/images/up.png" alt="up" />
-	</div></td></tr>
-	<tr><td><div class="height_lsmall">
-	      <img src="/images/" class="example_small" alt="example1" />
-	</div></td></tr>
-	<tr><td><div class="height_lmiddle">
-	      <img src="/images/" class="example_middle" alt="example2" />
-	</div></td></tr>
-	<tr><td><div class="height_llarge">
-	      <img src="/images/" class="example_large" alt="example3" />
-	</div></td></tr>
-	<tr><td><div class="height_lmiddle">
-	      <img src="/images/" class="example_middle" alt="example4" />
-	</div></td></tr>
-	<tr><td><div class="height_lsmall">
-	      <img src="/images/" class="example_small" alt="example5" />
-	</div></td></tr>
-	<tr><td><div class="height_arrow">
-	      <img src="/images/down.png" alt="down" />
-	</div></td></tr>
-	</table>
-
-{% endcomment %}
+<table class="width_small" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+  </tr>
+  <tr>
+    <td>
+	<a href="javascript:" class="carousel-control" rel="prev">
+	  <img id="carousel-arrow" src="/images/up.png" alt="up" />
+	</a>
+    </td>
+  </tr>
+  <tr>
+    <div id="carousel-wrapper">
+      <div id="carousel-content">
+	{% for gen in generators %}
+	<div class="slide">
+	  <img src="/images/{{ gen.get_name }}-bars.png" alt="{{ gen.get_ui_name }}" onclick="gen('{{ gen.get_name }}');" />
+	</div>
+	{% endfor %}
+    </div>
+  </tr>
+  <tr>
+    <td>
+	<a href="javascript:" class="carousel-control" rel="next">
+	  <img id="carousel-arrow" src="/images/down.png" alt="down" />
+	</a>
+    </td>
+  </tr>
+</table>

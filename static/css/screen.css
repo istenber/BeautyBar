@@ -24,13 +24,9 @@
  .height_hbuttons { height: 50px; }
  .height_hlogin { height: 30px; }
  .height_preview { height: 250px; }
- .height_arrow { height: 30px; }
  .height_lsmall { }
  .height_lmiddle { }
  .height_llarge { }
- .example_small { width: 25px; }
- .example_middle { width: 50px; }
- .example_large { width: 80px; }
 
  .llogin {
      text-align        : right;
@@ -93,6 +89,27 @@
      background-color  : white;
      font-family       : Sans-serif;
      color             : black;
+ }
+
+ #carousel-arrow {
+     vertical-align    : middle;
+     padding           : 2px 2px 2px 2px;
+ }
+
+ #carousel-wrapper {
+    width              : 100px;
+    height             : 180px;
+    overflow           : hidden;
+ }
+
+ #carousel-content {
+     width             : 100px;
+ }
+
+ #carousel-content .slide {
+     float             : center;
+     width             : 100px;
+     height            : 60px;
  }
 
  a img { border: none; }
