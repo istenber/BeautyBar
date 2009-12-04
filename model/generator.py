@@ -27,7 +27,9 @@ class Generator(object):
     def get_attribute(self, name):
         for attr in self.attributes:
             if attr.name == name: return attr
-        a = Attribute(name=name)
+        chart = self.factory.get_generator(self.name + ".py")
+        v = chart.get_attribute(name).get_value()
+        a = Attribute(name=name, value=v)
         self.attributes.append(a)
         return a
 

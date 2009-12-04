@@ -68,10 +68,6 @@ Bug fixing (PRIO 3)
 --------
 + production app engine gets GQL query results as random order,
   rows fixed, but is there others?
-+ grid yes/no seems to have problem with default values?
- -> boolean attributes get defaulted to false in attribute_table
-+ if there is attribute color which is undefined, it is shown
-  incorrectly in attribute table
 + DB (?) bug: sometimes all generators go active:false
   - this must be caused by many process using same data
     and style paraller. It should be prevented with locks

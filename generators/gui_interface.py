@@ -22,6 +22,8 @@ class GuiInterface(object):
 
     def get_attribute(self, attribute):
         """Should return value of attribute"""
+        for attr in self.get_attributes():
+            if attr.get_name() == attribute: return attr
         return None
 
     def get_description(self):
