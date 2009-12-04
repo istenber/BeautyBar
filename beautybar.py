@@ -13,6 +13,7 @@ from ui.ajax_main import AjaxMain
 from ui.chart_api import ChartPage
 from ui.feedback import FeedbackProcessor, FeedbackReader
 from ui.view_sessions import ViewSessions
+from ui.error_pages  import MissingPage
 
 def get_admin_pages():
     # TODO: these should be protected by password...
@@ -51,7 +52,7 @@ def main():
     application = webapp.WSGIApplication(pages +
                                          test_pages +
                                          get_admin_pages() +
-                                         [('/.*', MainPage)],
+                                         [('/.*', MissingPage)],
                                          debug=debug)
     run_wsgi_app(application)
 
