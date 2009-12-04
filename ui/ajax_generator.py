@@ -87,7 +87,16 @@ class AjaxAttributes(webapp.RequestHandler):
     def _part_common(self, attr):
         return "<td class=\"attr_cell\">" + attr.get_ui_name() + "</td>\n"
 
+    # TODO: change other attributes as well
     def _part_Color(self, attr):
+        n = "Color".lower()
+        path = os.path.join(os.path.dirname(__file__),
+                            '../templates/attributes/' + n + '.html')
+        values = { 'name'  : attr.get_name(),
+                   'value' : attr.get_value()
+                   }
+        return template.render(path, values)
+
         return ("<input class=\"color\" type=\"text\" id=\"" +
                 attr.get_name() + "\" " +
                 "maxlength=\"6\" size=\"6\" value=\"" + attr.get_value() +
