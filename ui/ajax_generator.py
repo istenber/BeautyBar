@@ -97,11 +97,6 @@ class AjaxAttributes(webapp.RequestHandler):
                    }
         return template.render(path, values)
 
-        return ("<input class=\"color\" type=\"text\" id=\"" +
-                attr.get_name() + "\" " +
-                "maxlength=\"6\" size=\"6\" value=\"" + attr.get_value() +
-                "\" onblur=\"attr.set_color('" + attr.get_name() + "');\">")
-
     def _part_Boolean(self, attr):
         n = attr.get_name()
         out = ""
