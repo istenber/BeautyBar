@@ -1,4 +1,56 @@
 
+var preview = {
+    init: function() {
+	this._frame = $('preview_frame');
+	svgweb.appendChild(this._output_img, this._frame);
+	this._timer_on = false;
+    },
+
+    preload: function() {
+	if(Prototype.Browser.IE) {
+	    this._load_image = this._load_image_IE;
+	} else {
+	    this._load_image = this._load_image_others;
+	}
+	this._load_image();
+    },
+
+    _load_image_IE: function() {
+	console.log("TODO: IE not supported yet.");
+    },
+
+    _load_image_others: function() {
+	var rnd = Math.floor(Math.random() * 1000000);
+	var svg_image = document.createElement('object', true);
+	svg_image.setAttribute('type', 'image/svg+xml');
+	svg_image.setAttribute('data', '/output_image?' + rnd);
+	svg_image.setAttribute('width', '300');
+	svg_image.setAttribute('height', '200');
+	svg_image.setAttribute('id', 'o_img');
+	this._output_img = svg_image;
+    },
+
+    update: function() {
+	if(this._timer_on) { return; }
+	this._timer_on = true;
+	this._loading();
+	setTimeout("preview._update_image();", 100);
+	return;
+    },
+
+    _loading : function() {
+	svgweb.removeChild(this._output_img, this._frame);
+    },
+
+    _update_image : function() {
+        this._load_image();
+	svgweb.appendChild(this._output_img, this._frame);
+	this._timer_on = false;
+    },
+
+};
+preview.preload();
+
 var attr = {};
 
 attr.set_color = function(val) {
@@ -8,7 +60,7 @@ attr.set_color = function(val) {
     new Ajax.Request('/set_attr?' + params, {
 	    method    : 'get',
 	    onSuccess : function(out) {
-		start_update_timer();
+		preview.update();
 	    },
 	    onFailure : function() { 
 	    },
@@ -21,7 +73,7 @@ attr.set_boolean = function(val, b) {
     new Ajax.Request('/set_attr?' + params, {
 	    method    : 'get',
 	    onSuccess : function(out) {
-		start_update_timer();
+		preview.update();
 	    },
 	    onFailure : function() {
 	    },
@@ -42,7 +94,7 @@ data.modify = function(x, y, val) {
 		if(x == 2) {
 		    $('value' + y).setValue(resp);
 		}
-		start_update_timer();
+		preview.update();
 	    },
 	    onFailure : function() { 
 	    },
@@ -84,7 +136,7 @@ set_min = function() {
 	    onSuccess : function(out) {
 		var resp = out.responseText.substr(4);
 		$('r_min').setValue(resp);
-		start_update_timer();
+		preview.update();
 	    },
 	    onFailure : function() { 
 	    },
@@ -98,7 +150,7 @@ set_max = function() {
 	    onSuccess : function(out) {
 		var resp = out.responseText.substr(4);
 		$('r_max').setValue(resp);
-		start_update_timer();
+		preview.update();
 	    },
 	    onFailure : function() { 
 	    },
@@ -117,30 +169,6 @@ update_attribute_table = function(generator) {
 	    onFailure : function() { 
 	    },
     });
-};
-
-update_image = function() {
-    // TODO: update to work with IE as well
-    var parent = document.getElementById("preview_frame");
-    var old_obj = document.getElementById("output_image");
-    svgweb.removeChild(old_obj, parent);
-    var obj = document.createElement('object', true);
-    obj.setAttribute('type', 'image/svg+xml');
-    var url = "/output_image?" + Math.floor(Math.random() * 1000000);
-    obj.setAttribute('data', url);
-    obj.setAttribute('width', '300');
-    obj.setAttribute('height', '200');
-    obj.setAttribute('id', 'output_image');
-    svgweb.appendChild(obj, parent);
-    // console.debug("obj:" + obj);
-    timer_on = false;
-};
-
-start_update_timer = function() {
-    if(timer_on == false) {
-	timer_on = true;
-	setTimeout("update_image();", 100);
-    }
 };
 
 update_part = function(part, params) {
@@ -174,6 +202,7 @@ process_button = function(but) {
 };
 
 init = function() {
+    preview.init();
     update_part("list", "");
     update_part("info", "");
     update_edit("data");
