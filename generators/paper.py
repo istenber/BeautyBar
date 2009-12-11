@@ -17,8 +17,11 @@ class Paper(BaseGenerator):
     def get_description(self):
         return "This diagram looks like paper."
     def set_range(self, min, max):
-        self.step = (max - min) / 5
-        self.scale = range(min, max + self.step, self.step)
+        self.step = (max - min) / 50.0
+        self.min = min
+        self.scale = range(int(min),
+                           int(max + self.step * 10),
+                           int(self.step * 10))
         # print "# scale " + str(self.scale)
     def add_row(self, name, value, index=None):
         self.values.append([name, value])
@@ -36,7 +39,7 @@ class Paper(BaseGenerator):
     def _process_pylvas(self, index, elem):
         y_table = [ 1.4, 39, 78.4, 117.6, 156.8, 196 ]
         # logging.info("# process_pylvas: " + str(elem))
-        v = int(self.values[index][1]) / 10.0
+        v = (self.values[index][1] - self.min) / (10 * self.step)
         #tr = elem.getAttribute("transform")
         #logging.info("## tr b4:" + str(tr))
         s = v * 0.25 + 0.01
@@ -81,14 +84,6 @@ class Paper(BaseGenerator):
     def _generate_output(self):
         self._elem(self.doc)
         self.output = self.doc.toprettyxml()
-        logging.info(self._debug_values())
-        
-    def _debug_values(self):
-        out = "saving ("
-        for v in self.values:
-            out += str(v) + ","
-        out = out[:-1] + ")"
-        return out
 
     def get_ui_name(self):
         return "Paper bars"
