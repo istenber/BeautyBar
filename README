@@ -253,8 +253,7 @@ Others (PRIO 5)
 
 + write __doc__s for code, so epydoc can get nice api descs
 
-+ write sitemap.xml and robots.txt
-
++ write sitemap.xml
 
 Required skills
 ------------------------
