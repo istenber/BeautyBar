@@ -81,7 +81,7 @@ var attr = {
     _generator_updater: function(out) {
 	preview.update();
 	update_part("info", "");
-	if (edit.s == 'style') { update_attribute_table("session"); }
+	if (edit.s == 'style') { editor.show_attributes(); }
     },
     set_generator: function(val) {
 	ajaxWrapper("/set_generator?name=" + val, this._generator_updater);
@@ -120,16 +120,17 @@ var data = {
 };
 
 
-update_attribute_table = function(generator) {
-    new Ajax.Request('/attr_table?gen=' + generator, {
-	    method    : 'get',
-	    onSuccess : function(out) {
-		$('attribute_table').update(out.responseText);
-		jscolor.bind();
-	    },
-	    onFailure : function() { 
-	    },
-    });
+var editor = {
+    _updater: function(out, xxx) {
+	preview.update();
+    },
+    _attribute_updater: function(out) {
+	$('attribute_table').update(out.responseText);
+	jscolor.bind();
+    },
+    show_attributes: function() {
+	ajaxWrapper("/attr_table", this._attribute_updater);
+    },
 };
 
 update_part = function(part, params) {
@@ -155,7 +156,7 @@ var edit = {
 update_edit = function(s) {
     edit.s = s;
     update_part("edit", "&s=" + edit.s);
-    if (edit.s == 'style') { update_attribute_table("session"); }
+    if (edit.s == 'style') { editor.show_attributes(); }
 };
 
 process_button = function(but) {
