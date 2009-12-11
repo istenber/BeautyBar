@@ -10,7 +10,7 @@ NEW_VERSION=`awk '/^version/ {print $2+1;}' ${APP_FILE}`
 MSG="Sending version $NEW_VERSION to Google"
 echo $MSG
 TMP_FILE=/tmp/app.yaml.tmp
-sed 's/^version: .*$/version: 7/' ${APP_FILE} > ${TMP_FILE}
+sed "s/^version: .*$/version: $NEW_VERSION/" ${APP_FILE} > ${TMP_FILE}
 mv ${TMP_FILE} ${APP_FILE}
 
 # commiting new version file
