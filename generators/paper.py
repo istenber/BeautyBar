@@ -91,3 +91,6 @@ class Paper(BaseGenerator):
     def get_attributes(self):
         linecolor = Color(self, "linecolor", "Line color")
         return [linecolor]
+
+    def get_rating(self):
+        return 3

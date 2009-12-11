@@ -109,3 +109,7 @@ class Standard(BaseGenerator):
         barcolor = Color(self, "barcolor", "Color of bars")
         has_grid = Boolean(self, "has_grid", "Grid")
         return [bgcolor, barcolor, has_grid]
+
+    def get_rating(self):
+        return 5
+

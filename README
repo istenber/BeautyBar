@@ -225,6 +225,8 @@ Others (PRIO 5)
 
 + make pychecker and lint rules
 
++ add get_rating to generator UML model
+
 + business plan (PRIO 5)
 
 + make chart-api caching

@@ -55,6 +55,7 @@ class AjaxMain(webapp.RequestHandler):
                  'name'        : chart.get_ui_name(),
                  'description' : chart.get_description(),
                  'chart_api'   : self._chart_api_link(),
+                 'rating'      : range(0, chart.get_rating()),
                  }
 
     def get_edit(self):
