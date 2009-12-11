@@ -85,8 +85,8 @@ class Shiny(BaseGenerator):
                 "under heavy development.")
 
     def set_range(self, min, max):
-        # TODO: some functionality?
-        pass
+        self.min = min
+        self.max = max
     
     def add_row(self, name, value, index=None):
         self.values.append([name, value])
@@ -96,7 +96,8 @@ class Shiny(BaseGenerator):
             bar = Bar(Shiny.__red_bar[3, 0])
             bar.set_color(self.colors[index])
             bar.set_pos(index)
-            bar.set_size(self.values[index][1])
+            f = 40.0 / (self.max - self.min)
+            bar.set_size(self.values[index][1] * f)
             scaler.append(bar.bar)
 
     def _get_vertical_meter(self):
@@ -104,10 +105,11 @@ class Shiny(BaseGenerator):
                            d="M 50,30 L 50,150",
                            style="stroke:#000000;stroke-width:1px")
         vertical_meter = SVG("g", vertical_bar)
-        for val in range(0, 5):
-            t = Text(20, 34+val*30, 
-                     str(40-val*10), 
-                     font_size=15).SVG()
+        s = 8
+        step = (self.max - self.min) / (s - 1)
+        for val in range(0, s):
+            m = str(int(self.max-val*step))
+            t = Text(20, 34+val*(120 / (s - 1)), m, font_size=13).SVG()
             vertical_meter.append(t)
         return vertical_meter
 
