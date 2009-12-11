@@ -28,28 +28,28 @@
  .height_lmiddle { }
  .height_llarge { }
 
- .tl_corner {
+ .br_corner {
      height: 15px;
      width: 15px;
-     background: url("/images/tl.png") bottom right no-repeat;
- }
-
- .tr_corner {
-     height: 15px;
-     width: 15px;
-     background: url("/images/tr.png") bottom left no-repeat;
+     background: url("/images/corners.png") bottom right no-repeat;
  }
 
  .bl_corner {
      height: 15px;
      width: 15px;
-     background: url("/images/bl.png") top right no-repeat;
+     background: url("/images/corners.png") bottom left no-repeat;
  }
 
- .br_corner {
+ .tr_corner {
      height: 15px;
      width: 15px;
-     background: url("/images/br.png") top left no-repeat;
+     background: url("/images/corners.png") top right no-repeat;
+ }
+
+ .tl_corner {
+     height: 15px;
+     width: 15px;
+     background: url("/images/corners.png") top left no-repeat;
  }
 
  .llogin {
