@@ -28,6 +28,30 @@
  .height_lmiddle { }
  .height_llarge { }
 
+ .tl_corner {
+     height: 15px;
+     width: 15px;
+     background: url("/images/tl.png") bottom right no-repeat;
+ }
+
+ .tr_corner {
+     height: 15px;
+     width: 15px;
+     background: url("/images/tr.png") bottom left no-repeat;
+ }
+
+ .bl_corner {
+     height: 15px;
+     width: 15px;
+     background: url("/images/bl.png") top right no-repeat;
+ }
+
+ .br_corner {
+     height: 15px;
+     width: 15px;
+     background: url("/images/br.png") top left no-repeat;
+ }
+
  .llogin {
      text-align        : right;
      vertical-align    : middle;
@@ -107,7 +131,6 @@
  }
 
  #carousel-content .slide {
-     float             : center;
      width             : 100px;
      height            : 60px;
  }
