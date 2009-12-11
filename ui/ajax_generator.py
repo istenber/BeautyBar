@@ -53,7 +53,7 @@ class AjaxAttributes(webapp.RequestHandler):
         gf = GeneratorFactory().instance()
         g_name = self.session.style.get_active_generator().name
         generator = gf.get_generator(g_name + ".py")
-        values = { 'cur_gen' : g_name }
+        values = { 'generator_name' : generator.get_ui_name() }
         parts = []
         # TODO: very hackish attribute setting. refactor to better
         ag = self.session.style.get_active_generator()
