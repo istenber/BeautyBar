@@ -1,10 +1,3 @@
-# TODO: remove!
-if __name__ == "__main__":
-    import sys
-    LIB_PATH = "/home/sankari/dev/beautybar/"
-    sys.path.append(LIB_PATH)
-
-
 import logging
 import re
 
