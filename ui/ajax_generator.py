@@ -71,44 +71,15 @@ class AjaxAttributes(webapp.RequestHandler):
         return values
     
     def _get_html(self, attr):
-        part_f = "self._part_" + attr.get_type()
-        if not hasattr(self, "_part_" + attr.get_type()):
-            logging.info("# Unknown attribute \"" + attr.get_type() +
-                         "\" named \"" + attr.get_name() + "\"")
-            return None
-        else:
-            out = ""
-            out += self._part_common(attr)
-            out += "<td class=\"attr_cell\">"
-            out += eval(part_f)(attr)
-            out += "</td>\n"
-            return out
-
-    def _part_common(self, attr):
-        return "<td class=\"attr_cell\">" + attr.get_ui_name() + "</td>\n"
-
-    # TODO: change other attributes as well
-    def _part_Color(self, attr):
-        n = "Color".lower()
-        path = os.path.join(os.path.dirname(__file__),
-                            '../templates/attributes/' + n + '.html')
+        name = attr.get_type().lower()
         values = { 'name'  : attr.get_name(),
                    'value' : attr.get_value()
                    }
-        return template.render(path, values)
-
-    def _part_Boolean(self, attr):
-        n = attr.get_name()
+        path = os.path.join(os.path.dirname(__file__),
+                            '../templates/attributes/' + name + '.html')
         out = ""
-        if attr.get_value() == "true": c = " checked=\"true\""
-        else: c = ""
-        out += ("Yes:<input type=\"radio\" id=\"" + n + "\"" +
-                " name=\"" + n + "\"" + c + " value=\"true\"" +
-                " onchange=\"attr.set_boolean('" + n + "', true);\">\n")
-        out += " "
-        if attr.get_value() == "false": c = " checked=\"true\""
-        else: c = ""
-        out += ("No:<input type=\"radio\" id=\"" + n + "\"" +
-                " name=\"" + n + "\"" + c + " value=\"false\"" +
-                " onchange=\"attr.set_boolean('" + n + "', false);\">\n")
+        out += "<td class=\"attr_cell\">" + attr.get_ui_name() + "</td>\n"
+        out += "<td class=\"attr_cell\">"
+        out += template.render(path, values)
+        out += "</td>\n"
         return out

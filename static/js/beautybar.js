@@ -51,33 +51,33 @@ var preview = {
 };
 preview.preload();
 
-var attr = {};
 
-attr.set_color = function(val) {
-    var color = $(val).getValue();
-    var generator = $('generator_name').getValue();
-    var params = val + "=\"" + color + "\"";
-    new Ajax.Request('/set_attr?' + params, {
+var ajaxWrapper = function(url, postprocessor) {
+    new Ajax.Request(url, {
 	    method    : 'get',
 	    onSuccess : function(out) {
-		preview.update();
+		postprocessor(out);
 	    },
 	    onFailure : function() { 
 	    },
-    });
+	});
 };
 
-attr.set_boolean = function(val, b) {
-    var generator = $('generator_name').getValue();
-    var params = val + "=" + b;
-    new Ajax.Request('/set_attr?' + params, {
-	    method    : 'get',
-	    onSuccess : function(out) {
-		preview.update();
-	    },
-	    onFailure : function() {
-	    },
-    });
+
+var attr = {
+    _updater: function(out) {
+	preview.update();
+    },
+    set_value: function(val) {
+	ajaxWrapper("/set_attr?" + val + "=\"" + $(val).getValue() + "\"",
+		    this._updater);
+    },
+    set_boolean: function(val) {
+	this.set_value(val);
+    },
+    set_color: function(val) {
+	this.set_value(val);
+    },
 };
 
 var data = {};
@@ -156,8 +156,6 @@ set_max = function() {
 	    },
     });
 };
-
-var timer_on = false;
 
 update_attribute_table = function(generator) {
     new Ajax.Request('/attr_table?gen=' + generator, {
