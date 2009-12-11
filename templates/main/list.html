@@ -13,7 +13,7 @@
       <div id="carousel-content">
 	{% for gen in generators %}
 	<div class="slide">
-	  <img class="list_image" src="/images/{{ gen.get_name }}-small.png" alt="{{ gen.get_ui_name }}" onclick="gen('{{ gen.get_name }}');" />
+	  <img class="list_image" src="/images/{{ gen.get_name }}-small.png" alt="{{ gen.get_ui_name }}" onclick="attr.set_generator('{{ gen.get_name }}');" />
 	</div>
 	{% endfor %}
       </div>

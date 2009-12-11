@@ -1,5 +1,6 @@
 import logging
 
+from django.template.defaultfilters import floatformat
 from google.appengine.ext import webapp
 from model.data import Item, Data
 from ui.dao import DAO
@@ -23,10 +24,10 @@ class AjaxModify(AjaxBase):
         max = self.request.get("max")
         if min != "":
             # logging.info("# setting min to " + min)
-            return self.data.set_min(min)
+            return floatformat(self.data.set_min(min))
         if max != "": 
             # logging.info("# setting max to " + max)
-            return self.data.set_max(max)
+            return floatformat(self.data.set_max(max))
 
     def _handle_data_update(self):
         # TODO: hacky code, needs refactoring...
@@ -40,7 +41,6 @@ class AjaxModify(AjaxBase):
             if ',' in val: val.replace(',', '.', 1)
             if self.data.value_ok(val):
                 self.data.items[y].set_value(val)
-            from django.template.defaultfilters import floatformat
             return floatformat(self.data.items[y].value)
         logging.info("# some tries to send data out of range")
         return "failed." # TODO: raise error?

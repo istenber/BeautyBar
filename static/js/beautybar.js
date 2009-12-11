@@ -52,11 +52,11 @@ var preview = {
 preview.preload();
 
 
-var ajaxWrapper = function(url, postprocessor) {
+var ajaxWrapper = function(url, postprocessor, data) {
     new Ajax.Request(url, {
 	    method    : 'get',
 	    onSuccess : function(out) {
-		postprocessor(out);
+		postprocessor(out, data);
 	    },
 	    onFailure : function() { 
 	    },
@@ -78,9 +78,34 @@ var attr = {
     set_color: function(val) {
 	this.set_value(val);
     },
+    _generator_updater: function(out) {
+	preview.update();
+	update_part("info", "");
+	if (edit.s == 'style') { update_attribute_table("session"); }
+    },
+    set_generator: function(val) {
+	ajaxWrapper("/set_generator?name=" + val, this._generator_updater);
+    },
 };
 
-var data = {};
+
+var data = {
+    _updater: function(out, limit) {
+	var resp = out.responseText.substr(4);
+	$('r_' + limit).setValue(resp);
+	preview.update();
+    },
+    _set_limit: function(limit) {
+	ajaxWrapper("/modify_data?" + limit + "=" + $('r_' + limit).getValue(),
+		    this._updater, limit);
+    },
+    set_min: function() {
+	this._set_limit("min");
+    },
+    set_max: function() {
+	this._set_limit("max");
+    },
+};
 
 data.modify = function(x, y, val) {
     var params = "x=" + x + "&y=" + y + "&val=" + val;
@@ -101,21 +126,6 @@ data.modify = function(x, y, val) {
     });
 };
 
-var generator = {};
-
-generator.modify = function(val) {
-    new Ajax.Request('/set_generator?name=' + val, {
-	    method    : 'get',
-	    onSuccess : function(out) {
-		preview.update();
-		update_part("info", "");
-		if (edit.s == 'style') { update_attribute_table("session"); }
-	    },
-	    onFailure : function() { 
-	    },
-    });
-};
-
 fm = function(val) {
     if(val.indexOf("name")!=-1) {
 	data.modify(1, val.substr(4), $(val).getValue());
@@ -124,38 +134,6 @@ fm = function(val) {
     }
 };
 
-gen = function(val) {
-    var msg = "<br /><center>Attribute table loading...</center>";
-    generator.modify(val); 
-};
-
-set_min = function() {
-    var val = $('r_min').getValue();
-    new Ajax.Request('/modify_data?min=' + val, {
-	    method    : 'get',
-	    onSuccess : function(out) {
-		var resp = out.responseText.substr(4);
-		$('r_min').setValue(resp);
-		preview.update();
-	    },
-	    onFailure : function() { 
-	    },
-    });
-};
-
-set_max = function() {
-    var val = $('r_max').getValue();
-    new Ajax.Request('/modify_data?max=' + val, {
-	    method    : 'get',
-	    onSuccess : function(out) {
-		var resp = out.responseText.substr(4);
-		$('r_max').setValue(resp);
-		preview.update();
-	    },
-	    onFailure : function() { 
-	    },
-    });
-};
 
 update_attribute_table = function(generator) {
     new Ajax.Request('/attr_table?gen=' + generator, {
