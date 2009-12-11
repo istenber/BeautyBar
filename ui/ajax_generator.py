@@ -26,7 +26,7 @@ class AjaxSetAttribute(AjaxBase):
         gen_r = gf.get_generator(g.name + ".py")
         for attr in gen_r.get_attributes():
             n = attr.get_name()
-            i = self.request.get(n)
+            i = unquote(self.request.get(n))
             if i != "":
                 # logging.info("# got \"" + n + "\" as \"" + i + "\"")
                 a = g.get_attribute(n)
