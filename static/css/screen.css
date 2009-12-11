@@ -135,4 +135,10 @@
      height            : 60px;
  }
 
+ .list_image {
+     border-style      : outset;
+     border-color      : black;
+     border-width      : 2px;
+ }
+
  a img { border: none; }

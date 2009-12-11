@@ -107,7 +107,7 @@ generator.modify = function(val) {
     new Ajax.Request('/set_generator?name=' + val, {
 	    method    : 'get',
 	    onSuccess : function(out) {
-		update_image();
+		preview.update();
 		update_part("info", "");
 		if (edit.s == 'style') { update_attribute_table("session"); }
 	    },
