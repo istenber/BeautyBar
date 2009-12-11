@@ -80,8 +80,8 @@ var attr = {
     },
     _generator_updater: function(out) {
 	preview.update();
-	update_part("info", "");
-	if (edit.s == 'style') { editor.show_attributes(); }
+	parts.update("info");
+	if (editor.current == 'style') { editor.show_attributes(); }
     },
     set_generator: function(val) {
 	ajaxWrapper("/set_generator?name=" + val, this._generator_updater);
@@ -121,9 +121,7 @@ var data = {
 
 
 var editor = {
-    _updater: function(out, xxx) {
-	preview.update();
-    },
+    current: 'data',
     _attribute_updater: function(out) {
 	$('attribute_table').update(out.responseText);
 	jscolor.bind();
@@ -133,42 +131,43 @@ var editor = {
     },
 };
 
-update_part = function(part, params) {
-    new Ajax.Request('/main?part=' + part + params, {
-	    method    : 'get',
-	    onSuccess : function(out) {
-		$('part_' + part).update(out.responseText);
-		if(part == "list") {
-		    new Carousel('carousel-wrapper',
-				 $$('#carousel-content .slide'),
-				 $$('a.carousel-control'));
-		}
-	    },
-	    onFailure : function() {
-	    },
-    });
+
+var parts = {
+    _updater: function(out, part) {
+	$('part_' + part).update(out.responseText);
+	if(part == "list") {
+	    new Carousel('carousel-wrapper',
+			 $$('#carousel-content .slide'),
+			 $$('a.carousel-control'));
+	}
+	if(part == "edit" && editor.current == 'style') {
+	    editor.show_attributes();
+	}
+    },
+    update: function(part) {
+	if(part == "edit") { return this._update_editor(); }
+	ajaxWrapper("/main?part=" + part, this._updater, part);
+    },
+    _update_editor: function() {
+	ajaxWrapper("/main?part=edit&s=" + editor.current,
+		    this._updater, 'edit');
+    }
 };
 
-var edit = { 
-    s : 'data'
+
+process_button = function(button) {
+    editor.current = button;
+    parts.update("edit");
 };
 
-update_edit = function(s) {
-    edit.s = s;
-    update_part("edit", "&s=" + edit.s);
-    if (edit.s == 'style') { editor.show_attributes(); }
-};
-
-process_button = function(but) {
-    update_edit(but);
-};
 
 init = function() {
     preview.init();
-    update_part("list", "");
-    update_part("info", "");
-    update_edit("data");
+    parts.update("list");
+    parts.update("info");
+    parts.update("edit");
 };
+
 
 Event.observe(window, 'load', init, false); 
 
