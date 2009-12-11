@@ -12,13 +12,14 @@ from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 from ui.ajax_main import AjaxMain
 from ui.chart_api import ChartPage
 from ui.feedback import FeedbackProcessor, FeedbackReader
-from ui.view_sessions import ViewSessions
+from ui.admin_pages import ViewSessions, AdminMainPage
 from ui.error_pages  import MissingPage
 
 def get_admin_pages():
     # TODO: these should be protected by password...
     return [('/admin/feedback', FeedbackReader),
             ('/admin/sessions', ViewSessions),
+            ('/admin/', AdminMainPage),
             ]
 
 def main():
