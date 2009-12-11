@@ -96,7 +96,7 @@ var data = {
 	preview.update();
     },
     _set_limit: function(limit) {
-	ajaxWrapper("/modify_data?" + limit + "=" + $('r_' + limit).getValue(),
+	ajaxWrapper("/set_range?" + limit + "=" + $('r_' + limit).getValue(),
 		    this._updater, limit);
     },
     set_min: function() {
@@ -105,33 +105,18 @@ var data = {
     set_max: function() {
 	this._set_limit("max");
     },
-};
-
-data.modify = function(x, y, val) {
-    var params = "x=" + x + "&y=" + y + "&val=" + val;
-    new Ajax.Request('/modify_data?' + params, {
-	    method    : 'get',
-	    onSuccess : function(out) {
-		var resp = out.responseText.substr(4);
-		if(x == 1) {
-		    $('name' + y).setValue(resp);
-		}
-		if(x == 2) {
-		    $('value' + y).setValue(resp);
-		}
-		preview.update();
-	    },
-	    onFailure : function() { 
-	    },
-    });
-};
-
-fm = function(val) {
-    if(val.indexOf("name")!=-1) {
-	data.modify(1, val.substr(4), $(val).getValue());
-    } else {
-	data.modify(2, val.substr(5), $(val).getValue());
-    }
+    set_name: function(row) {
+	var id = "name_" + row;
+	ajaxWrapper("/set_name?row=" + row + "&val=\"" +
+		    $('r_' + id).getValue() + "\"",
+		    this._updater, id);
+    },
+    set_value: function(row) {
+	var id = "value_" + row;
+	ajaxWrapper("/set_value?row=" + row + "&val=\"" +
+		    $('r_' + id).getValue() + "\"",
+		    this._updater, id);
+    },
 };
 
 

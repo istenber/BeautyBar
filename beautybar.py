@@ -7,7 +7,7 @@ from ui.mainpage import MainPage
 from ui.extra_pages import LearnPage, AboutPage
 from ui.output_image import OutputImage
 from ui.data_operations import CleanData, LoadData, SaveData, ImportData
-from ui.ajax_modify import AjaxModify
+from ui.ajax_modify import AjaxModifyName, AjaxModifyValue, AjaxRange
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 from ui.ajax_main import AjaxMain
 from ui.chart_api import ChartPage
@@ -35,17 +35,23 @@ def main():
 
     # TODO: split pages to groups: infopages, normalpages, ajaxpages, etc.
     pages = [('/', MainPage),
+             ('/main', AjaxMain),
+
              ('/about', AboutPage),
              ('/learn', LearnPage),
-             ('/modify_data', AjaxModify),
+
+             ('/set_name', AjaxModifyName),
+             ('/set_value', AjaxModifyValue),
+             ('/set_range', AjaxRange),
              ('/set_generator', AjaxGenerator),
+             ('/set_attr', AjaxSetAttribute),
+
              ('/clean', CleanData),
              ('/save', SaveData),
              ('/load', LoadData),
              ('/import_csv', ImportData),
+
              ('/attr_table', AjaxAttributes),
-             ('/set_attr', AjaxSetAttribute),
-             ('/main', AjaxMain),
              ('/chart', ChartPage),
              ('/feedback', FeedbackProcessor),
              ('/output_image', OutputImage)]
