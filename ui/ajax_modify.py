@@ -26,12 +26,14 @@ class AjaxRange(AjaxBase):
         min = self.request.get("min")
         max = self.request.get("max")
         if min != "":
-            return floatformat(self.data.set_min(min))
+            self.data.set_min(min)
+            DAO.save(self.session.data)
+            return floatformat(self.data.min)
         if max != "": 
-            return floatformat(self.data.set_max(max))
+            self.data.set_max(max)
+            DAO.save(self.session.data)
+            return floatformat(self.data.max)
         # TODO: fix bug, session.data is not saved when session is!
-        DAO.save(self.session.data)
-        return out
 
 
 class AjaxModifyName(AjaxBase):
