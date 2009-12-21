@@ -69,7 +69,8 @@ class AjaxAttributes(webapp.RequestHandler):
     def _get_html(self, attr):
         name = attr.get_type().lower()
         values = { 'name'  : attr.get_name(),
-                   'value' : attr.get_value()
+                   'value' : attr.get_value(),
+                   'attr' : attr,
                    }
         path = os.path.join(os.path.dirname(__file__),
                             '../templates/attributes/' + name + '.html')

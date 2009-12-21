@@ -21,3 +21,25 @@ class Boolean(Attribute):
     def string_to_value(self, string):
         if string == "true": return True
         return False
+
+
+class Float(Attribute):
+
+    def __init__(self, generator, name, ui_name, min, max):
+        Attribute.__init__(self, generator, name, ui_name)
+        if min is None: min = 0.0
+        if max is None: max = 10.0
+        self.min = min
+        self.max = max
+
+    def value_to_string(self, value):
+        return str(value)
+
+    def string_to_value(self, string):
+        try:
+            f = float(string)
+            if f > self.max: return self.max
+            if f < self.min: return self.min
+            return f
+        except ValueError:
+            return 0.0

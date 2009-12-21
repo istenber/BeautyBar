@@ -2,7 +2,7 @@ import logging
 
 from xml.dom import minidom
 from base import BaseGenerator
-from attributes.common import Color
+from attributes.common import Color, Float
 
 # TODO: read path with some other way?
 template="generators/paper/template.svg"
@@ -14,6 +14,7 @@ class Paper(BaseGenerator):
         # TODO: change to english
         self.id_prefixes = [ "arvo", "nimi", "pylvas", "viiva", "praja"]
         self.linecolor = "000000"
+        self.linesize = 1.0
     def get_description(self):
         return "This diagram looks like paper."
     def set_range(self, min, max):
@@ -29,6 +30,11 @@ class Paper(BaseGenerator):
         self.doc = minidom.parse(template)
         self._generate_output()        
         return self.output
+    def _line_size(self, elem):
+        style = elem.getAttribute("style")
+        ns = style.replace("stroke-width:1.0px;",
+                           "stroke-width:" + str(self.linesize) + "px;")
+        elem.setAttribute("style", ns)
     def _line_color(self, elem, color_elem):
         style = elem.getAttribute("style")
         ns = style.replace(color_elem + ":#000000;",
@@ -36,6 +42,7 @@ class Paper(BaseGenerator):
         elem.setAttribute("style", ns)
     def _process_viiva(self, index, elem):
         self._line_color(elem, "stroke")
+        self._line_size(elem)
     def _process_pylvas(self, index, elem):
         y_table = [ 1.4, 39, 78.4, 117.6, 156.8, 196 ]
         # logging.info("# process_pylvas: " + str(elem))
@@ -51,6 +58,7 @@ class Paper(BaseGenerator):
                                              str(x) + ")"))
     def _process_praja(self, index, elem):
         self._line_color(elem, "stroke")
+        self._line_size(elem)
     def _process_nimi(self, index, elem):
         # print "# process_nimi: " + str(elem)
         tspan = elem.childNodes[0]
@@ -90,7 +98,8 @@ class Paper(BaseGenerator):
     
     def get_attributes(self):
         linecolor = Color(self, "linecolor", "Line color")
-        return [linecolor]
+        linesize = Float(self, "linesize", "Line size", 0.1, 2.0)
+        return [linecolor, linesize]
 
     def get_rating(self):
         return 3
