@@ -30,6 +30,9 @@ class GuiInterface(object):
         """Should return human readble description of generator"""
         return "no description"
 
+    def get_rating(self):
+        """Should return generator rating in scale one to five"""
+        return 1
 
 def main():
 
