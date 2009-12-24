@@ -9,17 +9,17 @@ class Skel(BaseGenerator):
     # Process interface
     def set_range(self, min, max):
         pass
-    def add_row(self, name, value, index):
+    def add_row(self, name, value, index=None):
         pass
     def output(self):
-        pass
+        return ""
 
     # Gui interface
     def get_description(self):
-        pass
+        return ""
     def get_ui_name(self):
-        pass
+        return ""
     def get_attributes(self):
-        pass
+        return []
     def get_rating(self):
-        pass
+        return 1
