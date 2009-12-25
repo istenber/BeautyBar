@@ -34,7 +34,7 @@ class Nature(SvgFigGenerator):
 
     def __init__(self):
         SvgFigGenerator.__init__(self)
-        self.bg_image = 1
+        self.bg_image = "1"
 
     def get_defs(self):
         # TODO: not used!
@@ -121,7 +121,7 @@ class Nature(SvgFigGenerator):
         # TODO: different size and placed shadows for bars
         # TODO: font size
         bg_image = Choice(self, "bg_image", "Background image",
-                          [["A", 1], ["B", 2], ["C", 3]])
+                          [["A", "1"], ["B", "2"], ["C", "3"]])
         return [bg_image]
     def get_rating(self):
         return 5
