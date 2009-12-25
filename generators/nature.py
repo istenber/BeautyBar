@@ -25,8 +25,8 @@ class SvgFigGenerator(BaseGenerator):
         return svg.standalone_xml()
 
     def set_range(self, min, max):
-        # TODO: range
-        pass
+        self.min = min
+        self.max = max
 
     def add_row(self, name, value, index=None):
         self.rows.append([name, value])
@@ -93,7 +93,7 @@ class Nature(SvgFigGenerator):
             # TODO: scale value (50.0 -> to something else)
             # 140 is max value that fits in frame, maybe we need
             # a bit smaller... and shadows take space as well
-            value = row[1] * 135.0 / 50.0
+            value = (row[1] - self.min) * 135.0 / (self.max - self.min)
             # baseline is at 165 (=200-10-25)
             pos = 165-value
             bar = SVG("g",
