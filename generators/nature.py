@@ -1,12 +1,10 @@
 import logging
 
 from base import BaseGenerator
+from attributes.common import Choice
 
 from lib.svgfig import *
 
-# TODO: use some other kind of url
-# img="/home/sankari/dev/beautybar/doc/generator_design/ideas/nature-1.jpg"
-img="/images/nature-1.jpg"
 
 class SvgFigGenerator(BaseGenerator):
 
@@ -34,6 +32,10 @@ class SvgFigGenerator(BaseGenerator):
 
 class Nature(SvgFigGenerator):
 
+    def __init__(self):
+        SvgFigGenerator.__init__(self)
+        self.bg_image = 1
+
     def get_defs(self):
         # TODO: not used!
         #r = SVG("rect", id="bgrect",
@@ -49,6 +51,8 @@ class Nature(SvgFigGenerator):
                    self._get_bars())
 
     def _get_background(self):
+        # image size 290x136
+        img="/images/nature-" + str(self.bg_image) + ".jpg"
         # bg colors are black and green, and we get roundings by using
         # stroke and stroke-linejoin:round
         shadow_style=("stroke:#000000;stroke-width:50;stroke-linejoin:round;")
@@ -73,9 +77,6 @@ class Nature(SvgFigGenerator):
                  SVG("image", id="bg_image",x=0, y=27,
                      width=290, height=136,
                      xlink__href=img))
-        # TODO: modify image to correct size!!
-        # image size 290x136
-        # TODO: fix image href
         return bg
 
     def _get_bars(self):
@@ -116,10 +117,11 @@ class Nature(SvgFigGenerator):
     def get_ui_name(self):
         return "Nature theme"
     def get_attributes(self):
-        # TODO: allow changing picture
         # TODO: allow color themes
         # TODO: different size and placed shadows for bars
         # TODO: font size
-        return []
+        bg_image = Choice(self, "bg_image", "Background image",
+                          [["A", 1], ["B", 2], ["C", 3]])
+        return [bg_image]
     def get_rating(self):
         return 5

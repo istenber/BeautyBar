@@ -1,5 +1,6 @@
 # TODO: read from dir?
-acceptable_types = ["Color", "Boolean"]
+# not used!!!
+acceptable_types = ["Color", "Boolean", "Float", "Choice"]
 
 
 class Attribute(object):

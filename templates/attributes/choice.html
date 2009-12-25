@@ -1,0 +1,3 @@
+{% for choice in attr.choices %}
+{{ choice.0 }}<input type="radio" id="{{ name }}" name="{{ name }}" {% ifequal value choice.1 %}checked="true" {% endifequal %} onchange="attr.set_choice('{{ name }}', {{ choice.1 }});">
+{% endfor %}

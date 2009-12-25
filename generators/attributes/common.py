@@ -23,6 +23,19 @@ class Boolean(Attribute):
         return False
 
 
+class Choice(Attribute):
+
+    def __init__(self, generator, name, ui_name, choices):
+        Attribute.__init__(self, generator, name, ui_name)
+        self.choices = choices
+
+    def value_to_string(self, value):
+        return str(value)
+
+    def string_to_value(self, string):
+        return int(string)
+
+
 class Float(Attribute):
 
     def __init__(self, generator, name, ui_name, min, max):
