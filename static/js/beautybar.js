@@ -72,8 +72,9 @@ var attr = {
 	ajaxWrapper("/set_attr?" + val + "=\"" + $(val).getValue() + "\"",
 		    this._updater);
     },
-    set_boolean: function(val) {
-	this.set_value(val);
+    set_boolean: function(val, r) {
+	ajaxWrapper("/set_attr?" + val + "=\"" + r + "\"",
+		    this._updater);
     },
     set_color: function(val) {
 	this.set_value(val);
