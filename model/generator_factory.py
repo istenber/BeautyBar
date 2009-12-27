@@ -24,7 +24,7 @@ class GeneratorFactory(Singleton):
         # files = os.listdir(generators_folder)
         # files.sort()
         # TODO: houses disabled for now
-        for generator in ["standard", "shiny", "paper", "nature"]:
+        for generator in ["nature", "standard", "plain", "shiny", "paper"]:
             #if file in skip_files: continue
             #if file.endswith(".py"):
             self.generators.append(self.get_generator(generator + ".py"))
