@@ -4,21 +4,8 @@ from svgfig_base import SvgFigGenerator
 from attributes.common import Color, Boolean, Float
 
 from lib.svgfig import *
+from lib.utils import darker_color
 
-
-def _darker(part, amount):
-    c = int(part, 16)
-    c -= amount
-    if c < 0:
-        return "00"
-    else:
-        return hex(c)[2:4]
-
-def color_to_darker(color, amount):
-    return (_darker(color[0:2], amount) +
-            _darker(color[2:4], amount) +
-            _darker(color[4:6], amount))  
-    
 
 class Equalizer(SvgFigGenerator):
 
@@ -48,7 +35,7 @@ class Equalizer(SvgFigGenerator):
             lines.append(line)
         bg = SVG("g",
                  SVG("rect", x=0, y=0, width=300, height=200,
-                     style="fill:#" + color_to_darker(self.color, 10) + ";"),
+                     style="fill:#" + darker_color(self.color, 10) + ";"),
                  lines)
         return bg
 
