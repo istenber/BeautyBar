@@ -25,8 +25,8 @@ class Equalizer(SvgFigGenerator):
     def __init__(self):
         SvgFigGenerator.__init__(self)
         self.color = "808000"
-        self.has_background = True
-        self.how_sparse = 4
+        self.has_background = False
+        self.how_sparse = 3
 
     def get_defs(self):
         defs = SVG("defs", id="defs")
