@@ -150,7 +150,7 @@ class DAO(db.Model):
                 l_obj = list_dao._dao_to_obj(list_dao, refs)
                 setattr(l_obj, "__" + my_ref + "__", obj) # TODO: dao or obj?
                 l.append(l_obj)
-            setattr(obj, list_name, l)
+            setattr(obj, list_name, sorted(l))
 
     @classmethod
     def _dao_to_obj(self, dao, refs):

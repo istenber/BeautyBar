@@ -38,6 +38,9 @@ class Item(object):
         i.row = self.row
         return i
 
+    def __cmp__(self, other):
+        return cmp(self.row, other.row)
+
 
 class Data(object):
 
