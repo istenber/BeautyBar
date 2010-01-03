@@ -20,10 +20,9 @@ var preview = {
     },
 
     _load_image_others: function() {
-	var rnd = Math.floor(Math.random() * 1000000);
 	var svg_image = document.createElement('object', true);
 	svg_image.setAttribute('type', 'image/svg+xml');
-	svg_image.setAttribute('data', '/output_image?' + rnd);
+	svg_image.setAttribute('data', '/preview');
 	svg_image.setAttribute('width', '300');
 	svg_image.setAttribute('height', '200');
 	svg_image.setAttribute('id', 'o_img');

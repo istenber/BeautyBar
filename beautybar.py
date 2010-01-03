@@ -5,7 +5,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from ui.mainpage import MainPage
 from ui.extra_pages import LearnPage, AboutPage
-from ui.output_image import OutputImage
+from ui.output_image import PreviewImage, SvgImage
 from ui.data_operations import CleanData, LoadData, SaveData, ImportData
 from ui.ajax_modify import AjaxModifyName, AjaxModifyValue, AjaxRange
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
@@ -55,7 +55,8 @@ def main():
              ('/attr_table', AjaxAttributes),
              ('/chart', ChartPage),
              ('/feedback', FeedbackProcessor),
-             ('/output_image', OutputImage)]
+             ('/export.svg', SvgImage),
+             ('/preview', PreviewImage)]
     application = webapp.WSGIApplication(pages +
                                          test_pages +
                                          get_admin_pages() +
