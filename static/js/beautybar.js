@@ -16,7 +16,13 @@ var preview = {
     },
 
     _load_image_IE: function() {
-	console.log("TODO: IE not supported yet.");
+	var svg_image = document.createElement('object', true);
+	svg_image.setAttribute('classid', 'image/svg+xml');
+	svg_image.setAttribute('src', '/preview');
+	svg_image.setAttribute('width', '300');
+	svg_image.setAttribute('height', '200');
+	svg_image.setAttribute('id', 'o_img');
+	this._output_img = svg_image;
     },
 
     _load_image_others: function() {
