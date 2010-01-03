@@ -28,7 +28,6 @@ class Blocks(SvgFigGenerator):
         exact_steps = (val / step_size)
         steps = int(math.floor(exact_steps))
         for y in range(0, steps):
-            logging.info("# c: " + color)
             g.append(SVG("rect", height = step_size, width = 40,
                          x = x, y = 160 - (y * (step_size + 10)),
                          style="fill:#" + color + ";"))
