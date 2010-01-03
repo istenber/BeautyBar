@@ -17,6 +17,9 @@ class Page(webapp.RequestHandler):
     def get_values(self):
         """Override me!"""
 
+    def is_development(self):
+        return os.environ["SERVER_SOFTWARE"].startswith("Development")
+
     def get_user(self):
         self.values['user'] = users.get_current_user()
         if self.values['user']:
@@ -31,6 +34,7 @@ class Page(webapp.RequestHandler):
         else:
             self.values['template'] = self.__class__.__name__.lower() + ".html"
         self.get_user()
+        self.values['is_development'] = self.is_development()
         path = os.path.join(os.path.dirname(__file__),
                             '../templates/base.html')
         self.response.out.write(template.render(path, self.values))

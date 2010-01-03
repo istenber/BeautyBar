@@ -6,19 +6,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
+
 {% if use_javascript %}
 <!-- TODO: latest version of svgweb should support setting data-path
      with meta tag -->
-<script type="text/javascript" src="svgweb/svg.js" data-path="svgweb"></script>
-<script type="text/javascript" src="/js/jscolor/jscolor.js"></script>
+<script type="text/javascript" src="/svgweb/svg.js" data-path="svgweb"></script>
+{% if is_development %}
+<script type="text/javascript" src="/js/development/prototype.js"></script>
+<script type="text/javascript" src="/js/development/scriptaculous.js"></script>
+{% else %}
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
   google.load("prototype", "1.6.1.0");
   google.load("scriptaculous", "1.8.3");
 </script>
+{% endif %}
+<script type="text/javascript" src="/js/jscolor/jscolor.js"></script>
 <script type="text/javascript" src="/js/carousel-min.js"></script>
 <script type="text/javascript" src="/js/beautybar.js"></script>
 {% endif %}
+
+{% if not is_development %}
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -28,6 +36,8 @@ try {
 var pageTracker = _gat._getTracker("UA-11875256-1");
 pageTracker._trackPageview();
 } catch(err) {}</script>
+{% endif %}
+
 <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
 <title>BeautyBar</title>
 </head>

@@ -25,6 +25,7 @@ git clone ${GIT_REPO} ${TMP_FOLDER}/beautybar
 rm -rf ${TMP_FOLDER}/beautybar/.git
 rm -rf ${TMP_FOLDER}/beautybar/doc
 rm -rf ${TMP_FOLDER}/beautybar/tests
+rm -rf ${TMP_FOLDER}/beautybar/static/js/development
 # TODO: do not remove or everything will blow
 # rm -rf ${TMP_FOLDER}/beautybar/ui/test
 rm ${TMP_FOLDER}/beautybar/README
