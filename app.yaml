@@ -25,6 +25,10 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
 
+- url: /spreadsheet-gadget.xml
+  static_files: static/spreadsheet-gadget.xml
+  upload: static/spreadsheet-gadget.xml
+
 - url: /admin/.*
   script: beautybar.py
   login: admin

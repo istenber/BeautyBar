@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+<ModulePrefs title="Beauty Bar Google Docs Gadget"
+             description="Beauty Bar (http://beauty-bar.appspot.com/) integration with Google Docs allows you to make nice charts."
+             author="BeautyBar"
+             author_affiliation="BeautyBar"
+             author_email="istenber@gmail.com"
+             screenshot=""
+             thumbnail="" > 
+</ModulePrefs>
+<UserPref name="_table_query_url" display_name="Data source url" 
+          required="true"/>
+<UserPref name="_table_query_refresh_interval" 
+          display_name="Data refresh interval (minutes)" 
+          default_value="0" datatype="enum" required="false">
+<EnumValue value="0" display_value="Do not refresh"/>
+<EnumValue value="60" display_value="1"/>
+<EnumValue value="300" display_value="5"/>
+<EnumValue value="1800" display_value="30"/>
+</UserPref>
+<Content type="html"><![CDATA[
+
+<script type="text/javascript" src="http://beauty-bar.appspot.com/svgweb/svg.js" data-path="svgweb"></script>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+
+<div id="my_chart" style="overflow: auto;">
+<img src="http://www.google.com/ig/images/spinner.gif" />
+</div>
+
+<script>
+
+/**
+ * Load the APIs and run sendQuery when the load is complete
+ */
+var gadgetHelper = null;
+_IG_RegisterOnloadHandler(loadVisualizationAPI);
+function loadVisualizationAPI() { 
+  google.load("visualization", "1");
+  google.setOnLoadCallback(sendQuery);
+}
+
+/**
+ * Create a query (shaped by the Gadget's user preferences), then 
+ * send it to the spreadsheet data source. Also give the name of a 
+ * function ("handleQueryResponse") to run once the spreadsheet data 
+ * is retrieved:
+ */
+function sendQuery() {
+  var prefs = new _IG_Prefs(); // User preferences 
+  gadgetHelper = new google.visualization.GadgetHelper(); 
+  var query = gadgetHelper.createQueryFromPrefs(prefs);
+  query.send(handleQueryResponse);
+} 
+
+/**
+ * The core logic. Process the spreadsheet data however you want. 
+ * In this case, we create HTML to be presented back to the user. 
+ * We'll use inline comments to provide a step-by-step description 
+ * of what we're doing:
+ */
+function handleQueryResponse(response) {
+
+  /**
+   * Use the visualization GadgetHelper class to handle errors 
+   */
+  if (!gadgetHelper.validateResponse(response)) {
+    return;     // Default error handling was done, just leave. 
+  }
+
+  /**
+   * GET THE DATA FROM THE SPREADSHEET - sorry to scream in caps, but 
+   * this is a key step
+   */
+  var data = response.getDataTable();
+
+  var rows = data.getNumberOfRows();
+  var cols = data.getNumberOfColumns();
+
+  if(!((rows == 6) && (cols == 2))) {
+    var my_chart = _gel('my_chart');
+    my_chart.innerHTML = ('Error: Beauty Bar supports only tables with' + 
+                          'two rows (names and values) and six columns, got ' + 
+                          rows + ' rows and ' + cols + ' columns.');
+    return;
+  }
+
+  var chart_url = 'http://beauty-bar.appspot.com/chart?cht=test';
+
+  chart_url += '&chd=t:';
+  for (var row = 0; row < 6; row++) {
+    var formattedValue = data.getFormattedValue(row, 1);
+    formattedValue = escapeHtml(formattedValue);
+    chart_url += formattedValue + ',';
+  }
+  chart_url = chart_url.replace(/,+$/, '');
+
+  chart_url += '&chs=' + document.body.clientWidth + 'x' + document.body.clientHeight;
+
+  chart_url += '&chl=';
+  for (var row = 0; row < 6; row++) {
+    var formattedValue = data.getFormattedValue(row, 0);
+    formattedValue = escapeHtml(formattedValue);
+    chart_url += formattedValue + '|';
+  }
+  chart_url = chart_url.replace(/\|+$/, '');
+
+  var svg_image = document.createElement('object', true);
+  svg_image.setAttribute('type', 'image/svg+xml');
+  svg_image.setAttribute('data', chart_url');
+  svg_image.setAttribute('id', 'o_img');
+
+  var my_chart = _gel('my_chart');
+  my_chart.innerHTML = 'url: ' + chart_url;
+
+  svgweb.appendChild(svg_image, my_chart);
+
+};
+
+/**
+ * Define any supporting code you need 
+ * (like this handy function to escape special characters for html output):
+ */
+function escapeHtml(text) {
+  if (text == null) {
+    return '';
+  }
+  return _hesc(text);
+} 
+
+</script> 
+]]>
+</Content>
+</Module>
+
+
