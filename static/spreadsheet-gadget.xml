@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
 <ModulePrefs title="Beauty Bar Google Docs Gadget"
-             description="Beauty Bar (http://beauty-bar.appspot.com/) integration with Google Docs allows you to make nice charts."
-             author="BeautyBar"
-             author_affiliation="BeautyBar"
+	     title_url="http://beauty-bar.appspot.com/"
+             description="Beauty Bar / Beta version (http://beauty-bar.appspot.com/) is a tool to create nice charts. Beta version does only allow data that have two columns (names and values) and six rows. It also expects that value range is between 0 and 100. Output 300x200 size SVG image, which might not work with all browsers."
+             author="Ilpo Stenberg"
+             author_affiliation="Beauty Bar"
              author_email="istenber@gmail.com"
-             screenshot=""
-             thumbnail="" > 
+             screenshot="http://beauty-bar.appspot.com/images/spreadsheet-image.png"
+             thumbnail="http://beauty-bar.appspot.com/images/spreadsheet-thumb.png" >
+<Require feature="idi" />
+<Require feature="locked-domain" />
 </ModulePrefs>
+<UserPref name="_chart_type" display_name="Chart type"
+          default_value="test" datatype="string" />
 <UserPref name="_table_query_url" display_name="Data source url" 
           required="true"/>
 <UserPref name="_table_query_refresh_interval" 
@@ -18,20 +23,22 @@
 <EnumValue value="300" display_value="5"/>
 <EnumValue value="1800" display_value="30"/>
 </UserPref>
-<Content type="html"><![CDATA[
+<Content type="html"
+	 preferred_height="300"
+	 preferred_width="200"><![CDATA[
 
-<script type="text/javascript" src="http://beauty-bar.appspot.com/svgweb/svg.js" data-path="svgweb"></script>
+<script type="text/javascript" src="http://beauty-bar.appspot.com/svgweb/svg.js"
+	data-path="http://beauty-bar.appspot.com/svgweb"></script>
 <script src="http://www.google.com/jsapi" type="text/javascript"></script>
 
 <div id="my_chart" style="overflow: auto;">
-<img src="http://www.google.com/ig/images/spinner.gif" />
+Receiving data from <a href="http://beauty-bar.appspot.com" target="_top">http://beauty-bar.appspot.com</a>, please wait.
 </div>
 
 <script>
 
-/**
- * Load the APIs and run sendQuery when the load is complete
- */
+var chart_type = 'test';
+
 var gadgetHelper = null;
 _IG_RegisterOnloadHandler(loadVisualizationAPI);
 function loadVisualizationAPI() { 
@@ -39,63 +46,45 @@ function loadVisualizationAPI() {
   google.setOnLoadCallback(sendQuery);
 }
 
-/**
- * Create a query (shaped by the Gadget's user preferences), then 
- * send it to the spreadsheet data source. Also give the name of a 
- * function ("handleQueryResponse") to run once the spreadsheet data 
- * is retrieved:
- */
 function sendQuery() {
-  var prefs = new _IG_Prefs(); // User preferences 
+  var prefs = new _IG_Prefs();
+  chart_type = prefs.getString("_chart_type");
   gadgetHelper = new google.visualization.GadgetHelper(); 
   var query = gadgetHelper.createQueryFromPrefs(prefs);
   query.send(handleQueryResponse);
 } 
 
-/**
- * The core logic. Process the spreadsheet data however you want. 
- * In this case, we create HTML to be presented back to the user. 
- * We'll use inline comments to provide a step-by-step description 
- * of what we're doing:
- */
 function handleQueryResponse(response) {
 
-  /**
-   * Use the visualization GadgetHelper class to handle errors 
-   */
   if (!gadgetHelper.validateResponse(response)) {
-    return;     // Default error handling was done, just leave. 
+    return;
   }
 
-  /**
-   * GET THE DATA FROM THE SPREADSHEET - sorry to scream in caps, but 
-   * this is a key step
-   */
   var data = response.getDataTable();
-
   var rows = data.getNumberOfRows();
   var cols = data.getNumberOfColumns();
 
   if(!((rows == 6) && (cols == 2))) {
-    var my_chart = _gel('my_chart');
-    my_chart.innerHTML = ('Error: Beauty Bar supports only tables with' + 
-                          'two rows (names and values) and six columns, got ' + 
-                          rows + ' rows and ' + cols + ' columns.');
+    errorMsg('Error: Beauty Bar supports only tables with' +
+             'two rows (names and values) and six columns, got ' +
+             rows + ' rows and ' + cols + ' columns.');
     return;
   }
 
-  var chart_url = 'http://beauty-bar.appspot.com/chart?cht=test';
+  var chart_url = 'http://beauty-bar.appspot.com/chart?cht=' + chart_type;
 
   chart_url += '&chd=t:';
   for (var row = 0; row < 6; row++) {
     var formattedValue = data.getFormattedValue(row, 1);
     formattedValue = escapeHtml(formattedValue);
+    if((formattedValue < 0) || (formattedValue > 100)) {
+      errorMsg('Error: Value out of range: ' + formattedValue);
+      return;
+    }
     chart_url += formattedValue + ',';
   }
   chart_url = chart_url.replace(/,+$/, '');
-
   chart_url += '&chs=' + document.body.clientWidth + 'x' + document.body.clientHeight;
-
   chart_url += '&chl=';
   for (var row = 0; row < 6; row++) {
     var formattedValue = data.getFormattedValue(row, 0);
@@ -111,15 +100,14 @@ function handleQueryResponse(response) {
 
   var my_chart = _gel('my_chart');
   my_chart.innerHTML = 'url: ' + chart_url;
-
   svgweb.appendChild(svg_image, my_chart);
-
 };
 
-/**
- * Define any supporting code you need 
- * (like this handy function to escape special characters for html output):
- */
+function errorMsg(msg) {
+  var my_chart = _gel('my_chart');
+  my_chart.innerHTML = msg;
+}
+
 function escapeHtml(text) {
   if (text == null) {
     return '';
@@ -131,5 +119,3 @@ function escapeHtml(text) {
 ]]>
 </Content>
 </Module>
-
-
