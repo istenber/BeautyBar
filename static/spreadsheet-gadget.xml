@@ -95,7 +95,7 @@ function handleQueryResponse(response) {
 
   var svg_image = document.createElement('object', true);
   svg_image.setAttribute('type', 'image/svg+xml');
-  svg_image.setAttribute('data', chart_url');
+  svg_image.setAttribute('data', chart_url);
   svg_image.setAttribute('id', 'o_img');
 
   var my_chart = _gel('my_chart');
