@@ -30,6 +30,10 @@ class AjaxSetAttribute(AjaxBase):
             if i != "":
                 # logging.info("# got \"" + n + "\" as \"" + i + "\"")
                 a = g.get_attribute(n)
+                if i == "random":
+                    import random
+                    import math
+                    i = str(int(math.floor(random.random() * 1000 + 0.5)))
                 # TODO: check that value is valid
                 a.value = i
         DAO.save(self.session.style)

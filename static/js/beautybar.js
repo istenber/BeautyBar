@@ -77,6 +77,10 @@ var attr = {
 	ajaxWrapper("/set_attr?" + val + "=\"" + $(val).getValue() + "\"",
 		    this._updater);
     },
+    set_random: function(val) {
+	ajaxWrapper("/set_attr?" + val + "=\"random\"",
+		    this._updater);
+    },
     set_boolean: function(val, r) {
 	ajaxWrapper("/set_attr?" + val + "=\"" + r + "\"",
 		    this._updater);

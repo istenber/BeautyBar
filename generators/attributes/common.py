@@ -36,6 +36,15 @@ class Choice(Attribute):
         return int(string)
 
 
+class Random(Attribute):
+
+    def value_to_string(self, value):
+        return str(value)
+
+    def string_to_value(self, string):
+        return int(string)
+
+
 class Float(Attribute):
 
     def __init__(self, generator, name, ui_name, min, max):
