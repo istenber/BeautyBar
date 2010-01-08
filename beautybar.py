@@ -14,6 +14,7 @@ from ui.chart_api import ChartPage
 from ui.feedback import FeedbackProcessor, FeedbackReader
 from ui.admin_pages import ViewSessions, AdminMainPage
 from ui.error_pages  import MissingPage
+from ui.content_preview import ContentPreview
 
 def get_admin_pages():
     # TODO: these should be protected by password...
@@ -56,6 +57,7 @@ def main():
              ('/chart', ChartPage),
              ('/feedback', FeedbackProcessor),
              ('/export.svg', SvgImage),
+             ('/content_preview', ContentPreview),
              ('/preview', PreviewImage)]
     application = webapp.WSGIApplication(pages +
                                          test_pages +

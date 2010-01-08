@@ -24,6 +24,7 @@
 <script type="text/javascript" src="/js/jscolor/jscolor.js"></script>
 <script type="text/javascript" src="/js/carousel-min.js"></script>
 <script type="text/javascript" src="/js/beautybar.js"></script>
+<script type="text/javascript" src="/js/lightbox.js"></script>
 {% endif %}
 
 {% if not is_development %}
@@ -38,6 +39,9 @@ pageTracker._trackPageview();
 } catch(err) {}</script>
 {% endif %}
 
+{% if use_javascript %}
+<link rel="stylesheet" href="/css/lightbox.css" type="text/css" media="screen" />
+{% endif %}
 <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
 <title>BeautyBar</title>
 </head>

@@ -1,0 +1,31 @@
+<script type="text/javascript">
+
+load_image = function() {
+  var svg_image = document.createElement('object', true);
+  svg_image.setAttribute('type', 'image/svg+xml');
+  svg_image.setAttribute('data', '/preview');
+  svg_image.setAttribute('id', 'preview_img');
+  var image_place = $('image_place');
+  image_place.innerHTML = '';
+  svgweb.appendChild(svg_image, image_place);
+};
+
+load_image();
+
+</script>
+
+<table border="1">
+<tr>
+<td colspan="2"><h1>My Blog</h1></td>
+</tr><tr>
+<td width="320"><div align="center" id="image_place">Preview image loading...</div></td>
+<td>
+Here is some data that shows our economy growth in last few years.
+It is very important to notice that we did... plaa plaa plaa... as
+you can see from data ... plaa plaa plaa ... and as a conclusion I
+would like to note that all this charts were made with Beauty Bar.
+</td>
+</tr>
+</table>
+<br />
+<a href="javascript:" class="lbAction" rel="deactivate">Close preview</a>
