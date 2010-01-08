@@ -11,6 +11,7 @@
 <Require feature="idi" />
 <Require feature="locked-domain" />
 </ModulePrefs>
+<UserPref name="_style_name" display_name="Style name" />
 <UserPref name="_table_query_url" display_name="Data source url" 
           required="true"/>
 <UserPref name="_table_query_refresh_interval" 
@@ -35,7 +36,7 @@ Receiving data from <a href="http://beauty-bar.appspot.com" target="_top">http:/
 
 <script>
 
-var chart_type = 'test';
+var style_name = 'default';
 
 var gadgetHelper = null;
 _IG_RegisterOnloadHandler(loadVisualizationAPI);
@@ -46,6 +47,7 @@ function loadVisualizationAPI() {
 
 function sendQuery() {
   var prefs = new _IG_Prefs();
+  style_name = prefs.getString("_style_name");
   gadgetHelper = new google.visualization.GadgetHelper(); 
   var query = gadgetHelper.createQueryFromPrefs(prefs);
   query.send(handleQueryResponse);
@@ -68,7 +70,7 @@ function handleQueryResponse(response) {
     return;
   }
 
-  var chart_url = 'http://beauty-bar.appspot.com/chart?cht=' + chart_type;
+  var chart_url = 'http://beauty-bar.appspot.com/chart?cht=' + style_name;
 
   chart_url += '&chd=t:';
   for (var row = 0; row < 6; row++) {
