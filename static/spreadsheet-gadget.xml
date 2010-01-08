@@ -11,8 +11,6 @@
 <Require feature="idi" />
 <Require feature="locked-domain" />
 </ModulePrefs>
-<UserPref name="_chart_type" display_name="Chart type"
-          default_value="test" datatype="string" />
 <UserPref name="_table_query_url" display_name="Data source url" 
           required="true"/>
 <UserPref name="_table_query_refresh_interval" 
@@ -48,7 +46,6 @@ function loadVisualizationAPI() {
 
 function sendQuery() {
   var prefs = new _IG_Prefs();
-  chart_type = prefs.getString("_chart_type");
   gadgetHelper = new google.visualization.GadgetHelper(); 
   var query = gadgetHelper.createQueryFromPrefs(prefs);
   query.send(handleQueryResponse);
@@ -99,7 +96,7 @@ function handleQueryResponse(response) {
   svg_image.setAttribute('id', 'o_img');
 
   var my_chart = _gel('my_chart');
-  my_chart.innerHTML = 'url: ' + chart_url;
+  my_chart.innerHTML = '';
   svgweb.appendChild(svg_image, my_chart);
 };
 
