@@ -17,7 +17,7 @@ class ImageBase(webapp.RequestHandler):
             name = str(self.request.cookies["session"])
         self.session = DAO.load(name=name, class_name="Session")
         g = self.session.style.get_active_generator()
-        self.response.out.write(g.build_chart(self.session.data))
+        self.response.out.write(g.build_chart(self.session.data).output())
 
 
 class PreviewImage(ImageBase):

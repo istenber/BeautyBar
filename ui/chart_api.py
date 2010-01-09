@@ -41,6 +41,10 @@ class ChartPage(webapp.RequestHandler):
         return Data.default()
 
     def _get_data(self):
+        self.size = self.request.get("chs")
+        if self.size == "":
+            logging.info("# Using default chart size 300x200")
+            self.size = "300x200"
         values = self.request.get("chd")
         if values == "": return self._default_data("Missing data values")
         names = self.request.get("chl")
@@ -82,4 +86,6 @@ class ChartPage(webapp.RequestHandler):
         # TODO: handle size (chs)
         g = s.get_active_generator()
         # logging.debug("# ChartAPI")
-        self.response.out.write(g.build_chart(d))
+        chart = g.build_chart(d)
+        chart.scale_str(self.size)
+        self.response.out.write(chart.output())

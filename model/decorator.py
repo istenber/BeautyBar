@@ -8,12 +8,29 @@ import logging
 from lib.svgfig import *
 from StringIO import StringIO
 
+
 class Decorator(object):
 
-    def __init__(self, svg):
-        self.svg = load_stream(StringIO(svg))
+    def __init__(self, generator):
+        self.generator = generator
+        self.svg = load_stream(StringIO(self.generator.output()))
         self.width = 300 # TODO: read from svg
-        self.heigth = 200 # TODO: read from svg
+        self.height = 200 # TODO: read from svg
+
+    def scale_str(self, scale_str):
+        [x, y] = scale_str.split("x")
+        if x is None or y is None:
+            logging.error("# Incorrect scale string: " + scale_str)
+            return None
+        try:
+            x = int(x) / 300
+        except ValueError:
+            x = 1
+        try:
+            y = int(y) / 200
+        except ValueError:
+            y = 1
+        return self.scale_xy(x, y, False)
         
     def scale(self, scale):
         return self.scale_xy(scale, scale)
@@ -44,6 +61,10 @@ class Decorator(object):
                 scaler.append(e)
             self.svg[1] = scaler
             self.svg[2:] = ""
+        self.width = 300 * sx
+        self.height = 200 * sy
+        self.svg.attr["width"] = self.width
+        self.svg.attr["height"] = self.height
 
     def add_title(self, title):
         self.scale(0.8)

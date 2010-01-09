@@ -40,7 +40,7 @@ class Generator(object):
             if v != "":
                 attr.set_value(v)
         data.to_generator(chart)
-        return Decorator(chart.output()).output()
+        return Decorator(chart)
 
 
 class Attribute(object):
