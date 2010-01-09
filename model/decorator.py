@@ -36,7 +36,11 @@ class Decorator(object):
         return self.scale_xy(scale, scale)
 
     def scale_xy(self, sx, sy, move=True):
-        has_old = self.svg[1]["id"] == "full_scaler"
+        try:
+            elem_id = self.svg[1]["id"]
+            has_old = elem_id == "full_scaler"
+        except KeyError:
+            has_old = False
         if has_old:
             old_m = self.svg[1]["transform"][7:].split(",")
             old_sx = old_m[0]
