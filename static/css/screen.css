@@ -28,6 +28,8 @@
  .height_lmiddle { }
  .height_llarge { }
 
+ .video { text-align: center; }
+
  .br_corner {
      height: 15px;
      width: 15px;
