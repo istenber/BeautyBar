@@ -1,3 +1,11 @@
+<script type="text/javascript">
+
+function send_feedback() {
+  var fba = document.getElementById("feedback_area");
+  fba.innerHTML = "Thank you.";
+};
+
+</script>
 
 <h1>Notice</h1>
 <p>
@@ -15,18 +23,16 @@ not use always those old plain bar graphs in presentations!
 </p>
 
 <h1>Feedback</h1>
-<span id="feedback_area">
-<form action="/feedback" method="GET">
-<p>
+<p><span id="feedback_area">
 Please send feedback and feature request to us.
-</p>
+</span></p>
+<form action="/feedback" method="GET">
 <p>
 Your name: <input type="text" name="user" /><br />
 Your message: <br />
 <textarea name="feedback" cols="40" rows="3"></textarea>
 <br />
-<input type="submit" value="Send Feedback" />
+<input type="submit" onclick="send_feedback();" value="Send Feedback" />
 </p>
 </form>
-</span>
 
