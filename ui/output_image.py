@@ -22,7 +22,7 @@ class ImageBase(webapp.RequestHandler):
     def encode(self, string):
         enc = self.request.headers['Accept-Encoding']
         if "gzip" in enc:
-            self.response.headers['Content-Encoding'] = "gzip"
+            self.response.headers['Transfer-Encoding'] = "gzip"
             return self.compressBuf(string)
         return string
 
