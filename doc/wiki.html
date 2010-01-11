@@ -552,9 +552,8 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001092310" changecount="24">
-<pre>
-WorkSchedule contains time estimates for each task.
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001111129" changecount="25">
+<pre>WorkSchedule contains time estimates for each task.
 
 RandomMarks aka. small ideas
 
@@ -650,12 +649,20 @@ Currently there is an attempt to solve this problem with Java based application 
 uses threads and some java.awt libraries it does not work with Google app engine. It is good path anyway, maybe it
 needs just a bit more effort to hack Batik so that it could be used from app engine.</pre>
 </div>
-<div title="SvgTools" modifier="istenber" created="201001092315" changecount="1">
+<div title="SvgTools" modifier="istenber" created="201001092315" modified="201001111218" changecount="4">
 <pre>We need SvgToPngServer to convert svg files to png files. That is biggest problem.
 
 Then we could make library - maybe extend svgfig.py library - to print different nice fonts. Or more
 precisely make fonts to have borders like inkscape tutorials teach us, and shadows and chrome
-effects, etc. Maybe we can also create fonts from paths, but I don't think that it is that big use.</pre>
+effects, etc. Maybe we can also create fonts from paths, but I don't think that it is that big use.
+
+svg supports fonts by css specification. We could try to use web fonts that download font from
+server in svg images, and why not with html content as well:
+http://www.josbuivenga.demon.nl/tallys.html
+http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#q47
+http://www.w3.org/TR/SVG11/fonts.html#SVGFonts
+http://www.w3.org/TR/SVG11/
+http://www.openfontlibrary.org/</pre>
 </div>
 <div title="TitleMappings" modifier="istenber" created="201001032107" changecount="1">
 <pre>Title names should be mapped in maybe images or something similar. For example if you type *coffee* as a title, the program could suggest you to use image of coffee cup instead. </pre>
