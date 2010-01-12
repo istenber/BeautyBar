@@ -20,7 +20,10 @@ class ImageBase(webapp.RequestHandler):
         return zbuf.getvalue()
 
     def encode(self, string):
-        enc = self.request.headers['Accept-Encoding']
+        try:
+            enc = self.request.headers['Accept-Encoding']
+        except KeyError:
+            return string
         if "gzip" in enc:
             self.response.headers['Transfer-Encoding'] = "gzip"
             return self.compressBuf(string)
@@ -36,7 +39,7 @@ class ImageBase(webapp.RequestHandler):
         self.session = DAO.load(name=name, class_name="Session")
         g = self.session.style.get_active_generator()
         # TODO: encoding disabled, as app engine does not support it
-        out = self.encode(g.build_chart(self.session.data).output())
+        # out = self.encode(g.build_chart(self.session.data).output())
         out = g.build_chart(self.session.data).output()
         self.response.out.write(out)
 
