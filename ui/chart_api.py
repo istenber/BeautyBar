@@ -41,39 +41,110 @@ class ChartPage(webapp.RequestHandler):
         logging.info("# " + msg)
         return Data.default()
 
+    def _convert_values(self, value_str, encoding):
+        if encoding == "t:":
+            return self._text_encoding(value_str)
+        if encoding == "e:":
+            return self._extended_encoding(value_str)
+        if encoding == "s:":
+            return self._simple_encoding(value_str)
+        return None
+
+    def _text_encoding(self, value_str):
+        chds = self.request.get("chds")
+        if chds == "":
+            self.data_min = 0
+            self.data_max = 100
+        else:
+            [self.data_min, self.data_max] = chds.split(",")
+        return value_str.split(",")
+
+    def _extended_encoding(self, value_str):
+        self.data_min = 0
+        self.data_max = 4095
+        values = []
+        for index in range(0, 12, 2):
+            a = ord(value_str[index])
+            b = ord(value_str[index+1])
+            if (a == ord("_") and b == ord("_")):
+                # TODO: is missing value 0?
+                values.append(0)
+                continue
+            if (a >= ord("A") and a <= ord("Z")):
+                val = (a - ord("A")) * 64
+            elif (a >= ord("a") and a <= ord("z")):
+                val = (a - ord("a") + 26) * 64
+            elif (a >= ord("0") and a <= ord("9")):
+                val = (a - ord("0") + 52) * 64
+            elif a == ord("-"):
+                val = 62 * 64
+            elif a == ord("."):
+                val = 63 * 64
+            else:
+                logging.info("Cannot encode char: \"" +
+                             value_str[index] + "\"")
+            if (b >= ord("A") and b <= ord("Z")):
+                val += (b - ord("A"))
+            elif (b >= ord("a") and b <= ord("z")):
+                val += (b - ord("a") + 26)
+            elif (b >= ord("0") and b <= ord("9")):
+                val += (b - ord("0") + 52)
+            elif b == ord("-"):
+                val += 62
+            elif b == ord("."):
+                val += 63
+            else:
+                logging.info("Cannot encode char: \"" +
+                             value_str[index+1] + "\"")
+            values.append(val)
+
+        return values
+
+    def _simple_encoding(self, value_str):
+        self.data_min = 0
+        self.data_max = 61
+        values = []
+        for index in range(0, 6):
+            char = ord(value_str[index])
+            if (char >= ord("A") and char <= ord("Z")):
+                values.append(char - ord("A"))
+            elif (char >= ord("a") and char <= ord("z")):
+                values.append(char - ord("a") + 26)
+            elif (char >= ord("0") and char <= ord("9")):
+                values.append(char - ord("0") + 52)
+            elif char == ord("_"):
+                # TODO: is missing value 0?
+                values.append(0)
+            else:
+                logging.info("Cannot encode char: \"" +
+                             value_str[index] + "\"")
+        return values
+
     def _get_data(self):
         self.size = self.request.get("chs")
         if self.size == "":
             logging.info("# Using default chart size 300x200")
             self.size = "300x200"
-        values = self.request.get("chd")
-        if values == "": return self._default_data("Missing data values")
-        names = self.request.get("chl")
-        if names == "": return self._default_data("Missing data names")
-        encode = values[:2]
-        if encode != "t:":
-            if encode == "e:":
-                return self._default_data("Extended encoding \":e\" is not " +
-                                          "supported yet.")
-            if encode == "s:":
-                return self._default_data("Simple encoding \":s\" is not " +
-                                          "supported yet.")
-            return self._default_data("Incorrect encoding: only supported is" +
-                                      "\":t\", not \"" + encode + "\"")
-        v_list = values[2:].split(",")
-        n_list = names.split("|")
-        if len(v_list) != len(n_list):
+        value_str = self.request.get("chd")
+        if value_str == "": return self._default_data("Missing data values")
+        name_str = self.request.get("chl")
+        if name_str == "": return self._default_data("Missing data names")
+        names = name_str.split("|")
+        encoding = value_str[:2]
+        values = self._convert_values(value_str[2:], encoding)
+        if len(values) != len(names):
             return self._default_data("Names len is not equal to values len")
-        # TODO: fixme
-        if len(v_list) != 6:
+        # TODO: allow variable number of values in future
+        if len(values) != 6:
             return self._default_data("Wrong amount of data")
+        if values is None:
+            return self._default_data("Incorrect encoding: \"" +
+                                      encoding[1:] + "\"")
         d = Data()
-        # TODO: these are for text encoding ":t"
-        d.set_min(0)
-        d.set_max(100)
+        d.set_min(self.data_min)
+        d.set_max(self.data_max)
         for i in range(0, 6):
-            d.add_item(Item(n_list[i], v_list[i]))
-            # logging.info("# (" + str(n_list[i]) + ":" + str(v_list[i]) + ")")
+            d.add_item(Item(names[i], values[i]))
         if not d.is_valid():
             return self._default_data("Problems with data")
         return d
