@@ -23,11 +23,11 @@ class Decorator(object):
             logging.error("# Incorrect scale string: " + scale_str)
             return None
         try:
-            x = int(x) / 300
+            x = int(x) / 300.0
         except ValueError:
             x = 1
         try:
-            y = int(y) / 200
+            y = int(y) / 200.0
         except ValueError:
             y = 1
         return self.scale_xy(x, y, False)
