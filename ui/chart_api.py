@@ -1,6 +1,7 @@
 import logging
 
 from google.appengine.ext import webapp
+from google.appengine.api import memcache
 from model.data import Item, Data
 from ui.dao import DAO
 from model.session import Session
@@ -77,15 +78,34 @@ class ChartPage(webapp.RequestHandler):
             return self._default_data("Problems with data")
         return d
 
+    def cache_key(self):
+        key = ""
+        for arg in self.request.arguments():
+            key += arg + "=" + self.request.get(arg) + "&"
+        key = key[:-1]
+        logging.debug("# memcache key: " + key)
+        return key
+
+    def in_cache(self, key):
+        self.cached_data = memcache.get(key)
+        return self.cached_data is not None
+
     def get(self):
         self.response.headers['Content-Type'] = "image/svg+xml"
-        # TODO: lets save this with output, or is it required?
-        # o = Output()
-        s = self._get_style()
-        d = self._get_data()
-        # TODO: handle size (chs)
-        g = s.get_active_generator()
-        # logging.debug("# ChartAPI")
-        chart = g.build_chart(d)
-        chart.scale_str(self.size)
-        self.response.out.write(chart.output())
+        key = self.cache_key()
+        if self.in_cache(key):
+            logging.debug("# found in cache")
+            out = self.cached_data
+        else:
+            # TODO: lets save this with output, or is it required?
+            # o = Output()
+            s = self._get_style()
+            d = self._get_data()
+            # TODO: handle size (chs)
+            g = s.get_active_generator()
+            # logging.debug("# ChartAPI")
+            chart = g.build_chart(d)
+            chart.scale_str(self.size)
+            out = chart.output()
+            memcache.add(key, out, 60)
+        self.response.out.write(out)
