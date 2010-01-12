@@ -6,14 +6,16 @@ if __name__ == "__main__":
 
 import logging
 from lib.svgfig import *
-from StringIO import StringIO
+from cStringIO import StringIO
 
 
 class Decorator(object):
 
     def __init__(self, generator):
         self.generator = generator
-        self.svg = load_stream(StringIO(self.generator.output()))
+        # needed if cStringIO is used
+        utf16_str = self.generator.output().encode("UTF-16")
+        self.svg = load_stream(StringIO(utf16_str))
         self.width = 300 # TODO: read from svg
         self.height = 200 # TODO: read from svg
 
