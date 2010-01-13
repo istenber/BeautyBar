@@ -3,7 +3,7 @@ import math
 from random import Random as Rnd
 
 from svgfig_base import SvgFigGenerator
-from attributes.common import Random
+from attributes.common import Random, Choice
 
 from lib.svgfig import *
 from lib.utils import *
@@ -15,6 +15,7 @@ class Rocks(SvgFigGenerator):
         SvgFigGenerator.__init__(self)
         self.random = Rnd()
         self.seed = 1000
+        self.color_set = 1
 
     def get_defs(self):
         defs = SVG("defs", id="defs")
@@ -26,19 +27,29 @@ class Rocks(SvgFigGenerator):
     def _my_rnd(self):
         return (self.random.random() - 0.5) * 3
 
+    def _colors(self):
+        c = [["ff0000", "00ff00", "0000ff",   # rainbow
+              "ffff00", "00ffff", "ff00ff"],
+
+             ["808080", "a9a9a9", "d3d3d3"],  # grey
+
+             ["111111", "222222", "333333",   # dark
+              "444444", "555555", "666666"],
+             ]
+        return c[self.color_set - 1]
+
     def _get_one(self, x_base, val):
         g = SVG("g")
-        colors = ["ff0000", "00ff00", "0000ff",
-                  "ffff00", "00ffff", "ff00ff"]
         size = 10.0
         dy = 0.0
         last_dx = 40.0
         while dy < val:
             dx = 0.0
             while dx < last_dx - size:
-                cr = int(math.floor(self.random.random() * 6.0 + 0.5)) - 1
+                cr = int(math.floor(self.random.random() *
+                                    len(self._colors()) + 0.5)) - 1
                 style = ("stroke-width:1px;stroke:#000000;fill:#" +
-                         colors[cr] + ";")
+                         self._colors()[cr] + ";")
                 h = size + self._my_rnd()
                 w = size + self._my_rnd()
                 x0 = x_base + dx + self._my_rnd()
@@ -86,7 +97,9 @@ class Rocks(SvgFigGenerator):
 
     def get_attributes(self):
         seed = Random(self, "seed", "Block randomizer")
-        return [seed]
+        color_set = Choice(self, "color_set", "Color set",
+                           ["Rainbow", "Grey", "Dark"])
+        return [seed, color_set]
 
     def get_rating(self):
         return 3

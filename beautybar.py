@@ -16,6 +16,8 @@ from ui.admin_pages import ViewSessions, AdminMainPage
 from ui.error_pages  import MissingPage
 from ui.content_preview import ContentPreview
 
+webapp.template.register_template_library('lib.templatetags')
+
 def get_admin_pages():
     # TODO: these should be protected by password...
     return [('/admin/feedback', FeedbackReader),
