@@ -1,68 +1,7 @@
 Beauty Bar
 ------------------------
 
-Project to make bars look nicer.
-
-TODOs
-------------------------
-
-<host> = beauty-bar.appspot.com
-
-Control generators (PRIO 2)
---------
-(done some, needs improvement though)
-Make generators controllable through UI.
-+ change background image
-  + color
-  + image (clipart vs. upload)
-+ preload generator parts
-+ "update" button, as now update happens onBlur (should be onblur!!!)
-+ make common parameters for all generators
-  + font
-  + screen color
-
-Write architecture design (PRIO 2)
---------
-+ structure of model/view/controller
-+ services (svg-to-png, live-data-import, image-store)
-+ database tools for gae
-+ hooks for information collection
-  - use meter
-+ logging?
-+ naming conventions / file system
-+ use staticmethods? or only classmethods
-
-Tools to process SVG (PRIO 3)
---------
-+ extract bars from svg
-+ make generator skel based on svg image?
-+ mofify svg size?
-+ find more tools?! Inkscape is good, but more?
-
-Change to use JQuery library (PRIO 1)
---------
-+ Design look-and-feel.
-+ refactor all existing javascript code
-+ modified fields, onChange: sleep 2 seconds and then do as onBlur
-
-Store images to db (PRIO 5 - POSTPONED)
---------
-  + svg to png conversion
-   --> tried twice, do not support python tools to make it,
-       and Batik (Java) cannot be used as it uses java.awt.
-  + make images accessible later on
-    (http://<host>/s/<image_name>(.svg|.png)
-  + use memcache 
-
-Testing (PRIO 4)
---------
-+ test with other browsers
- + opera
- + internet explorer
-+ test with many users
-+ write test plan
-+ write some automate tests to verify that atleast something works
-  before upload
+Stuff moved to doc/wiki.html
 
 Bug fixing (PRIO 3)
 --------
@@ -93,19 +32,6 @@ User documentation (PRIO 5)
   + training video to Youtube (PRIO 4)
 + invent more user scenarios
 + make nice examples
-
-Make more generators (PRIO 3)
---------
-+ make default templates for common blogging schemas
-+ weather diagram
-+ improve current generators...
-  + for example none scale data based on scale
-
-Live data sources (PRIO 5)
---------
-data sources directly from common sources (e.g. UN free data + stat.fi)
-few nice and common examples population development through time
-+ do we need separate "data-conversion service for this?"
 
 DAO redo (PRIO 5)
 --------
@@ -184,8 +110,6 @@ Others (PRIO 5)
 
 + say error if javascript is not in use
 
-+ fix range to work with all generators
-
 + error checking and data security
 
 + split code (atleast javascript) to two versions: debug, production
@@ -216,8 +140,6 @@ Others (PRIO 5)
   + integration to google docs
   + save data with google account
 
-+ move all unneeded files from generators/<name>/ to doc
-
 + logic
   + calculate statistics (PRIO 4)
   + calculate how much processing power is used (PRIO 6 - OPTIMIZATION)
@@ -235,9 +157,6 @@ Others (PRIO 5)
 + internalionalization (PRIO 2)
   + finnish and english
   + flags in top corner?
-
-+ make development version to run offline as well,
-  currenty it uses google ajax api
 
 + add title to charts
 + add name for chart axis

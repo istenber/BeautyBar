@@ -511,6 +511,32 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+<div title="ArchitectureDocuments" modifier="istenber" created="201001132028" modified="201001132036" changecount="3">
+<pre>We should write document that describes architecture of whole beauty bar system. It should based on idea that we have 
+model, view, controller (MVC) system, where *model* is under *model* -folder and *view* and *controller* are both mixed and
+under *ui* -folder. From model we then call generators, which do the actual processing.
+
+We need to also document all services that exists or should be implemented, like: 
+* svg-to-png image conversion service
+* live-data-import -service to get data from many sources (undata, stat.fi, etc.) and convert them to suitable format
+* image-store -service, where all final images are stored
+* icon-creator -service, which creates small image out of request: coffee.png gives coffee icon in png format
+* font server
+
+Then we need to find out what database tools are for google app engine and how to use them to backup data and
+take care of it.
+
+We need also design hooks in code which collect information about usage statistics and help to understand how
+user use the service. Maybe they can be finally used to automatically suggest the user various chart styles.
+
+Logging policies, as well as variable and class naming conventions and other coding conventions should be written
+and make clear. Even files in system should have some kind of meaning full structure. 
+
+Should we use *staticmethods* or only *classmethods* (Python reflections)?
+
+Should we use prototype.js or switch to JQuery? Is there any advantages of using JQuery?
+Maybe we could do onblur for modified fields after few seconds, as well as when blurring.</pre>
+</div>
 <div title="CodeRefactoring" modifier="istenber" created="201001092249" changecount="1">
 <pre>There are many parts of code that need refactoring:
 
@@ -649,7 +675,7 @@ Currently there is an attempt to solve this problem with Java based application 
 uses threads and some java.awt libraries it does not work with Google app engine. It is good path anyway, maybe it
 needs just a bit more effort to hack Batik so that it could be used from app engine.</pre>
 </div>
-<div title="SvgTools" modifier="istenber" created="201001092315" modified="201001111218" changecount="4">
+<div title="SvgTools" modifier="istenber" created="201001092315" modified="201001132034" changecount="5">
 <pre>We need SvgToPngServer to convert svg files to png files. That is biggest problem.
 
 Then we could make library - maybe extend svgfig.py library - to print different nice fonts. Or more
@@ -662,7 +688,67 @@ http://www.josbuivenga.demon.nl/tallys.html
 http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#q47
 http://www.w3.org/TR/SVG11/fonts.html#SVGFonts
 http://www.w3.org/TR/SVG11/
-http://www.openfontlibrary.org/</pre>
+http://www.openfontlibrary.org/
+
+One good tool would be such that it would extract all bars and titles, etc. from svg image, and then
+make convert it to generator. This way we could do very easily new generators or even let users do
+them by themselves. 
+
+Tool that removes all extra content from svg file, would be nice. It could also simplify calculations
+so that if there is first some matrix calculation and then simple objects (like rectangles), it would
+remove the matrix part and count numbers in to object values - well... that is not so clearly stated.
+
+We also need improve *decorator* to not always scale generator output automatically, but ask
+generator to do scaling them selves. There are dozens of other improvements for *decorator* as well.
+
+</pre>
+</div>
+<div title="TestingPlan" modifier="istenber" created="201001132051" modified="201001132054" changecount="3">
+<pre>!Unit testing
+
+TODO:
+
+!System testing
+
+We should test software with many browsers and many versions of those. As well as with different resolutions and maybe even with cellphones?
+First it would be nice to test with these browsers:
+* Firefox 2.0
+* Firefox 3.0
+* Safari x.x
+* Links/Lynx (should say does not work?)
+* Opera x.x (maybe couple versions)
+* KDE browsers?
+* Chrome
+
+Test scenarios could be quite simple
+
+!!All pages work
+
+Mainpage loads correctly - all elements: 
+* generator info
+* preview image
+* list of generators
+* data part
+... loads correctly. Then we should try to change generator check that it works. 
+Try to change to *style* tab and *file* tab. Test *Export as SVG* and also *Export as PNG*.
+Try different (all!) attributes from *style* tab. Try *Start from scratch* from *file* tab. Try
+*Import data* (if possible). There are so many combinations and choices that these should
+be made a bit explorative manner, but so that we will cover all described cases.
+
+Then we should also test that other pages - learn and about - work.
+
+!Load testing
+
+We should maybe include somewhere counters that try to estimate system resource usage
+and then we could estimate real load. Maybe it could be possible to create simple shell script
+that tries to edit various beauty bar instance simultaneously and by that we get some info, how
+many user could be served.
+
+!Pre-upgrade tests
+
+We should write a couple automated tests that check that most of pages work before uploading
+it to google. It is of course important to manually check pages as well, before activating it as *default*.
+</pre>
 </div>
 <div title="TitleMappings" modifier="istenber" created="201001032107" changecount="1">
 <pre>Title names should be mapped in maybe images or something similar. For example if you type *coffee* as a title, the program could suggest you to use image of coffee cup instead. </pre>
