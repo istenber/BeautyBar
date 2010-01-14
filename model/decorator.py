@@ -16,49 +16,51 @@ class Decorator(object):
         # needed if cStringIO is used
         utf16_str = self.generator.output().encode("UTF-16")
         self.svg = load_stream(StringIO(utf16_str))
-        self.width = 300 # TODO: read from svg
-        self.height = 200 # TODO: read from svg
+        self.width = float(self.svg.attr['width'])
+        self.height = float(self.svg.attr['height'])
 
-    def scale_str(self, scale_str):
-        [x, y] = scale_str.split("x")
+    def resize_str(self, resize_str):
+        """Get new image size as string: \"300x200\""""
+        [x, y] = resize_str.split("x")
         if x is None or y is None:
-            logging.error("# Incorrect scale string: " + scale_str)
+            logging.error("# Incorrect resize string: " + resize_str)
             return None
         try:
-            x = int(x) / 300.0
+            x = int(x)
+            y = int(y)
         except ValueError:
-            x = 1
-        try:
-            y = int(y) / 200.0
-        except ValueError:
-            y = 1
-        return self.scale_xy(x, y, False)
+            return None
+        return self.resize(x, y)
         
     def scale(self, scale):
         return self.scale_xy(scale, scale)
 
-    def scale_xy(self, sx, sy, move=True):
+    def _done_before(self):
+        if hasattr(self, "_db_flag"):
+            return self._db_flag
         try:
-            elem_id = self.svg[1]["id"]
-            has_old = elem_id == "full_scaler"
+            self._db_flag = (self.svg[1]["id"] == "full_scaler")
         except KeyError:
-            has_old = False
-        if has_old:
-            old_m = self.svg[1]["transform"][7:].split(",")
-            old_sx = old_m[0]
-            old_sy = old_m[3]
-            sx = sx * float(old_sx)
-            sy = sy * float(old_sy)
+            self._db_flag = False
+        return self._db_flag
+
+    def scale_xy(self, sx, sy, move=True):
+        """We can scale x axis and y axis different amount, and
+        we might want to move figure to center after scaling"""
+        if self._done_before():
+            old_matrix = self.svg[1]["transform"][7:].split(",")
+            sx = sx * float(old_matrix[0])
+            sy = sy * float(old_matrix[3])
         if move:
-            cx = float(self.svg.attr["width"]) * (1 - sx) / 2
-            cy = float(self.svg.attr["height"]) * (1 - sy) / 2
+            cx = self.width * (1 - sx) / 2
+            cy = self.height * (1 - sy) / 2
         else:
             cx = 0
             cy = 0
         matrix = ("matrix(" + str(sx) + ", 0, 0, " + str(sy) +
                   ", " + str(cx) + ", " + str(cy) + ")")
         # logging.info("# scale/" + matrix)
-        if has_old:
+        if self._done_before():
             self.svg[1]["transform"] = matrix
         else:
             scaler = SVG("g", id="full_scaler",
@@ -69,8 +71,6 @@ class Decorator(object):
             self.svg[2:] = ""
         self.width = 300 * sx
         self.height = 200 * sy
-        self.svg.attr["width"] = self.width
-        self.svg.attr["height"] = self.height
 
     def add_title(self, title):
         self.scale(0.8)
@@ -84,16 +84,16 @@ class Decorator(object):
         self.svg.append(title)
 
     def resize(self, width, height):
-        w = float(self.svg.attr["width"])
-        h = float(self.svg.attr["height"])
-        self.scale_xy(width / w, height / h, move=False)
-        self.svg.attr["width"] = width
-        self.svg.attr["height"] = height
+        self.scale_xy(width / self.width, height / self.height, move=False)
+        self.width = width
+        self.height = height
 
     def output(self):
         # self.scale(0.8)
         # self.add_title("hello")
         # self.resize(600, 200)
+        self.svg.attr["width"] = self.width
+        self.svg.attr["height"] = self.height
         return self.svg.standalone_xml()
         
 

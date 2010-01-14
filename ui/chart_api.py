@@ -176,7 +176,7 @@ class ChartPage(webapp.RequestHandler):
             g = s.get_active_generator()
             # logging.debug("# ChartAPI")
             chart = g.build_chart(d)
-            chart.scale_str(self.size)
+            chart.resize_str(self.size)
             out = chart.output()
             memcache.add(key, out, 60)
         self.response.out.write(out)
