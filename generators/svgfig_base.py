@@ -6,13 +6,21 @@ from lib.svgfig import *
 
 
 class SvgFigGenerator(BaseGenerator):
+    """Base class for SvgFig based generators.
+
+    Derived classes should implement get_elements method, and if
+    want also get_defs method. And of course methods derived from
+    gui_interface. SvgFigGenerator sets self.min and self.max, and
+    collects data to self.rows.
+    """
 
     def __init__(self):
         self.rows = []
     
     def output(self):
         svg = SVG("svg")
-        svg.append(self.get_defs())
+        if hasattr(self, "get_defs"):
+            svg.append(self.get_defs())
         svg.append(self.get_elements())
         svg.attr["height"] = "200px"
         svg.attr["width"] = "300px"
@@ -28,8 +36,6 @@ class SvgFigGenerator(BaseGenerator):
     def add_row(self, name, value, index=None):
         self.rows.append([name, value])
 
-    def get_defs(self):
-        raise Exception("not implemented")
-
     def get_elements(self):
+        """Need to be implemented in derived classes."""
         raise Exception("not implemented")

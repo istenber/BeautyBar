@@ -13,10 +13,6 @@ class Plain(SvgFigGenerator):
         self.color = "ffbbbb"
         self.has_text = False
 
-    def get_defs(self):
-        defs = SVG("defs", id="defs")
-        return defs
-
     def get_elements(self):
         return SVG("g", 
                    self._get_background(),
