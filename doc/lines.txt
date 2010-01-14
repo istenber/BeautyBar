@@ -1,31 +1,90 @@
-STATUS: 17.11.2009
+#!/bin/sh
 
-$ wc `find . | grep \.py | grep -v svgfig` -l
+wc `find . | grep -v \/tmp | grep \.py$ | grep -v svgfig; \
+    find templates | grep -v \/tmp | grep \.html$; \
+    echo static/spreadsheet-gadget.xml; \
+    echo static/js/beautybar.js; echo static/css/screen.css` -l
 
-   32 ./beautybar.py
-   18 ./generators/attributes/color.py
-    0 ./generators/attributes/__init__.py
-   17 ./generators/attributes/attribute.py
-    0 ./generators/__init__.py
-  132 ./generators/houses.py
-  101 ./generators/gui_interface.py
-  119 ./generators/bars.py
-   17 ./generators/skel.py
-  161 ./generators/shiny.py
-  104 ./generators/paper.py
-    0 ./lib/__init__.py
-   26 ./ui/basepage.py
-   53 ./ui/ajax_generator.py
-   70 ./ui/data_operations.py
-   27 ./ui/output_image.py
-    0 ./ui/__init__.py
-   11 ./ui/extra_pages.py
-   23 ./ui/mainpage.py
-  118 ./ui/dao.py
-   52 ./ui/ajax_modify.py
-  110 ./model/data.py
-    0 ./model/__init__.py
-   58 ./model/generator_factory.py
-   42 ./model/singleton.py
+exit 0
 
- 1291 total
+STATUS: 14.01.10
+
+   14 ./utils/blacklist.py
+   131 ./utils/svg-mod.py
+     4 ./tests/test_style.py
+    72 ./beautybar.py
+    77 ./generators/plain.py
+    86 ./generators/balls.py
+    67 ./generators/attributes/common.py
+     0 ./generators/attributes/__init__.py
+    43 ./generators/attributes/attribute.py
+   105 ./generators/rocks.py
+     0 ./generators/__init__.py
+   108 ./generators/houses.py
+    81 ./generators/equalizer.py
+    12 ./generators/base.py
+    69 ./generators/process_interface.py
+   115 ./generators/standard.py
+   103 ./generators/nature.py
+    55 ./generators/gui_interface.py
+    70 ./generators/blocks.py
+    25 ./generators/skel.py
+    86 ./generators/slices.py
+   157 ./generators/shiny.py
+   105 ./generators/paper.py
+    59 ./lib/templatetags.py
+    30 ./lib/utils.py
+     0 ./lib/__init__.py
+    63 ./lib/titles.py
+     0 ./ui/test/__init__.py
+   141 ./ui/test/dao.py
+    62 ./ui/basepage.py
+    86 ./ui/ajax_generator.py
+   123 ./ui/data_operations.py
+    56 ./ui/output_image.py
+     0 ./ui/__init__.py
+    32 ./ui/admin_pages.py
+   182 ./ui/chart_api.py
+    21 ./ui/extra_pages.py
+    10 ./ui/mainpage.py
+    14 ./ui/content_preview.py
+    76 ./ui/ajax_main.py
+   269 ./ui/dao.py
+    10 ./ui/error_pages.py
+    71 ./ui/ajax_modify.py
+    55 ./ui/feedback.py
+    68 ./model/generator.py
+    26 ./model/utils.py
+   186 ./model/data.py
+   137 ./model/decorator.py
+     0 ./model/__init__.py
+    60 ./model/style.py
+    63 ./model/generator_factory.py
+    27 ./model/session.py
+    27 ./model/output.py
+    42 ./model/singleton.py
+     2 templates/attributes/boolean.html
+     1 templates/attributes/random.html
+     1 templates/attributes/float.html
+     3 templates/attributes/choice.html
+     1 templates/attributes/color.html
+    38 templates/aboutpage.html
+   115 templates/mainpage.html
+    13 templates/attribute_table.html
+   164 templates/base.html
+    33 templates/admin.html
+    31 templates/preview.html
+    22 templates/feedback_reader.html
+    20 templates/learnstyle.html
+    17 templates/learnpage.html
+     7 templates/main/editstyle.html
+    52 templates/main/editfile.html
+    21 templates/main/editdata.html
+    15 templates/main/info.html
+    27 templates/main/list.html
+    35 templates/learnbasics.html
+    38 templates/view_sessions.html
+   120 static/spreadsheet-gadget.xml
+   194 static/js/beautybar.js
+   146 static/css/screen.css
+  4697 total
