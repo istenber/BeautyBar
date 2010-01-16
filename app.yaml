@@ -25,9 +25,16 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
 
+- url: /google156fd9a022590d56.html
+  static_files: static/google156fd9a022590d56.html
+  upload: static/google156fd9a022590d56.html
+
 - url: /spreadsheet-gadget.xml
   static_files: static/spreadsheet-gadget.xml
   upload: static/spreadsheet-gadget.xml
+
+- url: /stats.*
+  script: appstats/ui.py
 
 - url: /admin/.*
   script: beautybar.py
