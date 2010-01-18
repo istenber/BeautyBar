@@ -68,6 +68,38 @@ var ajaxWrapper = function(url, postprocessor, data) {
 	});
 };
 
+var file = {
+    clean: function() {
+	$('f_savefile').setValue('');
+	$('f_loadfile').setValue('');
+	$('load_span').innerHTML = '';
+	$('save_span').innerHTML = '';
+    },
+    _save_updater: function(out) {
+	var resp = out.responseText;
+	$('save_span').innerHTML = resp;
+	setTimeout("file.clean();", 3000);
+    },
+    _load_updater: function(out) {
+	var resp = out.responseText;
+	$('load_span').innerHTML = resp;
+	preview.update();
+	parts.update("info");
+	setTimeout("file.clean();", 3000);
+    },
+    save: function() {
+	var val = $('f_savefile').getValue();
+	this.clean();
+	$('save_span').innerHTML = 'Processing...';
+	ajaxWrapper("/save?name=" + val, this._save_updater);
+    },
+    load: function() {
+	var val = $('f_loadfile').getValue();
+	this.clean();
+	$('load_span').innerHTML = 'Processing...';
+	ajaxWrapper("/load?name=" + val, this._load_updater);
+    },
+};
 
 var attr = {
     _updater: function(out) {

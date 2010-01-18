@@ -34,24 +34,39 @@ def make_clean_session(ip_address):
 
 # TODO: note saves data AND style
 class SaveData(webapp.RequestHandler):
-    def post(self):
-        new_name = self.request.get("f_savefile")
+
+    def _old_data(self, name):
+        return DAO.load(name=name, class_name="Session")
+
+    def get(self):
+        new_name = self.request.get("name")
         if self.request.cookies.has_key("session"):
             name = str(self.request.cookies["session"])
             session = DAO.load(name=name, class_name="Session")
+        old_data = self._old_data(new_name)
+        if old_data is None:
+            self.response.out.write("Saved as " + new_name)
+        else:
+            old_data.name = "_deleted"
+            DAO.save(old_data)
+            self.response.out.write("Replaced old " + new_name)
         copy = session.copy()
         copy.name = new_name
         DAO.save(copy)
-        self.redirect("/")
 
 
 # TODO: note loads data AND style
 class LoadData(webapp.RequestHandler):
-    def post(self):
-        old_name = self.request.get("f_loadfile")
+
+    def get(self):
+        old_name = self.request.get("name")
         if self.request.cookies.has_key("session"):
             name = str(self.request.cookies["session"])
         old = DAO.load(name=old_name, class_name="Session")
+        if old is None:
+            self.response.out.write("Cannot find " + old_name)
+            return
+
         session = old.copy()
         session.name = name
 
@@ -63,7 +78,7 @@ class LoadData(webapp.RequestHandler):
         DAO.save(cur)
 
         DAO.save(session)
-        self.redirect("/")
+        self.response.out.write(old_name + " loaded")
 
 
 class ImportData(webapp.RequestHandler):

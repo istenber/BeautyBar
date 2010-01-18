@@ -3,27 +3,27 @@
 
 Saving data and style to come back later continue working with it.
 
-<form action="/save" method="POST">
 <table>
 <tr>
 <td align="right">
-<input type="text" name="f_savefile" value="" />
+<input type="text" id="f_savefile" value="" />
 </td>
 <td align="left">
-<input type="submit" name="f_save"  value="Save" />
+<input onclick="file.save();" type="button" name="f_save"  value="Save" />
+</td>
+<td align="left">
+<span id="save_span"></span>
 </td>
 </tr>
-</table>
-</form>
-
-<form action="/load" method="POST">
-<table>
 <tr>
 <td align="right">
-<input type="text" name="f_loadfile" value="" />
+<input type="text" id="f_loadfile" value="" />
 </td>
 <td align="left">
-<input type="submit" name="f_load"  value="Load" />
+<input onclick="file.load();" type="button" name="f_load"  value="Load" />
+</td>
+<td align="left">
+<span id="load_span"></span>
 </td>
 </tr>
 </table>
