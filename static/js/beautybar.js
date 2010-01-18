@@ -159,7 +159,8 @@ var parts = {
 	if(part == "list") {
 	    new Carousel('carousel-wrapper',
 			 $$('#carousel-content .slide'),
-			 $$('a.carousel-control'));
+			 $$('a.carousel-control'),
+			 { duration: 0.1, visibleSlides: 3});
 	}
 	if(part == "edit" && editor.current == 'style') {
 	    editor.show_attributes();
