@@ -29,6 +29,10 @@ handlers:
   static_files: static/google156fd9a022590d56.html
   upload: static/google156fd9a022590d56.html
 
+- url: /remote_api
+  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
+  login: admin
+
 - url: /spreadsheet-gadget.xml
   static_files: static/spreadsheet-gadget.xml
   upload: static/spreadsheet-gadget.xml
