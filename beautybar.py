@@ -29,11 +29,8 @@ def main():
     # TODO: use environment variable "debug"
     debug=True
     if debug:
-        from ui.test.dao import TestDao
-        test_pages = [('/test/dao', TestDao)]
         log_level = logging.DEBUG
     else:
-        test_pages = []
         log_level = logging.INFO
     logging.getLogger().setLevel(log_level)
 
@@ -62,7 +59,6 @@ def main():
              ('/content_preview', ContentPreview),
              ('/preview', PreviewImage)]
     application = webapp.WSGIApplication(pages +
-                                         test_pages +
                                          get_admin_pages() +
                                          [('/.*', MissingPage)],
                                          debug=debug)
