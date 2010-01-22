@@ -39,17 +39,11 @@ class Page(webapp.RequestHandler):
                             '../templates/base.html')
         self.response.out.write(template.render(path, self.values))
 
-
 class ExtraPage(Page):
     pass
 
 
-class ActivePage(Page):
-
-    def get(self):
-        self.get_session()
-        self.values['use_javascript'] = True
-        Page.get(self)
+class SessionPage(webapp.RequestHandler):
 
     def get_session(self):
         if self.request.cookies.has_key("session"):            
@@ -60,3 +54,12 @@ class ActivePage(Page):
         else:
             self.session = make_clean_session(self.request.remote_addr)
         self.response.headers['Set-Cookie'] = "session=" + self.session.cookie
+
+
+class ActivePage(Page, SessionPage):
+
+    def get(self):
+        self.get_session()
+        self.values['use_javascript'] = True
+        Page.get(self)
+
