@@ -39,7 +39,7 @@ class Data(Dao, model.data.Data):
     def get_items(self):
         return Item.get(self.items)
 
-    def add_item(self, item):
+    def _add_item(self, item):
         return self.add_to_list(self.items, item)
 
 

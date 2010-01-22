@@ -45,7 +45,7 @@ class Data(object):
         self.items = []
 
     # boilerplate ---------------------------
-    def add_item(self, item):
+    def _add_item(self, item):
         return self.items.append(item)
 
     def get_items(self):
@@ -82,10 +82,10 @@ class Data(object):
         return (value <= max and value >= min)
 
     # TODO: fix item additions to use this
-    def REAL_add_item(self, item):
+    def add_item(self, item):
         if len(self.get_items()) < data_max_len:
             if self.value_ok(item.value):
-                self.add_item(item)
+                self._add_item(item)
                 return True
             else:
                 logging.info("# Object (" + item.name + ":" +
