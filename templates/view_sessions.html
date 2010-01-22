@@ -6,7 +6,7 @@
 
 show_image = function(session) {
   var obj = document.getElementById(session + "_span");
-  obj.innerHTML = "<object data=\"/output_image?session=" + session + "\" " +
+  obj.innerHTML = "<object data=\"/preview?session=" + session + "\" " +
                   "type=\"image/svg+xml\" height=\"200\" width=\"300\" />";
 };
 
@@ -24,7 +24,7 @@ show_image = function(session) {
 <td valign="top"><h3>session: {{ session.name }}</h3>
 IP address: {{ session.ip_address }}<br />
 <span id="{{ session.name }}_span">
-<a href="#" onclick="show_image('{{ session.name }}');" >Show image</a>
+[ <a href="javascript:" onclick="show_image('{{ session.name }}');" >Show image</a> ]
 </span>
 </td>
 </tr>
