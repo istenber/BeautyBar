@@ -4,9 +4,8 @@ import os
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 from google.appengine.ext import db
-from ui.dao import DAO
 
-# TODO: should we use DAO based db model?
+
 class Feedback(db.Model):
 
     user = db.StringProperty()
@@ -27,29 +26,23 @@ class FeedbackReader(webapp.RequestHandler):
 
 class FeedbackProcessor(webapp.RequestHandler):
 
-    # TODO: move _send_message to somewhere common methods!!
-
-    # TODO: implement reading and storing to database somewhere
-    def _send_message(self, msg):
-        self.session.message = msg
-        # TODO: save message: DAO.save(session)
+    def get_session_id(self):
+        if self.request.cookies.has_key("session"):
+            return str(self.request.cookies["session"])
+        else:
+            return "no session found"
 
     def get(self):
         feedback = self.request.get("feedback")
-        user = self.request.get("user")        
-        if self.request.cookies.has_key("session"):
-            name = str(self.request.cookies["session"])
-            self.session = DAO.load(name=name, class_name="Session")
+        user = self.request.get("user")
         if feedback == "": 
             logging.info("# feedback missing.")
-            self.redirect("/about")
-        if user == "": logging.info("# user missing.")
+        if user == "":
+            logging.info("# user missing.")
         fb = Feedback()
         fb.user = user
         fb.message = feedback
-        fb.session = self.session.name
+        fb.session = self.get_session_id()
         fb.put()        
-        self._send_message("Feedback sent.")
-        # TODO: redirect to page where message was sent
         self.redirect("/about")
 
