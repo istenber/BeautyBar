@@ -578,10 +578,19 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001111129" changecount="25">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001221318" changecount="38">
 <pre>WorkSchedule contains time estimates for each task.
 
 RandomMarks aka. small ideas
+* change copy() to _copy_()
+* default datas - something to that is always in application, like few default styles
+** these styles then can be used as drop down list in spreadsheet-gadget-xxx.xml
+* caching strategy write-through: we write all db operations to cache and to db. With reads we read first from cache, if not hit then from db.
+* UnitTests
+* we could change active generator relation ship otherway: now generator have flag active=True/False, it could be that style have reference active_generator=generator.key() -- fix to db model
+* saving and loading does not work!!
+* chart_api do not work
+* fix REAL_add_item to be used instead of add_item
 
 Integrations
 * SharedImage, xmpp and inkboard stuff
@@ -599,6 +608,7 @@ Coding
 * CodeRefactoring
 
 Data
+* UserAccounts
 * DataSources
 * TitleMappings
 
@@ -616,7 +626,7 @@ KnownBugs is our bug database
 
 </pre>
 </div>
-<div title="RandomMarks" modifier="istenber" created="201001092258" modified="201001092339" changecount="5">
+<div title="RandomMarks" modifier="istenber" created="201001092258" modified="201001162319" changecount="6">
 <pre>We could use some kind of image maps to let user *find* best style. For example dimensions might be simple
 versus complex and all (or some) styles should be positioned in that scale. Map could be placed at style list 
 part of application.
@@ -650,6 +660,7 @@ Things that we should take account when making chart:
 Ideas should start from real need: what data set would benefit our lives? For example I enjoy knowing
 how much internet traffic there is.
 
+Font server!
 
 </pre>
 </div>
@@ -753,14 +764,24 @@ it to google. It is of course important to manually check pages as well, before 
 <div title="TitleMappings" modifier="istenber" created="201001032107" changecount="1">
 <pre>Title names should be mapped in maybe images or something similar. For example if you type *coffee* as a title, the program could suggest you to use image of coffee cup instead. </pre>
 </div>
-<div title="WorkSchedule" modifier="istenber" created="201001092240" modified="201001092244" changecount="3">
-<pre>We need to sort task in priority order.
+<div title="UserAccounts" modifier="istenber" created="201001181718" changecount="1">
+<pre>We need user accounts to make sure that users don't remove styles made by others. Following stuff is needed:
+* Separate style save
+* Save should ask do you want replace if style/data already exists
+* Only user who created style can load it - or maybe not?
+* Only user who created style can replace it
+* So we need user name to style db model as well?</pre>
+</div>
+<div title="WorkSchedule" modifier="istenber" created="201001092240" modified="201001162318" changecount="5">
+<pre>Tasks in priority order:
 
-|!Task|!Time estimate|
-|SharedImage|x|
-|GoogleDocs|x|
-|ImageServer|x|
-|SvgToPngServer|x|</pre>
+|!Prio|!Task|!Time estimate|
+|1|DaoRefactoring|x|
+|2|UserAccounts|x|
+|2|GoogleDocs|x|
+|x|SharedImage|x|
+|4|ImageServer|x|
+|4|SvgToPngServer|x|</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
