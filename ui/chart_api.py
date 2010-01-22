@@ -3,11 +3,11 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 from model.data import Item, Data
-from ui.dao import DAO
 from model.session import Session
 from model.output import Output
 from model.style import Style
 from model.generator_factory import GeneratorFactory
+import ui.dao
 
 class ChartPage(webapp.RequestHandler):
 
@@ -162,6 +162,10 @@ class ChartPage(webapp.RequestHandler):
         return self.cached_data is not None
 
     def get(self):
+        self.response.out.write("not working")
+
+    # TODO: fix chart api to work
+    def not_working(self):
         self.response.headers['Content-Type'] = "image/svg+xml"
         key = self.cache_key()
         if self.in_cache(key):

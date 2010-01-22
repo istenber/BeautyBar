@@ -31,13 +31,6 @@ class Item(object):
     def set_row(self, name):
         self.row = int(row)
 
-    def copy(self):
-        i = Item()
-        i.name = self.name
-        i.value = self.value
-        i.row = self.row
-        return i
-
     def __cmp__(self, other):
         return cmp(self.row, other.row)
 
@@ -51,9 +44,25 @@ class Data(object):
         self.max = max
         self.items = []
 
+    # boilerplate ---------------------------
+    def add_item(self, item):
+        return self.items.append(item)
+
+    def get_items(self):
+        return self.items
+
+    # TODO: make general super class with this method
+    # TODO: this needs be made nicer, and better
+    #       now it only works for classes in same file
+    @classmethod
+    def objfac(self, cls, **kwds):
+        return eval(cls)(**kwds)
+    # ---------------------------------------
+
     def is_valid(self):
-        if len(self.items) != data_max_len:
-            logging.info("# Wrong number of items: " + str(len(self.items)))
+        item_count = len(self.get_items())
+        if item_count != data_max_len:
+            logging.info("# Wrong number of items: " + str(item_count))
             return False
         if not self._all_in_range(self.min, self.max):
             logging.info("# Some items out of range")
@@ -72,10 +81,11 @@ class Data(object):
         #              str(max) + " is " + str(value <= max and value >= min))
         return (value <= max and value >= min)
 
-    def add_item(self, item):
-        if len(self.items) < data_max_len:
+    # TODO: fix item additions to use this
+    def REAL_add_item(self, item):
+        if len(self.get_items()) < data_max_len:
             if self.value_ok(item.value):
-                self.items.append(item)
+                self.add_item(item)
                 return True
             else:
                 logging.info("# Object (" + item.name + ":" +
@@ -86,7 +96,7 @@ class Data(object):
             return False
 
     def _all_in_range(self, min, max):
-        for item in self.items:
+        for item in self.get_items():
             if not self.value_ok(item.value, min, max):
                 return False
         return True
@@ -116,26 +126,15 @@ class Data(object):
         return self.min
 
     def as_list(self):
-        return sorted(self.items, lambda a, b: int(a.row - b.row))
+        return sorted(self.get_items(), lambda a, b: int(a.row - b.row))
 
     def to_generator(self, generator):
-        if len(self.items) != data_max_len:
-            logging.info("# Too few items: " + str(len(self.items)))
+        if not self.is_valid():
+            logging.info("# Invalid")
         for item in self.as_list():
             # TODO: use row index
             generator.add_row(item.name, item.value)
         generator.set_range(self.min, self.max)
-
-    def copy(self):
-        d = Data()
-        d.name = self.name
-        d.locked = self.locked
-        d.max = self.max
-        d.min = self.min
-        d.items = []
-        for item in self.items:
-            d.items.append(item.copy())
-        return d
 
     @classmethod
     def max_len(self):
@@ -143,18 +142,18 @@ class Data(object):
 
     @classmethod
     def default(self):
-        d = Data()
-        d.items.append(Item("a", 10.0, 1))
-        d.items.append(Item("b", 15.0, 2))
-        d.items.append(Item("c", 20.0, 3))
-        d.items.append(Item("d", 30.0, 4))
-        d.items.append(Item("e", 40.0, 5))
-        d.items.append(Item("f", 50.0, 6))
+        d = self.objfac('Data', name="", min=0.0, max=50.0, locked=False)
+        d.add_item(self.objfac('Item', name="a", value=10.0, row=1))
+        d.add_item(self.objfac('Item', name="b", value=15.0, row=2))
+        d.add_item(self.objfac('Item', name="c", value=20.0, row=3))
+        d.add_item(self.objfac('Item', name="d", value=30.0, row=4))
+        d.add_item(self.objfac('Item', name="e", value=40.0, row=5))
+        d.add_item(self.objfac('Item', name="f", value=50.0, row=6))
         return d
     
     def __str__(self):
         out = ""
-        for item in self.items:
+        for item in self.get_items():
             out += str(item.name) + "\t" + str(item.value) + "\n"
         return out
 

@@ -3,12 +3,8 @@ import logging
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from model.data import Item, Data
-from model.session import Session
-from model.output import Output
-from model.style import Style
-from ui.dao import DAO
 from model.utils import unquote
+import ui.dao
 
 
 def _generate_session_id():
@@ -16,49 +12,63 @@ def _generate_session_id():
     return str(uuid.uuid4())
 
 def make_clean_session(ip_address):
-    ses = Session(name=_generate_session_id())
-    data = Data.default()
+    data = ui.dao.Data.default()
     data.locked = True
-    style = Style.default()
+    data.put()
+    style = ui.dao.Style.default()
     style.locked = True
-    output = Output()
+    style.put()
+    output = ui.dao.Output()
     output.data = data
     output.style = style
-    ses.data = data
-    ses.output = output
-    ses.style = style
-    ses.ip_address = str(ip_address)
-    DAO.save(ses)
-    return ses
+    output.put()
+    # TODO: combine...
+    session = ui.dao.Session()
+    session.name = "no name"
+    session.cookie=_generate_session_id()
+    session.data = data
+    session.output = output
+    session.style = style
+    session.ip_address = str(ip_address)
+    session.put()
+    return session
 
+# TODO: SaveData, LoadData and ImportData don't work!!!
 
 # TODO: note saves data AND style
 class SaveData(webapp.RequestHandler):
 
-    def _old_data(self, name):
+    def get(self):
+        return
+
+    def _old_session(self, name):
         return DAO.load(name=name, class_name="Session")
 
-    def get(self):
+    def not_working(self):
         new_name = self.request.get("name")
         if self.request.cookies.has_key("session"):
             name = str(self.request.cookies["session"])
             session = DAO.load(name=name, class_name="Session")
-        old_data = self._old_data(new_name)
-        if old_data is None:
+        old_session = self._old_session(new_name)
+        if old_session is None:
             self.response.out.write("Saved as " + new_name)
         else:
-            old_data.name = "_deleted"
-            DAO.save(old_data)
+            old_session.name = "_deleted"
+            DAO.save(old_session)
             self.response.out.write("Replaced old " + new_name)
-        copy = session.copy()
-        copy.name = new_name
-        DAO.save(copy)
+        newone = copy.deepcopy(session)
+        # del newone.__dict__["__dbkey__"]
+        newone.name = new_name
+        DAO.save(newone)
 
 
 # TODO: note loads data AND style
 class LoadData(webapp.RequestHandler):
 
     def get(self):
+        return
+
+    def not_working(self):
         old_name = self.request.get("name")
         if self.request.cookies.has_key("session"):
             name = str(self.request.cookies["session"])
@@ -67,7 +77,7 @@ class LoadData(webapp.RequestHandler):
             self.response.out.write("Cannot find " + old_name)
             return
 
-        session = old.copy()
+        session = copy.deepcopy(old)
         session.name = name
 
         # TODO: remove old files!!!
@@ -84,6 +94,9 @@ class LoadData(webapp.RequestHandler):
 class ImportData(webapp.RequestHandler):
 
     def post(self):
+        return
+
+    def not_working(self):
         logging.info("import data")
         file = self.request.get("f_file")
         # TODO: if there is no session!!?
@@ -134,5 +147,5 @@ class CleanData(webapp.RequestHandler):
         self._clean()
     def _clean(self):
         session = make_clean_session(self.request.remote_addr)
-        self.response.headers['Set-Cookie'] = "session=" + session.name
+        self.response.headers['Set-Cookie'] = "session=" + session.cookie
         self.redirect("/")

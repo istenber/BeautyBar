@@ -4,16 +4,20 @@ from django.template.defaultfilters import floatformat
 from google.appengine.ext import webapp
 from model.data import Item, Data
 from model.utils import unquote
-from ui.dao import DAO
+import ui.dao
 
 
 class AjaxBase(webapp.RequestHandler):
 
     def get(self):
-        if self.request.cookies.has_key("session"):            
-            session_name = str(self.request.cookies["session"])
-            self.session = DAO.load(name=session_name, class_name="Session")
-            self.data = self.session.data
+        if self.request.cookies.has_key("session"):
+            cookie = str(self.request.cookies["session"])
+            self.session = ui.dao.Session.load(cookie)
+        else:
+            logging.error("Missing session cookie")
+            self.response.out.write("error")
+            return
+        self.data = self.session.data
         out = self.real_get()
         self.response.headers['Content-Type'] = "text/plain"
         self.response.out.write("out:" + str(out))
@@ -22,18 +26,17 @@ class AjaxBase(webapp.RequestHandler):
 class AjaxRange(AjaxBase):
 
     def real_get(self):
-        # TODO: handle missing args and cookie
         min = self.request.get("min")
         max = self.request.get("max")
         if min != "":
             self.data.set_min(min)
-            DAO.save(self.session.data)
+            self.data.put()
             return floatformat(self.data.min)
         if max != "": 
             self.data.set_max(max)
-            DAO.save(self.session.data)
+            self.data.put()
             return floatformat(self.data.max)
-        # TODO: fix bug, session.data is not saved when session is!
+        return 0
 
 
 class AjaxModifyName(AjaxBase):
@@ -42,13 +45,13 @@ class AjaxModifyName(AjaxBase):
         try:
             row = int(self.request.get("row")) - 1
         except ValueError:
-            logging.info("# sometried to use bad row")
-            return self.data.items[row].name
+            logging.info("Missing or incorrect row")
+            return 0
+        item = self.data.get_items()[row]
         val = unquote(self.request.get("val"))
-        self.data.items[row].set_name(val)
-        out = self.data.items[row].name
-        DAO.save(self.session.data)
-        return out
+        item.set_name(val)
+        item.put()
+        return item.name
 
 
 class AjaxModifyValue(AjaxBase):
@@ -57,15 +60,16 @@ class AjaxModifyValue(AjaxBase):
         try:
             row = int(self.request.get("row")) - 1
         except ValueError:
-            logging.info("# sometried to use bad row")
-            return floatformat(self.data.items[row].value)
+            logging.info("Missing or incorrect row")
+            return 0
+        item = self.data.get_items()[row]
         val = unquote(self.request.get("val"))
         if ',' in val: val = val.replace(',', '.', 1)
         if not self.data.value_ok(val):
-            logging.info("# some tries to send data out of range")
-            # TODO: raise error?
-            return floatformat(self.data.items[row].value)
-        self.data.items[row].set_value(val)
-        out = self.data.items[row].value
-        DAO.save(self.session.data)
-        return floatformat(out)
+            # Data is out of range.
+            # This is valid situation, but we should notify the user anyway.
+            # logging.debug("Data out of range")
+            return floatformat(item.value)
+        item.set_value(val)
+        item.put()
+        return floatformat(item.value)

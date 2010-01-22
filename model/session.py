@@ -2,23 +2,17 @@
 
 import logging
 
+
 class Session(object):
 
-    def __init__(self, name=""):
+    def __init__(self, name="no name"):
         self.name = name
+        self.cookie = cookie
         self.ip_address = ""
         self.data = None
         self.style = None
         self.output = None
 
-    def copy(self):
-        s = Session()
-        s.name = self.name
-        s.ip_address = self.ip_address
-        s.data = self.data.copy()
-        s.style = self.style.copy()
-        s.output = self.output.copy(s.data, s.style)
-        return s
 
 def main():
     pass

@@ -3,18 +3,17 @@ import os
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from ui.dao import DAO
 from model.generator_factory import GeneratorFactory
 from ui.ajax_modify import AjaxBase
 from model.utils import unquote
-
+import ui.dao
 
 class AjaxGenerator(AjaxBase):
 
     def real_get(self):
         generator_name = self.request.get("name")
         self.session.style.set_active_generator(generator_name)
-        DAO.save(self.session.style)
+        self.session.style.put()
         return "ok."
 
 
@@ -22,21 +21,22 @@ class AjaxSetAttribute(AjaxBase):
 
     def real_get(self):
         g = self.session.style.get_active_generator()
-        gf = GeneratorFactory().instance()
-        gen_r = gf.get_generator(g.name + ".py")
-        for attr in gen_r.get_attributes():
+        for attr in g.me().get_attributes():
             n = attr.get_name()
-            i = unquote(self.request.get(n))
-            if i != "":
+            v = unquote(self.request.get(n))
+            if v != "":
                 # logging.info("# got \"" + n + "\" as \"" + i + "\"")
-                a = g.get_attribute(n)
-                if i == "random":
+                # TODO: we cannot do this, or all "random" name variables
+                #       turn to be random numbers
+                if v == "random":
                     import random
                     import math
-                    i = str(int(math.floor(random.random() * 1000 + 0.5)))
+                    v = str(int(math.floor(random.random() * 1000 + 0.5)))
                 # TODO: check that value is valid
-                a.value = i
-        DAO.save(self.session.style)
+                a = g.get_rw_attribute(n)
+                a.value = v
+                a.put()
+        g.put()
         return "ok."
 
 
@@ -45,8 +45,8 @@ class AjaxAttributes(webapp.RequestHandler):
 
     def get(self):
         if self.request.cookies.has_key("session"):            
-            session_name = str(self.request.cookies["session"])
-            self.session = DAO.load(name=session_name, class_name="Session")
+            cookie = str(self.request.cookies["session"])
+            self.session = ui.dao.Session.load(cookie)
         values = self.real_get()
         self.response.headers['Content-Type'] = "text/html"
         path = os.path.join(os.path.dirname(__file__),

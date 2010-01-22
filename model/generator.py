@@ -11,30 +11,47 @@ class Generator(object):
 
     def __init__(self, name=""):
         self.name = name
-        self.active = False
         self.attributes = []
-        self.factory = GeneratorFactory().instance()
 
-    def copy(self):
-        g = Generator()
-        g.name = self.name
-        g.active = self.active
-        g.attributes = []
-        for attr in self.attributes:
-            g.attributes.append(attr.copy())
-        return g
+    def get_factory(self):
+        if not hasattr(self, "_factory"):
+            self._factory = GeneratorFactory().instance()
+        return self._factory
+
+    # boilerplate ---------------------------
+    def add_attribute(self, attribute):
+        return self.attributes.append(attribute)
+
+    def get_attributes(self):
+        return self.attributes
+
+    @classmethod
+    def objfac(self, cls, **kwds):
+        return eval(cls)(**kwds)
+    # ---------------------------------------
+
+    def _attribute_with_default_value(self, name):
+        v = self.me().get_attribute(name).get_value()
+        return self.objfac('Attribute', name=name, value=v)
 
     def get_attribute(self, name):
-        for attr in self.attributes:
-            if attr.name == name: return attr
-        chart = self.factory.get_generator(self.name + ".py")
-        v = chart.get_attribute(name).get_value()
-        a = Attribute(name=name, value=v)
-        self.attributes.append(a)
-        return a
+        """ Read only version of get_attribute """
+        for attr in self.get_attributes():
+            if attr.name == name:
+                return attr
+        return self._attribute_with_default_value(name)
+
+    def get_rw_attribute(self, name):
+        """ Read/write version of get_attribute """
+        for attr in self.get_attributes():
+            if attr.name == name:
+                return attr
+        attr = self._attribute_with_default_value(name)
+        self.add_attribute(attr)
+        return attr
 
     def build_chart(self, data):
-        chart = self.factory.get_generator(self.name + ".py")
+        chart = self.me()
         for attr in chart.get_attributes():
             v = unquote(self.get_attribute(attr.get_name()).value)
             if v != "":
@@ -42,18 +59,15 @@ class Generator(object):
         data.to_generator(chart)
         return Decorator(chart)
 
+    def me(self):
+        return self.get_factory().get_generator(self.name + ".py")
+
 
 class Attribute(object):
 
     def __init__(self, name="", value=""):
         self.name = name
         self.value = value
-
-    def copy(self):
-        a = Attribute()
-        a.name = self.name
-        a.value = self.value
-        return a
 
 
 def main():

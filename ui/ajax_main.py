@@ -3,9 +3,8 @@ import os
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from ui.dao import DAO
 from model.generator_factory import GeneratorFactory
-
+import ui.dao
 
 class AjaxMain(webapp.RequestHandler):
 
@@ -20,8 +19,8 @@ class AjaxMain(webapp.RequestHandler):
             self.response.out.write("error")
             return
         if self.request.cookies.has_key("session"):            
-            session_name = str(self.request.cookies["session"])
-            self.session = DAO.load(name=session_name, class_name="Session")
+            cookie = str(self.request.cookies["session"])
+            self.session = ui.dao.Session.load(cookie)
         values = eval("self.get_" + part)()
         self.response.headers['Content-Type'] = "text/html"
         file = "../templates/main/" + values['template'] + ".html"

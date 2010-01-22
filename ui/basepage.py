@@ -6,7 +6,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from ui.data_operations import make_clean_session
-from ui.dao import DAO
+import ui.dao
 
 class Page(webapp.RequestHandler):
 
@@ -53,10 +53,10 @@ class ActivePage(Page):
 
     def get_session(self):
         if self.request.cookies.has_key("session"):            
-            session_name = str(self.request.cookies["session"])
-            self.session = DAO.load(name=session_name, class_name="Session")
+            cookie = str(self.request.cookies["session"])
+            self.session = ui.dao.Session.load(cookie)
             if not self.session:
                 self.session = make_clean_session(self.request.remote_addr)
         else:
             self.session = make_clean_session(self.request.remote_addr)
-        self.response.headers['Set-Cookie'] = "session=" + self.session.name
+        self.response.headers['Set-Cookie'] = "session=" + self.session.cookie

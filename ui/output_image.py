@@ -4,8 +4,7 @@ import logging
 # from StringIO import StringIO
 
 from google.appengine.ext import webapp
-from ui.dao import DAO
-from model.session import Session
+import ui.dao
 
 
 # TODO: refactor session handling into one place
@@ -33,10 +32,10 @@ class ImageBase(webapp.RequestHandler):
         # TODO: use content type from output
         self.response.headers['Content-Type'] = self.get_content_type()
         self.response.headers['Pragma'] = "no-cache"
-        name = self.request.get("session")
-        if name == "" and self.request.cookies.has_key("session"):
-            name = str(self.request.cookies["session"])
-        self.session = DAO.load(name=name, class_name="Session")
+        if self.request.cookies.has_key("session"):
+            cookie = str(self.request.cookies["session"])
+        # TODO: else fail?
+        self.session = ui.dao.Session.load(cookie)
         g = self.session.style.get_active_generator()
         # TODO: encoding disabled, as app engine does not support it
         # out = self.encode(g.build_chart(self.session.data).output())
