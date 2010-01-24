@@ -26,8 +26,8 @@ class Generator(object):
         return self.attributes
 
     @classmethod
-    def objfac(self, cls, **kwds):
-        return eval(cls)(**kwds)
+    def objfac(cls, new_cls, **kwds):
+        return eval(new_cls)(**kwds)
     # ---------------------------------------
 
     def _attribute_with_default_value(self, name):

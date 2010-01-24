@@ -25,8 +25,8 @@ class Dao(db.Model):
             list.append(item.key())
 
     @classmethod
-    def objfac(self, cls, **kwds):
-        return eval(cls)(**kwds)
+    def objfac(cls, new_cls, **kwds):
+        return eval(new_cls)(**kwds)
 
 
 class Data(Dao, model.data.Data):
@@ -88,8 +88,8 @@ class Session(Dao, model.session.Session):
     # output = db.ReferenceProperty(Output)
 
     @classmethod
-    def load(self, cookie):
-        session = self.gql("WHERE cookie = :1", cookie).get()
+    def load(cls, cookie):
+        session = cls.gql("WHERE cookie = :1", cookie).get()
         if session is None:
             logging.info("Session missing (" + cookie + ")")
         return session

@@ -15,10 +15,10 @@ class Style(object):
         self.active_generator = None
 
     @classmethod
-    def default(self):
+    def default(cls):
         # TODO: add all default parameters
-        s = self.objfac('Style', name= "default style")
-        g = self.objfac('Generator', name="standard")
+        s = cls.objfac('Style', name= "default style")
+        g = cls.objfac('Generator', name="standard")
         s.add_generator(g)
         s.active_generator = g
         return s
@@ -31,10 +31,10 @@ class Style(object):
         return self.generators
 
     @classmethod
-    def objfac(self, cls, **kwds):
+    def objfac(cls, new_cls, **kwds):
         # TODO: do we need more here?
         # if cls.__name__ == "Generator": return
-        return eval(cls)(**kwds)
+        return eval(new_cls)(**kwds)
     # ---------------------------------------
 
     def get_active_generator(self):

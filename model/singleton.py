@@ -9,8 +9,8 @@ class Singleton(object):
         return cls.__instance
 
     @classmethod
-    def instance(self):
-        return self.__instance
+    def instance(cls):
+        return cls.__instance
 
 # ------------------- test program --------------------
 

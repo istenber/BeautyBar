@@ -3,9 +3,6 @@
 import logging
 
 
-data_max_len=6
-
-
 def to_float(value):
     try:
         out = float(value)
@@ -55,13 +52,13 @@ class Data(object):
     # TODO: this needs be made nicer, and better
     #       now it only works for classes in same file
     @classmethod
-    def objfac(self, cls, **kwds):
-        return eval(cls)(**kwds)
+    def objfac(cls, new_cls, **kwds):
+        return eval(new_cls)(**kwds)
     # ---------------------------------------
 
     def is_valid(self):
         item_count = len(self.get_items())
-        if item_count != data_max_len:
+        if item_count != self.max_len():
             logging.info("# Wrong number of items: " + str(item_count))
             return False
         if not self._all_in_range(self.min, self.max):
@@ -83,7 +80,7 @@ class Data(object):
 
     # TODO: fix item additions to use this
     def add_item(self, item):
-        if len(self.get_items()) < data_max_len:
+        if len(self.get_items()) < self.max_len():
             if self.value_ok(item.value):
                 self._add_item(item)
                 return True
@@ -137,18 +134,18 @@ class Data(object):
         generator.set_range(self.min, self.max)
 
     @classmethod
-    def max_len(self):
-        return data_max_len
+    def max_len(cls):
+        return 6
 
     @classmethod
-    def default(self):
-        d = self.objfac('Data', name="", min=0.0, max=50.0, locked=False)
-        d.add_item(self.objfac('Item', name="a", value=10.0, row=1))
-        d.add_item(self.objfac('Item', name="b", value=15.0, row=2))
-        d.add_item(self.objfac('Item', name="c", value=20.0, row=3))
-        d.add_item(self.objfac('Item', name="d", value=30.0, row=4))
-        d.add_item(self.objfac('Item', name="e", value=40.0, row=5))
-        d.add_item(self.objfac('Item', name="f", value=50.0, row=6))
+    def default(cls):
+        d = cls.objfac('Data', name="", min=0.0, max=50.0, locked=False)
+        d.add_item(cls.objfac('Item', name="a", value=10.0, row=1))
+        d.add_item(cls.objfac('Item', name="b", value=15.0, row=2))
+        d.add_item(cls.objfac('Item', name="c", value=20.0, row=3))
+        d.add_item(cls.objfac('Item', name="d", value=30.0, row=4))
+        d.add_item(cls.objfac('Item', name="e", value=40.0, row=5))
+        d.add_item(cls.objfac('Item', name="f", value=50.0, row=6))
         return d
     
     def __str__(self):

@@ -42,9 +42,9 @@ class GeneratorFactory(Singleton):
         return None # TODO: or skel generator?
 
     @classmethod
-    def list(self):
+    def list(cls):
         # raise Exception("inst: " + str(self.instance()))
-        return self.instance().generators
+        return cls.instance().generators
 
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
