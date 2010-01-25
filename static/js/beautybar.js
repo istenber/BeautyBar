@@ -1,6 +1,7 @@
 
 var preview = {
     init: function() {
+	preview.preload();
 	this._frame = $('preview_frame');
 	svgweb.appendChild(this._output_img, this._frame);
 	this._timer_on = false;
@@ -39,7 +40,7 @@ var preview = {
 	if(this._timer_on) { return; }
 	this._timer_on = true;
 	this._loading();
-	setTimeout("preview._update_image();", 100);
+	setTimeout(preview._update_image(), 100);
 	return;
     },
 
@@ -51,22 +52,59 @@ var preview = {
         this._load_image();
 	svgweb.appendChild(this._output_img, this._frame);
 	this._timer_on = false;
-    },
+    }
 
 };
-preview.preload();
 
 
 var ajaxWrapper = function(url, postprocessor, data) {
-    new Ajax.Request(url, {
+    var ajax_request = new Ajax.Request(url, {
 	    method    : 'get',
 	    onSuccess : function(out) {
 		postprocessor(out, data);
 	    },
 	    onFailure : function() { 
-	    },
+	    }
 	});
+    ajax_request = ajax_request;
 };
+
+
+var editor = {
+    current: 'data',
+    _attribute_updater: function(out) {
+	$('attribute_table').update(out.responseText);
+	jscolor.bind();
+    },
+    show_attributes: function() {
+	ajaxWrapper('/attr_table', this._attribute_updater);
+    }
+};
+
+
+var parts = {
+    _updater: function(out, part) {
+	$('part_' + part).update(out.responseText);
+	if(part == 'list') {
+	    new Carousel('carousel-wrapper',
+			 $$('#carousel-content .slide'),
+			 $$('a.carousel-control'),
+			 { duration: 0.1, visibleSlides: 3});
+	}
+	if((part == 'edit') && (editor.current == 'style')) {
+	    editor.show_attributes();
+	}
+    },
+    update: function(part) {
+	if(part == 'edit') { return this._update_editor(); }
+	ajaxWrapper('/main?part=' + part, this._updater, part);
+    },
+    _update_editor: function() {
+	ajaxWrapper('/main?part=edit&s=' + editor.current,
+		    this._updater, 'edit');
+    }
+};
+
 
 var file = {
     clean: function() {
@@ -78,27 +116,27 @@ var file = {
     _save_updater: function(out) {
 	var resp = out.responseText;
 	$('save_span').innerHTML = resp;
-	setTimeout("file.clean();", 3000);
+	setTimeout(file.clean(), 3000);
     },
     _load_updater: function(out) {
 	var resp = out.responseText;
 	$('load_span').innerHTML = resp;
 	preview.update();
-	parts.update("info");
-	setTimeout("file.clean();", 3000);
+	parts.update('info');
+	setTimeout(file.clean(), 3000);
     },
     save: function() {
 	var val = $('f_savefile').getValue();
 	this.clean();
 	$('save_span').innerHTML = 'Processing...';
-	ajaxWrapper("/save?name=" + val, this._save_updater);
+	ajaxWrapper('/save?name=' + val, this._save_updater);
     },
     load: function() {
 	var val = $('f_loadfile').getValue();
 	this.clean();
 	$('load_span').innerHTML = 'Processing...';
-	ajaxWrapper("/load?name=" + val, this._load_updater);
-    },
+	ajaxWrapper('/load?name=' + val, this._load_updater);
+    }
 };
 
 var attr = {
@@ -106,19 +144,19 @@ var attr = {
 	preview.update();
     },
     set_value: function(val) {
-	ajaxWrapper("/set_attr?" + val + "=\"" + $(val).getValue() + "\"",
+	ajaxWrapper('/set_attr?' + val + '=\"' + $(val).getValue() + '\"',
 		    this._updater);
     },
     set_random: function(val) {
-	ajaxWrapper("/set_attr?" + val + "=\"random\"",
+	ajaxWrapper('/set_attr?' + val + '=\"random\"',
 		    this._updater);
     },
     set_boolean: function(val, r) {
-	ajaxWrapper("/set_attr?" + val + "=\"" + r + "\"",
+	ajaxWrapper('/set_attr?' + val + '=\"' + r + '\"',
 		    this._updater);
     },
     set_choice: function(val, c) {
-	ajaxWrapper("/set_attr?" + val + "=\"" + c + "\"",
+	ajaxWrapper('/set_attr?' + val + '=\"' + c + '\"',
 		    this._updater);
     },
     set_color: function(val) {
@@ -133,12 +171,12 @@ var attr = {
     },
     _generator_updater: function(out) {
 	preview.update();
-	parts.update("info");
+	parts.update('info');
 	if (editor.current == 'style') { editor.show_attributes(); }
     },
     set_generator: function(val) {
-	ajaxWrapper("/set_generator?name=" + val, this._generator_updater);
-    },
+	ajaxWrapper('/set_generator?name=' + val, this._generator_updater);
+    }
 };
 
 
@@ -149,77 +187,41 @@ var data = {
 	preview.update();
     },
     _set_limit: function(limit) {
-	ajaxWrapper("/set_range?" + limit + "=" + $('r_' + limit).getValue(),
+	ajaxWrapper('/set_range?' + limit + '=' + $('r_' + limit).getValue(),
 		    this._updater, limit);
     },
     set_min: function() {
-	this._set_limit("min");
+	this._set_limit('min');
     },
     set_max: function() {
-	this._set_limit("max");
+	this._set_limit('max');
     },
     set_name: function(row) {
-	var id = "name_" + row;
-	ajaxWrapper("/set_name?row=" + row + "&val=\"" +
-		    $('r_' + id).getValue() + "\"",
+	var id = 'name_' + row;
+	ajaxWrapper('/set_name?row=' + row + '&val=\"' +
+		    $('r_' + id).getValue() + '\"',
 		    this._updater, id);
     },
     set_value: function(row) {
-	var id = "value_" + row;
-	ajaxWrapper("/set_value?row=" + row + "&val=\"" +
-		    $('r_' + id).getValue() + "\"",
+	var id = 'value_' + row;
+	ajaxWrapper('/set_value?row=' + row + '&val=\"' +
+		    $('r_' + id).getValue() + '\"',
 		    this._updater, id);
-    },
-};
-
-
-var editor = {
-    current: 'data',
-    _attribute_updater: function(out) {
-	$('attribute_table').update(out.responseText);
-	jscolor.bind();
-    },
-    show_attributes: function() {
-	ajaxWrapper("/attr_table", this._attribute_updater);
-    },
-};
-
-
-var parts = {
-    _updater: function(out, part) {
-	$('part_' + part).update(out.responseText);
-	if(part == "list") {
-	    new Carousel('carousel-wrapper',
-			 $$('#carousel-content .slide'),
-			 $$('a.carousel-control'),
-			 { duration: 0.1, visibleSlides: 3});
-	}
-	if(part == "edit" && editor.current == 'style') {
-	    editor.show_attributes();
-	}
-    },
-    update: function(part) {
-	if(part == "edit") { return this._update_editor(); }
-	ajaxWrapper("/main?part=" + part, this._updater, part);
-    },
-    _update_editor: function() {
-	ajaxWrapper("/main?part=edit&s=" + editor.current,
-		    this._updater, 'edit');
     }
 };
 
 
 process_button = function(button) {
     editor.current = button;
-    parts.update("edit");
+    parts.update('edit');
 };
 
 
 init = function() {
     preview.init();
-    parts.update("list");
-    parts.update("info");
-    parts.update("edit");
+    parts.update('list');
+    parts.update('info');
+    parts.update('edit');
 };
 
 
