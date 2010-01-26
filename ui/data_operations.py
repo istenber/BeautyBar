@@ -6,33 +6,6 @@ from google.appengine.ext.webapp import template
 from model.utils import unquote
 import ui.dao
 
-
-def _generate_session_id():
-    import uuid
-    return str(uuid.uuid4())
-
-def make_clean_session(ip_address):
-    data = ui.dao.Data.default()
-    data.locked = True
-    data.put()
-    style = ui.dao.Style.default()
-    style.locked = True
-    style.put()
-    output = ui.dao.Output()
-    output.data = data
-    output.style = style
-    output.put()
-    # TODO: combine...
-    session = ui.dao.Session()
-    session.name = "no name"
-    session.cookie=_generate_session_id()
-    session.data = data
-    session.output = output
-    session.style = style
-    session.ip_address = str(ip_address)
-    session.put()
-    return session
-
 # TODO: SaveData, LoadData and ImportData don't work!!!
 
 # TODO: note saves data AND style
@@ -146,6 +119,6 @@ class CleanData(webapp.RequestHandler):
     def post(self):
         self._clean()
     def _clean(self):
-        session = make_clean_session(self.request.remote_addr)
+        session = ui.dao.Session.default(self.request.remote_addr)
         self.response.headers['Set-Cookie'] = "session=" + session.cookie
         self.redirect("/")

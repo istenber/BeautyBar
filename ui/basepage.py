@@ -5,7 +5,6 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
-from ui.data_operations import make_clean_session
 import ui.dao
 
 class Page(webapp.RequestHandler):
@@ -50,9 +49,9 @@ class SessionPage(webapp.RequestHandler):
             cookie = str(self.request.cookies["session"])
             self.session = ui.dao.Session.load(cookie)
             if not self.session:
-                self.session = make_clean_session(self.request.remote_addr)
+                self.session = ui.dao.Session.default(self.request.remote_addr)
         else:
-            self.session = make_clean_session(self.request.remote_addr)
+            self.session = ui.dao.Session.default(self.request.remote_addr)
         self.response.headers['Set-Cookie'] = "session=" + self.session.cookie
 
 
