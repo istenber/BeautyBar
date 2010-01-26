@@ -29,17 +29,13 @@ class Session(object):
 
     @classmethod
     def default(cls, ip_address="0.0.0.0"):
-        # TODO: remove .put() dependencies
         data = cls.objfac('Data').default()
         data.locked = True
-        if hasattr(data, "put"): data.put()
         style = cls.objfac('Style').default()
         style.locked = True
-        if hasattr(style, "put"): style.put()
         output = cls.objfac('Output')
         output.data = data
         output.style = style
-        if hasattr(output, "put"): output.put()
         # TODO: combine...
         session = cls.objfac('Session')
         session.name = "no name"
@@ -48,7 +44,6 @@ class Session(object):
         session.output = output
         session.style = style
         session.ip_address = str(ip_address)
-        if hasattr(session, "put"): session.put()
         return session
 
 

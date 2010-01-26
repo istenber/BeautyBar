@@ -1,7 +1,7 @@
 import logging
 
 from google.appengine.ext import db
-from google.appengine.ext.db import NotSavedError
+from google.appengine.ext.db import NotSavedError, BadValueError
 import model
 
 __all__ = ['Item', 'Data', 'Output', 'Session',
@@ -27,6 +27,15 @@ class Dao(db.Model):
     @classmethod
     def objfac(cls, new_cls, **kwds):
         return eval(new_cls)(**kwds)
+
+    def __setattr__(self, attr, value):
+        try:
+            db.Model.__setattr__(self, attr, value)
+        except BadValueError:
+            #logging.info("SAVING: " + str(type(value)) + " for " +
+            #             self.__class__.__name__)
+            value.put()
+            db.Model.__setattr__(self, attr, value)
 
 
 class Data(Dao, model.data.Data):

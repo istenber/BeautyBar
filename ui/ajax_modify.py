@@ -4,19 +4,14 @@ from django.template.defaultfilters import floatformat
 from google.appengine.ext import webapp
 from model.data import Item, Data
 from model.utils import unquote
+from ui.basepage import SessionPage
 import ui.dao
 
 
-class AjaxBase(webapp.RequestHandler):
+class AjaxBase(SessionPage):
 
     def get(self):
-        if self.request.cookies.has_key("session"):
-            cookie = str(self.request.cookies["session"])
-            self.session = ui.dao.Session.load(cookie)
-        else:
-            logging.error("Missing session cookie")
-            self.response.out.write("error")
-            return
+        self.get_session()
         self.data = self.session.data
         out = self.real_get()
         self.response.headers['Content-Type'] = "text/plain"

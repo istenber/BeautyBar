@@ -120,5 +120,6 @@ class CleanData(webapp.RequestHandler):
         self._clean()
     def _clean(self):
         session = ui.dao.Session.default(self.request.remote_addr)
+        session.put()
         self.response.headers['Set-Cookie'] = "session=" + session.cookie
         self.redirect("/")

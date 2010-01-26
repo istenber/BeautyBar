@@ -45,13 +45,12 @@ class ExtraPage(Page):
 class SessionPage(webapp.RequestHandler):
 
     def get_session(self):
-        if self.request.cookies.has_key("session"):            
+        if self.request.cookies.has_key("session"):
             cookie = str(self.request.cookies["session"])
             self.session = ui.dao.Session.load(cookie)
-            if not self.session:
-                self.session = ui.dao.Session.default(self.request.remote_addr)
-        else:
-            self.session = ui.dao.Session.default(self.request.remote_addr)
+            if self.session is not None: return
+        self.session = ui.dao.Session.default(self.request.remote_addr)
+        self.session.put()
         self.response.headers['Set-Cookie'] = "session=" + self.session.cookie
 
 
