@@ -4,84 +4,60 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from model.utils import unquote
+from ui.basepage import SessionPage
 import ui.dao
 
-# TODO: SaveData, LoadData and ImportData don't work!!!
 
-# TODO: note saves data AND style
-class SaveData(webapp.RequestHandler):
+class SaveData(SessionPage):
 
     def get(self):
-        return
-
-    def _old_session(self, name):
-        return DAO.load(name=name, class_name="Session")
-
-    def not_working(self):
-        new_name = self.request.get("name")
-        if self.request.cookies.has_key("session"):
-            name = str(self.request.cookies["session"])
-            session = DAO.load(name=name, class_name="Session")
-        old_session = self._old_session(new_name)
-        if old_session is None:
-            self.response.out.write("Saved as " + new_name)
+        self.get_session()
+        filename = self.request.get("name")
+        old_file = ui.dao.Session.load_file(filename)
+        if old_file is None:
+            self.response.out.write("Saved as " + filename)
         else:
-            old_session.name = "_deleted"
-            DAO.save(old_session)
-            self.response.out.write("Replaced old " + new_name)
-        newone = copy.deepcopy(session)
-        # del newone.__dict__["__dbkey__"]
-        newone.name = new_name
-        DAO.save(newone)
+            self.session.name = "_deleted"
+            self.session.put()
+            self.response.out.write("Replaced old " + filename)
+        newone = self.session.copy_model_instance()
+        newone.name = filename
+        newone.cookie = ""
+        newone.put()
 
 
-# TODO: note loads data AND style
-class LoadData(webapp.RequestHandler):
+class LoadData(SessionPage):
 
     def get(self):
-        return
-
-    def not_working(self):
-        old_name = self.request.get("name")
-        if self.request.cookies.has_key("session"):
-            name = str(self.request.cookies["session"])
-        old = DAO.load(name=old_name, class_name="Session")
-        if old is None:
-            self.response.out.write("Cannot find " + old_name)
+        self.get_session()
+        filename = self.request.get("name")
+        old_file = ui.dao.Session.load_file(filename)
+        if old_file is None:
+            self.response.out.write("Cannot find " + filename)
             return
-
-        session = copy.deepcopy(old)
-        session.name = name
-
-        # TODO: remove old files!!!
-        # TODO: make db to support removes
-        #       then remove this hack!
-        cur = DAO.load(name=name, class_name="Session")
-        cur.name = "_deleted"
-        DAO.save(cur)
-
-        DAO.save(session)
-        self.response.out.write(old_name + " loaded")
+        newone = old_file.copy_model_instance()
+        newone.name = ""
+        newone.cookie = self.session.cookie
+        newone.put()
+        self.session.name = "_deleted"
+        self.session.cookie = ""
+        self.session.put()
+        self.response.out.write(filename + " loaded")
 
 
-class ImportData(webapp.RequestHandler):
+class ImportData(SessionPage):
 
     def post(self):
-        return
-
-    def not_working(self):
-        logging.info("import data")
-        file = self.request.get("f_file")
-        # TODO: if there is no session!!?
-        if self.request.cookies.has_key("session"):
-            name = str(self.request.cookies["session"])
-            session = DAO.load(name=name, class_name="Session")
+        self.get_session()
+        filename = self.request.get("f_file")
         d = self._parse_csv(file)
         if d is not None:
-            session.data = d
-            DAO.save(session)
+            d.put()
+            self.session.data = d
+            self.session.put()
         self.redirect("/")
 
+    # TODO: move parsing to model.data
     # Not fully compliant with csv, as ...
     # 1. "e accept following separators ,.:\t
     # 2. Don't allow multiline messages
@@ -95,7 +71,8 @@ class ImportData(webapp.RequestHandler):
             logging.info("# Too few lines (" + str(len(lines)) + ") in CSV")
             return None
         for delim in [",", ".", ":", "\t"]:
-            d = Data()
+            d = self.objfac('Data', name="", min=0.0, max=50.0, locked=False)
+            line_nro = 1
             for line in lines:
                 try:
                     vals = line.split(delim)
@@ -105,9 +82,13 @@ class ImportData(webapp.RequestHandler):
                 if len(vals) == 2:
                     name = unquote(vals[0])
                     value = unquote(vals[1])
-                    if not d.add_item(Item(name, value)):
+                    item = self.objfac('Item',
+                                       name=name, value=value, row=line_nro)
+                    if not d.add_item(item):
                         logging.info("# Incorrect item")
                         return None
+                    else:
+                        line_nro += 1
             if d.is_valid(): return d
         logging.info("# Cannot parse CSV")
         return None

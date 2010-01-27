@@ -37,6 +37,49 @@ class Dao(db.Model):
             value.put()
             db.Model.__setattr__(self, attr, value)
 
+    # TODO: does NOT work with elems with loops
+    # TODO: generators and active generator should be same!!!
+    # blacklist = { old_key_1: new_key_1, old_key_2: new_key_2, ... }
+    def copy_model_instance(self, blacklist=dict(), instance=None):
+        # logging.info("# " + str(blacklist) + ":::" + str(instance))
+        initial = dict()
+        for name in self.properties():
+            value = getattr(self, name)
+            if isinstance(value, db.Model):
+                if str(value.key()) in blacklist:
+                    value = Dao.get(blacklist[str(value.key())])
+                else:
+                    newone = value.__class__()
+                    newone.put()
+                    blacklist[str(value.key())] = str(newone.key())
+                    value = value.copy_model_instance(blacklist, newone)
+                    value.put()
+            if isinstance(value, list):
+                # TODO: this is only for keylists, there might be
+                #       other kind of lists as well
+                l = []
+                for key in value:
+                    if str(key) in blacklist:
+                        l.append(Dao.get(blacklist[str(key)]))
+                    else:
+                        elem = Dao.get(key)
+                        newone = elem.__class__()
+                        newone.put()
+                        blacklist[str(key)] = str(newone.key())
+                        elem = elem.copy_model_instance(blacklist, newone)
+                        elem.put()
+                        l.append(elem.key())
+                value = l
+            initial[name] = value
+        if instance is None:
+            return self.__class__(**initial)
+        else:
+            # updating dict does not work, as django/app engine
+            # uses special variables for properties
+            for prop in initial:
+                setattr(instance, prop, initial[prop])
+            return instance
+
 
 class Data(Dao, model.data.Data):
     name = db.StringProperty()
@@ -102,6 +145,10 @@ class Session(Dao, model.session.Session):
         if session is None:
             logging.info("Session missing (" + cookie + ")")
         return session
+
+    @classmethod
+    def load_file(cls, filename):
+        return cls.gql("WHERE name = :1", filename).get()
 
 
 class Attribute(Dao, model.generator.Attribute):
