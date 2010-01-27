@@ -7,7 +7,7 @@ class Session(object):
 
     def __init__(self, name="no name"):
         self.name = name
-        self.cookie = cookie
+        self.cookie = ""
         self.ip_address = ""
         self.data = None
         self.style = None
