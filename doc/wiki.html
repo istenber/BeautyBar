@@ -578,23 +578,25 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001270134" changecount="58">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001271540" changecount="70">
 <pre>WorkSchedule contains time estimates for each task.
-
-Most critical to next release
-* Saving / Loading
-* Chart API
-* Opera+chrome+safari &quot;carousel&quot; bug
-** it is a pain in a ass... lets rewrite that code our selves.
-* Testing with Internet Explorer
-* svgweb does not work with (linux) Internet Explorer 6!!!
-* bug: changing style, do not update edit style -view although it is active
-* test CSV upload
-* after save the message: &quot;Saved as xxx&quot; is disappearing too fast
-* modify copy_model_instance nicer and send it to djangosnipets.org
 
 
 RandomMarks aka. small ideas
+* put loading image to preview image when it is loading
+* don't empty load/save fields if there new text... or maybe dont allow them to change when processing.
+* all data stored MUST be converted to unicode - go through unicode(s) method
+* block buttons when processing save
+* clean rest of old database entries
+* fix admin/view_sessions to use new db model
+* use memcache
+* make cronjobs to collect statistics
+* cronjobs to remove _deleted items
+* Opera+chrome+safari &quot;carousel&quot; bug
+** it is a pain in a ass... lets rewrite that code our selves.
+* svgweb does not work with (linux) Internet Explorer 6!!!
+* Testing with Internet Explorer
+* modify copy_model_instance nicer and send it to djangosnipets.org
 * should we get rid of svgweb, as it does not work with IE and other browsers it is only waste as they support svg natively.
 * change copy() to _._copy_._()
 * default datas - something to that is always in application, like few default styles
@@ -697,7 +699,7 @@ This requires lot of work from Inkscape side as Inkboard is not fully working pr
 <div title="SiteTitle" modifier="istenber" created="201001032030" modified="201001032039" changecount="3">
 <pre>Beauty Bar</pre>
 </div>
-<div title="SvgToPngServer" modifier="istenber" created="201001092237" changecount="1">
+<div title="SvgToPngServer" modifier="istenber" created="201001092237" modified="201001271216" changecount="2">
 <pre>It would be very nice that user could produce png (or something else like jpg, gif, ..) images instead of svg images.
 svg images are nice, but as not even all browsers support them, not to mention all other applications that might
 benefit charts, it is biggest problem. Other issue with svgs is that they are always *rendered* with host machine.
@@ -706,7 +708,9 @@ cannot handle font twisting and all shadowing effect well - if at all.
 
 Currently there is an attempt to solve this problem with Java based application which uses Batik library. But as Batik
 uses threads and some java.awt libraries it does not work with Google app engine. It is good path anyway, maybe it
-needs just a bit more effort to hack Batik so that it could be used from app engine.</pre>
+needs just a bit more effort to hack Batik so that it could be used from app engine.
+
+Other options would be to use some online-free-svgtopng converter through webservice or html interface.</pre>
 </div>
 <div title="SvgTools" modifier="istenber" created="201001092315" modified="201001132034" changecount="5">
 <pre>We need SvgToPngServer to convert svg files to png files. That is biggest problem.
