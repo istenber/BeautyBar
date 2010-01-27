@@ -147,12 +147,6 @@ class Data(object):
         d.add_item(cls.objfac('Item', name="e", value=40.0, row=5))
         d.add_item(cls.objfac('Item', name="f", value=50.0, row=6))
         return d
-    
-    def __str__(self):
-        out = ""
-        for item in self.get_items():
-            out += str(item.name) + "\t" + str(item.value) + "\n"
-        return out
 
 
 class TestGenerator(object):
