@@ -21,16 +21,16 @@ class ChartPage(webapp.RequestHandler):
 
     def _default_style(self, msg):
         logging.info("# " + msg)
-        return Style.default()
+        return ui.dao.Style.default()
 
     def _get_style(self):
-        name = self.request.get("cht")
-        if name == "": return self._default_style("Missing style")
+        filename = self.request.get("cht")
+        if filename == "": return self._default_style("Missing style")
         # TODO: now style loading is based on session, fix it to
         #       use style when there is style naming
-        session = DAO.load(name=name, class_name="Session")
+        session = ui.dao.Session.load_file(filename)
         if session is None:
-            return self._default_style("Session \"" + name + "\" not found")
+            return self._default_style("Session \"" + filename + "\" not found")
         s = session.style
         if s is None:
             return self._default_style("Style not found")
@@ -39,8 +39,9 @@ class ChartPage(webapp.RequestHandler):
 
     def _default_data(self, msg):
         logging.info("# " + msg)
-        return Data.default()
+        return ui.dao.Data.default()
 
+    # TODO: move encoders to model.data
     def _convert_values(self, value_str, encoding):
         if encoding == "t:":
             return self._text_encoding(value_str)
@@ -140,12 +141,8 @@ class ChartPage(webapp.RequestHandler):
         if values is None:
             return self._default_data("Incorrect encoding: \"" +
                                       encoding[1:] + "\"")
-        d = Data()
-        d.set_min(self.data_min)
-        d.set_max(self.data_max)
-        for i in range(0, 6):
-            d.add_item(Item(names[i], values[i]))
-        if not d.is_valid():
+        d = ui.dao.Data.from_arrays(self.data_min, self.data_max, names, values)
+        if d is None:
             return self._default_data("Problems with data")
         return d
 
@@ -162,10 +159,6 @@ class ChartPage(webapp.RequestHandler):
         return self.cached_data is not None
 
     def get(self):
-        self.response.out.write("not working")
-
-    # TODO: fix chart api to work
-    def not_working(self):
         self.response.headers['Content-Type'] = "image/svg+xml"
         key = self.cache_key()
         if self.in_cache(key):

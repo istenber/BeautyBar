@@ -161,7 +161,7 @@ class Data(object):
             if line.strip() == "": continue
             lines.append(line)
         if len(lines) < cls.max_len():
-            logging.info("# Too few lines (" + str(len(lines)) + ") in CSV")
+            logging.debug("Too few lines (" + str(len(lines)) + ") in CSV")
             return None
         for delim in [",", ".", ":", "\t"]:
             d = cls.objfac('Data', name="", min=0.0, max=50.0, locked=False)
@@ -170,21 +170,41 @@ class Data(object):
                 try:
                     vals = line.split(delim)
                 except ValueError, e:
-                    logging.info("# Error in CSV line: \"" + line + "\"")
+                    logging.debug("Error in CSV line: \"" + line + "\"")
                     return None
                 if len(vals) == 2:
                     name = unquote(vals[0])
                     item = cls.objfac('Item', name=name, row=line_nro)
-                    d.value_ok(unquote(vals[1]))
+                    if not d.value_ok(unquote(vals[1])):
+                        logging.debug("Value not acceptable")
+                        return None
                     item.set_value(vals[1])
                     if not d.add_item(item):
-                        logging.info("# Incorrect item")
+                        logging.debug("Incorrect item")
                         return None
                     else:
                         line_nro += 1
             if d.is_valid(): return d
-        logging.info("# Cannot parse CSV")
+        logging.debug("Cannot parse CSV")
         return None
+
+    @classmethod
+    def from_arrays(cls, min, max, names, values):
+        d = cls.objfac('Data', name="", min=0.0, max=50.0, locked=False)
+        d.set_min(min)
+        d.set_max(max)
+        for row in range(0, cls.max_len()):
+            item = cls.objfac('Item', name=names[row], row=row)
+            if not d.value_ok(unquote(values[row])):
+                logging.debug("Value not accetable")
+                return None
+            item.set_value(values[row])
+            if not d.add_item(item):
+                logging.debug("Incorrect item")
+                return None
+        if not d.is_valid():
+            return None
+        return d
 
 
 class TestGenerator(object):
