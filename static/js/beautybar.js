@@ -40,7 +40,7 @@ var preview = {
 	if(this._timer_on) { return; }
 	this._timer_on = true;
 	this._loading();
-	setTimeout(preview._update_image(), 100);
+	setTimeout('preview._update_image()', 100);
 	return;
     },
 
@@ -116,14 +116,14 @@ var file = {
     _save_updater: function(out) {
 	var resp = out.responseText;
 	$('save_span').innerHTML = resp;
-	setTimeout(file.clean(), 3000);
+	setTimeout('file.clean()', 3000);
     },
     _load_updater: function(out) {
 	var resp = out.responseText;
 	$('load_span').innerHTML = resp;
 	preview.update();
 	parts.update('info');
-	setTimeout(file.clean(), 3000);
+	setTimeout('file.clean()', 3000);
     },
     save: function() {
 	var val = $('f_savefile').getValue();
