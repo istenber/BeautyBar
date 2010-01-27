@@ -2,6 +2,8 @@
 
 import logging
 
+from model.utils import unquote
+
 
 def to_float(value):
     try:
@@ -147,6 +149,42 @@ class Data(object):
         d.add_item(cls.objfac('Item', name="e", value=40.0, row=5))
         d.add_item(cls.objfac('Item', name="f", value=50.0, row=6))
         return d
+
+    # Not fully compliant with csv, as ...
+    # 1. "e accept following separators ,.:\t
+    # 2. Don't allow multiline messages
+    # 3. Allow only lines with two values, all others are ignored
+    @classmethod
+    def parse_csv(cls, csv):
+        lines = []
+        for line in csv.splitlines():
+            if line.strip() == "": continue
+            lines.append(line)
+        if len(lines) < cls.max_len():
+            logging.info("# Too few lines (" + str(len(lines)) + ") in CSV")
+            return None
+        for delim in [",", ".", ":", "\t"]:
+            d = cls.objfac('Data', name="", min=0.0, max=50.0, locked=False)
+            line_nro = 1
+            for line in lines:
+                try:
+                    vals = line.split(delim)
+                except ValueError, e:
+                    logging.info("# Error in CSV line: \"" + line + "\"")
+                    return None
+                if len(vals) == 2:
+                    name = unquote(vals[0])
+                    item = cls.objfac('Item', name=name, row=line_nro)
+                    d.value_ok(unquote(vals[1]))
+                    item.set_value(vals[1])
+                    if not d.add_item(item):
+                        logging.info("# Incorrect item")
+                        return None
+                    else:
+                        line_nro += 1
+            if d.is_valid(): return d
+        logging.info("# Cannot parse CSV")
+        return None
 
 
 class TestGenerator(object):
