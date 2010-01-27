@@ -578,19 +578,41 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001221318" changecount="38">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001270134" changecount="58">
 <pre>WorkSchedule contains time estimates for each task.
 
+Most critical to next release
+* Saving / Loading
+* Chart API
+* Opera+chrome+safari &quot;carousel&quot; bug
+** it is a pain in a ass... lets rewrite that code our selves.
+* Testing with Internet Explorer
+* svgweb does not work with (linux) Internet Explorer 6!!!
+* bug: changing style, do not update edit style -view although it is active
+* test CSV upload
+* after save the message: &quot;Saved as xxx&quot; is disappearing too fast
+* modify copy_model_instance nicer and send it to djangosnipets.org
+
+
 RandomMarks aka. small ideas
-* change copy() to _copy_()
+* should we get rid of svgweb, as it does not work with IE and other browsers it is only waste as they support svg natively.
+* change copy() to _._copy_._()
 * default datas - something to that is always in application, like few default styles
 ** these styles then can be used as drop down list in spreadsheet-gadget-xxx.xml
+** for each style default should be default data
+** admin database tools?
 * caching strategy write-through: we write all db operations to cache and to db. With reads we read first from cache, if not hit then from db.
 * UnitTests
 * we could change active generator relation ship otherway: now generator have flag active=True/False, it could be that style have reference active_generator=generator.key() -- fix to db model
 * saving and loading does not work!!
 * chart_api do not work
-* fix REAL_add_item to be used instead of add_item
+* make common cookie handling
+* create &quot;autorange&quot; which takes set of data and counts some nice range to it
+* add svgfig library functions like: text to path
+* new tutorial video after changes
+* lot of testing after changes and then remove beta from header
+* implement user accounts
+* fix opera to work!!! - carousel does not work, and bars seem to be in wrong order!!
 
 Integrations
 * SharedImage, xmpp and inkboard stuff
