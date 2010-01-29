@@ -3,6 +3,7 @@ var preview = {
     init: function() {
 	preview.preload();
 	this._frame = $('preview_frame');
+	this.header_content = $('preview_loading').innerHTML;
 	svgweb.appendChild(this._output_img, this._frame);
 	this._timer_on = false;
     },
@@ -23,6 +24,9 @@ var preview = {
 	svg_image.setAttribute('width', '300');
 	svg_image.setAttribute('height', '200');
 	svg_image.setAttribute('id', 'o_img');
+	svg_image.addEventListener('load', function() {
+		preview._image_loaded();
+	    }, false);
 	this._output_img = svg_image;
     },
 
@@ -33,27 +37,27 @@ var preview = {
 	svg_image.setAttribute('width', '300');
 	svg_image.setAttribute('height', '200');
 	svg_image.setAttribute('id', 'o_img');
+	svg_image.addEventListener('load', function() {
+		preview._image_loaded();
+	    }, false);
 	this._output_img = svg_image;
     },
-
     update: function() {
 	if(this._timer_on) { return; }
 	this._timer_on = true;
-	this._loading();
 	setTimeout('preview._update_image()', 100);
 	return;
     },
-
-    _loading : function() {
-	svgweb.removeChild(this._output_img, this._frame);
+    _image_loaded : function() {
+	$('preview_loading').innerHTML = this.header_content;
     },
-
     _update_image : function() {
+	svgweb.removeChild(this._output_img, this._frame);
+	$('preview_loading').innerHTML = '<h2>Loading</h2>';
         this._load_image();
 	svgweb.appendChild(this._output_img, this._frame);
 	this._timer_on = false;
     }
-
 };
 
 
@@ -90,6 +94,9 @@ var parts = {
 			 $$('#carousel-content .slide'),
 			 $$('a.carousel-control'),
 			 { duration: 0.1, visibleSlides: 3});
+	}
+	if(part == 'info') {
+	    new lightbox($('lightbox_preview'));
 	}
 	if((part == 'edit') && (editor.current == 'style')) {
 	    editor.show_attributes();

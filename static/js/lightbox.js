@@ -178,10 +178,10 @@ lightbox.prototype = {
 // Onload, make all links that need to trigger a lightbox active
 function initialize(){
 	addLightboxMarkup();
-	lbox = document.getElementsByClassName('lbOn');
-	for(i = 0; i < lbox.length; i++) {
-		valid = new lightbox(lbox[i]);
-	}
+	// lbox = document.getElementsByClassName('lbOn');
+	// for(i = 0; i < lbox.length; i++) {
+	// 	valid = new lightbox(lbox[i]);
+	// }
 }
 
 // Add in markup necessary to make this work. Basically two divs:
