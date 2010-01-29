@@ -33,6 +33,7 @@ class Decorator(object):
             [x, y] = resize_str.split("x")
         except ValueError:
             logging.error("Incorrect resize string: " + resize_str)
+            return
         try:
             x = int(x)
             y = int(y)
