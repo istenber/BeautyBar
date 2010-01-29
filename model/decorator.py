@@ -29,10 +29,10 @@ class Decorator(object):
 
     def resize_str(self, resize_str):
         """Get new image size as string: \"300x200\""""
-        [x, y] = resize_str.split("x")
-        if x is None or y is None:
-            logging.error("# Incorrect resize string: " + resize_str)
-            return None
+        try:
+            [x, y] = resize_str.split("x")
+        except ValueError:
+            logging.error("Incorrect resize string: " + resize_str)
         try:
             x = int(x)
             y = int(y)
