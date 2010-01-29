@@ -108,6 +108,7 @@ var parts = {
 
 var file = {
     clean: function() {
+	file.enable_edit();
 	$('f_savefile').setValue('');
 	$('f_loadfile').setValue('');
 	$('load_span').innerHTML = '';
@@ -128,7 +129,6 @@ var file = {
     _save_updater: function(out) {
 	var resp = out.responseText;
 	$('save_span').innerHTML = resp;
-	file.enable_edit();
 	file.clean_timer();
     },
     _load_updater: function(out) {
@@ -136,18 +136,19 @@ var file = {
 	$('load_span').innerHTML = resp;
 	preview.update();
 	parts.update('info');
-	file.enable_edit();
 	file.clean_timer();
     },
     save: function() {
 	var val = $('f_savefile').getValue();
 	$('save_span').innerHTML = 'Processing...';
+	$('f_loadfile').setValue('');
 	this.disable_edit();
 	ajaxWrapper('/save?name=' + val, this._save_updater);
     },
     load: function() {
 	var val = $('f_loadfile').getValue();
 	$('load_span').innerHTML = 'Processing...';
+	$('f_savefile').setValue('');
 	this.disable_edit();
 	ajaxWrapper('/load?name=' + val, this._load_updater);
     },
