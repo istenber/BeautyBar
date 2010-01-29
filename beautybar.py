@@ -15,8 +15,12 @@ from ui.feedback import FeedbackProcessor, FeedbackReader
 from ui.admin_pages import ViewSessions, AdminMainPage
 from ui.error_pages  import MissingPage
 from ui.content_preview import ContentPreview
+import lib.datastore_cache
 
+
+lib.datastore_cache.DatastoreCachingShim.Install()
 webapp.template.register_template_library('lib.templatetags')
+
 
 def get_admin_pages():
     # TODO: these should be protected by password...
@@ -63,6 +67,7 @@ def main():
                                          [('/.*', MissingPage)],
                                          debug=debug)
     run_wsgi_app(application)
+
 
 if __name__ == "__main__":
     main()
