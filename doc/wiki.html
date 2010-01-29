@@ -537,11 +537,10 @@ Should we use *staticmethods* or only *classmethods* (Python reflections)?
 Should we use prototype.js or switch to JQuery? Is there any advantages of using JQuery?
 Maybe we could do onblur for modified fields after few seconds, as well as when blurring.</pre>
 </div>
-<div title="CodeRefactoring" modifier="istenber" created="201001092249" changecount="1">
+<div title="CodeRefactoring" modifier="istenber" created="201001092249" modified="201001291548" changecount="2">
 <pre>There are many parts of code that need refactoring:
 
 * Output image producing, needs use some sort of caching
-* DAO code
 * Javascript, if we want to use some fancy jquery library for example - maybe not yet.
 * Generator interface: interface is good, but requires few extra features
 ** variable number of bars: 3-7
@@ -550,7 +549,8 @@ Maybe we could do onblur for modified fields after few seconds, as well as when 
 ** background
 ** meters
 ** bars (and titles)
-** decorators</pre>
+** decorators
+* resize could be sent to generator as optional parameter. If resize exists then execute it, otherwise use default scaling.</pre>
 </div>
 <div title="DefaultTiddlers" modifier="istenber" created="201001032031" modified="201001032052" changecount="3">
 <pre>MainStuff</pre>
@@ -578,20 +578,21 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001291546" changecount="76">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001291731" changecount="82">
 <pre>WorkSchedule contains time estimates for each task.
 
-* put loading image to preview image when it is loading
+* put loading image to preview image when it is loading - still change text to image (or moving? text)
 * change send_to_google -script so that it only takes version add as a argument otherwise version number remains.
 * make small presentation about beauty-bar to google technical user group
 * change window size to 900x600?
 * change default datas to something nicer, and make button &quot;clean all datas&quot;
 * make style default view, instead of data
+* change NotSavedException to m.is_saved() call
+* bug: izip missing?
 
 RandomMarks aka. small ideas
 * testing with Client (create page and save, and load it)
 * generator with medals (gold, silver, bronze)
-* don't empty load/save fields if there new text... or maybe dont allow them to change when processing.
 * all data stored MUST be converted to unicode - go through unicode(s) method
 * block buttons when processing save
 * clean rest of old database entries
@@ -805,11 +806,10 @@ it to google. It is of course important to manually check pages as well, before 
 * Only user who created style can replace it
 * So we need user name to style db model as well?</pre>
 </div>
-<div title="WorkSchedule" modifier="istenber" created="201001092240" modified="201001162318" changecount="5">
+<div title="WorkSchedule" modifier="istenber" created="201001092240" modified="201001291547" changecount="6">
 <pre>Tasks in priority order:
 
 |!Prio|!Task|!Time estimate|
-|1|DaoRefactoring|x|
 |2|UserAccounts|x|
 |2|GoogleDocs|x|
 |x|SharedImage|x|
