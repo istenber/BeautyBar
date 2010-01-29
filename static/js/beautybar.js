@@ -113,29 +113,49 @@ var file = {
 	$('load_span').innerHTML = '';
 	$('save_span').innerHTML = '';
     },
+    disable_edit: function() {
+	$('f_save').disabled = true;
+	$('f_savefile').disabled = true;
+	$('f_load').disabled = true;
+	$('f_loadfile').disabled = true;
+    },
+    enable_edit: function() {
+	$('f_save').disabled = false;
+	$('f_savefile').disabled = false;
+	$('f_load').disabled = false;
+	$('f_loadfile').disabled = false;
+    },
     _save_updater: function(out) {
 	var resp = out.responseText;
 	$('save_span').innerHTML = resp;
-	setTimeout('file.clean()', 3000);
+	file.enable_edit();
+	file.clean_timer();
     },
     _load_updater: function(out) {
 	var resp = out.responseText;
 	$('load_span').innerHTML = resp;
 	preview.update();
 	parts.update('info');
-	setTimeout('file.clean()', 3000);
+	file.enable_edit();
+	file.clean_timer();
     },
     save: function() {
 	var val = $('f_savefile').getValue();
-	this.clean();
 	$('save_span').innerHTML = 'Processing...';
+	this.disable_edit();
 	ajaxWrapper('/save?name=' + val, this._save_updater);
     },
     load: function() {
 	var val = $('f_loadfile').getValue();
-	this.clean();
 	$('load_span').innerHTML = 'Processing...';
+	this.disable_edit();
 	ajaxWrapper('/load?name=' + val, this._load_updater);
+    },
+    clean_timer: function() {
+	if(this._timer) {
+	    clearTimeout(this._timer);
+	}
+	this._timer = setTimeout('file.clean()', 3000);
     }
 };
 
