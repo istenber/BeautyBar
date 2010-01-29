@@ -1,7 +1,6 @@
 import logging
 
 from google.appengine.ext import db
-from google.appengine.ext.db import NotSavedError, BadValueError
 import model
 
 __all__ = ['Item', 'Data', 'Output', 'Session',
@@ -18,24 +17,18 @@ class Dao(db.Model):
     # TODO: caching...
 
     def add_to_list(self, list, item):
-        try:
-            list.append(item.key())
-        except NotSavedError:
+        if not item.is_saved():
             item.put()
-            list.append(item.key())
+        list.append(item.key())
 
     @classmethod
     def objfac(cls, new_cls, **kwds):
         return eval(new_cls)(**kwds)
 
     def __setattr__(self, attr, value):
-        try:
-            db.Model.__setattr__(self, attr, value)
-        except BadValueError:
-            #logging.info("SAVING: " + str(type(value)) + " for " +
-            #             self.__class__.__name__)
+        if isinstance(value, Dao) and not value.is_saved():
             value.put()
-            db.Model.__setattr__(self, attr, value)
+        db.Model.__setattr__(self, attr, value)
 
     # TODO: does NOT work with elems with loops
     # TODO: generators and active generator should be same!!!
