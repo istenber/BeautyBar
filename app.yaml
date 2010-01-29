@@ -25,6 +25,10 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
 
+- url: /beauty-bar.sh
+  static_files: static/beauty-bar.sh
+  upload: static/beauty-bar.sh
+
 - url: /google156fd9a022590d56.html
   static_files: static/google156fd9a022590d56.html
   upload: static/google156fd9a022590d56.html
