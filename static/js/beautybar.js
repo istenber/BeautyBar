@@ -2,61 +2,62 @@
 var preview = {
     init: function() {
 	preview.preload();
-	this._frame = $('preview_frame');
-	this.header_content = $('preview_loading').innerHTML;
-	svgweb.appendChild(this._output_img, this._frame);
+	this.f = $('preview_show');
+	this.l = $('preview_load');
+	this.l.hide();
+	this.f.appendChild(this._output_img);
+	this._processing = false;
+	// svgweb.appendChild(this._output_img, this.f);
 	this._timer_on = false;
     },
-
     preload: function() {
 	if(Prototype.Browser.IE) {
 	    this._load_image = this._load_image_IE;
 	} else {
 	    this._load_image = this._load_image_others;
 	}
-	this._load_image();
+	this._output_img = this._load_image();
     },
-
     _load_image_IE: function() {
 	var svg_image = document.createElement('object', true);
 	svg_image.setAttribute('classid', 'image/svg+xml');
 	svg_image.setAttribute('src', '/preview');
 	svg_image.setAttribute('width', '300');
 	svg_image.setAttribute('height', '200');
-	svg_image.setAttribute('id', 'o_img');
-	svg_image.addEventListener('load', function() {
+	svg_image.setAttribute('id', 'preview_image');
+	svg_image.attactEvent('load', function() {
 		preview._image_loaded();
-	    }, false);
-	this._output_img = svg_image;
+	    });
+	return svg_image;
     },
-
     _load_image_others: function() {
 	var svg_image = document.createElement('object', true);
 	svg_image.setAttribute('type', 'image/svg+xml');
 	svg_image.setAttribute('data', '/preview');
 	svg_image.setAttribute('width', '300');
 	svg_image.setAttribute('height', '200');
-	svg_image.setAttribute('id', 'o_img');
+	svg_image.setAttribute('id', 'preview_image');
 	svg_image.addEventListener('load', function() {
 		preview._image_loaded();
 	    }, false);
-	this._output_img = svg_image;
+	return svg_image;
     },
     update: function() {
-	if(this._timer_on) { return; }
-	this._timer_on = true;
-	setTimeout('preview._update_image()', 100);
-	return;
+	if(this._processing == true) { return false; }
+	this._processing = true;
+	this.f.removeChild(this._output_img);
+	// svgweb.removeChild(this._output_img. this.f);
+	this.l.show();
+	this._output_img = this._load_image();
+	this.f.appendChild(this._output_img);
+	// svgweb.appendChild(this._output_img, this.f);
+	this.f.hide();
+	return true;
     },
     _image_loaded : function() {
-	$('preview_loading').innerHTML = this.header_content;
-    },
-    _update_image : function() {
-	svgweb.removeChild(this._output_img, this._frame);
-	$('preview_loading').innerHTML = '<h2>Loading</h2>';
-        this._load_image();
-	svgweb.appendChild(this._output_img, this._frame);
-	this._timer_on = false;
+	this.l.hide();
+	this.f.show();
+	this._processing = false;
     }
 };
 
