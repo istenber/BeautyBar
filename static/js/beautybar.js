@@ -75,7 +75,7 @@ var ajaxWrapper = function(url, postprocessor, data) {
 
 
 var editor = {
-    current: 'data',
+    current: 'style',
     _attribute_updater: function(out) {
 	$('attribute_table').update(out.responseText);
 	jscolor.bind();
