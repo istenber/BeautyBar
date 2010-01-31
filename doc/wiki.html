@@ -572,57 +572,64 @@ of search term and image format. For example coffee.png should return image of c
 format. There should also be specification for what size images service would give. Maybe /size45x45/ as url path
 would be best option. So, if an user want picture of sun as jpg and sized 50x50, he would call /size50x50/sun.jpg.</pre>
 </div>
+<div title="KnownBugs" modifier="istenber" created="201001300016" changecount="1">
+<pre>* bug: svgweb does not work with (linux) Internet Explorer 6!!!
+* bug: izip missing? most likely something to do with cache corruption after files recompiled
+* bug: Opera+chrome+safari &quot;carousel&quot; show up and down buttons both in bottom
+* bug: fix admin/view_sessions to use new db model</pre>
+</div>
+<div title="LessImportantIdeas" modifier="istenber" created="201001300013" modified="201001311333" changecount="5">
+<pre>* generators common options: medals(gold, silver, bronze), frames
+* all data stored MUST be converted to unicode - go through unicode(s) method
+* make cronjobs to collect statistics
+* make cronjobs to remove _deleted items
+* default datas - something to that is always in application, like few default styles
+** these styles then can be used as drop down list in spreadsheet-gadget-xxx.xml
+** for each style default should be default data
+* send spreadsheet-gadget.xml to google docs listing
+* admin database tools?
+* update db model image
+* create &quot;autorange&quot; which takes set of data and counts some nice range to it
+* add svgfig library functions like: text to path
+
+* modify copy_model_instance nicer and send it to djangosnipets.org
+* lot of testing after changes and then remove beta from header
+* new tutorial video
+</pre>
+</div>
 <div title="MainMenu" modifier="istenber" created="201001032038" modified="201001032051" changecount="4">
 <pre>MainStuff
 -----------
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001300004" changecount="85">
-<pre>WorkSchedule contains time estimates for each task.
-
-* put loading image to preview image when it is loading - still change text to image (or moving? text)
-* change send_to_google -script so that it only takes version add as a argument otherwise version number remains.
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001311456" changecount="103">
+<pre>
 * make small presentation about beauty-bar to google technical user group
+* bug: svgweb works for IE - main page svg image does not work, but lightbox does!!! (stack overflow: 1716)
+* fix svgweb to work
+* comment: latest version of svgweb should support setting data-path with meta tag
+* next and prev arrows to generator list
+
 * change window size to 900x600?
+* implement user accounts
+
 * change default datas to something nicer, and make button &quot;clean all datas&quot;
 * make buttons to &quot;glow&quot; when page is active
 
-RandomMarks aka. small ideas
-* generators common options: medals, frames
-* bug: izip missing? most likely something to do with cache corruption after files recompiled
+* change send_to_google -script so that it only takes version add as a argument otherwise version number remains. -- TEST
+* bg of star to white (ie shows it as gray) -- TEST
+
+* doctests for all methods in model
+* unittest with Client to all methods in ui
 * testing with Client (create page and save, and load it)
-* generator with medals (gold, silver, bronze)
-* all data stored MUST be converted to unicode - go through unicode(s) method
-* block buttons when processing save
-* clean rest of old database entries
-* fix admin/view_sessions to use new db model
-* use memcache
-* make cronjobs to collect statistics
-* cronjobs to remove _deleted items
-* Opera+chrome+safari &quot;carousel&quot; bug
-** it is a pain in a ass... lets rewrite that code our selves.
-* svgweb does not work with (linux) Internet Explorer 6!!!
-* Testing with Internet Explorer
-* modify copy_model_instance nicer and send it to djangosnipets.org
-* should we get rid of svgweb, as it does not work with IE and other browsers it is only waste as they support svg natively.
-* change copy() to _._copy_._()
-* default datas - something to that is always in application, like few default styles
-** these styles then can be used as drop down list in spreadsheet-gadget-xxx.xml
-** for each style default should be default data
-** admin database tools?
-* caching strategy write-through: we write all db operations to cache and to db. With reads we read first from cache, if not hit then from db.
-* UnitTests
-* we could change active generator relation ship otherway: now generator have flag active=True/False, it could be that style have reference active_generator=generator.key() -- fix to db model
-* saving and loading does not work!!
-* chart_api do not work
-* make common cookie handling
-* create &quot;autorange&quot; which takes set of data and counts some nice range to it
-* add svgfig library functions like: text to path
-* new tutorial video after changes
-* lot of testing after changes and then remove beta from header
-* implement user accounts
-* fix opera to work!!! - carousel does not work, and bars seem to be in wrong order!!
+
+* move ideas from readme to here
+
+KnownBugs is our bug database
+RandomMarks aka. small ideas
+LessImportantIdeas
+WorkSchedule contains time estimates for each task.
 
 Integrations
 * SharedImage, xmpp and inkboard stuff
@@ -652,7 +659,6 @@ Documentation and plans
 
 SvgTools to edit and translate svg files
 
-KnownBugs is our bug database
 
 
 
