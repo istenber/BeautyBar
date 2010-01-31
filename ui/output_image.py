@@ -4,11 +4,11 @@ import logging
 # from StringIO import StringIO
 
 from google.appengine.ext import webapp
+from ui.basepage import SessionPage
 import ui.dao
 
 
-# TODO: refactor session handling into one place
-class ImageBase(webapp.RequestHandler):
+class ImageBase(SessionPage):
 
     # from http://jython.xhaus.com/http-compression-in-python-and-jython/
     def compressBuf(self, buf):
@@ -29,13 +29,10 @@ class ImageBase(webapp.RequestHandler):
         return string
 
     def get(self):
+        self.get_session()
         # TODO: use content type from output
         self.response.headers['Content-Type'] = self.get_content_type()
         self.response.headers['Pragma'] = "no-cache"
-        if self.request.cookies.has_key("session"):
-            cookie = str(self.request.cookies["session"])
-        # TODO: else fail?
-        self.session = ui.dao.Session.load(cookie)
         g = self.session.style.get_active_generator()
         # TODO: encoding disabled, as app engine does not support it
         # out = self.encode(g.build_chart(self.session.data).output())
