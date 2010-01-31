@@ -76,7 +76,7 @@ rm ${TMP_FOLDER}/beautybar/send-to-google.sh
 # send to google
 ${APP_ENGINE_PATH}/appcfg.py update ${TMP_FOLDER}/beautybar
 
-if [ "x$PARAM" = "x-new-version"]; then
+if [ "x$PARAM" = "x-new-version" ]; then
     echo "select new version to active from dashboard"
     echo "    https://appengine.google.com/deployment?&app_id=beauty-bar"
 else
