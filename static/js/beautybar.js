@@ -2,23 +2,23 @@
 var preview = {
     init: function() {
 	preview.preload();
-	this.f = $('preview_show');
-	this.l = $('preview_load');
-	this.l.hide();
-	this.f.appendChild(this._output_img);
-	this._processing = false;
-	// svgweb.appendChild(this._output_img, this.f);
-	this._timer_on = false;
+	preview.f = $('preview_show');
+	preview.l = $('preview_load');
+	svgweb.appendChild(preview._output_img, preview.f);
+	preview.processing = false;
     },
     preload: function() {
 	if(Prototype.Browser.IE) {
-	    this._load_image = this._load_image_ie;
+	    preview._load_image = preview._load_image_ie;
+	    preview.use_load_image = false;
 	} else if(Prototype.Browser.Opera) {
-	    this._load_image = this._load_image_opera;
+	    preview._load_image = preview._load_image_others;
+	    preview.use_load_image = false;
 	} else {
-	    this._load_image = this._load_image_others;
+	    preview._load_image = preview._load_image_others;
+	    preview.use_load_image = true;
 	}
-	this._output_img = this._load_image();
+	preview._output_img = preview._load_image();
     },
     _load_image_ie: function() {
 	var svg_image = document.createElement('object', true);
@@ -27,21 +27,8 @@ var preview = {
 	svg_image.setAttribute('width', '300');
 	svg_image.setAttribute('height', '200');
 	svg_image.setAttribute('id', 'preview_image');
-	svg_image.attactEvent('load', function() {
-		preview._image_loaded();
-	    });
-	return svg_image;
-    },
-    _load_image_opera: function() {
-	var svg_image = document.createElement('object', true);
-	svg_image.setAttribute('type', 'image/svg+xml');
-	svg_image.setAttribute('data', '/preview');
-	svg_image.setAttribute('width', '300');
-	svg_image.setAttribute('height', '200');
-	svg_image.setAttribute('id', 'preview_image');
-	svg_image.addEventListener('load', function() {
-		preview._image_loaded();
-	    }, false);
+	svg_image.addEventListener('load', function(evt) {
+		preview._image_loaded(); }, false);
 	return svg_image;
     },
     _load_image_others: function() {
@@ -51,31 +38,28 @@ var preview = {
 	svg_image.setAttribute('width', '300');
 	svg_image.setAttribute('height', '200');
 	svg_image.setAttribute('id', 'preview_image');
-	svg_image.addEventListener('load', function() {
-		preview._image_loaded();
-	    }, false);
+	svg_image.addEventListener('load', function(evt) {
+		preview._image_loaded(); }, false);
 	return svg_image;
     },
     update: function() {
-	if(this._processing == true) { return false; }
-	this._processing = true;
-	this.f.removeChild(this._output_img);
-	// svgweb.removeChild(this._output_img. this.f);
-	if(!Prototype.Browser.Opera) {
-	    this.l.show();
-	}
-	this._output_img = this._load_image();
-	this.f.appendChild(this._output_img);
-	// svgweb.appendChild(this._output_img, this.f);
-	if(!Prototype.Browser.Opera) {
-	    this.f.hide();
+	if(preview.processing == true) { return false; }
+	preview.processing = true;
+	svgweb.removeChild(preview._output_img, preview.f);
+	preview._output_img = preview._load_image();
+	svgweb.appendChild(preview._output_img, preview.f);
+	if(preview.use_load_image) {
+	    preview.f.hide();
+	    preview.l.show();
 	}
 	return true;
     },
-    _image_loaded : function() {
-	this.l.hide();
-	this.f.show();
-	this._processing = false;
+    _image_loaded: function() {
+	if(preview.use_load_image) {
+	    preview.f.show();
+	    preview.l.hide();
+	}
+	preview.processing = false;
     }
 };
 
