@@ -5,16 +5,57 @@ TMP_FOLDER=/tmp/export
 APP_ENGINE_PATH=/home/sankari/dev/google_appengine/
 GIT_REPO=file:///home/sankari/dev/beautybar/.git/
 
+PARAM=$1
+
+if [ "x$PARAM" = "x--help" ]; then
+    echo "Usage: send-to-google.sh [-new-version]"
+    echo " if -new-version parameter is used version is increased"
+    exit 1
+fi
+
+# various checks...
+GIT_STATUS=`git st`
+
+BRANCH_OK=`echo $GIT_STATUS | grep "# On branch master"`
+if ! [ $? -eq 0 ]; then
+    echo "Working directory not ok, exiting..."
+    exit 4
+fi
+
+COMMIT_OK=`echo $GIT_STATUS | grep "# Changed but not updated:"`
+if [ $? -eq 0 ]; then
+    echo "Please commit changes before sending, exiting..."
+    exit 3
+fi
+
+until [ "x$value" = "xy" ] || [ "x$value" = "xn" ]; do
+    echo "Do you really want to send app to Google [y|n]?"
+    read value
+done
+
+if [ "x$value" = "xn" ]; then
+    echo "Send cancelled."
+    exit 2
+fi
+
 # increase version number in app.yaml
-NEW_VERSION=`awk '/^version/ {print $2+1;}' ${APP_FILE}`
-MSG="Sending version $NEW_VERSION to Google"
-echo $MSG
-TMP_FILE=/tmp/app.yaml.tmp
-sed "s/^version: .*$/version: $NEW_VERSION/" ${APP_FILE} > ${TMP_FILE}
-mv ${TMP_FILE} ${APP_FILE}
+if [ "x$PARAM" = "x-new-version"]; then
+    NEW_VERSION=`awk '/^version/ {print $2+1;}' ${APP_FILE}`
+    echo "Sending version new version ($NEW_VERSION) to Google"
+    TMP_FILE=/tmp/app.yaml.tmp
+    sed "s/^version: .*$/version: $NEW_VERSION/" ${APP_FILE} > ${TMP_FILE}
+    mv ${TMP_FILE} ${APP_FILE}
+    git add ${APP_FILE}
+else
+    echo "Sending app to Google"
+fi
+
+# lets make time stamp like this
+date > UPDATED
+git add UPDATED
 
 # commiting new version file
-git commit -m "${MSG}" ${APP_FILE}
+git commit -m "Sending app to Google"
 
 # making temp export folder
 rm -rf ${TMP_FOLDER}
@@ -34,5 +75,12 @@ rm ${TMP_FOLDER}/beautybar/send-to-google.sh
 
 # send to google
 ${APP_ENGINE_PATH}/appcfg.py update ${TMP_FOLDER}/beautybar
-echo "select new version to active from dashboard"
-echo "    https://appengine.google.com/deployment?&app_id=beauty-bar"
+
+if [ "x$PARAM" = "x-new-version"]; then
+    echo "select new version to active from dashboard"
+    echo "    https://appengine.google.com/deployment?&app_id=beauty-bar"
+else
+    echo "send complete"
+fi
+
+exit 0
