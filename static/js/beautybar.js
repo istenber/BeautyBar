@@ -12,13 +12,15 @@ var preview = {
     },
     preload: function() {
 	if(Prototype.Browser.IE) {
-	    this._load_image = this._load_image_IE;
+	    this._load_image = this._load_image_ie;
+	} else if(Prototype.Browser.Opera) {
+	    this._load_image = this._load_image_opera;
 	} else {
 	    this._load_image = this._load_image_others;
 	}
 	this._output_img = this._load_image();
     },
-    _load_image_IE: function() {
+    _load_image_ie: function() {
 	var svg_image = document.createElement('object', true);
 	svg_image.setAttribute('classid', 'image/svg+xml');
 	svg_image.setAttribute('src', '/preview');
@@ -28,6 +30,18 @@ var preview = {
 	svg_image.attactEvent('load', function() {
 		preview._image_loaded();
 	    });
+	return svg_image;
+    },
+    _load_image_opera: function() {
+	var svg_image = document.createElement('object', true);
+	svg_image.setAttribute('type', 'image/svg+xml');
+	svg_image.setAttribute('data', '/preview');
+	svg_image.setAttribute('width', '300');
+	svg_image.setAttribute('height', '200');
+	svg_image.setAttribute('id', 'preview_image');
+	svg_image.addEventListener('load', function() {
+		preview._image_loaded();
+	    }, false);
 	return svg_image;
     },
     _load_image_others: function() {
@@ -47,11 +61,15 @@ var preview = {
 	this._processing = true;
 	this.f.removeChild(this._output_img);
 	// svgweb.removeChild(this._output_img. this.f);
-	this.l.show();
+	if(!Prototype.Browser.Opera) {
+	    this.l.show();
+	}
 	this._output_img = this._load_image();
 	this.f.appendChild(this._output_img);
 	// svgweb.appendChild(this._output_img, this.f);
-	this.f.hide();
+	if(!Prototype.Browser.Opera) {
+	    this.f.hide();
+	}
 	return true;
     },
     _image_loaded : function() {
