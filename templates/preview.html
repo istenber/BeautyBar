@@ -5,6 +5,8 @@ load_image = function() {
   svg_image.setAttribute('type', 'image/svg+xml');
   svg_image.setAttribute('data', '/preview');
   svg_image.setAttribute('id', 'preview_img');
+  svg_image.setAttribute('width', 300);
+  svg_image.setAttribute('height', 200);
   var image_place = $('image_place');
   image_place.innerHTML = '';
   svgweb.appendChild(svg_image, image_place);
@@ -14,18 +16,23 @@ load_image();
 
 </script>
 
-<table border="1">
+<table border="0">
 <tr>
 <td colspan="2"><h1>My Blog</h1></td>
 </tr><tr>
-<td width="320"><div align="center" id="image_place">Preview image loading...</div></td>
+<td width="320"><div style="margin: 0 auto; width: 300px; height: 200px; text-align: center;" id="image_place">Preview image loading...</div></td>
 <td>
-Here is some data that shows our economy growth in last few years.
+<h3>Nice data</h3>
+<p style="text-align: justify;">
+Here is some data that shows interesting trend.
 It is very important to notice that we did... plaa plaa plaa... as
 you can see from data ... plaa plaa plaa ... and as a conclusion I
 would like to note that all this charts were made with Beauty Bar.
+</p>
 </td>
 </tr>
 </table>
 <br />
+<div style="text-align: right;">
 <a href="javascript:" class="lbAction" rel="deactivate">Close preview</a>
+</div>
