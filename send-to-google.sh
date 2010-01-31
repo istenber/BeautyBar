@@ -39,7 +39,7 @@ if [ "x$value" = "xn" ]; then
 fi
 
 # increase version number in app.yaml
-if [ "x$PARAM" = "x-new-version"]; then
+if [ "x$PARAM" = "x-new-version" ]; then
     NEW_VERSION=`awk '/^version/ {print $2+1;}' ${APP_FILE}`
     echo "Sending version new version ($NEW_VERSION) to Google"
     TMP_FILE=/tmp/app.yaml.tmp
