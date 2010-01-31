@@ -1,27 +1,15 @@
 <table class="width_small" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td>
-      <a href="javascript:" class="carousel-control" rel="prev">
-	<img id="carousel-arrow" src="/images/up.png" alt="up" />
-      </a>
-    </td>
-  </tr>
-  <tr>
     <div id="carousel-wrapper">
       <div id="carousel-content">
 	{% for gen in generators %}
 	<div class="slide">
-	  <img class="list_image" src="/images/{{ gen.get_name }}-small.png" alt="{{ gen.get_ui_name }}" onclick="attr.set_generator('{{ gen.get_name }}');" />
+	  <a href="javascript:" onclick="attr.set_generator('{{ gen.get_name }}');">
+	    <img class="list_image" src="/images/{{ gen.get_name }}-small.png" alt="{{ gen.get_ui_name }}"/>
+	  </a>
 	</div>
 	{% endfor %}
       </div>
     </div>
-  </tr>
-  <tr>
-    <td>
-      <a href="javascript:" class="carousel-control" rel="next">
-	<img id="carousel-arrow" src="/images/down.png" alt="down" />
-      </a>
-    </td>
   </tr>
 </table>

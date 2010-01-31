@@ -8,7 +8,7 @@
  .width_half { width: 350px; text-align: center; }
  .width_most { width: 710px; }
  .width_full { width: 770px; }
- .width_max { width: 800px; text-align: left; margin-left: auto; margin-right: auto; }
+ .width_max { width: 800px; text-align: left; margin: 0 auto; }
  .width_bspace { width: 70px; }
  .width_button { width: 100px; text-align: center; vertical-align: bottom; }
  .width_bbutton { width: 100px; text-align: center; vertical-align: bottom; }
@@ -23,7 +23,6 @@
  .height_bbuttons { height: 40px; }
  .height_hbuttons { height: 50px; }
  .height_hlogin { height: 30px; }
- .height_preview { height: 250px; }
  .height_lsmall { }
  .height_lmiddle { }
  .height_llarge { }
@@ -77,11 +76,13 @@
      width             : 175px;
  }
 
- .preview_image {
+ .height_preview {
      width             : 300px;
-     height            : 200px;
+     height            : 210px;
      text-align        : center;
      vertical-align    : middle;
+     padding           : 5px 5px 5px 5px;
+     margin            : 0 auto;
  }
 
  .info {
@@ -91,7 +92,7 @@
  }
 
  .data {
-     height            : 240px;
+     height            : 280px;
      width             : 700px;
      margin            : 5px 5px 5px 5px;
  }
@@ -125,7 +126,7 @@
 
  #carousel-wrapper {
     width              : 100px;
-    height             : 180px;
+    height             : 200px;
     overflow           : hidden;
  }
 
@@ -135,14 +136,14 @@
 
  #carousel-content .slide {
      width             : 100px;
-     height            : 60px;
+     height            : 50px;
      text-align        : center;
  }
 
  .list_image {
      border-style      : outset;
      border-color      : black;
-     border-width      : 2px;
+     border-width      : 1px;
  }
 
  a img { border: none; }
