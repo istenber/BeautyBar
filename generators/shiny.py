@@ -74,8 +74,7 @@ class Shiny(BaseGenerator):
         self.values = []
 
     def get_description(self):
-        return ("Shiny diagram have nice shiny bars, but it is still " +
-                "under heavy development.")
+        return "Shiny diagram have nice shiny bars"
 
     def set_range(self, min, max):
         self.min = min
