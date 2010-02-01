@@ -5,6 +5,7 @@ import logging
 from model.generator_factory import GeneratorFactory
 from model.utils import unquote
 from model.decorator import Decorator
+from model.data import Data
 
 
 class Generator(object):
@@ -56,7 +57,12 @@ class Generator(object):
             v = unquote(self.get_attribute(attr.get_name()).value)
             if v != "":
                 attr.set_value(v)
-        data.to_generator(chart)
+        if not data.is_valid():
+            logging.info('Invalid')
+            data = Data.default()
+        for item in data.as_list():
+            chart.add_row(item.name, item.value)
+        chart.set_range(data.min, data.max)
         return Decorator(chart)
 
     def me(self):

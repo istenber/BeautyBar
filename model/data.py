@@ -110,6 +110,24 @@ class Data(object):
     # ---------------------------------------
 
     def is_valid(self):
+        """ Is data set is full and valid to further processing.
+
+          >>> d = Data()
+          >>> d.is_valid()
+          False
+          >>> for i in range(1, 7):
+          ...   d.add_item(Item())
+          ...
+          True
+          True
+          True
+          True
+          True
+          True
+          >>> d.is_valid()
+          True
+
+        """
         item_count = len(self.get_items())
         if item_count != self.max_len():
             logging.info('Wrong number of items: ' + str(item_count))
@@ -120,6 +138,17 @@ class Data(object):
         return True
 
     def value_ok(self, value, min = None, max = None):
+        """ Check that individual value is in range
+
+          >>> d = Data.default()
+          >>> d.value_ok(60)
+          False
+          >>> d.value_ok(20)
+          True
+          >>> d.value_ok(-10)
+          False
+
+        """
         try:
             value = float(value)
         except ValueError:
@@ -132,6 +161,15 @@ class Data(object):
 
     # TODO: fix item additions to use this
     def add_item(self, item):
+        """ Add item to data set.
+
+          >>> d = Data()
+          >>> d.add_item(Item(value=10))
+          True
+          >>> d.add_item(Item(value=60)) # out of range
+          False
+
+        """
         if len(self.get_items()) < self.max_len():
             if self.value_ok(item.value):
                 self._add_item(item)
@@ -170,36 +208,66 @@ class Data(object):
         return getattr(self, limit)
 
     def set_max(self, max):
+        """ Set maximum limit range for data set, requires that current items
+        are in range. Returns limit after change.
+
+          >>> d = Data()
+          >>> d.max
+          50.0
+          >>> d.set_max(30)
+          30.0
+          >>> d.max
+          30.0
+          >>> d = Data.default()
+          >>> d.set_max(30) # there are items with higher values
+          50.0
+
+        """
         return self._set_limit('max', max)
 
     def set_min(self, min):
+        """ Set minimum limit range. Same as set_max() but with minimum,
+        no negative values accepted.
+
+          >>> d = Data()
+          >>> d.set_min(-10)
+          0.0
+
+        """
+        if min < 0: return self.min
         return self._set_limit('min', min)
 
     def as_list(self):
-        # TODO: is this needed as we have __cmp__ in items
-        return sorted(self.get_items(), lambda a, b: int(a.row - b.row))
+        """ Returns items as sorted list. Uses Item.__cmp__() to sort.
 
-    def to_generator(self, generator):
-        if not self.is_valid():
-            logging.info('Invalid')
-        for item in self.as_list():
-            # TODO: use row index
-            generator.add_row(item.name, item.value)
-        generator.set_range(self.min, self.max)
+          >>> d = Data.default()
+          >>> for i in d.as_list():
+          ...   unicode(i)
+          u'name: a, value: 10.0, row 1'
+          u'name: b, value: 15.0, row 2'
+          u'name: c, value: 20.0, row 3'
+          u'name: d, value: 30.0, row 4'
+          u'name: e, value: 40.0, row 5'
+          u'name: f, value: 50.0, row 6'
+
+        """
+        return sorted(self.get_items())
 
     @classmethod
     def max_len(cls):
+        """ Max len - or actually only valid - lenght of item list """
         return max_items
 
     @classmethod
     def default(cls):
+        """ Return default data """
         d = cls.objfac('Data', name = '', min = 0.0, max = 50.0, locked = False)
-        d.add_item(cls.objfac('Item', name='a', value=10.0, row=1))
-        d.add_item(cls.objfac('Item', name='b', value=15.0, row=2))
-        d.add_item(cls.objfac('Item', name='c', value=20.0, row=3))
-        d.add_item(cls.objfac('Item', name='d', value=30.0, row=4))
-        d.add_item(cls.objfac('Item', name='e', value=40.0, row=5))
-        d.add_item(cls.objfac('Item', name='f', value=50.0, row=6))
+        d.add_item(cls.objfac('Item', name = 'a', value = 10.0, row = 1))
+        d.add_item(cls.objfac('Item', name = 'b', value = 15.0, row = 2))
+        d.add_item(cls.objfac('Item', name = 'c', value = 20.0, row = 3))
+        d.add_item(cls.objfac('Item', name = 'd', value = 30.0, row = 4))
+        d.add_item(cls.objfac('Item', name = 'e', value = 40.0, row = 5))
+        d.add_item(cls.objfac('Item', name = 'f', value = 50.0, row = 6))
         return d
 
     # Not fully compliant with csv, as ...
@@ -208,6 +276,27 @@ class Data(object):
     # 3. Allow only lines with two values, all others are ignored
     @classmethod
     def parse_csv(cls, csv):
+        """ Parse comma separated values (csv) to data object.
+
+          >>> csv = 'a,10\\nb,20\\nc,30\\nd,40\\ne,50\\nf,15\\n'
+          >>> d = Data.parse_csv(csv)
+          >>> for i in d.as_list():
+          ...   print unicode(i)
+          ...
+          name: a, value: 10.0, row 1
+          name: b, value: 20.0, row 2
+          name: c, value: 30.0, row 3
+          name: d, value: 40.0, row 4
+          name: e, value: 50.0, row 5
+          name: f, value: 15.0, row 6
+
+        Incorrect csvs returns None value
+
+          >>> empty_csv = 'nothing here'
+          >>> print Data.parse_csv(empty_csv) # print or None is not shown
+          None
+
+        """
         lines = []
         for line in csv.splitlines():
             if line.strip() == '': continue
@@ -242,15 +331,42 @@ class Data(object):
 
     @classmethod
     def from_arrays(cls, min, max, names, values):
+        """ Build data set from name and value arrays.
+
+          >>> n = ['a', 'b', 'd', 'e', 'f', 'h']
+          >>> v = [1, 2, 3, 4, 5, 6]
+          >>> d = Data.from_arrays(0, 10, n, v)
+          >>> for i in d.as_list():
+          ...   print unicode(i)
+          ...
+          name: a, value: 1.0, row 1
+          name: b, value: 2.0, row 2
+          name: d, value: 3.0, row 3
+          name: e, value: 4.0, row 4
+          name: f, value: 5.0, row 5
+          name: h, value: 6.0, row 6
+
+        Or with error case...
+
+          >>> print Data.from_arrays(0, 10, [], [])
+          None
+
+        """
         d = cls.objfac('Data', name='', min=0.0, max=50.0, locked=False)
         d.set_min(min)
         d.set_max(max)
+        if (len(names) != cls.max_len() or len(values) != cls.max_len()):
+            logging.debug('Wrong size arrays')
+            return None
         for row in range(0, cls.max_len()):
-            item = cls.objfac('Item', name=names[row], row=row)
-            if not d.value_ok(unquote(values[row])):
+            item = cls.objfac('Item', name=names[row], row=row+1)
+            value = values[row]
+            if not d.value_ok(value):
+                value = unquote(value)
+            if not d.value_ok(value):
                 logging.debug('Value not accetable')
                 return None
-            item.set_value(values[row])
+            item.set_value(value)
             if not d.add_item(item):
                 logging.debug('Incorrect item')
                 return None
@@ -263,7 +379,7 @@ class Data(object):
 
 
 if __name__ == "__main__":
-    logging.getLogger().setLevel(logging.DEBUG)
+    # logging.getLogger().setLevel(logging.DEBUG)
     import doctest
     doctest.testmod()
 
