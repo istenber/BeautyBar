@@ -12,7 +12,8 @@ count-loc:
 	py.countloc model ui generators
 
 test:
-	PYTHONPATH=$(PWD) python2.5 `which py.test` tests
+	# PYTHONPATH=$(PWD) python2.5 `which py.test` tests
+	./test_model.sh
 
 dbview:
 	dia doc/database.dia -e /tmp/database.png
