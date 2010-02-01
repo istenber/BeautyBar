@@ -14,8 +14,6 @@ class Dao(db.Model):
 
     # TODO: optimize list loading... don't load list if it already exists
 
-    # TODO: caching...
-
     def add_to_list(self, list, item):
         if not item.is_saved():
             item.put()
