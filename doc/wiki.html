@@ -572,11 +572,14 @@ of search term and image format. For example coffee.png should return image of c
 format. There should also be specification for what size images service would give. Maybe /size45x45/ as url path
 would be best option. So, if an user want picture of sun as jpg and sized 50x50, he would call /size50x50/sun.jpg.</pre>
 </div>
-<div title="KnownBugs" modifier="istenber" created="201001300016" changecount="1">
+<div title="KnownBugs" modifier="istenber" created="201001300016" modified="201002021156" changecount="2">
 <pre>* bug: svgweb does not work with (linux) Internet Explorer 6!!!
 * bug: izip missing? most likely something to do with cache corruption after files recompiled
 * bug: Opera+chrome+safari &quot;carousel&quot; show up and down buttons both in bottom
-* bug: fix admin/view_sessions to use new db model</pre>
+* bug: fix admin/view_sessions to use new db model
+* bug: if flash is disabled - and svg, does not work
+* bug: if javascript is disabled, does not work
+* bug: if cookies are disabled, does not work</pre>
 </div>
 <div title="LessImportantIdeas" modifier="istenber" created="201001300013" modified="201001311333" changecount="5">
 <pre>* generators common options: medals(gold, silver, bronze), frames
@@ -603,7 +606,7 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201002021128" changecount="122">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201002021205" changecount="128">
 <pre>TODO
 
 * make small presentation about beauty-bar to google technical user group
@@ -622,9 +625,10 @@ Generators
 * roman numbers for titles: mmx (2010)
 * restaurant stats: coffee mug, plate, bier, etc.
 * create &quot;company&quot; generator with company logos
+* should these be here or decorator: title for chart? axis names?
+** maybe decorator could contain defaults that we could override
 
 Data
-
 * for all generators, we could use data in various order
 ** set by user
 ** value size
@@ -633,6 +637,10 @@ Data
 ** reverse any
 * for large numbers generators might use some kind of logic to convert number to string: 5 000 000, is 5M and 5 000 is 5k?
 * change default datas to something nicer, and make button &quot;clean all datas&quot;
+* different size data sets: 3 to 10 bars and 1 to 2 dimensions?
+* import data should use range (min, max) somehow
+* feedback sending better... it should inform when feedback is sent, not when button is pressed
+* live data sources, imports from open office, excel and google docs
 
 UI
 
@@ -648,6 +656,10 @@ UI
 * change window size to 900x600? (tmp/screen.css-new-style)
 * implement user accounts
 * make buttons to &quot;glow&quot; when page is active
+* separate deleted data in db
+* make some database analytics hooks: maybe one analytic base class, which collects information when user enters page
+* svg image update could send only diffs... big improvement, but hard to implement
+* check for timeout errors (500 page)
 
 Other
 
@@ -659,7 +671,16 @@ Other
 * doctests for all methods in model
 * unittest with Client to all methods in ui
 * testing with Client (create page and save, and load it) (tmp/run-app-engine-client.py)
-* move ideas from readme to here
+* add get_description, and rating to db model
+* invent use cases or user scenarios
+* make new version of youtube video
+* make error checks every place
+* think datasecurity
+* check google python coding guidelines
+* XHTML compliant checking (maybe some tool to automate this)
+* pychecker and lint rules?
+* internalization
+* sitemap.xml
 
 KnownBugs is our bug database
 RandomMarks aka. small ideas
