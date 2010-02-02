@@ -603,27 +603,62 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201001311456" changecount="103">
-<pre>
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201002021128" changecount="122">
+<pre>TODO
+
 * make small presentation about beauty-bar to google technical user group
-* bug: svgweb works for IE - main page svg image does not work, but lightbox does!!! (stack overflow: 1716)
-* fix svgweb to work
-* comment: latest version of svgweb should support setting data-path with meta tag
-* next and prev arrows to generator list
+* change ajax (ajaxmain, etc) to use SessionPage
 
-* change window size to 900x600?
-* implement user accounts
+Generators
+* generators with images: houses, barrels, factories, batteries
+* generator which uses only scaled names: bigs are bigger, smalls are smaller
+* different title sets:
+** years
+** company departments: it, sales, ...
+** week days
+** continents: asia, europe, north america
+* different figures based on title set: management could be picture of manager or black hat, worker blue hat
+* flags as bars, when chart about nations, similar for different groups
+* roman numbers for titles: mmx (2010)
+* restaurant stats: coffee mug, plate, bier, etc.
+* create &quot;company&quot; generator with company logos
 
+Data
+
+* for all generators, we could use data in various order
+** set by user
+** value size
+** title: alphabetical, numbers (years for example)
+** random order
+** reverse any
+* for large numbers generators might use some kind of logic to convert number to string: 5 000 000, is 5M and 5 000 is 5k?
 * change default datas to something nicer, and make button &quot;clean all datas&quot;
+
+UI
+
+* generator list up and down buttons
+* common parameters: frame, medals, flowers
+* add caching for google chart api (or spreadsheet widget) before scaling
+* implement CTRL-s or some other kind (for example save button) way to save style all the time
+* fix chart api not save anything to database (and not making therefore any puts which make it slow)
+* ui could contain some &quot;hidden&quot; fields which activate when advanced option is selected
+* user could define some settings: use png images instead of svg, force flash rendering?
+* could svg image made interactive with javascript (or maybe png with image map?)
+* css changes to make text look nicer and have better margins, etc.
+* change window size to 900x600? (tmp/screen.css-new-style)
+* implement user accounts
 * make buttons to &quot;glow&quot; when page is active
 
-* change send_to_google -script so that it only takes version add as a argument otherwise version number remains. -- TEST
-* bg of star to white (ie shows it as gray) -- TEST
+Other
 
+* make few blogs (or blog entries) with some nice charts
+* make few google docs with nice charts - and otherwise nice as well
+* find some page with crappy chart but otherwise nice, and replace it with page with nice charts
+* comment: latest version of svgweb should support setting data-path with meta tag
+* bug: svgweb works for IE - main page svg image does not work, but lightbox does!!! (stack overflow: 1716)
 * doctests for all methods in model
 * unittest with Client to all methods in ui
-* testing with Client (create page and save, and load it)
-
+* testing with Client (create page and save, and load it) (tmp/run-app-engine-client.py)
 * move ideas from readme to here
 
 KnownBugs is our bug database
