@@ -117,4 +117,4 @@ class Plates(SvgFigGenerator):
         return [has_meters, has_titles, psize, ptype, color]
 
     def get_rating(self):
-        return 3
+        return 4
