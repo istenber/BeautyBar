@@ -23,6 +23,7 @@ show_image = function(cookie) {
 <tr>
 {% for session in row %}
 <td valign="top"><h3>session: {{ session.name }}</h3>
+<small>{{ session.cookie }}</small><br />
 IP address: {{ session.ip_address }}<br />
 <span id="{{ session.cookie }}_span">
 [ <a href="javascript:" onclick="show_image('{{ session.cookie }}');" >Show image</a> ]
