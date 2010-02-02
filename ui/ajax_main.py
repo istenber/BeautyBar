@@ -31,7 +31,7 @@ class AjaxMain(webapp.RequestHandler):
 
     def get_list(self):
         return { 'template' : 'list',
-                 'generators' : GeneratorFactory().list(),
+                 'generators' : GeneratorFactory().rated_list(),
                  }
 
     def _chart_api_link(self):

@@ -47,6 +47,12 @@ class GeneratorFactory(Singleton):
         # raise Exception("inst: " + str(self.instance()))
         return cls.instance().generators
 
+    @classmethod
+    def rated_list(cls):
+        # raise Exception("inst: " + str(self.instance()))
+        return sorted(cls.instance().generators,
+                      lambda a, b: int(b.get_rating() - a.get_rating()))
+
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
     import sys
