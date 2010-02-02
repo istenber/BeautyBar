@@ -57,3 +57,20 @@ def ifstrequal(parser, token):
     """
     return do_ifstrequal(parser, token, False)
 ifstrequal = register.tag(ifstrequal)
+
+# from: http://diffract.me/2009/09/django-template-filter-show-list-of-objects-as-table-with-fixed-number-of-columns/
+def tablecols(data, cols):
+    rows = []
+    row = []
+    index = 0
+    for user in data:
+        row.append(user)
+        index = index + 1
+        if index % cols == 0:
+            rows.append(row)
+            row = []
+    # Still stuff missing?
+    if len(row) > 0:
+        rows.append(row)
+    return rows
+register.filter_function(tablecols)

@@ -50,3 +50,15 @@ class SvgImage(ImageBase):
 
     def get_content_type(self):
         return "application/text"
+
+
+class AdminPreviewImage(ImageBase):
+
+    def get_session(self):
+        cookie = self.request.get("cookie")
+        if cookie == "":
+            return None
+        self.session = ui.dao.Session.load(cookie)
+
+    def get_content_type(self):
+        return "image/svg+xml"
