@@ -4,6 +4,7 @@ from xml.dom import minidom
 
 from base import BaseGenerator
 from attributes.common import Color, Boolean
+from model.number_scaler import NumberScaler
 
 # TODO: read path with some other way?
 template="generators/standard/template.svg"
@@ -19,6 +20,7 @@ class Standard(BaseGenerator):
         self.has_grid = True
         self.min = 0
         self.step = 1
+        self.number_scaler = NumberScaler()
     def get_description(self):
         return "This is default diagram and should work best."
     def set_range(self, min, max):
@@ -71,7 +73,8 @@ class Standard(BaseGenerator):
         # print "# process_arvo: " + str(elem)
         tspan = elem.childNodes[0]
         old_txt = tspan.childNodes[0]
-        new_txt = self.doc.createTextNode(str(self.scale_meter[index]))
+        num_str = self.number_scaler.scale(self.scale_meter[index])
+        new_txt = self.doc.createTextNode(num_str)
         tspan.replaceChild(new_txt, old_txt)
     def _elem(self, elem):
         # print "elem: " + str(elem.nodeValue)
