@@ -7,16 +7,35 @@ from google.appengine.ext import db
 import ui.dao
 
 
-max_sessions=100
+PAGESIZE = 20
 
 
 class ViewSessions(webapp.RequestHandler):
 
     def get(self):
-        # TODO: make paging
-        sessions = ui.dao.Session.all().fetch(max_sessions)        
+        page = self.request.get("page")
+        if page == "":
+            page = 1
+        else:
+            try:
+                page = int(page)
+            except ValueError:
+                logging.info("Incorrect page: " + page)
+                page = 1
+        offset = (page - 1) * PAGESIZE
+        sessions = ui.dao.Session.all().fetch(PAGESIZE + 1, offset=offset)
+        if len(sessions) > PAGESIZE:
+            next_page = page + 1
+        else:
+            next_page = None
+        if page > 1:
+            prev_page = page - 1
+        else:
+            prev_page = None
         values = {
-            'sessions' : sessions
+            'sessions' : sessions[:PAGESIZE],
+            'next_page' : next_page,
+            'prev_page' : prev_page,
             }
         path = os.path.join(os.path.dirname(__file__),
                             '../templates/view_sessions.html')

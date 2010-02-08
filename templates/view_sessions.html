@@ -17,6 +17,16 @@ show_image = function(cookie) {
 
 <h1>Admin / View sessions</h1>
 
+{% if prev_page or next_page %}[{% endif %}
+{% if prev_page %}
+<a href="/admin/sessions?page={{ prev_page }}">Prev</a>
+{% endif %}
+{% if prev_page and next_page %}|{% endif %}
+{% if next_page %}
+<a href="/admin/sessions?page={{ next_page }}">Next</a>
+{% endif %}
+{% if prev_page or next_page %}]{% endif %}
+
 <table border="1">
 
 {% for row in sessions|tablecols:3 %}
