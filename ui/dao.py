@@ -127,6 +127,7 @@ class Session(Dao, model.session.Session):
     ip_address = db.StringProperty()
     data = db.ReferenceProperty(Data)
     style = db.ReferenceProperty(Style)
+    version = db.IntegerProperty()
     # TODO: is needed?
     # output = db.ReferenceProperty(Output)
 

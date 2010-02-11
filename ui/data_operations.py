@@ -5,23 +5,32 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from ui.basepage import SessionPage
 import ui.dao
+from model.utils import unquote
 
 
 class SaveData(SessionPage):
 
     def get(self):
         self.get_session()
-        filename = self.request.get("name")
+        filename = unquote(self.request.get("name"))
+        if not filename.find("@") == -1:
+            self.response.out.write("@ is reserved char")
+            return
         old_file = ui.dao.Session.load_file(filename)
         if old_file is None:
             self.response.out.write("Saved as " + filename)
+            version = 1
         else:
-            self.session.name = "_deleted"
-            self.session.put()
-            self.response.out.write("Replaced old " + filename)
+            old_name = filename + "@" + str(old_file.version)
+            old_file.name = old_name
+            old_file.put()
+            self.response.out.write(filename + " replaced " +
+                                    "<small>(old is " + old_name + ")</small>")
+            version = old_file.version + 1
         newone = self.session.copy_model_instance()
         newone.name = filename
         newone.cookie = ""
+        newone.version = version
         newone.put()
 
 
@@ -29,7 +38,7 @@ class LoadData(SessionPage):
 
     def get(self):
         self.get_session()
-        filename = self.request.get("name")
+        filename = unquote(self.request.get("name"))
         old_file = ui.dao.Session.load_file(filename)
         if old_file is None:
             self.response.out.write("Cannot find " + filename)

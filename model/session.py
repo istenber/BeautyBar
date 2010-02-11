@@ -43,6 +43,7 @@ class Session(object):
         session.data = data
         session.output = output
         session.style = style
+        session.version = 0
         session.ip_address = str(ip_address)
         return session
 

@@ -170,14 +170,14 @@ var file = {
 	$('save_span').innerHTML = 'Processing...';
 	$('f_loadfile').setValue('');
 	this.disable_edit();
-	ajaxWrapper('/save?name=' + val, this._save_updater);
+	ajaxWrapper('/save?name="' + val + '"', this._save_updater);
     },
     load: function() {
 	var val = $('f_loadfile').getValue();
 	$('load_span').innerHTML = 'Processing...';
 	$('f_savefile').setValue('');
 	this.disable_edit();
-	ajaxWrapper('/load?name=' + val, this._load_updater);
+	ajaxWrapper('/load?name="' + val + '"', this._load_updater);
     },
     clean_timer: function() {
 	if(this._timer) {
