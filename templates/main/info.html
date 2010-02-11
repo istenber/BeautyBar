@@ -3,14 +3,12 @@
 {% for star in rating %}
 <img src="/images/star.png" alt="star" />
 {% endfor %}
-
-<p>
-{{ description }}
-</p>
+<br />
 
 <small>
-<!-- <a href="{{ chart_api }}" target="_blank">Chart API link</a><br /> -->
-<a href="/content_preview" id="lightbox_preview">Content preview<br />
-<a href="/export.svg">Export as SVG</a><br />
-<a href="" onclick="alert('Sorry, PNG export is not supported yet.');">Export as PNG</a><br />
+<p>{{ description }}</p>
+{# TODO: <a href="{{ chart_api }}" target="_blank">Chart API link</a><br /> #}
+<a href="/content_preview" id="lightbox_preview">Preview</a> | 
+<a href="/export.svg">Export as SVG</a> | 
+<a href="" onclick="alert('Sorry, PNG export is not supported yet.');">Export as PNG</a>
 </small>

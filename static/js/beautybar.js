@@ -79,6 +79,29 @@ var ajaxWrapper = function(url, postprocessor, data) {
 
 var editor = {
     current: 'style',
+    init: function() {
+	this.buttons = {'style': [true, "style_img", this.load_images("style")],
+			'data': [false, "data_img", this.load_images("data")],
+			'file': [false, "file_img", this.load_images("file")]};
+    },
+    load_images: function(name) {
+	var on = new Image();
+	on.src = "/images/" + name + "_on.png";
+	var off = new Image();
+	off.src = "/images/" + name + "_off.png";
+	return [on, off];
+    },
+    set_state: function(struct, state) {
+	if(struct[0] == state) { return; }
+	struct[0] = state;
+	$(struct[1]).src = struct[2][struct[0] ? 0 : 1].src;
+    },
+    set_active: function(name) {
+	if(name == this.current) { return; }
+	this.set_state(this.buttons[this.current], false);
+	this.set_state(this.buttons[name], true);
+	this.current = name;
+    },
     _attribute_updater: function(out) {
 	$('attribute_table').update(out.responseText);
 	jscolor.bind();
@@ -92,12 +115,6 @@ var editor = {
 var parts = {
     _updater: function(out, part) {
 	$('part_' + part).update(out.responseText);
-	if(part == 'list') {
-	    new Carousel('carousel-wrapper',
-			 $$('#carousel-content .slide'),
-			 $$('a.carousel-control'),
-			 { duration: 0.1, visibleSlides: 3});
-	}
 	if(part == 'info') {
 	    new lightbox($('lightbox_preview'));
 	}
@@ -243,16 +260,21 @@ var data = {
 
 
 process_button = function(button) {
-    editor.current = button;
+    editor.set_active(button);
     parts.update('edit');
 };
 
 
 init = function() {
     preview.init();
-    parts.update('list');
+    editor.init();
     parts.update('info');
     parts.update('edit');
+    var carousel_attributes = { duration: 0.1, visibleSlides: 3}
+    var carousel = new Carousel('carousel-wrapper',
+				$$('.slide'),
+				$$('a.carousel-control'),
+				carousel_attributes);
 };
 
 

@@ -1,0 +1,125 @@
+UI Design
+
+1. Browser Window
+-------------------
+|   -----------   |
+|   |beautybar|   |
+|   |         |   |
+|   -----------   |
+-------------------
+where "beautybar" is aligned middle of screen and have size 900x600.
+
+2. "beautybar"
+-------------------
+| |  header     | |
+|a|-------------|b|
+| |  frame      | |
+| |             | |
+|c|-------------|d|
+-------------------
+where "header" is size 880x80 and it have both sides "header_side" (10x80).
+"frame" is 880x500 and is surrounded with "frame_side" (left & right) 10x500,
+"frame_vsize" (top & bottom) 880x10, and corners "header_[tr|tl|br|bl]" size
+10x10 with rounded images.
+
+3a. "header"
+----------------------------------------
+| hlogo |                   hlogin     |
+|       |-------------------------------
+|       |hspace|hbutton|hbutton|hbutton|
+----------------------------------------
+where "hlogo" is logo image size 300x80, "hlogin" is login part with size 
+580x40, "hspace" have size 280x40, and "hbutton"s are 100x40. 
+Images are bottom and have -5px margins.
+
+3b. "frame"
+----frame----------
+| |-------------| |
+| |  iframe     | |
+| |             | |
+| |-------------| |
+-------------------
+frame have yellow borders and inside is "iframe" (860x480)
+surrounded with "iframe_side" (10x480), "iframe_vside" (880x10)
+
+"iframe" can serve two purposes:
+* in _build_ -view it have separate parts to show elements
+* in _about_ and _learn_ -view it is just a simple frame
+
+4. "iframe" / learn|about
+-------------------
+| |-------------| |
+| |  main       | |
+| |             | |
+| |-------------| |
+-------------------
+"main" (840x460) is surrouded with "main_side"s (10x460)
+and "main_vside"s (860x10)
+
+4. "iframe" / build
+-------------------
+| build_list      |
+|-----------------|
+|-----------------|
+|build_ ||build_  |
+|preview||edit    |
+|       ||        |
+-------------------
+Here we have _white_ parts that we will fill with content.
+"build_list" have size 860x100, "build_preview" 340x380
+and "build_edit" 510x380. We have also separators between
+elements "build_vsep" 860x10 and "build_hsep" 10x380.
+
+5a. "build_list"
+---------------------------------
+|bl_button|bl_carousel|bl_button|
+---------------------------------
+where "bl_button" is 40x100 and "bl_carousel" 780x100
+
+6. "bl_carousel"
+------------------------
+|bl_vside              |
+|----------------------|
+|bl_carousel_items     |
+|----------------------|
+|bl_vside              |
+------------------------
+"bl_vside" is 780x10 and "bl_carousel_items" is 780x80
+
+7. "bl_carousel_items"
+-------------------------
+|bl_sep|(bl_li|bl_sep)*7|
+-------------------------
+"bl_sep" is 10x80 and "bl_li" is 100x80
+
+5b. "build_preview"
+-------------------
+|  bp_space       |
+| |-------------| |
+| |  bp_main    | |
+| |             | |
+| |-------------| |
+-------------------
+"bp_main" (320x320) is surrounded with "bp_side" (10x320) 
+and "bp_vside" (340x10). Top of those is empty space
+"bp_space" 340x40.
+
+5c. "build_edit"
+-------------------
+| | be_header   | |
+| |-------------| |
+| |  be_main    | |
+| |             | |
+| |-------------| |
+-------------------
+"be_main" (490x320) is surrounded with "be_side" (10x320) 
+and "be_vside" (510x10). Top is "be_header" 510x40
+
+5c1. "be_header"
+--------------------------------------------------------------
+|beh_space|beh_button|beh_button|beh_button|beh_sep|beh_space|
+--------------------------------------------------------------
+"beh_space" is 40x40, "beh_sep" is 130x40, and "beh_button"s are 100x40. 
+Images are bottom and have -5px margins.
+
+

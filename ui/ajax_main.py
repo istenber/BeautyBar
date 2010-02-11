@@ -1,15 +1,15 @@
 import logging
 import os
 
-from google.appengine.ext import webapp
+from ui.basepage import SessionPage
 from google.appengine.ext.webapp import template
 from model.generator_factory import GeneratorFactory
 import ui.dao
 
-class AjaxMain(webapp.RequestHandler):
+class AjaxMain(SessionPage):
 
     def _is_valid_part(self, part):
-        return part in ['list', 'info', 'edit']
+        return part in ['info', 'edit']
 
     def get(self):
         part = self.request.get("part")
@@ -18,9 +18,7 @@ class AjaxMain(webapp.RequestHandler):
             logging.info("# Trying get invalid part \"" + str(part) + "\"")
             self.response.out.write("error")
             return
-        if self.request.cookies.has_key("session"):            
-            cookie = str(self.request.cookies["session"])
-            self.session = ui.dao.Session.load(cookie)
+        self.get_session()
         values = eval("self.get_" + part)()
         self.response.headers['Content-Type'] = "text/html"
         file = "../templates/main/" + values['template'] + ".html"
@@ -28,11 +26,6 @@ class AjaxMain(webapp.RequestHandler):
         self.response.out.write(template.render(path, values))
 
     # TODO: implement part caching in javascript
-
-    def get_list(self):
-        return { 'template' : 'list',
-                 'generators' : GeneratorFactory().rated_list(),
-                 }
 
     def _chart_api_link(self):
         style = self.session.name
@@ -46,14 +39,13 @@ class AjaxMain(webapp.RequestHandler):
                 "&chs=300x200&chl=" + names[:-1])
 
     def get_info(self):
-        # TODO: these three lines to one method to generator.py
-        gf = GeneratorFactory().instance()
         g = self.session.style.get_active_generator()
-        chart = gf.get_generator(g.name + ".py")
+        chart = g.me()
         return { 'template'    : 'info',
                  'name'        : chart.get_ui_name(),
                  'description' : chart.get_description(),
-                 'chart_api'   : self._chart_api_link(),
+                 # TODO: this is not in use
+                 # 'chart_api'   : self._chart_api_link(),
                  'rating'      : range(0, chart.get_rating()),
                  }
 

@@ -1,100 +1,280 @@
 
- .yellow { background-color:yellow; }
- .green { background-color:green; }
- .white { background-color:white; }
-
- .width_bar { width: 15px; }
- .width_small { width: 100px; text-align: center; }
- .width_half { width: 350px; text-align: center; }
- .width_most { width: 710px; }
- .width_full { width: 770px; }
- .width_max { width: 800px; text-align: left; margin: 0 auto; }
- .width_bspace { width: 70px; }
- .width_button { width: 100px; text-align: center; vertical-align: bottom; }
- .width_bbutton { width: 100px; text-align: center; vertical-align: bottom; }
- .width_edge { width: 50px; }
- .width_bbspace { width: 300px; }
-
- .button { margin: 0px 0px -5px 0px }
- .logo { margin: 0px 0px -5px 0px }
- .bbutton { margin: -5px 0px 0px 0px }
-
- .height_bar { height: 15px; }
- .height_bbuttons { height: 40px; }
- .height_hbuttons { height: 50px; }
- .height_hlogin { height: 30px; }
- .height_lsmall { }
- .height_lmiddle { }
- .height_llarge { }
-
- .video { text-align: center; }
-
- .br_corner {
-     height: 15px;
-     width: 15px;
-     background: url("/images/corners.png") bottom right no-repeat;
+ .beautybar {
+     width             : 900px;
+     height            : 600px;
+     text-align        : left;
+     margin            : 0 auto;
  }
 
- .bl_corner {
-     height: 15px;
-     width: 15px;
-     background: url("/images/corners.png") bottom left no-repeat;
+ .header_side {
+     width             : 10px;
+     height            : 80px;
  }
 
- .tr_corner {
-     height: 15px;
-     width: 15px;
-     background: url("/images/corners.png") top right no-repeat;
+ .header {
+     width             : 880px;
+     height            : 80px;
  }
 
- .tl_corner {
-     height: 15px;
-     width: 15px;
-     background: url("/images/corners.png") top left no-repeat;
+ .frame_vside {
+     width             : 880px;
+     height            : 10px;
+     background-color  : green;
  }
 
- .llogin {
-     text-align        : right;
-     vertical-align    : middle;
-     font-size         : 0.8em;
+ .frame_side {
+     width             : 10px;
+     height            : 500px;
+     background-color  : green;
  }
 
- .logo_width {
+ .frame_tr {
+     width             : 10px;
+     height            : 10px;
+     background        : url("/images/corners.png") top right no-repeat;
+ }
+
+ .frame_tl {
+     width             : 10px;
+     height            : 10px;
+     background        : url("/images/corners.png") top left no-repeat;
+ }
+
+ .frame_br {
+     width             : 10px;
+     height            : 10px;
+     background        : url("/images/corners.png") bottom right no-repeat;
+ }
+
+ .frame_bl {
+     width             : 10px;
+     height            : 10px;
+     background        : url("/images/corners.png") bottom left no-repeat;
+ }
+
+ .frame {
+     width             : 880px;
+     height            : 500px;
+     background-color  : yellow;
+ }
+
+ .hlogo {
      width             : 300px;
+     height            : 80px;
      text-align        : center;
      vertical-align    : bottom;
  }
 
- .generator_info {
-     width             : 170px;
-     vertical-align    : top;
-     margin            : 5px 5px 5px 5px;
+ .hlogin {
+     width             : 580px;
+     height            : 40px;
+     text-align        : right;
  }
 
- .attr_cell {
-     height            : 25px;
-     width             : 175px;
+ .hspace {
+     width             : 280px;
+     height            : 40px;
  }
 
- .height_preview {
-     width             : 300px;
-     height            : 210px;
+ .hbutton {
+     width             : 100px;
+     height            : 40px;
+     text-align        : center;
+     vertical-align    : bottom;
+ }
+
+ .himg {
+     margin            : 0px 0px -5px 0px;
+ }
+
+ .iframe_vside {
+     width             : 880px;
+     height            : 10px;
+     background-color  : yellow;
+ }
+
+ .iframe_side {
+     width             : 10px;
+     height            : 480px;
+     background-color  : yellow;
+ }
+
+ .iframe {
+     width             : 860px;
+     height            : 480px;
+ }
+
+ .main_vside {
+     width             : 860px;
+     height            : 10px;
+     background-color  : green;
+ }
+
+ .main_side {
+     width             : 10px;
+     height            : 460px;
+     background-color  : green;
+ }
+
+ .main {
+     width             : 840px;
+     height            : 460px;
+     background-color  : white;
+ }
+
+ .build_hsep {
+     width             : 10px;
+     height            : 380px;
+ }
+
+ .build_vsep {
+     width             : 860px;
+     height            : 10px;
+ }
+
+ .build_list {
+     width             : 860px;
+     height            : 100px;
+ }
+
+ .build_preview {
+     width             : 340px;
+     height            : 380px;
+ }
+
+ .build_edit {
+     width             : 510px;
+     height            : 380px;
+ }
+
+ .bp_space {
+     width             : 340px;
+     height            : 40px;
+ }
+
+ .bp_vside {
+     width             : 340px;
+     height            : 10px;
+     background-color  : green;
+ }
+
+ .bp_side {
+     width             : 10px;
+     height            : 320px;
+     background-color  : green;
+ }
+
+ .bp_main {
+     width             : 320px;
+     height            : 320px;
+     background-color  : white;
      text-align        : center;
      vertical-align    : middle;
+ }
+
+ .be_header {
+     width             : 510px;
+     height            : 40px;
+     background-color  : yellow;
+ }
+
+ .be_vside {
+     width             : 510px;
+     height            : 10px;
+     background-color  : green;
+ }
+
+ .be_side {
+     width             : 10px;
+     height            : 320px;
+     background-color  : green;
+ }
+
+ .be_main {
+     width             : 490px;
+     height            : 320px;
+     background-color  : white;
+     text-align        : left;
+     vertical-align    : top;
      padding           : 5px 5px 5px 5px;
-     margin            : 0 auto;
  }
 
- .info {
-     height            : 590px;
-     width             : 700px;
-     margin            : 5px 5px 5px 5px;
+ .beh_space {
+     width             : 40px;
+     height            : 40px;
+     background-color  : yellow;
  }
 
- .data {
-     height            : 280px;
-     width             : 700px;
-     margin            : 5px 5px 5px 5px;
+ .beh_sep {
+     width             : 130px;
+     height            : 40px;
+     background-color  : yellow;
+ }
+
+ .beh_button {
+     width             : 100px;
+     height            : 40px;
+     background-color  : yellow;
+     text-align        : center;
+     vertical-align    : bottom;
+ }
+
+ .bl_sep {
+     width             : 10px;
+     height            : 80px;
+     background-color  : green;
+ }
+
+ .bl_carousel {
+     width             : 780px;
+     height            : 100px;
+ }
+
+ .bl_button {
+     width             : 40px;
+     height            : 100px;
+     background-color  : yellow;
+     text-align        : center;
+     vertical-align    : middle;
+ }
+
+ .bl_li {
+     width             : 100px;
+     height            : 80px;
+     background-color  : white;
+     text-align        : center;
+     vertical-align    : middle;
+ }
+
+ .bl_vside {
+     width             : 780px;
+     height            : 10px;
+     background-color  : green;
+ }
+
+ .bl_carousel_items {
+     width             : 760px;
+     height            : 80px;
+     background-color  : green;
+ }
+
+ .learn_video {
+     width             : 650px;
+     text-align        : center;
+     vertical-align    : middle;
+ }
+
+ .learn_info {
+     width             : 190px;
+     text-align        : left;
+     vertical-align    : top;
+     padding           : 5px 5px 5px 5px;
+ }
+
+ .textpage {
+     text-align        : left;
+     vertical-align    : top;
+     padding           : 5px 5px 5px 5px;
  }
 
  h1 {
@@ -119,25 +299,28 @@
      text-align        : center;
  }
 
+ a img {
+     border            : none;
+ }
+
  #carousel-arrow {
      vertical-align    : middle;
      padding           : 2px 2px 2px 2px;
  }
 
  #carousel-wrapper {
-    width              : 100px;
-    height             : 200px;
-    overflow           : hidden;
+     width             : 760px;
+     height            : 80px;
+     overflow          : hidden;
  }
 
  #carousel-content {
-     width             : 100px;
+     width             : 1200px;
  }
 
- #carousel-content .slide {
+ .slide {
      width             : 100px;
-     height            : 50px;
-     text-align        : center;
+     height            : 80px;
  }
 
  .list_image {
@@ -146,4 +329,7 @@
      border-width      : 1px;
  }
 
- a img { border: none; }
+ .attr_cell {
+     height            : 25px;
+     width             : 250px;
+ }

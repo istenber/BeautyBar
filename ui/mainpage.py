@@ -1,10 +1,11 @@
-from model.data import Item, Data
 from model.generator_factory import GeneratorFactory
-from ui.basepage import ActivePage
+from ui.basepage import Page
 
 
-class MainPage(ActivePage):
+class MainPage(Page):
     
     def get_values(self):
-        return { 'complex'    : True }
-
+        return { 'complex'        : True,
+                 'use_javascript' : True,
+                 'generators'     : GeneratorFactory().rated_list(),
+                 }

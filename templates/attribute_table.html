@@ -1,13 +1,6 @@
 <h3>Attributes for <i>{{ generator_name }}</i></h3>
 <table border="0">
-<tr>
 {% for part in parts %}
-{{ part }}
-{% if not forloop.last %}
-{% if forloop.counter|divisibleby:"2" %}</tr><tr>{% endif %}
-{% else %}</tr>
-{% endif %}
+<tr>{{ part }}</tr>
 {% endfor %}
 </table>
-
-

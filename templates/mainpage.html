@@ -1,118 +1,144 @@
-<!-- main part -->
-<tr>
-  <td class="green width_bar"></td>
-  <td class="yellow width_bar"></td>
-  <td class="green width_bar"></td>
-  <td class="white width_most">
-
-    <table class="width_most" border="0" cellspacing="0" cellpadding="0">
+  <table border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td class="green" colspan="2"><div class="height_bar"></div></td>
-      <td class="yellow"></td>
-      <td class="green" colspan="3"><div class="height_bar"></div></td>
-      <td class="yellow"></td>
-      <td class="green" colspan="2"><div class="height_bar"></div></td>
+      <td class="build_list" colspan="3">
+
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="bl_button" rowspan="3">
+	<a href="javascript:" class="carousel-control" rel="prev">
+	  <img src="/images/left.png">
+	</a>
+      </td>
+      <td class="bl_carousel">
+
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="bl_vside" colspan="3"></td>
     </tr>
     <tr>
-      <td class="generator_info">
-	<!-- main / style info -->
-	<span id="part_info"></span>
+      <td class="bl_sep"></td>
+      <td class="bl_carousel_items">
+
+      <div id="carousel-wrapper">
+	<div id="carousel-content">
+
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+{% for gen in generators %}
+      <td class="bl_li">
+	<div class="slide">
+<a href="javascript:" onclick="attr.set_generator('{{ gen.get_name }}');">
+            <img class="list_image" src="/images/{{ gen.get_name }}-small.png" alt="{{ gen.get_ui_name }}" width="100" height="80" />
+          </a>
+	</div>
       </td>
-      <td class="green width_bar"></td>
-      <td class="yellow width_bar"></td>
-      <td class="green width_bar"></td>
-      <td class="width_half">
-	<div class="height_preview" id="preview_frame">
+      {% if not forloop.last %}
+      <td class="bl_sep"></td>
+      {% endif %}
+{% endfor %}
+    </tr>
+  </table>
+
+	</div>
+      </div>
+
+    </td>
+      <td class="bl_sep"></td>
+    </tr>
+    <tr>
+      <td class="bl_vside" colspan="3"></td>
+    </tr>
+  </table>
+
+      <td class="bl_button" rowspan="3">
+	<a href="javascript:" class="carousel-control" rel="next">
+	  <img src="/images/right.png">
+	</a>
+      </td>
+    </tr>
+  </table>
+
+      </td>
+    </tr>
+    <tr>
+      <td class="build_vsep" colspan="3"></td>
+    </tr>
+    <tr>
+      <td class="build_preview">
+
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="bp_space" colspan="3"></td>
+    </tr>
+    <tr>
+      <td class="bp_vside" colspan="3"></td>
+    </tr>
+    <tr>
+      <td class="bp_side"></td>
+      <td class="bp_main">
+	<span id="part_info"></span>
+	<div id="preview_frame">
 	  <span id="preview_show"></span>
 	  <span style="display: none;" id="preview_load">
-	    <img src="/images/loader.gif" alt="loading" width="200" height="200" />
+<img src="/images/loader.gif" alt="loading" width="200" height="200" />
 	  </span>
 	</div>
       </td>
-      <td class="green width_bar"></td>
-      <td class="yellow width_bar"></td>
-      <td class="green width_bar"></td>
-      <td class="width_small">
-	<!-- main / style list -->
-	<span id="part_list"></span>
+      <td class="bp_side"></td>
+    </tr>
+    <tr>
+      <td class="bp_vside" colspan="3"></td>
+    </tr>
+  </table>
+
+      </td>
+      <td class="build_hsep"></td>
+      <td class="build_edit">
+
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="be_header" colspan="3">
+
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="beh_space"></td>
+      <td class="beh_button">
+	<a href="javascript:">
+<img class="himg" src="/images/style_on.png" alt="style" onclick="process_button('style');" id="style_img" />
+	</a>
+      </td>
+      <td class="beh_button">
+	<a href="javascript:">
+<img class="himg" src="/images/data_off.png" alt="data" onclick="process_button('data');" id="data_img" />
+	</a>
+      </td>
+      <td class="beh_sep"></td>
+      <td class="beh_button">
+	<a href="javascript:">
+<img class="himg" src="/images/file_off.png" alt="file" onclick="process_button('file');" id="file_img" />
+	</a>
+      </td>
+      <td class="beh_space"></td>
+    </tr>
+  </table>
+
       </td>
     </tr>
     <tr>
-      <td class="green" colspan="2"><div class="height_bar"></div></td>
-      <td class="yellow"></td>
-      <td class="green" colspan="3"></td>
-      <td class="yellow"></td>
-      <td class="green" colspan="2"></td>
+      <td class="be_vside" colspan="3"></td>
     </tr>
-    </table>
-
-  </td>
-  <td class="green width_bar"></td>
-  <td class="yellow width_bar"></td>
-  <td class="green width_bar"></td>
-</tr>
-
-<!-- space -->
-<tr>
-  <td class="green"></td>
-  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
-  <td class="green"></td>
-</tr>
-<tr><td class="green" colspan="7"><div class="height_bar"></div></td></tr>
-<tr>
-  <td class="green"></td>
-  <td class="yellow" colspan="5"><div class="height_bbuttons">
-      <table class="width_full" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td class="width_edge"></td>
-        <td class="width_bbutton">
-	  <a href="javascript:">
-	  <img class="bbutton" src="/images/style_off.png" alt="style"
-	       onclick="process_button('style');" />
-	  </a>
-	</td>
-        <td class="width_bbutton">
-	  <a href="javascript:">
-	  <img class="bbutton" src="/images/data_off.png" alt="data"
-	       onclick="process_button('data');" />
-	  </a>
-	</td>
-        <td class="width_bbspace"></td>
-        <td class="width_bbutton">
-	  <a href="javascript:">
-	  <img class="bbutton" src="/images/file_off.png" alt="file"
-	       onclick="process_button('file');" />
-	  </a>
-	</td>
-        <td class="width_edge"></td>
-      </tr>
-      </table>
-  </div></td>
-  <td class="green"></td>
-</tr>
-
-<!-- data part -->
-<tr>
-  <td class="green"></td>
-  <td class="yellow"></td>
-  <td class="green"></td>
-  <td class="white">
-
-    <table class="width_most" cellspacing="0" border="0" cellpadding="0">
-    <tr><td class="green"><div class="height_bar"></div></td></tr>
     <tr>
-      <td>
-	<div class="data">
-	<!-- data content -->
+      <td class="be_side"></td>
+      <td class="be_main">
 	<span id="part_edit"></span>
-	</div>
+      </td>
+      <td class="be_side"></td>
+    </tr>
+    <tr>
+      <td class="be_vside" colspan="3"></td>
+    </tr>
+  </table>
+
       </td>
     </tr>
-    <tr><td class="green"><div class="height_bar"></div></td></tr>
-    </table>
-
-  </td>
-  <td class="green"></td>
-  <td class="yellow"></td>
-  <td class="green"></td>
-</tr>
+  </table>

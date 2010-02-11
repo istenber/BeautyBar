@@ -45,107 +45,108 @@ pageTracker._trackPageview();
 </head>
 <body>
 
-<table class="width_max" border="0" cellspacing="0" cellpadding="0">
+<div class="beautybar">
+<table border="0" cellspacing="0" cellpadding="0">
 
-<!-- header part -->
 <tr>
-  <td class="white width_bar"></td>
-  <td colspan="5">
-    <!-- header -->
-    <table class="width_full" border="0" cellspacing="0" cellpadding="0">
+<td class="header_side"></td>
+<td class="header">
+
+<!-- header -->
+  <table border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td class="logo_width" rowspan="2">
-	<img class="logo" src="/images/logo.png" alt="logo" />
+      <td class="hlogo" rowspan="2">
+	<img class="himg" src="/images/logo.png">
       </td>
-      <td colspan="4">
-	<div class="height_hlogin llogin">
+      <td class="hlogin" colspan="4">
 	  {% if user %}
 	  <b>{{ user.nickname }}</b> | <a href="{{ user_url }}">Sign out</a>
 	  {% else %}
 	  <a href="{{ user_url }}">Log in</a>
 	  {% endif %}
-	</div>
       </td>
     </tr>
     <tr>
-      <td class="width_bspace"><div class="height_hbuttons"></div></td>
-      <td class="width_button">
+      <td class="hspace"></td>
+      <td class="hbutton">
 	<a href="/">
-	  <img class="button" src="/images/build_off.png" alt="build" />
+	  <img class="himg" src="/images/build_{{page.build}}.png" />
 	</a>
       </td>
-      <td class="width_button">
+      <td class="hbutton">
 	<a href="/learn">
-	  <img class="button" src="/images/learn_off.png" alt="learn" />
+	  <img class="himg" src="/images/learn_{{page.learn}}.png" />
 	</a>
       </td>
-      <td class="width_button">
+      <td class="hbutton">
 	<a href="/about">
-	  <img class="button" src="/images/about_off.png" alt="about" />
+	  <img class="himg" src="/images/about_{{page.about}}.png" />
 	</a>
       </td>
     </tr>
-    </table>
+  </table>
 
-  </td>
-  <td class="white width_bar"></td>
+</td>
+<td class="header_side"></td>
 </tr>
 
-<!-- space -->
 <tr>
-  <td><div class="tl_corner"></div></td>
-  <td class="green" colspan="5"></td>
-  <td><div class="tr_corner"></div></td>
-</tr>
-<tr>
-  <td class="green"></td>
-  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
-  <td class="green"></td>
+<td class="frame_tl"></td>
+<td class="frame_vside"></td>
+<td class="frame_tr"></td>
 </tr>
 
+<tr>
+<td class="frame_side"></td>
+<td class="frame">
+<!-- frame -->
+
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="iframe_vside" colspan="3"></td>
+    </tr>
+    <tr>
+      <td class="iframe_side"></td>
+
+      <td class="iframe">
 {% if complex %}
 {% include template %}
 {% else %}
-<!-- info part -->
-<tr>
-  <td class="green width_bar"></td>
-  <td class="yellow width_bar"></td>
-  <td class="green width_bar"></td>
-  <td class="white width_most">
-
-    <table class="width_most" cellspacing="0" border="0" cellpadding="0">
-    <tr><td class="green"><div class="height_bar"></div></td></tr>
+  <table border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td>
-	<div class="info">
-	<!-- info content -->
-	{% include template %}
-	</div>
-      </td>
+      <td class="main_vside" colspan="3"></td>
     </tr>
-    <tr><td class="green"><div class="height_bar"></div></td></tr>
-    </table>
-
-  </td>
-  <td class="green width_bar"></td>
-  <td class="yellow width_bar"></td>
-  <td class="green width_bar"></td>
-</tr>
+    <tr>
+      <td class="main_side"></td>
+      <td class="main">{% include template %}</td>
+      <td class="main_side"></td>
+    </tr>
+    <tr>
+      <td class="main_vside" colspan="3"></td>
+    </tr>
+  </table>
 {% endif %}
+      </td>
 
-<!-- space -->
-<tr>
-  <td class="green"></td>
-  <td class="yellow" colspan="5"><div class="height_bar"></div></td>
-  <td class="green"></td>
+      <td class="iframe_side"></td>
+    </tr>
+    <tr>
+      <td class="iframe_vside" colspan="3"></td>
+    </tr>
+  </table>
+
+</td>
+<td class="frame_side"></td>
 </tr>
+
 <tr>
-  <td><div class="bl_corner"></div></td>
-  <td class="green" colspan="5"><div class="height_bar"></div></td>
-  <td><div class="br_corner"></div></td>
+<td class="frame_bl"></td>
+<td class="frame_vside"></td>
+<td class="frame_br"></td>
 </tr>
 
 </table>
+</div>
 
 </body>
 </html>

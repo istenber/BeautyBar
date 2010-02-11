@@ -1,27 +1,33 @@
-<small><a href="/learn">Learn</a></small>
+<div class="textpage">
 
-<h1>Styles</h1>
+<h2>Styles</h2>
 
 <p>
-Once one have succesfully created one chart, he can use its layout
-as a template layout (aka. style) for other charts. This is done by using 
-<i>Google Chart API</i>
-(<a href="http://code.google.com/apis/chart/"><i>http://code.google.com/apis/chart/</i></a>). 
-One should have save chart to database. Then one can create URL following 
-chart API specification and using saved chart name as chart name parameter
-(<i>cht</i>). This produces <i>SVG</i> image with old style, but 
-with new data.
-</p>
-<p>
-For example <i>Finnish goverment debt</i> is: <br />
-<small><a href="http://beauty-bar.appspot.com/chart?cht=grey&chd=t:65.7,65.7,63.2,63.1,70.6,62.9&chs=300x200&chl=2005|2006|2007|2008|Q1-09|Q2-09">http://beauty-bar.appspot.com/chart?cht=grey&chd=t:65.7,65.7,63.2,63.1,70.6,62.9&chs=300x200&chl=2005|2006|2007|2008|Q1-09|Q2-09</a></small>
-</p>
-<b>Styles are heavily under construction.</b>
+Once one have succesfully created a chart and saved it, he can use its
+layout as a template layout, also known as style, for other charts.
+Styles can be used with:
 </p>
 
-<h1>Command line tool</h1>
+<h3><a href="http://code.google.com/apis/chart/">Google Chart API</a></h3>
+<p>
+Use name of a saved chart as <i>cht</i> value for chart API.
+Example chart with name <i>grey</i>: <br />
+<a href="http://beauty-bar.appspot.com/chart?cht=grey&chd=t:65.7,65.7,63.2,63.1,70.6,62.9&chs=300x200&chl=2005|2006|2007|2008|Q1-09|Q2-09">http://beauty-bar.appspot.com/chart?cht=grey&chd=t:65.7...&chs=300x200&chl=2005|...</a>
+</p>
+
+<h3><a href="http://docs.google.com">Google Docs</a></h3>
+<p>
+Create Spreadsheet document and choose <i>Insert Gadget</i>. Then choose
+custom and type address
+<i>http://beauty-bar.appspot.com/spreasheet-gadget.xml</i> and write
+style name and click <i>Apply and Close</i>.
+</p>
+
+<h3>Command line tool</h3>
 <p>
 One can now use <i>BeautyBar</i> from *nix command line, with
 following tool: <a href="/beauty-bar.sh">beauty-bar.sh</a>.
 </p>
 
+<a href="/learn">Back</a>
+</div>
