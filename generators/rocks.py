@@ -82,10 +82,7 @@ class Rocks(SvgFigGenerator):
         for bar in range(0, 6):
             # TODO: counting...
             x = 20 + 50 * bar
-            value = ((self.rows[bar][1] - self.min) *
-                     100.0 / (self.max - self.min))
-            # some scaling...
-            value = value + (value * 0.1 - self.max * 0.1)
+            value = 100.0 * self.rows[bar][1] / (self.max - self.min)
             bars.append(self._get_one(x, value))
         return bars
 

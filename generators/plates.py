@@ -45,7 +45,7 @@ class Plates(SvgFigGenerator):
             # 40, 60... 80, 100... 120, 140...
             x0 = 40 + 40 * i
             x1 = x0 + 20
-            y0 = 170 - self.rows[i][1] * 3
+            y0 = 170 - self.rows[i][1] * 150.0 / (self.max - self.min)
             y1 = 170
             bar = (x0, y0, x1, y1)
             m.append(bar)
