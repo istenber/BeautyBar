@@ -5,6 +5,7 @@ validation and modifications.
 """
 
 import logging
+import math
 
 from model.utils import unquote
 
@@ -138,7 +139,7 @@ class Data(object):
         return True
 
     def value_ok(self, value, min = None, max = None):
-        """ Check that individual value is in range
+        """ Check that individual value is in range, autorange disables check
 
           >>> d = Data.default()
           >>> d.value_ok(60)
@@ -147,6 +148,9 @@ class Data(object):
           True
           >>> d.value_ok(-10)
           False
+          >>> d.autorange()
+          >>> d.value_ok(-30)
+          True
 
         """
         try:
@@ -155,6 +159,7 @@ class Data(object):
             return False
         if min is None: min = self.min
         if max is None: max = self.max
+        if hasattr(self, "autorange_on"): return True
         # logging.debug('Range: ' + str(min) + ' < ' + str(value) + ' < ' +
         #               str(max) + ' is ' + str(value <= max and value >= min))
         return (value <= max and value >= min)
@@ -253,6 +258,48 @@ class Data(object):
         """
         return sorted(self.get_items())
 
+    def autorange(self):
+        """Autorange set range automatically to correct values
+
+          >>> d = Data()
+          >>> d.is_valid()
+          False
+          >>> d.autorange()
+          >>> d.add_item(Item(value=70))
+          True
+          >>> d.autorange()
+          >>> d.min
+          0.0
+          >>> d.max
+          100.0
+          >>> d.autorange()
+          >>> d.add_item(Item(value=350))
+          True
+          >>> d.autorange()
+          >>> d.max
+          1000.0
+          >>> d.autorange()
+          >>> d.add_item(Item(value=4891))
+          True
+          >>> unicode(d)
+          u'name: no name (autorange)'
+          >>> d.autorange()
+          >>> d.max
+          10000.0
+          >>> unicode(d)
+          u'name: no name (0.0, 10000.0)'
+
+        """
+        if not hasattr(self, "autorange_on"):
+            self.autorange_on = True
+            return
+        self.min = 0.0
+        m = max(self.get_items(), key=lambda x: x.value)
+        n = math.pow(10, math.floor(math.log(m.value, 10)) + 1)
+        self.max = math.ceil(m.value / n) * n
+        del self.autorange_on
+        return
+
     @classmethod
     def max_len(cls):
         """ Max len - or actually only valid - lenght of item list """
@@ -306,6 +353,7 @@ class Data(object):
             return None
         for delim in [',', '.', ':', '\t']:
             d = cls.objfac('Data', name='', min=0.0, max=50.0, locked=False)
+            d.autorange()
             line_nro = 1
             for line in lines:
                 try:
@@ -325,7 +373,9 @@ class Data(object):
                         return None
                     else:
                         line_nro += 1
-            if d.is_valid(): return d
+            if d.is_valid():
+                d.autorange()
+                return d
         logging.debug('Cannot parse CSV')
         return None
 
@@ -375,6 +425,8 @@ class Data(object):
         return d
 
     def __unicode__(self):
+        if hasattr(self, "autorange_on"):
+            return 'name: %s (autorange)' % (self.name)
         return 'name: %s (%s, %s)' % (self.name, self.min, self.max)
 
 
