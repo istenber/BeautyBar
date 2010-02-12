@@ -66,7 +66,8 @@ class BaseGenerator(GuiInterface, ProcessInterface):
           '1k'
 
         """
-        return NumberScaler().scale(self.rows[row][1])
+        return NumberScaler().scale(self.rows[row][1],
+                                    round=False)
 
     def get_scale_str(self, pos, max_len=10):
         """ Return scale string for position,
@@ -80,7 +81,8 @@ class BaseGenerator(GuiInterface, ProcessInterface):
           '2k'
 
         """
-        return NumberScaler().scale(pos * (self.max - self.min) + self.min)
+        return NumberScaler().scale(pos * (self.max - self.min) + self.min,
+                                    round=False)
 
 # TODO: move data from generator factory to here
 
