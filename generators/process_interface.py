@@ -8,8 +8,7 @@ class ProcessInterface(object):
             raise NotImplementedError
 
     def set_range(self, min, max):
-        self.min = min
-        self.max = max
+        pass
 
     def set_attribute(self, attribute, value):
         setattr(self, attribute, value)

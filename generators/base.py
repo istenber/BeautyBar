@@ -22,7 +22,7 @@ class BaseGenerator(GuiInterface, ProcessInterface):
     def add_row(self, name, value):
         self.rows.append([name, value])
 
-    def get_name(self, row, max_len=10):
+    def get_row_name(self, row, max_len=10):
         """ Return name with max 10 chars
 
           >>> b = BaseGenerator()
@@ -39,7 +39,7 @@ class BaseGenerator(GuiInterface, ProcessInterface):
             name = name[:(max_len - 2)] + '...'
         return name
 
-    def get_value(self, row):
+    def get_row_value(self, row):
         """ Return value in range 0.0..1.0
 
           >>> b = BaseGenerator()
@@ -56,7 +56,7 @@ class BaseGenerator(GuiInterface, ProcessInterface):
         return (self.rows[row][1] - self.min) / (self.max - self.min)
 
 
-    def get_value_str(self, row, max_len=10):
+    def get_row_value_str(self, row, max_len=10):
         """ Return value name with max 10 chars
 
           >>> b = BaseGenerator()

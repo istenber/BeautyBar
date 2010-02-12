@@ -43,11 +43,11 @@ class Bar(object):
         x = -250+70*(pos+1)
         self.bar["transform"] = "translate(" + str(x) + ", -300)"
     def set_size(self, size):
-        n = (5.9 * size)
+        n = (5.5 * 50.0 * size)
         v = [n,
              600 - n,
              150 - n,
-             620 - n]   
+             620 - n]
         self.bar[0]["height"] = v[0]
         self.bar[0]["y"] = v[1]
         self.bar[1,0]["height"] = v[0]
@@ -71,25 +71,17 @@ class Shiny(BaseGenerator):
                        "red", "blue", "green"]
         self.bgcolor = "ffffff"
         self.screencolor = "ffffff"
-        self.values = []
+        BaseGenerator.__init__(self)
 
     def get_description(self):
         return "Shiny diagram have nice shiny bars"
-
-    def set_range(self, min, max):
-        self.min = min
-        self.max = max
-    
-    def add_row(self, name, value, index=None):
-        self.values.append([name, value])
 
     def _append_bars(self, scaler):
         for index in range(0, 6):
             bar = Bar(Shiny.__red_bar[3, 0])
             bar.set_color(self.colors[index])
             bar.set_pos(index)
-            f = 40.0 / (self.max - self.min)
-            bar.set_size(self.values[index][1] * f)
+            bar.set_size(self.get_row_value(index))
             scaler.append(bar.bar)
 
     def _get_vertical_meter(self):
@@ -98,10 +90,11 @@ class Shiny(BaseGenerator):
                            style="stroke:#000000;stroke-width:1px")
         vertical_meter = SVG("g", vertical_bar)
         s = 8
-        step = (self.max - self.min) / (s - 1)
         for val in range(0, s):
-            m = str(int(self.max-val*step))
-            t = Text(20, 34+val*(120 / (s - 1)), m, font_size=13).SVG()
+            t = Text(20,
+                     34+val*(120 / (s - 1)),
+                     self.get_scale_str(1.0 * (s - val - 1) / s),
+                     font_size=13).SVG()
             vertical_meter.append(t)
         return vertical_meter
 
@@ -112,7 +105,7 @@ class Shiny(BaseGenerator):
         horizontal_meter = SVG("g", horizontal_bar)
         for val in range(0, 6):
             t = Text(58+val*35, 170,
-                     self.values[val][0],
+                     self.get_row_name(val, max_len=5),
                      font_size=10).SVG()
             horizontal_meter.append(t)
         return horizontal_meter
