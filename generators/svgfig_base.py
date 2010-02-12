@@ -29,10 +29,6 @@ class SvgFigGenerator(BaseGenerator):
         svg.attr["xmlns:xlink"] = "http://www.w3.org/1999/xlink"
         return svg.standalone_xml()
 
-    def set_range(self, min, max):
-        self.min = min
-        self.max = max
-
     def add_row(self, name, value, index=None):
         self.rows.append([name, value])
 
