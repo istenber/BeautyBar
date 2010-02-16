@@ -229,6 +229,14 @@ var attr = {
 
 
 var data = {
+    _dataset_updater: function(out, limit) {
+	parts.update('edit');
+	preview.update();
+    },
+    dataset: function(name) {
+	ajaxWrapper('/dataset?name=' + name,
+		    this._dataset_updater);
+    },
     _updater: function(out, limit) {
 	var resp = out.responseText.substr(4);
 	$('r_' + limit).setValue(resp);

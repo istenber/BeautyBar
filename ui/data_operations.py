@@ -8,6 +8,23 @@ import ui.dao
 from model.utils import unquote
 
 
+class Dataset(SessionPage):
+
+    def get(self):
+        self.get_session()
+        name = self.request.get("name")
+        if name == "":
+            return
+        if not name in ['google', 'clean', 'simple']:
+            return
+
+        for item in self.session.data.get_items():
+            item.delete()
+        self.session.data.delete()
+        self.session.data = eval('ui.dao.Data.default_' + name)()
+        self.session.put()
+
+
 class SaveData(SessionPage):
 
     def get(self):

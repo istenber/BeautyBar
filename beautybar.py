@@ -6,7 +6,8 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from ui.mainpage import MainPage
 from ui.extra_pages import LearnPage, AboutPage
 from ui.output_image import PreviewImage, SvgImage, AdminPreviewImage
-from ui.data_operations import CleanData, LoadData, SaveData, ImportData
+from ui.data_operations import (CleanData, LoadData, SaveData,
+                                ImportData, Dataset)
 from ui.ajax_modify import AjaxModifyName, AjaxModifyValue, AjaxRange
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 from ui.ajax_main import AjaxMain
@@ -54,6 +55,7 @@ def main():
              ('/set_generator', AjaxGenerator),
              ('/set_attr', AjaxSetAttribute),
 
+             ('/dataset', Dataset),
              ('/clean', CleanData),
              ('/save', SaveData),
              ('/load', LoadData),

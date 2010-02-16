@@ -1,3 +1,5 @@
+<center>
+
 <table align="center" cellspacing="0" cellpadding="0" border="0">
 <tr><th>Name</th><th>Value</th></tr>
 
@@ -13,9 +15,15 @@
 {% endfor %}
 </table>
 
-<br />
-
-<center>
+<p>
 Range from <input type="text" size="4" id="r_min" value="{{ r_min|floatformat }}" onblur="data.set_min();"> to <input size="4" type="text" id="r_max" value="{{ r_max|floatformat }}" onblur="data.set_max();">.
+</p>
+
+<p>
+Or choose one of default data sets: <br />
+<input type="button" value="Clean" onclick="data.dataset('clean');">
+<input type="button" value="Simple" onclick="data.dataset('simple');">
+<input type="button" value="Google Price" onclick="data.dataset('google');">
+</p>
 
 </center>

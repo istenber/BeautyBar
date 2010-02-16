@@ -306,7 +306,7 @@ class Data(object):
         return max_items
 
     @classmethod
-    def default(cls):
+    def default_simple(cls):
         """ Return default data
 
           >>> d = Data.default()
@@ -319,9 +319,38 @@ class Data(object):
                                     min = 0.0, max = 50.0)
 
     @classmethod
+    def default_google(cls):
+        """ Return default data
+
+          >>> d = Data.default()
+          >>> d.get_items()[3].value
+          657
+
+        """
+        return cls.default_data_set(['2005', 193.0], ['2006', 465.0],
+                                    ['2007', 505.0], ['2008', 657.0],
+                                    ['2009', 315.0], ['2010', 602.0],
+                                    min = 0.0, max = 1000.0)
+
+    @classmethod
+    def default_clean(cls):
+        """ Return default data
+
+          >>> d = Data.default()
+          >>> d.get_items()[4].value
+          0.0
+
+        """
+        return cls.default_data_set(['', 0.0], ['', 0.0], ['', 0.0],
+                                    ['', 0.0], ['', 0.0], ['', 0.0],
+                                    min = 0.0, max = 100.0)
+
+    default=default_google
+
+    @classmethod
     def default_data_set(cls, a, b, c, d, e, f, min = min, max = max):
         """ Takes data in raw format and returns Data """
-        s = cls.objfac('Data', name = '', min = 0.0, max = 50.0, locked = False)
+        s = cls.objfac('Data', name = '', min = min, max = max, locked = False)
         s.add_item(cls.objfac('Item', name = a[0], value = a[1], row = 1))
         s.add_item(cls.objfac('Item', name = b[0], value = b[1], row = 2))
         s.add_item(cls.objfac('Item', name = c[0], value = c[1], row = 3))
