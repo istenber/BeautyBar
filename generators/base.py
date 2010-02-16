@@ -36,7 +36,7 @@ class BaseGenerator(GuiInterface, ProcessInterface):
         """
         name = self.rows[row][0]
         if len(name) > max_len:
-            name = name[:(max_len - 2)] + '...'
+            name = name[:(max_len - 2)] + '..'
         return name
 
     def get_row_value(self, row):

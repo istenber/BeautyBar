@@ -60,7 +60,7 @@ def main():
     diagram.add_row("Sanna", 27)
     diagram.add_row("Ilpo", 28)
     diagram.add_row("Lasse", 24)
-    diagram.add_row("Sanna", 27)
+    diagram.add_row("Very long title name", 27)
     diagram.set_range(0, 50)
     print diagram.output()
 
