@@ -45,9 +45,9 @@ class Plain(SvgFigGenerator):
         i = 45
         bar_width=30
         shs = 3
-        for row in self.rows:
-            name = str(row[0])
-            value = (row[1] - self.min) * 135.0 / (self.max - self.min)
+        for index in range(0, 6):
+            name = self.get_row_name(index, max_len=6)
+            value = self.get_row_value(index) * 135
             pos = 165-value
             bar = SVG("g",
                       SVG("rect", id="bar_" + name, width=bar_width, x=i,
