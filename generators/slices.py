@@ -34,6 +34,7 @@ class Slices(SvgFigGenerator):
         for row in self.rows:
             s += row[1]
         sizes = []
+        if s == 0: s = 1.0
         # TODO: row order!!!
         for row in self.rows:
             sizes.append(row[1] / s * width)
