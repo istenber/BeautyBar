@@ -18,7 +18,12 @@ from ui.content_preview import ContentPreview
 import lib.datastore_cache
 
 
-lib.datastore_cache.DatastoreCachingShim.Install()
+import os
+is_development = os.environ["SERVER_SOFTWARE"].startswith("Development")
+
+
+if not is_development:
+    lib.datastore_cache.DatastoreCachingShim.Install()
 webapp.template.register_template_library('lib.templatetags')
 
 
@@ -31,13 +36,10 @@ def get_admin_pages():
             ]
 
 def main():
-    # TODO: use environment variable "debug"
-    debug=True
-    if debug:
-        log_level = logging.DEBUG
+    if is_development:
+        logging.getLogger().setLevel(logging.DEBUG)
     else:
-        log_level = logging.INFO
-    logging.getLogger().setLevel(log_level)
+        logging.getLogger().setLevel(logging.INFO)
 
     # TODO: split pages to groups: infopages, normalpages, ajaxpages, etc.
     pages = [('/', MainPage),
@@ -66,7 +68,7 @@ def main():
     application = webapp.WSGIApplication(pages +
                                          get_admin_pages() +
                                          [('/.*', MissingPage)],
-                                         debug=debug)
+                                         debug=is_development)
     run_wsgi_app(application)
 
 
