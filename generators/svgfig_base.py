@@ -14,9 +14,6 @@ class SvgFigGenerator(BaseGenerator):
     collects data to self.rows.
     """
 
-    def __init__(self):
-        self.rows = []
-    
     def output(self):
         svg = SVG("svg")
         if hasattr(self, "get_defs"):
@@ -28,9 +25,6 @@ class SvgFigGenerator(BaseGenerator):
         svg.attr["xmlns:svg"] = "http://www.w3.org/2000/svg"
         svg.attr["xmlns:xlink"] = "http://www.w3.org/1999/xlink"
         return svg.standalone_xml()
-
-    def add_row(self, name, value, index=None):
-        self.rows.append([name, value])
 
     def get_elements(self):
         """Need to be implemented in derived classes."""
