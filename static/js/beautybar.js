@@ -212,9 +212,9 @@ var attr = {
     },
     set_float: function(val, min, max) {
 	var v = $(val).getValue();
-	if (!parseFloat(v)) { $(val).setValue(1.0); return; }
-	if (v > max) { $(val).setValue(max); return; }
-	if (v < min) { $(val).setValue(min); return; }
+	if (!parseFloat(v)) { $(val).setValue(1.0); }
+	if (v > max) { $(val).setValue(max); }
+	if (v < min) { $(val).setValue(min); }
 	this.set_value(val);
     },
     _generator_updater: function(out) {
