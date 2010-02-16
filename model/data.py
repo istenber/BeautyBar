@@ -307,15 +307,28 @@ class Data(object):
 
     @classmethod
     def default(cls):
-        """ Return default data """
-        d = cls.objfac('Data', name = '', min = 0.0, max = 50.0, locked = False)
-        d.add_item(cls.objfac('Item', name = 'a', value = 10.0, row = 1))
-        d.add_item(cls.objfac('Item', name = 'b', value = 15.0, row = 2))
-        d.add_item(cls.objfac('Item', name = 'c', value = 20.0, row = 3))
-        d.add_item(cls.objfac('Item', name = 'd', value = 30.0, row = 4))
-        d.add_item(cls.objfac('Item', name = 'e', value = 40.0, row = 5))
-        d.add_item(cls.objfac('Item', name = 'f', value = 50.0, row = 6))
-        return d
+        """ Return default data
+
+          >>> d = Data.default()
+          >>> d.get_items()[1].value
+          15.0
+
+        """
+        return cls.default_data_set(['a', 10.0], ['b', 15.0], ['c', 20.0],
+                                    ['d', 30.0], ['e', 40.0], ['f', 50.0],
+                                    min = 0.0, max = 50.0)
+
+    @classmethod
+    def default_data_set(cls, a, b, c, d, e, f, min = min, max = max):
+        """ Takes data in raw format and returns Data """
+        s = cls.objfac('Data', name = '', min = 0.0, max = 50.0, locked = False)
+        s.add_item(cls.objfac('Item', name = a[0], value = a[1], row = 1))
+        s.add_item(cls.objfac('Item', name = b[0], value = b[1], row = 2))
+        s.add_item(cls.objfac('Item', name = c[0], value = c[1], row = 3))
+        s.add_item(cls.objfac('Item', name = d[0], value = d[1], row = 4))
+        s.add_item(cls.objfac('Item', name = e[0], value = e[1], row = 5))
+        s.add_item(cls.objfac('Item', name = f[0], value = f[1], row = 6))
+        return s
 
     # Not fully compliant with csv, as ...
     # 1. 'e accept following separators ,.:\t
