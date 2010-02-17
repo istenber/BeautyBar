@@ -359,6 +359,42 @@ class Data(object):
         s.add_item(cls.objfac('Item', name = f[0], value = f[1], row = 6))
         return s
 
+    @classmethod
+    def read_datasource(cls, datasource):
+        """ Read data from datasource and create Data object based on it.
+
+          >>> class TestDataSource(object):
+          ...  def is_ok(self): return True
+          ...  def get_rows(self):
+          ...    return [['a', '1'], ['b', '2'], ['c', '3'],
+          ...            ['d', '4'], ['e', '5'], ['f', '6']]
+          ...
+          >>> d = Data.read_datasource(TestDataSource())
+          >>> d.get_items()[3].value
+          4.0
+          >>> d.get_items()[2].name
+          'c'
+
+        """
+        d = cls.objfac('Data', name='', min=0.0, max=50.0, locked=False)
+        d.autorange()
+        line_nro = 1
+        if not datasource.is_ok():
+            logging.info("Datasource valid")
+            return None
+        for row in datasource.get_rows():
+            item = cls.objfac('Item', name=row[0], row=line_nro)
+            if not d.value_ok(row[1]):
+                return None
+            item.set_value(row[1])
+            if not d.add_item(item):
+                return None
+            else:
+                line_nro += 1
+            if d.is_valid():
+                d.autorange()
+        return d
+
     # Not fully compliant with csv, as ...
     # 1. 'e accept following separators ,.:\t
     # 2. Don't allow multiline messages
