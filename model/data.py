@@ -83,7 +83,7 @@ class Data(object):
 
     There is class method to get default datas...
 
-      >>> unicode(Data.default())
+      >>> unicode(Data.default_simple())
       u'name:  (0.0, 50.0)'
 
     """
@@ -141,7 +141,7 @@ class Data(object):
     def value_ok(self, value, min = None, max = None):
         """ Check that individual value is in range, autorange disables check
 
-          >>> d = Data.default()
+          >>> d = Data.default_simple()
           >>> d.value_ok(60)
           False
           >>> d.value_ok(20)
@@ -223,7 +223,7 @@ class Data(object):
           30.0
           >>> d.max
           30.0
-          >>> d = Data.default()
+          >>> d = Data.default_simple()
           >>> d.set_max(30) # there are items with higher values
           50.0
 
@@ -245,7 +245,7 @@ class Data(object):
     def as_list(self):
         """ Returns items as sorted list. Uses Item.__cmp__() to sort.
 
-          >>> d = Data.default()
+          >>> d = Data.default_simple()
           >>> for i in d.as_list():
           ...   unicode(i)
           u'name: a, value: 10.0, row 1'
@@ -309,7 +309,7 @@ class Data(object):
     def default_simple(cls):
         """ Return default data
 
-          >>> d = Data.default()
+          >>> d = Data.default_simple()
           >>> d.get_items()[1].value
           15.0
 
@@ -322,9 +322,9 @@ class Data(object):
     def default_google(cls):
         """ Return default data
 
-          >>> d = Data.default()
+          >>> d = Data.default_google()
           >>> d.get_items()[3].value
-          657
+          657.0
 
         """
         return cls.default_data_set(['2005', 193.0], ['2006', 465.0],
@@ -336,7 +336,7 @@ class Data(object):
     def default_clean(cls):
         """ Return default data
 
-          >>> d = Data.default()
+          >>> d = Data.default_clean()
           >>> d.get_items()[4].value
           0.0
 
