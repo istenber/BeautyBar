@@ -37,21 +37,26 @@ class GadgetPage(webapp.RequestHandler):
     def _convert_ampersand(self, text):
         return text.replace('_amp_', '&')
 
-    def _default_data(self, msg):
-        logging.info("# " + msg)
-        return ui.dao.Data.default()
+    def _get_ds_headers(self):
+        if self.request.headers.has_key('Referer'):
+            return { 'Referer' : self.request.headers['Referer'] }
+        return None
 
-    def _get_data(self):
+    def _default_data(self, msg):
+        logging.info(msg)
+        return (None, ui.dao.Data.default())
+
+    def _get_signature_and_data(self):
         datasource = unquote(self.request.get("datasource"))
         if datasource == "": return self._default_data("Missing datasource")
         datasource = self._convert_ampersand(datasource)
         ds = GoogleDataSource()
-        ds.set_source(datasource)
+        ds.set_source(datasource, self._get_ds_headers())
         if not ds.is_ok(): return self._default_data("Broken datasource: " +
                                                      datasource)
         d = Data.read_datasource(ds)
         if d == None: self._default_data("Incorrect (size?) datasource")
-        return d
+        return (ds.get_signature(), d)
 
     def _get_size(self):
         size = self.request.get("size")
@@ -60,11 +65,14 @@ class GadgetPage(webapp.RequestHandler):
             size = "300x200"
         return size
 
-    def cache_key(self):
+    def cache_key(self, extras=[]):
         key = ""
         for arg in self.request.arguments():
+            if arg == 'rnd': continue
             key += arg + "=" + self.request.get(arg) + "&"
         key = key[:-1]
+        for extra in extras:
+            key += "$" + str(extra)
         logging.debug("Memcache key: " + key)
         return key
 
@@ -74,17 +82,18 @@ class GadgetPage(webapp.RequestHandler):
 
     def get(self):
         self.response.headers['Content-Type'] = "image/svg+xml"
-        key = self.cache_key()
-        if False: # self.in_cache(key):
-            logging.debug("Found in cache")
-            out = self.cached_data
-        else:
-            s = self._get_style()
-            d = self._get_data()
-            g = s.get_active_generator()
-            chart = g.build_chart(d)
-            size = self._get_size()
-            chart.resize_str(size)
-            out = chart.output()
+        (signature, d) = self._get_signature_and_data()
+        caching = (signature is not None)
+        if caching:
+            key = self.cache_key([signature])
+            if self.in_cache(key):
+                logging.debug("Found in cache")
+                self.response.out.write(self.cached_data)
+                return
+        g = self._get_style().get_active_generator()
+        chart = g.build_chart(d)
+        chart.resize_str(self._get_size())
+        out = chart.output()
+        if caching:
             memcache.add(key, out)
         self.response.out.write(out)

@@ -398,8 +398,9 @@ class Data(object):
                 return None
             else:
                 line_nro += 1
-        if d.is_valid():
-            d.autorange()
+        if not d.is_valid():
+            return None
+        d.autorange()
         return d
 
     # Not fully compliant with csv, as ...

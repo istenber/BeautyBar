@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 
 import logging
-import urllib
+import urllib2
 import re
 
 from demjson import JSON, JSONDecodeError
 
 
-# TODO: check for sig
-# TODO: handle errors and warnings
 class GoogleDataSource(object):
     """ Parse Google data source to table
 
@@ -29,9 +27,13 @@ class GoogleDataSource(object):
     def __init__(self):
         self.json = JSON()
 
-    def set_source(self, source):
+    def set_source(self, source, headers=None):
         self.source = source
-        f = urllib.urlopen(source)
+        if headers is None:
+            f = urllib2.urlopen(source)
+        else:
+            r = urllib2.Request(source, headers=headers)
+            f = urllib2.urlopen(r)
         s = f.readline()
         self.parse(s)
 
@@ -96,6 +98,10 @@ class GoogleDataSource(object):
                             self.object['table']['rows'])
         return self.rows
 
+    def get_signature(self):
+        self._check()
+        return self.object['sig']
+
     def __str__(self):
         self._check()
         return self.__class__.__name__ + ": " + self.object['version']
@@ -158,6 +164,7 @@ def test_valid_with_date():
     ds.parse(test_str)
     assert ds.is_ok()
     assert ds.get_row(3) == ['6/30/2009', '55.229']
+    assert ds.get_signature() == '898078434'
 
 def test_invalid_json():
     ds = GoogleDataSource()
