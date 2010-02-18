@@ -1,0 +1,17 @@
+my example (beautybar-example-google-revenue)
+--------------------------
+
+http://spreadsheets.google.com/tq?range=D18:E23&headers=-1&key=0Al2-SsPjGtFbdDBNcWZXUENpeloyZEZWX29QWVlpRmc&gid=0
+google.visualization.Query.setResponse({version:'0.6',status:'ok',sig:'898078434',table:{cols:[{id:'D',label:'',type:'date',pattern:'M/d/yyyy'},{id:'E',label:'',type:'number',pattern:'#0.###############'}],rows:[{c:[,{v:70.0,f:'70'}]},{c:[{v:new Date(2009,11,31),f:'12/31/2009'},{v:66.73819999999999,f:'66.7382'}]},{c:[{v:new Date(2009,8,30),f:'9/30/2009'},{v:59.4485,f:'59.4485'}]},{c:[{v:new Date(2009,5,30),f:'6/30/2009'},{v:55.229,f:'55.229'}]},{c:[{v:new Date(2009,2,31),f:'3/31/2009'},{v:55.0899,f:'55.0899'}]},{c:[{v:new Date(2008,11,31),f:'12/31/2008'},{v:57.00899999999999,f:'57.009'}]}]}});
+
+some other?
+--------------------------
+
+http://spreadsheets.google.com/tq?key=0Al2-SsPjGtFbdGJhc0JWUk51dl9OM29SeGwzNTBOWFE&range=B7:B11&gid=0&headers=-1
+google.visualization.Query.setResponse({version:'0.6',status:'ok',sig:'184259073',table:{cols:[{id:'B',label:'',type:'number',pattern:'#0.###############'}],rows:[{c:[{v:3213.0,f:'3213'}]},{c:[{v:3.0,f:'3'}]},{c:[{v:3213.0,f:'3213'}]},{c:[{v:32.0,f:'32'}]},{c:[{v:321.0,f:'321'}]}]}});
+
+
+one "public" data source
+--------------------------
+
+http://spreadsheets.google.com/tq?key=pCQbetd-CptGXxxQIG7VFIQ&range=B1:D11&pub=1
