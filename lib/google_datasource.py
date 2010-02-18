@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import logging
 import urllib
 import re
 
@@ -39,14 +40,22 @@ class GoogleDataSource(object):
         string = remove_dates(string)
         try:
             self.object = self.json.decode(string)
-        except JSONDecodeError:
+        except JSONDecodeError, e:
+            logging.info("Decode error: " + str(e))
             self.object = None
 
     def is_ok(self):
         self._check()
         if self.object is None:
             return False
-        return self.object['status'] == 'ok'
+        if self.object['status'] == 'ok':
+            return True
+        errmsg = ""
+        for error in self.object['errors']:
+            errmsg += "(" + error['reason'] + ":" + error['message'] + "),"
+        errmsg = errmsg[:-1]
+        logging.info("Status \"" + str(self.object['status']) + "\": " + errmsg)
+        return False
 
     def get_version(self):
         self._check()
