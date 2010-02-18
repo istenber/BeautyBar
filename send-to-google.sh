@@ -72,6 +72,9 @@ rm -rf ${TMP_FOLDER}/beautybar/static/js/development
 rm ${TMP_FOLDER}/beautybar/README
 rm ${TMP_FOLDER}/beautybar/generators/skel.py
 rm ${TMP_FOLDER}/beautybar/send-to-google.sh
+rm ${TMP_FOLDER}/beautybar/test_model.sh
+rm ${TMP_FOLDER}/beautybar/test_browser.sh
+rm ${TMP_FOLDER}/beautybar/UPDATED
 
 # send to google
 ${APP_ENGINE_PATH}/appcfg.py update ${TMP_FOLDER}/beautybar
