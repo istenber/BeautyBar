@@ -1,3 +1,6 @@
+Datasource is based on this...
+http://code.google.com/apis/visualization/documentation/dev/implementing_data_source.html#jsondatatable
+
 my example (beautybar-example-google-revenue)
 --------------------------
 
