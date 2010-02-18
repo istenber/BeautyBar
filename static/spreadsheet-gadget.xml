@@ -33,8 +33,6 @@
 	 preferred_height="300"
 	 preferred_width="200"><![CDATA[
 
-<script type="text/javascript" src="http://beauty-bar.appspot.com/svgweb/svg.js"
-	data-path="http://beauty-bar.appspot.com/svgweb"></script>
 <script src="http://www.google.com/jsapi" type="text/javascript"></script>
 
 <div id="tablediv" style="overflow: auto;">
@@ -57,14 +55,14 @@ function createChart() {
   var datasource_url = convertAmpersand(prefs.getString('_table_query_url'));
   var size = document.body.clientWidth + 'x' + document.body.clientHeight;
   var url = beautybar_url + 'gadget?size=' + size + '&style=' + style_name +
-            '&datasource="' + datasource_url + '"';
+            '&rnd=' + Math.random() + '&datasource="' + datasource_url + '"';
   var svg_image = document.createElement('object', true);
   svg_image.setAttribute('type', 'image/svg+xml');
   svg_image.setAttribute('data', url);
   svg_image.setAttribute('id', 'o_img');
   var my_chart = _gel('tablediv');
   my_chart.innerHTML = '';
-  svgweb.appendChild(svg_image, my_chart);
+  my_chart.appendChild(svg_image);
 };
 
 function convertAmpersand(text) {
