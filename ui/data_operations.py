@@ -43,7 +43,11 @@ class SaveData(SessionPage):
             old_file.put()
             self.response.out.write(filename + " replaced " +
                                     "<small>(old is " + old_name + ")</small>")
-            version = old_file.version + 1
+            # we need this as there are old files without version number
+            if old_file.version is not None:
+                version = old_file.version + 1
+            else:
+                version = 2
         newone = self.session.copy_model_instance()
         newone.name = filename
         newone.cookie = ""
