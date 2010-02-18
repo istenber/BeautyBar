@@ -12,6 +12,7 @@ from ui.ajax_modify import AjaxModifyName, AjaxModifyValue, AjaxRange
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 from ui.ajax_main import AjaxMain
 from ui.chart_api import ChartPage
+from ui.gadget import GadgetPage
 from ui.feedback import FeedbackProcessor, FeedbackReader
 from ui.admin_pages import ViewSessions, AdminMainPage
 from ui.error_pages  import MissingPage
@@ -63,6 +64,7 @@ def main():
 
              ('/attr_table', AjaxAttributes),
              ('/chart', ChartPage),
+             ('/gadget', GadgetPage),
              ('/feedback', FeedbackProcessor),
              ('/export.svg', SvgImage),
              ('/content_preview', ContentPreview),

@@ -43,78 +43,32 @@ Receiving data from <a href="http://beauty-bar.appspot.com" target="_top">http:/
 
 <script>
 
+var beautybar_url = 'http://beauty-bar.appspot.com/';
 var style_name = 'standard';
 
-var gadgetHelper = null;
-_IG_RegisterOnloadHandler(loadVisualizationAPI);
-function loadVisualizationAPI() { 
-  google.load("visualization", "1");
-  google.setOnLoadCallback(sendQuery);
-}
+_IG_RegisterOnloadHandler(createChart);
 
-function sendQuery() {
+function createChart() {
   var prefs = new _IG_Prefs();
   style_name = prefs.getString("_style_name");
   if(style_name == "other") {
     style_name = prefs.getString("_style_name_other");
   }
-  gadgetHelper = new google.visualization.GadgetHelper(); 
-  var query = gadgetHelper.createQueryFromPrefs(prefs);
-  query.send(handleQueryResponse);
-} 
-
-function handleQueryResponse(response) {
-
-  if (!gadgetHelper.validateResponse(response)) {
-    return;
-  }
-
-  var data = response.getDataTable();
-  var rows = data.getNumberOfRows();
-  var cols = data.getNumberOfColumns();
-
-  if(!((rows == 6) && (cols == 2))) {
-    errorMsg('Error: Beauty Bar supports only tables with' +
-             'two rows (names and values) and six columns, got ' +
-             rows + ' rows and ' + cols + ' columns.');
-    return;
-  }
-
-  var chart_url = 'http://beauty-bar.appspot.com/chart?cht=' + style_name;
-
-  chart_url += '&chd=t:';
-  for (var row = 0; row < 6; row++) {
-    var formattedValue = data.getFormattedValue(row, 1);
-    formattedValue = escapeHtml(formattedValue);
-    if((formattedValue < 0) || (formattedValue > 100)) {
-      errorMsg('Error: Value out of range: ' + formattedValue);
-      return;
-    }
-    chart_url += formattedValue + ',';
-  }
-  chart_url = chart_url.replace(/,+$/, '');
-  chart_url += '&chs=' + document.body.clientWidth + 'x' + document.body.clientHeight;
-  chart_url += '&chl=';
-  for (var row = 0; row < 6; row++) {
-    var formattedValue = data.getFormattedValue(row, 0);
-    formattedValue = escapeHtml(formattedValue);
-    chart_url += formattedValue + '|';
-  }
-  chart_url = chart_url.replace(/\|+$/, '');
-
+  var datasource_url = convertAmpersand(prefs.getString("_table_query_url"));
+  var size = document.body.clientWidth + "x" + document.body.clientHeight;
+  var url = beautybar_url + "gadget?datasource=\"" + datasource_url + "\"" +
+            "&size=" + size + "&style=" + style_name;
   var svg_image = document.createElement('object', true);
   svg_image.setAttribute('type', 'image/svg+xml');
-  svg_image.setAttribute('data', chart_url);
+  svg_image.setAttribute('data', url);
   svg_image.setAttribute('id', 'o_img');
-
   var my_chart = _gel('my_chart');
   my_chart.innerHTML = '';
   svgweb.appendChild(svg_image, my_chart);
 };
 
-function errorMsg(msg) {
-  var my_chart = _gel('my_chart');
-  my_chart.innerHTML = msg;
+function convertAmpersand(text) {
+  return text.replace(/&/g, '_amp_');
 }
 
 function escapeHtml(text) {

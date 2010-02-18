@@ -382,7 +382,14 @@ class Data(object):
         if not datasource.is_ok():
             logging.info("Datasource valid")
             return None
-        for row in datasource.get_rows():
+        rows = datasource.get_rows()
+        if len(rows) != 6:
+            logging.info("Wrong number of rows")
+            return None
+        if len(rows[0]) != 2:
+            logging.info("Wrong number of columns")
+            return None
+        for row in rows:
             item = cls.objfac('Item', name=row[0], row=line_nro)
             if not d.value_ok(row[1]):
                 return None
