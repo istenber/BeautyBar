@@ -43,6 +43,7 @@ class GoogleDataSource(object):
         except JSONDecodeError, e:
             logging.info("Decode error: " + str(e))
             self.object = None
+        # self._dump()
 
     def is_ok(self):
         self._check()
@@ -82,8 +83,9 @@ class GoogleDataSource(object):
         def parse_row(row):
             arr = []
             for elem in row['c']:
-                if type(elem) is not dict: continue
-                if elem.has_key('f'):
+                if type(elem) is not dict:
+                    arr.append(str(elem))
+                elif elem.has_key('f'):
                     arr.append(elem['f'])
                 else:
                     arr.append(str(elem['v']))
@@ -101,6 +103,14 @@ class GoogleDataSource(object):
     def _check(self):
         if not hasattr(self, "object"):
             raise GoogleDataSourceException("missing object")
+
+    def _dump(self):
+        self._check()
+        logging.debug("dump/version: " + self.get_version())
+        for title in self.get_titles():
+            logging.debug("dump/title: " + str(title))
+        for row in self.get_rows():
+            logging.debug("dump/row: " + str(row))
 
 
 class GoogleDataSourceException(Exception):
