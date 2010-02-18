@@ -153,6 +153,10 @@ class Countries(TitleSet):
                self.country_count += 1
         return self.country_count
 
+# TODO: cities
+# TODO: departments
+# TODO: languages
+# TODO: names (mark, john, ...)
 
 if __name__ == "__main__":
     # logging.getLogger().setLevel(logging.DEBUG)

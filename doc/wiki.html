@@ -606,13 +606,20 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201002111308" changecount="145">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201002181336" changecount="153">
 <pre>TODO
 
-* screen.css #carousel-content: width needs to be updated every time we add or delete generator
-* google-chrome bug: it have preview part (bp_main) 10 pixels too short
+* hardcode some default styles, atleast those in spreadsheet-gadget.xml (nature, plain, standard)
 
-* new tutorial video with new ui
+* bug? does chart api mess data of saved chart, no but it still saves some data?
+
+* bug: style is not always saved correctly? when and why are still open
+
+* saved chart should only save active generator
+
+* change all generators to use number scaler
+* generators should have more attributes!
+* common attributes!!!
 
 * spreadsheet gadget:
 ** data scaling
@@ -623,14 +630,14 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 ** first row is last bar or first bar?
 ** gadget needs to published/verified: http://docs.google.com/support/bin/answer.py?hl=en&amp;answer=160111&amp;hl=en
 
+* make security checks for ajax interface: now it fails with # chars?
+* screen.css #carousel-content: width needs to be updated every time we add or delete generator
+* google-chrome bug: it have preview part (bp_main) 10 pixels too short
+* new tutorial video with new ui
+
 * publish button (to file page) which publish style to _gallery_, and from _gallery_ users can see best styles and rate them, maybe tag clouds?
-
-* version numbers for stored images
-** first save is _1.name, next _2.name, etc. and latest is always _name_
-** we need simpler way to save (ctrl-s or something)
-
+* we need simpler way to save (ctrl-s or something)
 * more admin views, which control system
-
 * improve feedback view
 
 * allow set_range to support scalable values 1k, should be scaled to 1000
@@ -638,13 +645,9 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 * how to set title_mapper datas in db: city names, countries, etc... or could we use external service
 * pdf document with chart, and odf document, google docs document
 * some cases title naming might cause scale names to change: for example if titles are languages, scale could be basic, good, perfect
-* change all generators to use number scaler
 * change all generators to use title mapper
 
 * change spreadsheet-gadget.xml to use some javascript in image part as choosing option: best style images and load field
-
-* make small presentation about beauty-bar to google technical user group
-* change ajax (ajaxmain, etc) to use SessionPage
 
 Generators
 * generators with images: houses, barrels, factories, batteries
@@ -705,11 +708,9 @@ Other
 * doctests for all methods in model
 * unittest with Client to all methods in ui
 * testing with Client (create page and save, and load it) (tmp/run-app-engine-client.py)
-* add get_description, and rating to db model
+* add get_description, rating and session.version to db model
 * invent use cases or user scenarios
-* make new version of youtube video
 * make error checks every place
-* think datasecurity
 * check google python coding guidelines
 * XHTML compliant checking (maybe some tool to automate this)
 * pychecker and lint rules?
