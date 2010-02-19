@@ -49,8 +49,6 @@ class Float(Attribute):
 
     def __init__(self, generator, name, ui_name, min, max):
         Attribute.__init__(self, generator, name, ui_name)
-        if min is None: min = 0.0
-        if max is None: max = 10.0
         self.min = min
         self.max = max
 
@@ -65,3 +63,25 @@ class Float(Attribute):
             return f
         except ValueError:
             return 0.0
+
+
+class Integer(Attribute):
+
+    def __init__(self, generator, name, ui_name, min, max, default):
+        Attribute.__init__(self, generator, name, ui_name)
+        self.min = min
+        self.max = max
+        self.default = default
+
+    def value_to_string(self, value):
+        return str(value)
+
+    def string_to_value(self, string):
+        try:
+            i = int(string)
+            if i > self.max: return self.max
+            if i < self.min: return self.min
+            return i
+        except ValueError:
+            return 0.0
+

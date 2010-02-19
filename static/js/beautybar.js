@@ -217,6 +217,13 @@ var attr = {
 	if (v < min) { $(val).setValue(min); }
 	this.set_value(val);
     },
+    set_integer: function(val, min, max, def) {
+	var v = $(val).getValue();
+	if (isNaN(parseInt(v))) { $(val).setValue(def); }
+	if (v > max) { $(val).setValue(max); }
+	if (v < min) { $(val).setValue(min); }
+	this.set_value(val);
+    },
     _generator_updater: function(out) {
 	preview.update();
 	parts.update('info');
