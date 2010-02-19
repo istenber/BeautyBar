@@ -12,9 +12,9 @@
 <Require feature="locked-domain" />
 </ModulePrefs>
 <UserPref name="_style_name" display_name="Style name"
-          default_value="0" datatype="enum" required="true">
-<EnumValue value="nature" display_value="Nature"/>
+          default_value="plain" datatype="enum" required="true">
 <EnumValue value="plain" display_value="Plain"/>
+<EnumValue value="nature" display_value="Nature"/>
 <EnumValue value="standard" display_value="Standard"/>
 <EnumValue value="other" display_value="Other..."/>
 </UserPref>
