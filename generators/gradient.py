@@ -43,7 +43,7 @@ class Gradient(SvgFigGenerator):
         if self.grid_style == 2:
             s += "stroke-dasharray:1,2;stroke-dashoffset:0"
         elif self.grid_style == 3:
-            s += "stroke-dasharray:1,3;stroke-dashoffset:0"
+            s += "stroke-dasharray:1,5;stroke-dashoffset:0"
         return s        
 
     # TODO: make more common methods like get grid?
