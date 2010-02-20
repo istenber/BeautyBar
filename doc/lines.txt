@@ -1,5 +1,19 @@
 #!/bin/sh
 
+FILES_1=`ls *.py *.sh *.yaml Makefile`
+FILES_2=`find model ui generators | grep \.py$`
+FILES_3=`find lib | grep \.py$ | grep -v -e svgfig -e demjson`
+FILES_4=`find templates | grep -v \/tmp | grep \.html$`
+FILES_5="static/spreadsheet-gadget.xml static/js/beautybar.js static/css/screen.css static/beauty-bar.sh"
+
+echo $FILES_1 $FILES_2 $FILES_3
+wc $FILES_1 $FILES_2 $FILES_3 $FILES_4 $FILES_5 -l
+
+exit 0
+
+STATUS: 20.02.10 - 6841 total
+
+# old style
 wc `find . | grep -v \/tmp | grep \.py$ | grep -v svgfig; \
     find templates | grep -v \/tmp | grep \.html$; \
     echo static/spreadsheet-gadget.xml; \
