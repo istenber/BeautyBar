@@ -6,6 +6,7 @@ from attributes.common import Color, Boolean, Choice
 from lib.svgfig import *
 
 
+# TODO: rounding errors with big values start to matter
 class Gradient(SvgFigGenerator):
 
     def __init__(self):
@@ -31,6 +32,7 @@ class Gradient(SvgFigGenerator):
         return defs
 
     def get_elements(self):
+        self.factor = 240 / self.get_row_count()
         e = SVG("g", 
                 self.get_frame(),
                 self.get_bars())
@@ -70,20 +72,26 @@ class Gradient(SvgFigGenerator):
         s = "stroke-width:3;stroke-linecap:round;stroke:#" + self.fc + ";"
         if self.has_titles:
             l = "M X," + str(bline) + " L X," + str(bline+10)
-            for i in range(0, 7):
-                x = 30 + i * 40
+            # 30, 70, 110, 150, 190, 230, 270
+            for i in range(0, self.get_row_count() + 1):
+                x = 30 + i * self.factor
                 frame.append(SVG("path", style=s, d=l.replace("X", str(x))))
         if self.has_grid:
             frame.append(self.get_grid())
         return frame
 
+    def get_font_size(self):
+        # TODO: we need better scaling
+        return 5 + 30 / self.get_row_count()
+
     def get_titles(self):
         titles = SVG("g")
         text_style = "fill:#" + self.fc + "; text-anchor:middle;"
-        for i in range(0, 6):
-            x = 50 + i * 40
+        fs = self.get_font_size()
+        for i in range(0, self.get_row_count()):
+            x = 30 + self.factor * 0.5 + i * self.factor
             name = self.get_row_name(i, max_len=7)
-            t = Text(x, 180, name, font_size=10, style=text_style).SVG()
+            t = Text(x, 180, name, font_size=fs, style=text_style).SVG()
             titles.append(t)
         return titles
 
@@ -91,11 +99,12 @@ class Gradient(SvgFigGenerator):
         bars = SVG("g")
         style = ("stroke-width:3;stroke-linejoin:round;" +
                  "stroke:#" + self.fc + ";fill:url(#gradient0);")
-        for i in range(0, 6):
+        for i in range(0, self.get_row_count()):
             h = self.get_row_value(i) * 120
             # 240 / 6 = 40, 30 + (8 + 24 + 8)*6 + 30
-            x = 38 + i * 40
-            bar = SVG("rect", x=x, width=24, height=h, style=style,
+            x = 30 + self.factor * 0.2 + i * self.factor
+            bar = SVG("rect", x=x, height=h, style=style,
+                      width=self.factor * 0.6,
                       y=(160-h) if self.has_titles else (180-h))
             bars.append(bar)
         return bars
