@@ -22,6 +22,9 @@ class BaseGenerator(GuiInterface, ProcessInterface):
     def add_row(self, name, value):
         self.rows.append([name, value])
 
+    def get_row_count(self):
+        return len(self.rows)
+
     def get_row_name(self, row, max_len=10):
         """ Return name with max 10 chars
 
