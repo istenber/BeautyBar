@@ -20,12 +20,32 @@ class ProcessInterface(object):
         return ""
 
 
-def tester(name):
+def tester(usage_msg):
 
     def usage(msg=None):
-        if msg is not None: print "ERROR MSG: " + str(msg)
-        print "usage: ./diagrams/" + name + " <filename.py>"        
-        sys.exit(0)
+        if msg is not None: sys.stderr.write("ERROR MSG: " + str(msg))
+        sys.stderr.write(usage_msg)
+        sys.exit(-1)
+
+    def rand_vals(len=4):
+        import random
+        n = ""
+        for c in range(0, len):
+            n += chr(int(random.random() * (ord('z') - ord('a'))) + ord('a'))
+        return (n, int(random.random() * 50))
+
+    def set_data(diagram, dataset):
+        import random
+        datasets = { 'print' : [('Yahoo', 30), ('Google', 40), ('Ask.com', 12),
+                                 ('AOL', 21), ('Altavista', 3), ('MSN', 7)],
+                     'test' : [ ('Short', 30), ('Very long title name', 50),
+                                ('S', 0), ('ao', 1), ('Test', 25), ('x', 10)],
+                     'test2' : [ ('One', 20), ('Twooooooo', 1), ('Thre', 50)],
+                     'random' : [ rand_vals(6) for i in range(0, 6) ],
+                     'random2' : [ rand_vals(6) for i in range(0, 8) ] }
+        diagram.set_range(0, 50)
+        for val in datasets[dataset]:
+            diagram.add_row(val[0], val[1])
 
     # TODO: this should be default for all files?!
     import sys
@@ -40,29 +60,42 @@ def tester(name):
         opts, args = getopt.getopt(sys.argv[1:], "", [])
     except getopt.error:
         usage("extra args...")
-    if not len(args) == 1:
+    if len(args) == 2:
+        dataset = args[0]
+        if dataset not in ['print', 'test', 'test2', 'random', 'random2']:
+            usage("incorrect dataset: " + dataset)
+        filename = args[1]
+    elif len(args) == 1:
+        dataset = 'print'
+        filename = args[0]
+    else:
         usage()
-    filename = args[0]
     if filename[:10] == "generators":
         filename = filename[11:]
     gf = GeneratorFactory().instance()
     diagram = gf.get_generator(filename)
     if diagram is None:
         usage("import failed from \"" + filename + "\"")
+    set_data(diagram, dataset)
     return diagram
+
 
 def main():
     import logging
     logging.getLogger().setLevel(logging.DEBUG)
-    diagram = tester("process_interface.py")
-    diagram.add_row("Ilpo", 28)
-    diagram.add_row("Lasse", 24)
-    diagram.add_row("Sanna", 27)
-    diagram.add_row("Small", 1)
-    diagram.add_row("Lasse", 24)
-    diagram.add_row("Very long title name", 50)
-    diagram.set_range(0, 50)
+    diagram = tester(
+"""
+Usage: ./generators/process_interface.py <dataset> <filename.py>
+
+      where optional <dataset> is one of following,
+  print    \t (default) Nice looking dataset for montage and presentations
+  test     \t Test data with edge values
+  test2    \t New interface test data set with more values
+  random   \t Random values for testing
+  random2  \t Random values with new interface
+""")
     print diagram.output()
+
 
 if __name__ == "__main__":
     main()

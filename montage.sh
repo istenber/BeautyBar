@@ -16,7 +16,7 @@ make_png() {
     COUNT=0
     for G in $GENERATORS; do
 	NAME=`printf "%0.3d.$G" $COUNT`
-	./generators/process_interface.py generators/$G.py | sed 's/xlink:href=\"\/images\//xlink:href=\"static\/images\//g' > $TMPDIR/$NAME.svg
+	./generators/process_interface.py print generators/$G.py | sed 's/xlink:href=\"\/images\//xlink:href=\"static\/images\//g' > $TMPDIR/$NAME.svg
 	inkscape $TMPDIR/$NAME.svg -h 80 -e $TMPDIR/$NAME.png > /dev/null 2>&1
 	COUNT=`expr $COUNT + 1`
     done

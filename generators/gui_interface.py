@@ -34,22 +34,32 @@ class GuiInterface(object):
         """Should return generator rating in scale one to five"""
         return 1
 
+    def get_version(self):
+        """Generator version: version 1 support only datasets with six
+        rows and fixed size 300x200, version 2 can have three to eight
+        rows and different sizes."""
+        return 1
+
+
 def main():
-
-    def get_info(diagram):
-        out = ("\nGuiInterface of \"" + diagram.get_ui_name() + "\" (" +
-               diagram.get_name() + ")\n" +
-               "---------------------------------------\n" +
-               diagram.get_description() + "\n" +
-               "---------------------------------------\n")
-        for attr in diagram.get_attributes():
-            out += attr.get_ui_name() + " : " + attr.get_type() + "\n"
-        out += "---------------------------------------\n"
-        return out
-
     from process_interface import tester
-    diagram = tester("gui_interface.py")
-    print get_info(diagram)
+    import logging
+    logging.getLogger().setLevel(logging.DEBUG)
+    diagram = tester(
+"""
+Usage: ./generators/gui_interface.py <filename.py>
+""")
+    out = ("\nGuiInterface of \"" + diagram.get_ui_name() + "\" (" +
+           diagram.get_name() + "):\n" +
+           "[ Interface version: " + str(diagram.get_version()) + " ]\n" +
+           "---------------------------------------\n" +
+           diagram.get_description() + "\n" +
+           "---------------------------------------\n")
+    for attr in diagram.get_attributes():
+        out += attr.get_ui_name() + " : " + attr.get_type() + "\n"
+    out += "---------------------------------------\n"
+    print out
+
 
 if __name__ == "__main__":
     main()
