@@ -61,20 +61,27 @@ git commit -m "Sending app to Google"
 rm -rf ${TMP_FOLDER}
 mkdir -p ${TMP_FOLDER}
 
-# exporting git repo and remove unneeded files
+# exporting git repo
 git clone ${GIT_REPO} ${TMP_FOLDER}/beautybar
+
+# build generator list image and css
+CURDIR=`pwd`
+cd ${TMP_FOLDER}/beautybar
+./montage.sh
+cd ${CURDIR}
+
+# remove unneeded files
 rm -rf ${TMP_FOLDER}/beautybar/.git
 rm -rf ${TMP_FOLDER}/beautybar/doc
 rm -rf ${TMP_FOLDER}/beautybar/tests
 rm -rf ${TMP_FOLDER}/beautybar/static/js/development
-# TODO: do not remove or everything will blow
-# rm -rf ${TMP_FOLDER}/beautybar/ui/test
 rm ${TMP_FOLDER}/beautybar/README
 rm ${TMP_FOLDER}/beautybar/generators/skel.py
 rm ${TMP_FOLDER}/beautybar/send-to-google.sh
 rm ${TMP_FOLDER}/beautybar/test_model.sh
 rm ${TMP_FOLDER}/beautybar/test_browser.sh
 rm ${TMP_FOLDER}/beautybar/UPDATED
+rm ${TMP_FOLDER}/beautybar/montage.sh
 
 # send to google
 ${APP_ENGINE_PATH}/appcfg.py update ${TMP_FOLDER}/beautybar

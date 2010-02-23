@@ -27,9 +27,9 @@
 {% for gen in generators %}
       <td class="bl_li">
 	<div class="slide">
-<a href="javascript:" onclick="attr.set_generator('{{ gen.get_name }}');">
-            <img class="list_image" src="/images/{{ gen.get_name }}-small.png" alt="{{ gen.get_ui_name }}" width="100" height="80" />
-          </a>
+	  <a href="javascript:" onclick="attr.set_generator('{{ gen.get_name }}');">
+	    <span class="thumb gen_{{ gen.get_name }}"></span>
+	  </a>
 	</div>
       </td>
       {% if not forloop.last %}

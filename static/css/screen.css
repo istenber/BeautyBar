@@ -303,32 +303,6 @@
      border            : none;
  }
 
- #carousel-arrow {
-     vertical-align    : middle;
-     padding           : 2px 2px 2px 2px;
- }
-
- #carousel-wrapper {
-     width             : 760px;
-     height            : 80px;
-     overflow          : hidden;
- }
-
- #carousel-content {
-     width             : 1200px;
- }
-
- .slide {
-     width             : 100px;
-     height            : 80px;
- }
-
- .list_image {
-     border-style      : outset;
-     border-color      : black;
-     border-width      : 1px;
- }
-
  .attr_cell {
      height            : 25px;
      width             : 250px;
