@@ -26,7 +26,7 @@ class GeneratorFactory(Singleton):
         # TODO: houses disabled for now
         for generator in ["nature", "standard", "plain", "equalizer", "rocks",
                           "blocks", "shiny", "balls", "paper", "slices",
-                          "plates", "bottombar", "gradient"]:
+                          "plates", "bottombar", "gradient", "cityview"]:
             #if file in skip_files: continue
             #if file.endswith(".py"):
             self.generators.append(self.get_generator(generator + ".py"))
