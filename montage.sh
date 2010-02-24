@@ -13,6 +13,7 @@ PNG_FILE="static/images/generators.png"
 CSS_FILE="static/css/generators.css"
 
 make_png() {
+    echo "creating $PNG_FILE"
     COUNT=0
     for G in $GENERATORS; do
 	NAME=`printf "%0.3d.$G" $COUNT`
@@ -26,6 +27,7 @@ make_png() {
 }
 
 make_css() {
+    echo "creating $CSS_FILE"
     echo "
  #carousel-arrow {
      vertical-align      : middle;
@@ -74,13 +76,17 @@ make_css() {
     mv $TMPDIR/list.css $CSS_FILE
 }
 
+if [ "x$1" = "xforce" ]; then
+    make_png
+    make_css
+    exit 0
+fi
+
 if ! [ -e $PNG_FILE ]; then
-    echo "creating $PNG_FILE"
     make_png
 fi
 
 if ! [ -e $CSS_FILE ]; then    
-    echo "creating $CSS_FILE"
     make_css
 fi
 
