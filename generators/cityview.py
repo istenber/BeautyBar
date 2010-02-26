@@ -14,9 +14,9 @@ class Cityview(SvgFigGenerator):
         self.color = "000000"
         self.bgcolor = "ffffff"
         self.bgbars_onecolor = False
-        self.bgbars_color = "ffff00"
+        self.bgbars_color = "d6ff8f"
         self.fgbars_onecolor = False
-        self.fgbars_color = "ffff00"
+        self.fgbars_color = "faffd1"
         # TODO: random seed and other attributes
         random.seed(300)
 
@@ -60,7 +60,13 @@ class Cityview(SvgFigGenerator):
         return g
                  
     def get_front_bars(self):
+        def s():
+            return "fill:#" + self.fgbars_color + ";"
         bars = SVG("g")
+        if self.fgbars_onecolor:
+            style_f = s
+        else:
+            style_f = self.random_color
         for i in range(0, 5):
             m = 100 * min(self.get_row_value(i), self.get_row_value(i+1)) - 20
             if m < 0: continue
@@ -68,7 +74,7 @@ class Cityview(SvgFigGenerator):
             # logging.info("front(" + str(i) + "):" + str(h))            
             # 300 = 0 + 60 + 0, 5 + 50 + 5
             x = 5 + 60 * i
-            bar = SVG("rect", x=x, height=h, style=self.random_color(),
+            bar = SVG("rect", x=x, height=h, style=style_f(),
                       width=50, y=150-h+1)
             bars.append(bar)
         return bars
