@@ -127,3 +127,6 @@ class Gradient(SvgFigGenerator):
 
     def get_rating(self):
         return 4
+
+    def get_version(self):
+        return 2
