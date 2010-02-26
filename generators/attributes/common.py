@@ -85,3 +85,23 @@ class Integer(Attribute):
         except ValueError:
             return 0.0
 
+
+class Title(Attribute):
+
+    def __init__(self, generator, ui_name):
+        Attribute.__init__(self, generator, 'title', ui_name)
+
+    def get_ui_name(self):
+        return '<b>' + Attribute.get_ui_name(self) + '</b>'
+
+    def get_value(self):
+        return ''
+
+    def set_value(self, value):
+        pass
+
+    def value_to_string(self, value):
+        return ''
+
+    def string_to_value(self, string):
+        return ''

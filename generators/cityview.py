@@ -2,16 +2,21 @@ import logging
 import random
 
 from svgfig_base import SvgFigGenerator
-from attributes.common import Color, Boolean, Choice
+from attributes.common import Color, Boolean, Title
 
 from lib.svgfig import *
-
+from lib.utils import *
 
 class Cityview(SvgFigGenerator):
 
     def __init__(self):
         SvgFigGenerator.__init__(self)
         self.color = "000000"
+        self.bgcolor = "ffffff"
+        self.bgbars_onecolor = False
+        self.bgbars_color = "ffff00"
+        self.fgbars_onecolor = False
+        self.fgbars_color = "ffff00"
         # TODO: random seed and other attributes
         random.seed(300)
 
@@ -19,12 +24,28 @@ class Cityview(SvgFigGenerator):
         defs = SVG("defs", id="defs")
         return defs
 
+    def random_color(self):
+        if not hasattr(self, "_colors"):
+            self._colors = []
+            c = ['ff0000', '00ff00', '0000ff',
+                 'ff00ff', 'ffff00', '00ffff']
+            self._colors += map(lambda c: lighter_color(c, 100), c)
+            self._colors += map(lambda c: lighter_color(c, 120), c)
+            self._colors += map(lambda c: lighter_color(c, 140), c)
+        r = self._colors[int(random.random() * len(self._colors))]
+        return "fill:#" + str(r) + ";"
+
     def get_elements(self):
         return SVG("g",
+                   self.get_bg(),
                    self.get_back_bars(),
                    self.get_bars(),
                    self.get_front_bars(),
                    self.get_ground())
+
+    def get_bg(self):
+        return SVG("rect", x=0, y=50, width=300, height=100,
+                   style="fill:#" + self.bgcolor + ";")
 
     def get_ground(self):
         g = SVG("g")
@@ -38,12 +59,6 @@ class Cityview(SvgFigGenerator):
                      style="fill:#cccccc"))
         return g
                  
-    def random_color(self):
-        # TODO: more colors
-        colors = ['91ff91', 'ffffb9', 'f4c7c4', 'b9ffff']
-        r = int(random.random() * len(colors))
-        return "fill:#" + colors[r] + ";"
-
     def get_front_bars(self):
         bars = SVG("g")
         for i in range(0, 5):
@@ -59,21 +74,27 @@ class Cityview(SvgFigGenerator):
         return bars
 
     def get_back_bars(self):
+        def s():
+            return "fill:#" + self.bgbars_color + ";"
         bars = SVG("g")
+        if self.bgbars_onecolor:
+            style_f = s
+        else:
+            style_f = self.random_color
         for i in range(0, 5):
             h = int(random.random() * 100)
             # logging.info("back(" + str(i) + "):" + str(h))
             # 300 = 0 + 60 + 0, 5 + 50 + 5
             x = 32 + 47 * i
-            bar = SVG("rect", x=x, height=h, style=self.random_color(),
+            bar = SVG("rect", x=x, height=h, style=style_f(),
                       width=41, y=150-h+1)
             bars.append(bar)
         return bars
 
     def get_bars(self):
         bars = SVG("g")
-        tsw = "fill:#ffffff; font-weight: bold; text-anchor:middle;"
-        tsb = "fill:#" + self.color + "; font-weight: bold; text-anchor:middle;"
+        tsw = "fill:#" + self.bgcolor + ";font-weight:bold;text-anchor:middle;"
+        tsb = "fill:#" + self.color + ";font-weight:bold;text-anchor:middle;"
         color = "fill:#" + self.color + ";"
         for i in range(0, self.get_row_count()):
             h = self.get_row_value(i) * 100
@@ -97,11 +118,20 @@ class Cityview(SvgFigGenerator):
         return "City View"
 
     def get_attributes(self):
-        color = Color(self, "color", "Color")
-        return [color]
+        color = Color(self, "color", "Main color")
+        bgcolor = Color(self, "bgcolor", "Inverse color")
+        bgtitle = Title(self, "Background bars")
+        bgbars_onecolor = Boolean(self, "bgbars_onecolor", "All are same color")
+        bgbars_color = Color(self, "bgbars_color", "Color")
+        fgtitle = Title(self, "Foreground bars")
+        fgbars_onecolor = Boolean(self, "fgbars_onecolor", "All are same color")
+        fgbars_color = Color(self, "fgbars_color", "Color")
+        return [color, bgcolor,
+                bgtitle, bgbars_onecolor, bgbars_color,
+                fgtitle, fgbars_onecolor, fgbars_color]
 
     def get_rating(self):
-        return 1
+        return 3
 
     def get_version(self):
         return 2

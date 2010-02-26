@@ -78,9 +78,6 @@ class AjaxAttributes(webapp.RequestHandler):
                    }
         path = os.path.join(os.path.dirname(__file__),
                             '../templates/attributes/' + name + '.html')
-        out = ""
-        out += "<td class=\"attr_cell\">" + attr.get_ui_name() + "</td>\n"
-        out += "<td class=\"attr_cell\">"
-        out += template.render(path, values)
-        out += "</td>\n"
-        return out
+        return ("<td class=\"attr_cell\">" + attr.get_ui_name() + "</td>\n" +
+                "<td class=\"attr_cell\">" + template.render(path, values) +
+                "</td>\n")
