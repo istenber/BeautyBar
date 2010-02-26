@@ -140,4 +140,4 @@ class Cityview(SvgFigGenerator):
         return 3
 
     def get_version(self):
-        return 2
+        return 1
