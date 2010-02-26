@@ -25,7 +25,7 @@ def measure(diagram):
 
 def main():
     print "CPU Times..."
-    print "---------------------------------------"
+    print "------------------------------"
     for diagram in GeneratorFactory().list():
         diagram.set_range(0, 50)
         diagram.add_row('a', 10)
@@ -34,9 +34,9 @@ def main():
         diagram.add_row('d', 30)
         diagram.add_row('e', 40)
         diagram.add_row('f', 50)
-        print "%15s   %3.0f ms" % (str(diagram.get_name()),
-                                   measure(diagram))
-    print "---------------------------------------"        
+        print "| %15s | %5.0f ms |" % (str(diagram.get_ui_name()),
+                                       measure(diagram))
+    print "------------------------------"
     
 
 if __name__ == "__main__":
