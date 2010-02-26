@@ -21,6 +21,9 @@ class ProcessInterface(object):
 
 
 def tester(usage_msg):
+    import random
+    import sys
+    import getopt
 
     def usage(msg=None):
         if msg is not None: sys.stderr.write("ERROR MSG: " + str(msg))
@@ -28,14 +31,12 @@ def tester(usage_msg):
         sys.exit(-1)
 
     def rand_vals(len=4):
-        import random
         n = ""
         for c in range(0, len):
             n += chr(int(random.random() * (ord('z') - ord('a'))) + ord('a'))
         return (n, int(random.random() * 50))
 
     def set_data(diagram, dataset):
-        import random
         datasets = { 'print' : [('Yahoo', 30), ('Google', 40), ('Ask.com', 12),
                                  ('AOL', 21), ('Altavista', 3), ('MSN', 7)],
                      'test' : [ ('Short', 30), ('Very long title name', 50),
@@ -48,10 +49,7 @@ def tester(usage_msg):
             diagram.add_row(val[0], val[1])
 
     # TODO: this should be default for all files?!
-    import sys
     sys.path = ["/home/sankari/dev/beautybar"] + sys.path
-    
-    import getopt
 
     from model.generator_factory import GeneratorFactory
     from generators.attributes.attribute import Attribute, is_valid_attribute
@@ -81,6 +79,10 @@ def tester(usage_msg):
 
 
 def main():
+    import resource
+    def cpu_time():
+        return resource.getrusage(resource.RUSAGE_SELF)[0]
+
     import logging
     logging.getLogger().setLevel(logging.DEBUG)
     diagram = tester(
@@ -94,7 +96,11 @@ Usage: ./generators/process_interface.py <dataset> <filename.py>
   random   \t Random values for testing
   random2  \t Random values with new interface
 """)
-    print diagram.output()
+    start = cpu_time();
+    out = diagram.output()
+    end = cpu_time();
+    logging.info("CPU time used: " + str(end - start))
+    print out
 
 
 if __name__ == "__main__":
