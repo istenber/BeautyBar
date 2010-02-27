@@ -88,8 +88,10 @@ class Champions(SvgFigGenerator):
 
     def __init__(self):
         SvgFigGenerator.__init__(self)
-        self.color = "ffff00"
+        self.single_color = False
+        self.color = "ffa733"
         self.has_medals = True
+        self.has_grid = True
         # TODO: more attributes
 
     def get_defs(self):
@@ -110,12 +112,10 @@ class Champions(SvgFigGenerator):
                      style="fill:none;stroke:#000000;stroke-width:2px;"))
         g.append(SVG("circle", cx=172, cy=20, r=10,
                      style="fill:none;stroke:#000000;stroke-width:2px;"))
-
         g.append(SVG("circle", cx=139, cy=31, r=10,
                      style="fill:none;stroke:#000000;stroke-width:2px;"))
         g.append(SVG("circle", cx=161, cy=31, r=10,
                      style="fill:none;stroke:#000000;stroke-width:2px;"))
-
         return g
 
     def get_names(self):
@@ -135,14 +135,10 @@ class Champions(SvgFigGenerator):
                      style="fill:#888888;"))
         g.append(SVG("rect", x=0, y=50, width=300, height=2,
                      style="fill:#aaaaaa;"))
-        g.append(SVG("rect", x=10, y=118, width=280, height=2,
-                     style="fill:#bbbbbb;"))
-        g.append(SVG("rect", x=10, y=108, width=280, height=2,
-                     style="fill:#bbbbbb;"))
-        g.append(SVG("rect", x=10, y=98, width=280, height=2,
-                     style="fill:#bbbbbb;"))
-        g.append(SVG("rect", x=10, y=88, width=280, height=2,
-                     style="fill:#bbbbbb;"))
+        if self.has_grid:
+            for i in range(0, 4):
+                g.append(SVG("rect", x=10, y=(118-i*10), width=280, height=2,
+                             style="fill:#bbbbbb;"))
         g.append(SVG("rect", x=0, y=150, width=300, height=2,
                      style="fill:#aaaaaa;"))
         g.append(SVG("rect", x=0, y=152, width=300, height=2,
@@ -165,15 +161,20 @@ class Champions(SvgFigGenerator):
         self.get_medalists()
         for i in range(0, 6):
             # 300 / 6 = 50
-            fig = Figure(x = i*50, color = colors[i],
+            if self.single_color:
+                c = self.color
+            else:
+                c = colors[i]
+            fig = Figure(x = i*50, color = c,
                          size = self.get_row_value(i),
                          text = self.get_row_value_str(i))
-            if self.gold == i:
-                fig.add_medal('gold')
-            elif self.silver == i:
-                fig.add_medal('silver')
-            elif self.bronze == i:
-                fig.add_medal('bronze')
+            if self.has_medals:
+                if self.gold == i:
+                    fig.add_medal('gold')
+                elif self.silver == i:
+                    fig.add_medal('silver')
+                elif self.bronze == i:
+                    fig.add_medal('bronze')
             figs.append(fig.output())
         return figs
 
@@ -185,8 +186,12 @@ class Champions(SvgFigGenerator):
 
     def get_attributes(self):
         # TODO: add attributes
-        color = Color(self, "color", "Color")
-        return [color]
+        single_color = Boolean(self, "single_color",
+                               "All figures are same color")
+        color = Color(self, "color", "Color of figures")
+        has_medals = Boolean(self, "has_medals", "Medals for the champions")
+        has_grid = Boolean(self, "has_grid", "Background grid")
+        return [single_color, color, has_medals, has_grid]
 
     def get_rating(self):
         return 3
