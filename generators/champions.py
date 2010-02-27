@@ -161,7 +161,7 @@ class Figure(object):
         if hasattr(self, "medal"):
             g.append(self.get_medal(t))
         g.append(SVG("rect", x=12, width=40, y=830, height=30,
-                     style="fill:#ffffff;stroke:#000000;stroke-width:1px;",
+                     style="fill:#ffffff;stroke:#000000;stroke-width:3px;stroke-linejoin:round;",
                      transform=t))
         g.append(Text(32, 850, self.text,
                       font_size=17,
@@ -187,7 +187,7 @@ class Champions(SvgFigGenerator):
         self.has_medals = True
         self.has_grid = True
         self.has_head = True
-        # TODO: more attributes
+        self.has_boxes = True
 
     def get_defs(self):
         return SVG("defs", Figure.get_defs())
@@ -215,10 +215,11 @@ class Champions(SvgFigGenerator):
 
     def get_names(self):
         g = SVG("g")
+        bs = "fill:#ffffff;stroke:#000000;stroke-width:1px;"
         for i in range(0, 6):
             x = 5 + i * 50
-            g.append(SVG("rect", x=x, width=40, y=160, height=20,
-                         style="fill:#ffffff;stroke:#000000;stroke-width:1px;"))
+            if self.has_boxes:
+                g.append(SVG("rect", x=x, width=40, y=160, height=20, style=bs))
             name = self.get_row_name(i, max_len=6)
             g.append(Text(x+20, 175, name, font_size=10,
                           style="fill:#000000;text-anchor:middle;").SVG())
@@ -281,14 +282,16 @@ class Champions(SvgFigGenerator):
         return "Champions"
 
     def get_attributes(self):
-        has_medals = Boolean(self, "has_medals", "Medals for the champions")
         has_grid = Boolean(self, "has_grid", "Background grid")
+        has_boxes = Boolean(self, "has_boxes", "Boxes around title")
         figure = Title(self, "Figures")
         single_color = Boolean(self, "single_color",
                                "All are same color")
         color = Color(self, "color", "Color")
         has_head = Boolean(self, "has_head", "With random heads")
-        return [has_medals, has_grid, figure, single_color, color, has_head]
+        has_medals = Boolean(self, "has_medals", "Medals for the champions")
+        return [has_grid, has_boxes,
+                figure, single_color, color, has_head, has_medals]
 
     def get_rating(self):
         return 3
