@@ -34,6 +34,7 @@ generators = {
     'cityview'   : 3,
     'champions'  : 3,
     'towers'     : 3,
+    'weights'    : 2,
     }
 
 
