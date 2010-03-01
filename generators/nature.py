@@ -99,5 +99,3 @@ class Nature(SvgFigGenerator):
         bg_image = Choice(self, "bg_image", "Background image",
                           ["A", "B", "C"])
         return [bg_image]
-    def get_rating(self):
-        return 5

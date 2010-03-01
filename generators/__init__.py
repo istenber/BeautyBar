@@ -1,18 +1,21 @@
 #!/usr/bin/env python2.5
 """
-Simple functions to get list of generators and generator instance by name
+Simple functions to get list of generators, generator instance by name,
+and generator rating
 
   >>> get_instance('plain').get_ui_name()
   'Plain'
   >>> get_list()[0].get_ui_name()
   'Gradient Bars'
+  >>> get_rating('plain')
+  4
 
 """
 
 import logging
 
 
-__all__ = [""]
+__all__ = ['get_instance', 'get_rating', 'get_list']
 
 generators = {
     'nature'     : 4,
@@ -43,6 +46,9 @@ def get_instance(name):
     except ImportError, error:
         logging.error("missing generator: " + modulename)
     return None
+
+def get_rating(name):
+    return generators[name]
 
 def get_list(rated=True):
     if rated:

@@ -100,6 +100,3 @@ class Paper(BaseGenerator):
         linecolor = Color(self, "linecolor", "Line color")
         linesize = Float(self, "linesize", "Line size", 0.1, 2.0)
         return [linecolor, linesize]
-
-    def get_rating(self):
-        return 3

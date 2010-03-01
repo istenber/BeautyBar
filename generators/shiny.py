@@ -144,6 +144,3 @@ class Shiny(BaseGenerator):
         bgcolor = Color(self, "bgcolor", "Background Color")
         screencolor = Color(self, "screencolor", "Screen Color")
         return [bgcolor, screencolor]
-
-    def get_rating(self):
-        return 3

@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+if __name__ == '__main__':
+    import sys
+    sys.path.append('/home/sankari/dev/beautybar')
+
+
+import generators
 
 class GuiInterface(object):
     """Interface to show diagram info for users."""
@@ -30,15 +36,16 @@ class GuiInterface(object):
         """Should return human readble description of generator"""
         return "no description"
 
-    def get_rating(self):
-        """Should return generator rating in scale one to five"""
-        return 1
-
     def get_version(self):
         """Generator version: version 1 support only datasets with six
         rows and fixed size 300x200, version 2 can have three to eight
         rows and different sizes."""
         return 1
+
+    def get_rating(self):
+        """Returns rating for chart. This is not chart property as is,
+        but is useful to have here. One should NOT override this method"""
+        return generators.get_rating(self.get_name())
 
 
 def main():

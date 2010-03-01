@@ -293,8 +293,5 @@ class Champions(SvgFigGenerator):
         return [has_grid, has_boxes,
                 figure, single_color, color, has_head, has_medals]
 
-    def get_rating(self):
-        return 3
-
     def get_version(self):
         return 1

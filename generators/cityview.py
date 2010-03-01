@@ -136,8 +136,5 @@ class Cityview(SvgFigGenerator):
                 bgtitle, bgbars_onecolor, bgbars_color,
                 fgtitle, fgbars_onecolor, fgbars_color]
 
-    def get_rating(self):
-        return 3
-
     def get_version(self):
         return 1

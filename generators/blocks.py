@@ -65,6 +65,3 @@ class Blocks(SvgFigGenerator):
         fill_last = Boolean(self, "fill_last", "Last block partial")
         color = Color(self, "color", "Block color")
         return [fill_last, color]
-
-    def get_rating(self):
-        return 3

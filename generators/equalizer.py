@@ -76,6 +76,3 @@ class Equalizer(SvgFigGenerator):
         color = Color(self, "color", "Background color")
         how_sparse = Float(self, "how_sparse", "How sparse bars", 2.0, 6.0)
         return [has_background, color, how_sparse]
-
-    def get_rating(self):
-        return 4

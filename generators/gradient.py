@@ -125,8 +125,5 @@ class Gradient(SvgFigGenerator):
                             ["Solid", "Some", "Lot"])
         return [color, bgcolor, fc, has_titles, has_grid, grid_style]
 
-    def get_rating(self):
-        return 4
-
     def get_version(self):
         return 2

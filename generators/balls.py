@@ -81,6 +81,3 @@ class Balls(SvgFigGenerator):
         color = Color(self, "color", "Slice color")
         bg_color = Color(self, "bg_color", "Background color")
         return [bg_color, has_borders, has_single_color, color]
-
-    def get_rating(self):
-        return 3

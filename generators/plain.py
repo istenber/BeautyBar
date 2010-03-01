@@ -72,6 +72,3 @@ class Plain(SvgFigGenerator):
         color = Color(self, "color", "Color")
         has_text = Boolean(self, "has_text", "Show titles")
         return [color, has_text]
-
-    def get_rating(self):
-        return 4

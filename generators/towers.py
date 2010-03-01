@@ -110,8 +110,5 @@ class Towers(SvgFigGenerator):
         sp = Integer(self, "space_between", "Space between bars", 2, 20, 10)
         return [color, bgcolor, has_frame, bold_font, has_grid, bw, sp]
 
-    def get_rating(self):
-        return 3
-
     def get_version(self):
         return 1

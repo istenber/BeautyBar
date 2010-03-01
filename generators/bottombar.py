@@ -66,6 +66,3 @@ class Bottombar(SvgFigGenerator):
         color = Color(self, "color", "Color")
         font_size = Integer(self, "font_size", "Font Size", 8, 17, 12)
         return [color, font_size]
-
-    def get_rating(self):
-        return 4

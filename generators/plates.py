@@ -115,6 +115,3 @@ class Plates(SvgFigGenerator):
         ptype = Choice(self, "ptype", "Plate type", ["Squares", "Circles"])
         color = Color(self, "color", "Color")
         return [has_meters, has_titles, psize, ptype, color]
-
-    def get_rating(self):
-        return 4

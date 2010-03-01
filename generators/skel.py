@@ -21,5 +21,3 @@ class Skel(BaseGenerator):
         return ""
     def get_attributes(self):
         return []
-    def get_rating(self):
-        return 1

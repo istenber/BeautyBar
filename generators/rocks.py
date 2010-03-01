@@ -97,6 +97,3 @@ class Rocks(SvgFigGenerator):
         color_set = Choice(self, "color_set", "Color set",
                            ["Rainbow", "Grey", "Dark"])
         return [seed, color_set]
-
-    def get_rating(self):
-        return 3

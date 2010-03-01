@@ -82,6 +82,3 @@ class Slices(SvgFigGenerator):
         has_single_color = Boolean(self, "has_single_color", "Single color")
         color = Color(self, "color", "Slice color")
         return [has_borders, has_space, has_single_color, color]
-
-    def get_rating(self):
-        return 3
