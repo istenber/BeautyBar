@@ -2,7 +2,6 @@ import logging
 
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
-from model.generator_factory import GeneratorFactory
 from lib.google_datasource import GoogleDataSource
 from model.data import Data
 from model.utils import unquote

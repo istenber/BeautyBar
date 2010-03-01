@@ -3,7 +3,6 @@ import os
 
 from ui.basepage import SessionPage
 from google.appengine.ext.webapp import template
-from model.generator_factory import GeneratorFactory
 import ui.dao
 
 class AjaxMain(SessionPage):

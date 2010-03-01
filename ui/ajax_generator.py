@@ -3,7 +3,6 @@ import os
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from model.generator_factory import GeneratorFactory
 from ui.ajax_modify import AjaxBase
 from model.utils import unquote
 import ui.dao
@@ -54,9 +53,8 @@ class AjaxAttributes(webapp.RequestHandler):
         self.response.out.write(template.render(path, values))
 
     def real_get(self):
-        gf = GeneratorFactory().instance()
-        g_name = self.session.style.get_active_generator().name
-        generator = gf.get_generator(g_name + ".py")
+        g = self.session.style.get_active_generator()
+        generator = g.me()
         values = { 'generator_name' : generator.get_ui_name() }
         parts = []
         # TODO: very hackish attribute setting. refactor to better

@@ -1,4 +1,4 @@
-from model.generator_factory import GeneratorFactory
+import generators
 from ui.basepage import SessionPage, Page
 
 
@@ -10,5 +10,5 @@ class MainPage(Page, SessionPage):
         self.get_session()
         return { 'complex'        : True,
                  'use_javascript' : True,
-                 'generators'     : GeneratorFactory().rated_list(),
+                 'generators'     : generators.get_list(),
                  }

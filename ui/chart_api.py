@@ -6,7 +6,6 @@ from model.data import Item, Data
 from model.session import Session
 from model.output import Output
 from model.style import Style
-from model.generator_factory import GeneratorFactory
 import ui.dao
 
 class ChartPage(webapp.RequestHandler):

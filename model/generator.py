@@ -2,7 +2,7 @@
 
 import logging
 
-from model.generator_factory import GeneratorFactory
+import generators
 from model.utils import unquote
 from model.decorator import Decorator
 from model.data import Data
@@ -13,11 +13,6 @@ class Generator(object):
     def __init__(self, name=""):
         self.name = name
         self.attributes = []
-
-    def get_factory(self):
-        if not hasattr(self, "_factory"):
-            self._factory = GeneratorFactory().instance()
-        return self._factory
 
     # boilerplate ---------------------------
     def add_attribute(self, attribute):
@@ -66,7 +61,7 @@ class Generator(object):
         return Decorator(chart)
 
     def me(self):
-        return self.get_factory().get_generator(self.name + ".py")
+        return generators.get_instance(self.name)
 
 
 class Attribute(object):

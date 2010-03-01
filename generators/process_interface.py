@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 class ProcessInterface(object):
     """All chart processing should go through this interface."""
 
@@ -21,9 +22,12 @@ class ProcessInterface(object):
 
 
 def tester(usage_msg):
-    import random
     import sys
+    sys.path.append('/home/sankari/dev/beautybar')
+
+    import random
     import getopt
+    import generators
 
     def usage(msg=None):
         if msg is not None: sys.stderr.write("ERROR MSG: " + str(msg))
@@ -48,12 +52,6 @@ def tester(usage_msg):
         for val in datasets[dataset]:
             diagram.add_row(val[0], val[1])
 
-    # TODO: this should be default for all files?!
-    sys.path = ["/home/sankari/dev/beautybar"] + sys.path
-
-    from model.generator_factory import GeneratorFactory
-    from generators.attributes.attribute import Attribute, is_valid_attribute
-
     try:
         opts, args = getopt.getopt(sys.argv[1:], "", [])
     except getopt.error:
@@ -70,8 +68,7 @@ def tester(usage_msg):
         usage()
     if filename[:10] == "generators":
         filename = filename[11:]
-    gf = GeneratorFactory().instance()
-    diagram = gf.get_generator(filename)
+    diagram = generators.get_instance(filename[:-3])
     if diagram is None:
         usage("import failed from \"" + filename + "\"")
     set_data(diagram, dataset)
