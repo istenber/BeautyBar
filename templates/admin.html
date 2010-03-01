@@ -9,6 +9,14 @@
 </head>
 </body>
 
+{% if image %}
+<div style="background-color: yellow; ">
+Image {{ image }} sent...
+<br />
+<img src="/dbimages/{{ image }}.png" width="100" height="80" />
+</div>
+{% endif %}
+
 <h1>Admin pages</h1>
 
 <h2>Local</h2>
@@ -28,6 +36,24 @@
 <li><a href=""></a></li>
 <li><a href=""></a></li>
 </ul>
+
+<h2>Upload images</h2>
+
+<form action="/admin/upload_image" enctype="multipart/form-data" method="post">
+<table>
+<tr>
+<td>file</td>
+<td><input type="file" name="img_data" /></td>
+</tr>
+<tr>
+<td>dbName</td>
+<td><input type="text" name="img_name" /></td>
+</tr>
+<tr>
+<td colspan="2"><input type="submit" value="Upload" /></td>
+</tr>
+</table>
+</form>
 
 </body>
 </html>

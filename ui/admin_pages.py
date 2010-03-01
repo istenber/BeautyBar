@@ -4,6 +4,7 @@ import os
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 from google.appengine.ext import db
+from ui.image import Image
 import ui.dao
 
 
@@ -45,7 +46,26 @@ class ViewSessions(webapp.RequestHandler):
 class AdminMainPage(webapp.RequestHandler):
 
     def get(self):
-        values = {}
+        values = { 'image' : self.request.get("image") }
         path = os.path.join(os.path.dirname(__file__),
                             '../templates/admin.html')
         self.response.out.write(template.render(path, values))
+
+
+
+
+class UploadImage(webapp.RequestHandler):
+
+    def post(self):
+        data = self.request.get("img_data")
+        name = self.request.get("img_name")
+        if data == "":
+            logging.info("image upload missing data")
+        elif name == "":
+            logging.info("image upload missing name")
+        else:
+            image = Image()
+            image.name = name
+            image.data = db.Blob(data)
+            image.put()
+        self.redirect("/admin/?image=" + name)

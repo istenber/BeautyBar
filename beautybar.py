@@ -14,9 +14,10 @@ from ui.ajax_main import AjaxMain
 from ui.chart_api import ChartPage
 from ui.gadget import GadgetPage
 from ui.feedback import FeedbackProcessor, FeedbackReader
-from ui.admin_pages import ViewSessions, AdminMainPage
+from ui.admin_pages import ViewSessions, AdminMainPage, UploadImage
 from ui.error_pages  import MissingPage
 from ui.content_preview import ContentPreview
+from ui.image import ServeImage
 import lib.datastore_cache
 
 
@@ -34,6 +35,7 @@ def get_admin_pages():
     return [('/admin/feedback', FeedbackReader),
             ('/admin/sessions', ViewSessions),
             ('/admin/preview', AdminPreviewImage),
+            ('/admin/upload_image', UploadImage),
             ('/admin/', AdminMainPage),
             ]
 
@@ -61,6 +63,8 @@ def main():
              ('/save', SaveData),
              ('/load', LoadData),
              ('/import_csv', ImportData),
+
+             ('/dbimages/(.*)', ServeImage),
 
              ('/attr_table', AjaxAttributes),
              ('/chart', ChartPage),
