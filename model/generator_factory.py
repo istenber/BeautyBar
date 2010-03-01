@@ -27,7 +27,7 @@ class GeneratorFactory(Singleton):
         for generator in ["nature", "standard", "plain", "equalizer", "rocks",
                           "blocks", "shiny", "balls", "paper", "slices",
                           "plates", "bottombar", "gradient", "cityview",
-                          "champions"]:
+                          "champions", "towers"]:
             #if file in skip_files: continue
             #if file.endswith(".py"):
             self.generators.append(self.get_generator(generator + ".py"))
