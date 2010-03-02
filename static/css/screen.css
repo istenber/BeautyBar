@@ -194,9 +194,6 @@
      width             : 490px;
      height            : 320px;
      background-color  : white;
-     text-align        : left;
-     vertical-align    : top;
-     padding           : 5px 5px 5px 5px;
  }
 
  .beh_space {
@@ -276,6 +273,15 @@
      vertical-align    : top;
      padding           : 5px 5px 5px 5px;
      height            : 460px;
+     overflow          : auto;
+     overflow-x        : hidden;
+ }
+
+ .editpage {
+     text-align        : left;
+     vertical-align    : top;
+     padding           : 5px 5px 5px 5px;
+     height            : 320px;
      overflow          : auto;
      overflow-x        : hidden;
  }
