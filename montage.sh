@@ -3,10 +3,8 @@
 TMPDIR=`mktemp -d`
 
 GENERATORS=`python2.5 <<EOF
-from model.generator_factory import GeneratorFactory
-gf = GeneratorFactory()
-gf.rated_list()
-for n in map(lambda g: g.get_name(), gf.rated_list()): print n
+import generators
+for n in map(lambda g: g.get_name(), generators.get_list()): print n
 EOF`
 
 PNG_FILE="static/images/generators.png"
