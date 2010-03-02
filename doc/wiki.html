@@ -606,10 +606,50 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201002181336" changecount="153">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201002271328" changecount="170">
 <pre>TODO
 
-* hardcode some default styles, atleast those in spreadsheet-gadget.xml (nature, plain, standard)
+* some fields benefit from different sets of data for relative size and another for visible: for example slalom, 50/1.12:30, 40/1.12:55
+
+* export size option [nnn] x [mmm] input fields to generator info part, or how?
+
+* generator list split to categories: business, sport, science, ...
+
+* scrolling for generator attributes
+
+* title_mapper should calculate width of title - and we should use it
+
+* user should not be able to overwrite chart (or style) made by others
+
+* datasource authentication
+
+* make boolean attribute so that if it is true (or false) some other fields are disabled (for example has_bgcolor and bgcolor)
+
+* do we need titles for axises? x-axis years?
+* do we need title for chart?
+
+* would it be useful to support combined bars? for example 2008: total 130 of which 30 &quot;education&quot; and 100 &quot;other&quot;
+
+* support 3-10 bars
+
+* spreadsheet gadget error support? what happens if there is more (or less) than 6 bars and 2 columns?
+
+* generators should have scale method!!! decorator should be extracted to generator/base.py
+
+* inverse colors for print and presentations?
+
+* spreadsheet gadget title rows? title rows in general?
+
+* logarithmic scale vs. normal scale
+
+* spreadsheet gadget, default &amp; scale choose
+
+* is min in scale required, all bars should start from 0?
+
+* generators: corporate name as common attribute?
+* new generator images for all generators (size 100x80?)
+
+* hardcode some default styles, at least those in spreadsheet-gadget.xml (nature, plain, standard)
 
 * bug? does chart api mess data of saved chart, no but it still saves some data?
 
@@ -622,7 +662,8 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 * common attributes!!!
 
 * spreadsheet gadget:
-** data scaling
+** cannot access private data sources
+** svg is not in ie form
 ** data/titles vs. titles/data
 ** more than 6 rows, less than 6 rows
 ** horizontal vs. vertical (rows and columns)
@@ -631,7 +672,6 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 ** gadget needs to published/verified: http://docs.google.com/support/bin/answer.py?hl=en&amp;answer=160111&amp;hl=en
 
 * make security checks for ajax interface: now it fails with # chars?
-* screen.css #carousel-content: width needs to be updated every time we add or delete generator
 * google-chrome bug: it have preview part (bp_main) 10 pixels too short
 * new tutorial video with new ui
 
