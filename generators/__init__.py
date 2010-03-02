@@ -36,6 +36,7 @@ generators = {
     'towers'     : 3,
     'weights'    : 2,
     'twocolors'  : 2,
+    'sunnysky'   : 2,
     }
 
 
