@@ -275,6 +275,9 @@
      text-align        : left;
      vertical-align    : top;
      padding           : 5px 5px 5px 5px;
+     height            : 460px;
+     overflow          : auto;
+     overflow-x        : hidden;
  }
 
  h1 {
