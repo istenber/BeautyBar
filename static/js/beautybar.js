@@ -9,29 +9,15 @@ var preview = {
     },
     preload: function() {
 	if(Prototype.Browser.IE) {
-	    preview._load_image = preview._load_image_ie;
 	    preview.use_load_image = false;
 	} else if(Prototype.Browser.Opera) {
-	    preview._load_image = preview._load_image_others;
 	    preview.use_load_image = false;
 	} else {
-	    preview._load_image = preview._load_image_others;
 	    preview.use_load_image = true;
 	}
 	preview._output_img = preview._load_image();
     },
-    _load_image_ie: function() {
-	var svg_image = document.createElement('object', true);
-	svg_image.setAttribute('classid', 'image/svg+xml');
-	svg_image.setAttribute('src', '/preview');
-	svg_image.setAttribute('width', '300');
-	svg_image.setAttribute('height', '200');
-	svg_image.setAttribute('id', 'preview_image');
-	svg_image.addEventListener('load', function(evt) {
-		preview._image_loaded(); }, false);
-	return svg_image;
-    },
-    _load_image_others: function() {
+    _load_image: function() {
 	var svg_image = document.createElement('object', true);
 	svg_image.setAttribute('type', 'image/svg+xml');
 	svg_image.setAttribute('data', '/preview');
