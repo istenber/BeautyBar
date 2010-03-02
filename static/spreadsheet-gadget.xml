@@ -33,6 +33,9 @@
 	 preferred_height="300"
 	 preferred_width="200"><![CDATA[
 
+<script type="text/javascript" src="http://beauty-bar.appspot.com/svgweb/svg.js"
+        data-path="http://beauty-bar.appspot.com/svgweb"></script>
+
 <script src="http://www.google.com/jsapi" type="text/javascript"></script>
 
 <div id="tablediv" style="overflow: auto;">
@@ -44,7 +47,11 @@ Receiving data from <a href="http://beauty-bar.appspot.com" target="_top">http:/
 var beautybar_url = 'http://beauty-bar.appspot.com/';
 var style_name = 'standard';
 
-_IG_RegisterOnloadHandler(createChart);
+_IG_RegisterOnloadHandler(sleepAndLoad);
+
+function sleepAndLoad() {
+  setTimeout('createChart();', 1000);
+}
 
 function createChart() {
   var prefs = new _IG_Prefs();
@@ -60,9 +67,11 @@ function createChart() {
   svg_image.setAttribute('type', 'image/svg+xml');
   svg_image.setAttribute('data', url);
   svg_image.setAttribute('id', 'o_img');
-  var my_chart = _gel('tablediv');
+  svg_image.setAttribute('width', document.body.clientWidth);
+  svg_image.setAttribute('height', document.body.clientHeight);
+  var my_chart = document.getElementById('tablediv');
   my_chart.innerHTML = '';
-  my_chart.appendChild(svg_image);
+  svgweb.appendChild(svg_image, my_chart);
 };
 
 function convertAmpersand(text) {
