@@ -54,7 +54,7 @@ class GadgetPage(webapp.RequestHandler):
         if not ds.is_ok(): return self._default_data("Broken datasource: " +
                                                      datasource)
         d = Data.read_datasource(ds)
-        if d == None: self._default_data("Incorrect (size?) datasource")
+        if d is None: return self._default_data("Incorrect (size?) datasource")
         return (ds.get_signature(), d)
 
     def _get_size(self):
