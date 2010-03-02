@@ -606,88 +606,35 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201002271328" changecount="170">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201003021415" changecount="178">
 <pre>TODO
 
-* some fields benefit from different sets of data for relative size and another for visible: for example slalom, 50/1.12:30, 40/1.12:55
-
-* export size option [nnn] x [mmm] input fields to generator info part, or how?
-
-* generator list split to categories: business, sport, science, ...
-
-* scrolling for generator attributes
-
-* title_mapper should calculate width of title - and we should use it
-
-* user should not be able to overwrite chart (or style) made by others
-
-* datasource authentication
-
-* make boolean attribute so that if it is true (or false) some other fields are disabled (for example has_bgcolor and bgcolor)
-
-* do we need titles for axises? x-axis years?
-* do we need title for chart?
-
-* would it be useful to support combined bars? for example 2008: total 130 of which 30 &quot;education&quot; and 100 &quot;other&quot;
-
-* support 3-10 bars
-
-* spreadsheet gadget error support? what happens if there is more (or less) than 6 bars and 2 columns?
-
+* improve feedback view/send feedback button to ajax?
 * generators should have scale method!!! decorator should be extracted to generator/base.py
-
-* inverse colors for print and presentations?
-
-* spreadsheet gadget title rows? title rows in general?
-
-* logarithmic scale vs. normal scale
-
-* spreadsheet gadget, default &amp; scale choose
-
-* is min in scale required, all bars should start from 0?
-
-* generators: corporate name as common attribute?
-* new generator images for all generators (size 100x80?)
-
-* hardcode some default styles, at least those in spreadsheet-gadget.xml (nature, plain, standard)
-
-* bug? does chart api mess data of saved chart, no but it still saves some data?
-
-* bug: style is not always saved correctly? when and why are still open
-
-* saved chart should only save active generator
-
-* change all generators to use number scaler
-* generators should have more attributes!
-* common attributes!!!
-
+* make common attributes! 
+** corporate name
+** color theme?
+* fix generators scale support, 3-10 row support
+* (gadget + chart_api + mainpage) ie testing
+* gadget/chart_api error handling: don't show default chart but error msg
+* more preview things.. google docs, blogger entry, igoogle, etc.
+* user should not be able to overwrite chart (or style) made by others
 * spreadsheet gadget:
-** cannot access private data sources
-** svg is not in ie form
 ** data/titles vs. titles/data
 ** more than 6 rows, less than 6 rows
-** horizontal vs. vertical (rows and columns)
-** titles and legends to chart
 ** first row is last bar or first bar?
 ** gadget needs to published/verified: http://docs.google.com/support/bin/answer.py?hl=en&amp;answer=160111&amp;hl=en
-
-* make security checks for ajax interface: now it fails with # chars?
-* google-chrome bug: it have preview part (bp_main) 10 pixels too short
-* new tutorial video with new ui
-
-* publish button (to file page) which publish style to _gallery_, and from _gallery_ users can see best styles and rate them, maybe tag clouds?
-* we need simpler way to save (ctrl-s or something)
+* change all generators to use number scaler
 * more admin views, which control system
-* improve feedback view
-
-* allow set_range to support scalable values 1k, should be scaled to 1000
-* make image server which stores images to db
-* how to set title_mapper datas in db: city names, countries, etc... or could we use external service
+* use image server to store more images and change generators (nature) to use it
 * pdf document with chart, and odf document, google docs document
-* some cases title naming might cause scale names to change: for example if titles are languages, scale could be basic, good, perfect
-* change all generators to use title mapper
 
-* change spreadsheet-gadget.xml to use some javascript in image part as choosing option: best style images and load field
+HARD
+
+* montage.sh does not work in /tmp/export (aka. send-to-google.sh script)
+* generators support only public datasources
+* make boolean attribute so that if it is true (or false) some other fields are disabled (for example has_bgcolor and bgcolor)
+* svg to png
 
 Generators
 * generators with images: houses, barrels, factories, batteries
@@ -704,8 +651,20 @@ Generators
 * create &quot;company&quot; generator with company logos
 * should these be here or decorator: title for chart? axis names?
 ** maybe decorator could contain defaults that we could override
+* do we need titles for axises? x-axis years?
+* do we need title for chart?
+* would it be useful to support combined bars? for example 2008: total 130 of which 30 &quot;education&quot; and 100 &quot;other&quot;
+* inverse colors for print and presentations?
+* how to set title_mapper datas in db: city names, countries, etc... or could we use external service
+* some cases title naming might cause scale names to change: for example if titles are languages, scale could be basic, good, perfect
+* change all generators to use title mapper
+* title_mapper should calculate width of title - and we should use it
 
 Data
+* allow set_range to support scalable values 1k, should be scaled to 1000
+* spreadsheet gadget title rows? title rows in general?
+* logarithmic scale vs. normal scale
+* is min in scale required, all bars should start from 0?
 * for all generators, we could use data in various order
 ** set by user
 ** value size
@@ -718,21 +677,22 @@ Data
 * import data should use range (min, max) somehow
 * feedback sending better... it should inform when feedback is sent, not when button is pressed
 * live data sources, imports from open office, excel and google docs
+* some fields benefit from different sets of data for relative size and another for visible: for example slalom, 50/1.12:30, 40/1.12:55
 
 UI
 
-* generator list up and down buttons
+* export size option [nnn] x [mmm] input fields to generator info part, or how?
+* generator list split to categories: business, sport, science, ...
 * common parameters: frame, medals, flowers
 * add caching for google chart api (or spreadsheet widget) before scaling
 * implement CTRL-s or some other kind (for example save button) way to save style all the time
+* file/save should have by default old saved name, if chart is saved before
+* saved chart should only save active generator, or?
 * fix chart api not save anything to database (and not making therefore any puts which make it slow)
 * ui could contain some &quot;hidden&quot; fields which activate when advanced option is selected
 * user could define some settings: use png images instead of svg, force flash rendering?
 * could svg image made interactive with javascript (or maybe png with image map?)
-* css changes to make text look nicer and have better margins, etc.
-* change window size to 900x600? (tmp/screen.css-new-style)
 * implement user accounts
-* make buttons to &quot;glow&quot; when page is active
 * separate deleted data in db
 * make some database analytics hooks: maybe one analytic base class, which collects information when user enters page
 * svg image update could send only diffs... big improvement, but hard to implement
@@ -740,6 +700,7 @@ UI
 
 Other
 
+* change spreadsheet-gadget.xml to use some javascript in image part as choosing option: best style images and load field
 * make few blogs (or blog entries) with some nice charts
 * make few google docs with nice charts - and otherwise nice as well
 * find some page with crappy chart but otherwise nice, and replace it with page with nice charts
@@ -757,7 +718,15 @@ Other
 * internalization
 * sitemap.xml
 * beauty-doc, same as beauty-bar but for full documents
-
+* spreadsheet gadget update time
+* spreadsheet gadget: scale choosing: min, max or automatic
+* hardcode some default styles, at least those in spreadsheet-gadget.xml (nature, plain, standard), and store them in db
+* bug? does chart api mess data of saved chart, no but it still saves some data?
+* bug: style is not always saved correctly? when and why are still open
+* make security checks for ajax interface: now it fails with # chars?
+* google-chrome bug: it have preview part (bp_main) 10 pixels too short
+* new tutorial video with new ui
+* publish button (to file page) which publish style to _gallery_, and from _gallery_ users can see best styles and rate them, maybe tag clouds?
 
 KnownBugs is our bug database
 RandomMarks aka. small ideas
