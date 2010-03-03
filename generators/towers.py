@@ -27,7 +27,10 @@ class Towers(SvgFigGenerator):
     def get_elements(self):
         c0 = self.bgcolor
         c1 = darker_color(self.bgcolor, 30)
-        c2 = darker_color(self.bgcolor, 60)        
+        c2 = darker_color(self.bgcolor, 60)
+        self.calc(edge_width = 15,
+                  bar_size = 100,
+                  font_size = 12)
         return SVG("g",
                    self.get_bg(c0),
                    self.get_grid(c1, c2),
@@ -39,12 +42,12 @@ class Towers(SvgFigGenerator):
         g = SVG("g")
         if self.bold_font:
             style="fill:#" + color + ";text-anchor:middle;font-weight:bold;"
-            fs = 11
+            fs = self.calc.font_size - 1
         else:
             style="fill:#" + color + ";text-anchor:middle;"
-            fs = 13
-        for i in range(0, 6):
-            x = 37 + 45 * i
+            fs = self.calc.font_size
+        for i in range(0, self.get_row_count()):
+            x = self.calc.middle(i)
             name = self.get_row_name(i, max_len=6)
             g.append(Text(x, 190, name, font_size=fs, style=style).SVG())
         return g
@@ -74,23 +77,23 @@ class Towers(SvgFigGenerator):
         g = SVG("g")
         bar_style = "fill:#" + darker_color(self.color, 127) + ";"
         border_style = "fill:#" + self.color + ";"
-        bw_half = self.border_width / 2
-        sp_half = self.space_between / 2
-        # 15... [45][45][45][45][45][45] ... 15
-        # 45=space/border/bar...
-        bar_width = 45 - self.space_between - self.border_width
-        for i in range(0, 6):
-            x = 15 + 45 * i
+        k = self.calc.bar_width / 45.0
+        bar_width = int((45 - self.space_between - self.border_width) * k)
+        border_width = int(k * self.border_width)
+        bw_half = int(k * self.border_width / 2)
+        sp_half = int(k * self.space_between / 2)
+        for i in range(0, self.get_row_count()):
+            x = self.calc.left(i)
             h = self.get_row_value(i) * 160            
             g.append(SVG("rect", x=x+sp_half+bw_half,
                          y=170-h, width=bar_width, height=h,
                          style=bar_style))
             if h > 10:
                 g.append(SVG("rect", x=x+sp_half,
-                             y=170-h+10, width=self.border_width, height=h-10,
+                             y=170-h+10, width=border_width, height=h-10,
                              style=border_style))
                 g.append(SVG("rect", x=x+sp_half+bar_width,
-                             y=170-h+10, width=self.border_width, height=h-10,
+                             y=170-h+10, width=border_width, height=h-10,
                              style=border_style))
         return g        
 
@@ -111,4 +114,4 @@ class Towers(SvgFigGenerator):
         return [color, bgcolor, has_frame, bold_font, has_grid, bw, sp]
 
     def get_version(self):
-        return 1
+        return 2
