@@ -18,6 +18,9 @@ class Twocolors(SvgFigGenerator):
         self.dash_grid = True
 
     def get_elements(self):
+        self.calc(edge_width = 10,
+                  bar_size = 70,
+                  font_size = 12)
         return SVG("g",
                    self.get_bg(),
                    self.get_grid(),
@@ -48,13 +51,13 @@ class Twocolors(SvgFigGenerator):
 
     def get_bars(self):
         g = SVG("g")
-        w = 35 - self.ld - self.rd - 4
-        for i in range(0, 6):
-            x = 15 + 45 * i
+        w = self.calc.bar_width - self.ld - self.rd - 4
+        for i in range(0, self.get_row_count()):
+            x = self.calc.left(i)
             h = self.get_row_value(i) * 170
-            g.append(SVG("rect", x=x+5, y=180-h, width=35, height=h,
-                         style="fill:#" + self.color1 + ";"))
-            g.append(SVG("rect", x=x+5+self.rd+2, y=180-h+2,
+            g.append(SVG("rect", x=x, y=180-h, width=self.calc.bar_width,
+                         height=h, style="fill:#" + self.color1 + ";"))
+            g.append(SVG("rect", x=x+self.rd+2, y=180-h+2,
                          width=w, height=h-4,
                          style="fill:#" + self.color2 + ";"))
         return g
@@ -62,10 +65,11 @@ class Twocolors(SvgFigGenerator):
     def get_titles(self):
         g = SVG("g")
         style = "fill:#" + self.color1 + ";text-anchor:middle;"
-        for i in range(0, 6):
-            x = 37 + 45 * i
+        for i in range(0, self.get_row_count()):
+            x = self.calc.middle(i)
             name = self.get_row_name(i, max_len=6)
-            g.append(Text(x, 190, name, font_size=12, style=style).SVG())
+            fs = self.calc.font_size
+            g.append(Text(x, 190, name, font_size=fs, style=style).SVG())
         return g
 
     def get_description(self):
@@ -84,4 +88,4 @@ class Twocolors(SvgFigGenerator):
         return [color1, color2, ld, rd, has_grid, dash_grid]
 
     def get_version(self):
-        return 1
+        return 2
