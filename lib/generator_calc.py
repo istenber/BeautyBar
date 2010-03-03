@@ -7,8 +7,9 @@ If we have default size image (300x200) with default bar count (6), and
 we want to have edges size 10px. Note: actual edge is equal or greater
 then succested edge. Chart should look like: 12 - 23/35 - 69/81 - ... - 12
 
-  >>> g = GeneratorCalc(edge=10)
-  >>> g.get('edge')
+  >>> g = GeneratorCalc()
+  >>> g.calc(edge_width=11)
+  >>> g.edge_width
   12
   >>> g.left(0)
   23
@@ -17,24 +18,33 @@ then succested edge. Chart should look like: 12 - 23/35 - 69/81 - ... - 12
   >>> g.middle(1)
   81
 
-Another example with more bars:
+Another example with more bars and values set in constructor
 
-  >>> g = GeneratorCalc(bar_count=10)
+  >>> g = GeneratorCalc(edge_width=20)
+  >>> g(bar_count=10)
   >>> g.left(3)
-  101
+  104
   >>> g.left(2)
-  73
+  78
   >>> g.middle(4)
-  136
+  137
 
 Sometimes we need also width of chart area, for example to draw background
 
   >>> g = GeneratorCalc()
-  >>> g.get('edge')
+  >>> g.calc()
+  >>> g.edge_width
   12
-  >>> g.get('area')
+  >>> g.area
   276
+
+Fontsize
   
+  >>> g = GeneratorCalc()
+  >>> g.calc(font_size = 12, bar_count = 10)
+  >>> g.font_size
+  10
+
 """
 
 import logging
@@ -42,34 +52,26 @@ import logging
 
 class GeneratorCalc(object):
 
-    def __init__(self, **kw):
-        self._defaults()        
-        w = self.w
-        keys = w.keys()
-        for key in kw.iterkeys():
-            if key in keys:
-                w[key] = int(kw[key])
-            elif hasattr(self, key):
-                self.__dict__[key] = kw[key]
-            else:
-                logging.info("Unknow key: %s" % key)
-        w['area'] = w['chart'] - w['edge'] * 2
-        w['bar_area'] = w['area'] / self.bar_count
-        w['edge'] += w['area'] % self.bar_count / 2
-        w['area'] = w['chart'] - w['edge'] * 2 # recalc with new edge value
-        s0 = int(w['edge'] + w['bar_area'] * (1 - self.bar_size / 100.0) / 2)
-        self.l = map(lambda i: int(i * w['bar_area'] + s0),
-                     range(0, self.bar_count))
-        sm = int(w['edge'] + w['bar_area'] * 0.5)
-        self.m = map(lambda i: int(i * w['bar_area'] + sm),
-                     range(0, self.bar_count))
+    def __init__(self, **kwds):
+        self._defaults()
+        self._handle_kwds(kwds)
 
-
-    def get(self, attr):
-        if attr in self.w.keys():
-            return self.w[attr]
-        logging.error("Try to get missing key: %s" % key)
-        return 0
+    def calc(self, **kwds):
+        self._handle_kwds(kwds)
+        self.area = self.chart_width - self.edge_width * 2
+        self.bar_area = self.area / self.bar_count
+        self.edge_width += self.area % self.bar_count / 2
+        self.area = self.chart_width - self.edge_width * 2
+        self.bar_width = int(self.bar_area * self.bar_size / 100.0)
+        self.font_size = int((5 + 30.0 / self.bar_count) *
+                             self.font_size / 12.0)
+        s0 = int(self.edge_width + self.bar_area *
+                 (1 - self.bar_size / 100.0) / 2)
+        self.l = map(lambda i: int(i * self.bar_area + s0),
+                     range(0, self.bar_count))
+        sm = int(self.edge_width + self.bar_area * 0.5)
+        self.m = map(lambda i: int(i * self.bar_area + sm),
+                     range(0, self.bar_count))
 
     def middle(self, index):
         if self._check_bounds(index):
@@ -84,15 +86,24 @@ class GeneratorCalc(object):
     def _defaults(self):
         self.bar_count = 6
         self.bar_size = 50        # (%)  bar size of bar space
-        self.w = {'chart' : 300,  # (px) chart width
-                  'edge'  : 10,   # (px) space in edge
-                  }
+        self.chart_width = 300    # (px) chart width
+        self.edge_width = 10      # (px) space in edge
+        self.font_size = 12
 
     def _check_bounds(self, index):
         if index < 0 or index >= self.bar_count:
             logging.error("Index out of bounds: %d" % index)
             return False
         return True
+
+    def _handle_kwds(self, kwds):
+        for key in kwds.iterkeys():
+            if hasattr(self, key):
+                self.__dict__[key] = kwds[key]
+            else:
+                logging.info("Unknow key: %s" % key)
+
+    __call__ = calc
 
 
 def main():

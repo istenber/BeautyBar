@@ -14,6 +14,9 @@ class Bottombar(SvgFigGenerator):
         self.font_size = 12
 
     def get_elements(self):
+        self.calc(edge_width = 10,
+                  bar_size = 70,
+                  font_size = self.font_size)
         return SVG("g", 
                    self.get_bottom_bar(),
                    self.get_grid(),
@@ -24,11 +27,12 @@ class Bottombar(SvgFigGenerator):
         bottom_bar.append(SVG("rect", x=0, y=170, width=300, height=30,
                               style="fill:#000000"))
         text_style = "fill:#" + self.color + "; text-anchor:middle;"
-        for i in range(0, 6):
-            name = self.get_row_name(i, max_len=6)
-            x = 25 + i * 50
-            t = Text(x, 190, name, font_size=self.font_size,
-                     style=text_style).SVG()
+        for i in range(0, self.get_row_count()):
+            t = Text(self.calc.middle(i),
+                     190,
+                     self.get_row_name(i, max_len=6),
+                     font_size = self.calc.font_size,
+                     style = text_style).SVG()
             bottom_bar.append(t)
         return bottom_bar
 
@@ -44,13 +48,15 @@ class Bottombar(SvgFigGenerator):
         bars = SVG("g")
         shadow_style = "fill:#000000;"
         bar_style = "fill:#" + self.color + ";"
-        for i in range(0, 6):
+        for i in range(0, self.get_row_count()):
             h = self.get_row_value(i) * 160
             sh = max(h - 5, 0)
-            x = 10 + i * 50
-            shadow = SVG("rect", x=x-1, y=170-sh, width=30, height=sh,
+            # x = 10 + i * 50
+            x = self.calc.left(i)
+            w = self.calc.bar_width
+            shadow = SVG("rect", x=x-1, y=170-sh, width=w, height=sh,
                          style=shadow_style)
-            bar = SVG("rect", x=x+1, y=170-h, width=30, height=h,
+            bar = SVG("rect", x=x+1, y=170-h, width=w, height=h,
                       style=bar_style)
             bars.append(shadow)            
             bars.append(bar)
@@ -66,3 +72,6 @@ class Bottombar(SvgFigGenerator):
         color = Color(self, "color", "Color")
         font_size = Integer(self, "font_size", "Font Size", 8, 17, 12)
         return [color, font_size]
+
+    def get_version(self):
+        return 2

@@ -23,40 +23,26 @@ class SvgFigGenerator(BaseGenerator):
 
        >>> class Gen(SvgFigGenerator):
        ...   def get_elements(self):       
-       ...     self.v = self.get('edge')
+       ...     self.calc(edge_width = 15)
        ...     return SVG('g')
        >>> g = Gen()
+       >>> for i in range(0, 3): g.add_row('a', 10)
        >>> g.output()[:10]
        u'<?xml vers'
-       >>> g.v
-       12
-
-    Shortcuts...
-
-       >>> g.get('edge')
-       12
-       >>> g.left(0)
-       23
+       >>> g.calc.edge_width
+       15
+       >>> g.calc.left(0)
+       37
 
     """
 
-    def get(self, attr):
-        if not hasattr(self, "calc"):
-            self.calc = GeneratorCalc()
-        return self.calc.get(attr)
-    
-    def left(self, index):
-        if not hasattr(self, "calc"):
-            self.calc = GeneratorCalc()
-        return self.calc.left(index)
-
-    def middle(self, index):
-        if not hasattr(self, "calc"):
-            self.calc = GeneratorCalc()
-        return self.calc.middle(index)
+    def __init__(self):
+        BaseGenerator.__init__(self)
+        self.calc = GeneratorCalc()
 
     def output(self):
         svg = SVG("svg")
+        self.calc.bar_count = self.get_row_count()
         if hasattr(self, "get_defs"):
             svg.append(self.get_defs())
         svg.append(self.get_elements())
