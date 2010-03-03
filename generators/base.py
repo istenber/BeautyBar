@@ -87,10 +87,6 @@ class BaseGenerator(GuiInterface, ProcessInterface):
         return NumberScaler().scale(pos * (self.max - self.min) + self.min,
                                     round=False)
 
-# TODO: move data from generator factory to here
-
-def get_diagrams():
-    return ["standard", "houses", "paper", "shiny"]
 
 if __name__ == '__main__':
     import doctest
