@@ -606,7 +606,7 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201003021415" changecount="178">
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201003031120" changecount="181">
 <pre>TODO
 
 * improve feedback view/send feedback button to ajax?
@@ -628,10 +628,11 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 * more admin views, which control system
 * use image server to store more images and change generators (nature) to use it
 * pdf document with chart, and odf document, google docs document
-
-HARD
-
 * montage.sh does not work in /tmp/export (aka. send-to-google.sh script)
+* ui data editpage to support 3-10 rows
+
+BIGS
+
 * generators support only public datasources
 * make boolean attribute so that if it is true (or false) some other fields are disabled (for example has_bgcolor and bgcolor)
 * svg to png
@@ -727,6 +728,11 @@ Other
 * google-chrome bug: it have preview part (bp_main) 10 pixels too short
 * new tutorial video with new ui
 * publish button (to file page) which publish style to _gallery_, and from _gallery_ users can see best styles and rate them, maybe tag clouds?
+* renaming
+** model/utils.py to lib/string_tools.py
+** model/number_scaler.py to lib/number_scaler.py
+** lib/utils.py to lib/svg_tools.py
+** all external components to ext/ : jscolor, svgweb, svgfig, etc.
 
 KnownBugs is our bug database
 RandomMarks aka. small ideas
