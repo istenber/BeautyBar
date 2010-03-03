@@ -63,8 +63,8 @@ class GeneratorCalc(object):
         self.edge_width += self.area % self.bar_count / 2
         self.area = self.chart_width - self.edge_width * 2
         self.bar_width = int(self.bar_area * self.bar_size / 100.0)
-        self.font_size = int((5 + 30.0 / self.bar_count) *
-                             self.font_size / 12.0)
+        self.font_size = min(int((5 + 30.0 / self.bar_count) *
+                                 self.font_size / 12.0), self.font_size)
         s0 = int(self.edge_width + self.bar_area *
                  (1 - self.bar_size / 100.0) / 2)
         self.l = map(lambda i: int(i * self.bar_area + s0),
