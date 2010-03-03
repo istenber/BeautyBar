@@ -2,7 +2,7 @@
 
 if __name__ == '__main__':
     import sys
-    sys.path.append('..')
+    sys.path.append('/home/sankari/dev/beautybar')
 
 
 from gui_interface import GuiInterface
@@ -30,10 +30,10 @@ class BaseGenerator(GuiInterface, ProcessInterface):
 
           >>> b = BaseGenerator()
           >>> b.add_row('what a nice day today', 123456)
-          >>> b.get_name(0)
-          'what a n...'
+          >>> b.get_row_name(0)
+          'what a n..'
           >>> b.add_row('shorttitle', 111)
-          >>> b.get_name(1)
+          >>> b.get_row_name(1)
           'shorttitle'
 
         """
@@ -48,11 +48,11 @@ class BaseGenerator(GuiInterface, ProcessInterface):
           >>> b = BaseGenerator()
           >>> b.set_range(0, 1000)
           >>> b.add_row('what a nice day today', 1000)
-          >>> b.get_value(0)
+          >>> b.get_row_value(0)
           1.0
           >>> b.set_range(500, 1000)
           >>> b.add_row('another', 750)
-          >>> b.get_value(1)
+          >>> b.get_row_value(1)
           0.5
 
         """
@@ -65,7 +65,7 @@ class BaseGenerator(GuiInterface, ProcessInterface):
           >>> b = BaseGenerator()
           >>> b.set_range(0, 1000)
           >>> b.add_row('what a nice day today', 1000)
-          >>> b.get_value_str(0)
+          >>> b.get_row_value_str(0)
           '1k'
 
         """
