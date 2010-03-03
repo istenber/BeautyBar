@@ -5,7 +5,8 @@ if __name__ == '__main__':
     sys.path.append('/home/sankari/dev/beautybar')
 
 
-import generators
+from generators.__init__ import get_rating
+
 
 class GuiInterface(object):
     """Interface to show diagram info for users."""
@@ -45,7 +46,7 @@ class GuiInterface(object):
     def get_rating(self):
         """Returns rating for chart. This is not chart property as is,
         but is useful to have here. One should NOT override this method"""
-        return generators.get_rating(self.get_name())
+        return get_rating(self.get_name())
 
 
 def main():
@@ -58,7 +59,8 @@ Usage: ./generators/gui_interface.py <filename.py>
 """)
     out = ("\nGuiInterface of \"" + diagram.get_ui_name() + "\" (" +
            diagram.get_name() + "):\n" +
-           "[ Interface version: " + str(diagram.get_version()) + " ]\n" +
+           "[ Interface version: " + str(diagram.get_version()) +
+           " - Rating : " + str(diagram.get_rating()) + " ]\n" +
            "---------------------------------------\n" +
            diagram.get_description() + "\n" +
            "---------------------------------------\n")
