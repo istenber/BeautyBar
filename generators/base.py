@@ -25,16 +25,16 @@ class BaseGenerator(GuiInterface, ProcessInterface):
     def get_row_count(self):
         return len(self.rows)
 
-    def get_row_name(self, row, max_len=10):
+    def get_row_name(self, row, max_len=6):
         """ Return name with max 10 chars
 
           >>> b = BaseGenerator()
           >>> b.add_row('what a nice day today', 123456)
           >>> b.get_row_name(0)
-          'what a n..'
-          >>> b.add_row('shorttitle', 111)
+          'what..'
+          >>> b.add_row('title', 111)
           >>> b.get_row_name(1)
-          'shorttitle'
+          'title'
 
         """
         name = self.rows[row][0]
