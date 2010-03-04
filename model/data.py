@@ -10,7 +10,8 @@ import math
 from model.utils import unquote
 
 
-max_items=6
+max_items=10
+min_items=3
 
 
 def to_float(value):
@@ -41,14 +42,6 @@ class Item(object):
       >>> unicode(Item(value='incorrect'))
       u'name: no name, value: 0.0, row 1'
 
-    And does not allow too big row numbers...
-
-      >>> unicode(Item(row=20))
-      ...
-      Traceback (most recent call last):
-      ...
-      ValueError: Incorrect row: 20
-
     """
 
     def __init__(self, name = 'no name', value = 0.0, row = 1):
@@ -63,8 +56,6 @@ class Item(object):
         self.value = to_float(value)
 
     def set_row(self, row):
-        if row <= 0 or row > max_items:
-            raise ValueError('Incorrect row: ' + str(row))
         self.row = row
 
     def __cmp__(self, other):
@@ -129,9 +120,8 @@ class Data(object):
           True
 
         """
-        item_count = len(self.get_items())
-        if item_count != self.max_len():
-            logging.info('Wrong number of items: ' + str(item_count))
+        if not self.is_valid_len(len(self.get_items())):
+            logging.info('Wrong number of items')
             return False
         if not self._all_in_range(self.min, self.max):
             logging.info('Some items out of range')
@@ -175,16 +165,12 @@ class Data(object):
           False
 
         """
-        if len(self.get_items()) < self.max_len():
-            if self.value_ok(item.value):
-                self._add_item(item)
-                return True
-            else:
-                logging.debug('Object (' + item.name + ':' +
-                             str(item.value) + ') not in range')
-                return False
+        if self.value_ok(item.value):
+            self._add_item(item)
+            return True
         else:
-            logging.debug('Too many objects')
+            logging.debug('Object (' + item.name + ':' +
+                          str(item.value) + ') not in range')
             return False
 
     def _all_in_range(self, min, max):
@@ -254,6 +240,10 @@ class Data(object):
           u'name: d, value: 30.0, row 4'
           u'name: e, value: 40.0, row 5'
           u'name: f, value: 50.0, row 6'
+          u'name: g, value: 40.0, row 7'
+          u'name: h, value: 30.0, row 8'
+          u'name: i, value: 20.0, row 9'
+          u'name: j, value: 10.0, row 10'
 
         """
         return sorted(self.get_items())
@@ -302,8 +292,13 @@ class Data(object):
 
     @classmethod
     def max_len(cls):
-        """ Max len - or actually only valid - lenght of item list """
+        """ Max lenght of items """
         return max_items
+
+    @classmethod
+    def is_valid_len(cls, amount):
+        """ Valid amount of items """
+        return amount >= min_items and amount <= max_items
 
     @classmethod
     def default_simple(cls):
@@ -314,8 +309,10 @@ class Data(object):
           15.0
 
         """
-        return cls.default_data_set(['a', 10.0], ['b', 15.0], ['c', 20.0],
-                                    ['d', 30.0], ['e', 40.0], ['f', 50.0],
+        return cls.default_data_set([['a', 10.0], ['b', 15.0], ['c', 20.0],
+                                     ['d', 30.0], ['e', 40.0], ['f', 50.0],
+                                     ['g', 40.0], ['h', 30.0], ['i', 20.0],
+                                     ['j', 10.0]],
                                     min = 0.0, max = 50.0)
 
     @classmethod
@@ -327,9 +324,9 @@ class Data(object):
           657.0
 
         """
-        return cls.default_data_set(['2005', 193.0], ['2006', 465.0],
-                                    ['2007', 505.0], ['2008', 657.0],
-                                    ['2009', 315.0], ['2010', 602.0],
+        return cls.default_data_set([['2005', 193.0], ['2006', 465.0],
+                                     ['2007', 505.0], ['2008', 657.0],
+                                     ['2009', 315.0], ['2010', 602.0]],
                                     min = 0.0, max = 1000.0)
 
     @classmethod
@@ -341,22 +338,22 @@ class Data(object):
           0.0
 
         """
-        return cls.default_data_set(['', 0.0], ['', 0.0], ['', 0.0],
-                                    ['', 0.0], ['', 0.0], ['', 0.0],
+        return cls.default_data_set([['', 0.0], ['', 0.0], ['', 0.0],
+                                     ['', 0.0], ['', 0.0], ['', 0.0]],
                                     min = 0.0, max = 100.0)
 
     default=default_google
 
     @classmethod
-    def default_data_set(cls, a, b, c, d, e, f, min = min, max = max):
+    def default_data_set(cls, items, min = min, max = max):
         """ Takes data in raw format and returns Data """
         s = cls.objfac('Data', name = '', min = min, max = max, locked = False)
-        s.add_item(cls.objfac('Item', name = a[0], value = a[1], row = 1))
-        s.add_item(cls.objfac('Item', name = b[0], value = b[1], row = 2))
-        s.add_item(cls.objfac('Item', name = c[0], value = c[1], row = 3))
-        s.add_item(cls.objfac('Item', name = d[0], value = d[1], row = 4))
-        s.add_item(cls.objfac('Item', name = e[0], value = e[1], row = 5))
-        s.add_item(cls.objfac('Item', name = f[0], value = f[1], row = 6))
+        if not cls.is_valid_len(len(items)):
+            logging.info("Wrong amount of default data")
+            return None
+        for i in range(0, len(items)):
+            s.add_item(cls.objfac('Item', row = i + 1,
+                                  name = items[i][0], value = items[i][1]))
         return s
 
     @classmethod
@@ -383,7 +380,7 @@ class Data(object):
             logging.info("Datasource valid")
             return None
         rows = datasource.get_rows()
-        if len(rows) != 6:
+        if not cls.is_valid_len(len(rows)):
             logging.info("Wrong number of rows")
             return None
         if len(rows[0]) != 2:
@@ -434,9 +431,6 @@ class Data(object):
         for line in csv.splitlines():
             if line.strip() == '': continue
             lines.append(line)
-        if len(lines) < cls.max_len():
-            logging.debug('Too few lines (' + str(len(lines)) + ') in CSV')
-            return None
         for delim in [',', '.', ':', '\t']:
             d = cls.objfac('Data', name='', min=0.0, max=50.0, locked=False)
             d.autorange()
@@ -488,21 +482,25 @@ class Data(object):
           None
 
         """
+        # TODO: why not set min and max in constructor
         d = cls.objfac('Data', name='', min=0.0, max=50.0, locked=False)
         d.set_min(min)
         d.set_max(max)
-        if (len(names) != cls.max_len() or len(values) != cls.max_len()):
-            logging.debug('Wrong size arrays')
+        l = len(names)
+        if not cls.is_valid_len(l):
+            logging.debug('Wrong size array')
             return None
-        for row in range(0, cls.max_len()):
-            item = cls.objfac('Item', name=names[row], row=row+1)
+        if l != len(values):
+            logging.debug('Different size arrays')
+            return None
+        for row in range(0, l):
             value = values[row]
             if not d.value_ok(value):
                 value = unquote(value)
             if not d.value_ok(value):
                 logging.debug('Value not accetable')
                 return None
-            item.set_value(value)
+            item = cls.objfac('Item', name=names[row], value=value, row=row+1)
             if not d.add_item(item):
                 logging.debug('Incorrect item')
                 return None
