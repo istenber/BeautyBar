@@ -339,12 +339,11 @@ class Data(object):
         """ Return default data
 
           >>> d = Data.default_clean()
-          >>> d.get_items()[4].value
+          >>> d.get_items()[2].value
           0.0
 
         """
-        return cls.default_data_set([['', 0.0], ['', 0.0], ['', 0.0],
-                                     ['', 0.0], ['', 0.0], ['', 0.0]],
+        return cls.default_data_set([['', 0.0], ['', 0.0], ['', 0.0]],
                                     min = 0.0, max = 100.0)
 
     default=default_google
