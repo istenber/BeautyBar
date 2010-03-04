@@ -63,7 +63,7 @@ class ChartPage(webapp.RequestHandler):
         self.data_min = 0
         self.data_max = 4095
         values = []
-        for index in range(0, 12, 2):
+        for index in range(0, len(value_str), 2):
             a = ord(value_str[index])
             b = ord(value_str[index+1])
             if (a == ord("_") and b == ord("_")):
@@ -97,14 +97,13 @@ class ChartPage(webapp.RequestHandler):
                 logging.info("Cannot encode char: \"" +
                              value_str[index+1] + "\"")
             values.append(val)
-
         return values
 
     def _simple_encoding(self, value_str):
         self.data_min = 0
         self.data_max = 61
         values = []
-        for index in range(0, 6):
+        for index in range(0, len(value_str)):
             char = ord(value_str[index])
             if (char >= ord("A") and char <= ord("Z")):
                 values.append(char - ord("A"))
@@ -135,7 +134,7 @@ class ChartPage(webapp.RequestHandler):
         if len(values) != len(names):
             return self._default_data("Names len is not equal to values len")
         # TODO: allow variable number of values in future
-        if len(values) != 6:
+        if not Data.is_valid_len(len(values)):
             return self._default_data("Wrong amount of data")
         if values is None:
             return self._default_data("Incorrect encoding: \"" +

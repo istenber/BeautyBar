@@ -489,6 +489,7 @@ class Data(object):
         """
         # TODO: why not set min and max in constructor
         d = cls.objfac('Data', name='', min=0.0, max=50.0, locked=False)
+        # these are needed as min and max might not be floats by default
         d.set_min(min)
         d.set_max(max)
         l = len(names)
@@ -505,7 +506,10 @@ class Data(object):
             if not d.value_ok(value):
                 logging.debug('Value not accetable')
                 return None
-            item = cls.objfac('Item', name=names[row], value=value, row=row+1)
+            item = cls.objfac('Item', name=names[row], value=0.0, row=row+1)
+            # we have use set_value, as it converts values to float and
+            # current databasemapper prevents constructor to do it
+            item.set_value(value)
             if not d.add_item(item):
                 logging.debug('Incorrect item')
                 return None
