@@ -8,7 +8,8 @@ from ui.extra_pages import LearnPage, AboutPage
 from ui.output_image import PreviewImage, SvgImage, AdminPreviewImage
 from ui.data_operations import (CleanData, LoadData, SaveData,
                                 ImportData, Dataset)
-from ui.ajax_modify import AjaxModifyName, AjaxModifyValue, AjaxRange
+from ui.ajax_modify import (AjaxModifyName, AjaxModifyValue, AjaxRange,
+                            AjaxAddRow, AjaxDelRow)
 from ui.ajax_generator import AjaxGenerator, AjaxAttributes, AjaxSetAttribute
 from ui.ajax_main import AjaxMain
 from ui.chart_api import ChartPage
@@ -57,6 +58,8 @@ def main():
              ('/set_range', AjaxRange),
              ('/set_generator', AjaxGenerator),
              ('/set_attr', AjaxSetAttribute),
+             ('/add_row', AjaxAddRow),
+             ('/del_row', AjaxDelRow),
 
              ('/dataset', Dataset),
              ('/clean', CleanData),

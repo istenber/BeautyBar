@@ -296,6 +296,11 @@ class Data(object):
         return max_items
 
     @classmethod
+    def min_len(cls):
+        """ Min lenght of items """
+        return min_items
+
+    @classmethod
     def is_valid_len(cls, amount):
         """ Valid amount of items """
         return amount >= min_items and amount <= max_items

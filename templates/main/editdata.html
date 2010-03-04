@@ -16,6 +16,11 @@
 </table>
 
 <p>
+<input type="button" value="Add row" onclick="data.add_row();" />
+<input type="button" value="Del row" onclick="data.del_row();" />
+</p>
+
+<p>
 Range from <input type="text" size="4" id="r_min" value="{{ r_min|floatformat }}" onblur="data.set_min();"> to <input size="4" type="text" id="r_max" value="{{ r_max|floatformat }}" onblur="data.set_max();">.
 </p>
 

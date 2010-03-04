@@ -18,6 +18,20 @@ class AjaxBase(SessionPage):
         self.response.out.write("out:" + str(out))
 
 
+class AjaxAddRow(AjaxBase):
+
+    def real_get(self):
+        self.data.add_empty()
+        return 0
+
+
+class AjaxDelRow(AjaxBase):
+
+    def real_get(self):
+        self.data.del_last()
+        return 0
+
+
 class AjaxRange(AjaxBase):
 
     def real_get(self):

@@ -82,6 +82,26 @@ class Data(Dao, model.data.Data):
     def get_items(self):
         return Item.get(self.items)
 
+    # TODO: hacky workaround, FIX
+    def add_empty(self):
+        row = len(self.get_items()) + 1
+        if row <= self.max_len():
+            i = Item(name='', value=0.0, row=row)
+            i.put()
+            self.add_item(i)
+            self.put()
+
+    # TODO: hacky workaround, FIX
+    def del_last(self):
+        row = len(self.get_items()) - 1
+        if row >= self.min_len():
+            i = self.items[row]
+            # TODO: could we delete this from db as welll??x
+            # item = db.get(i)
+            # item.delete()
+            del self.items[row]
+            self.put()
+
     def _add_item(self, item):
         return self.add_to_list(self.items, item)
 

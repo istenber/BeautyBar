@@ -230,6 +230,12 @@ var data = {
 	ajaxWrapper('/dataset?name=' + name,
 		    this._dataset_updater);
     },
+    add_row: function() {
+	ajaxWrapper('/add_row', this._dataset_updater);
+    },
+    del_row: function() {
+	ajaxWrapper('/del_row', this._dataset_updater);
+    },
     _updater: function(out, limit) {
 	var resp = out.responseText.substr(4);
 	$('r_' + limit).setValue(resp);
