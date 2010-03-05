@@ -17,12 +17,7 @@ class Cityview(SvgFigGenerator):
         self.bgbars_color = "d6ff8f"
         self.fgbars_onecolor = False
         self.fgbars_color = "faffd1"
-        # TODO: random seed and other attributes
         random.seed(300)
-
-    def get_defs(self):
-        defs = SVG("defs", id="defs")
-        return defs
 
     def random_color(self):
         if not hasattr(self, "_colors"):
@@ -36,6 +31,9 @@ class Cityview(SvgFigGenerator):
         return "fill:#" + str(r) + ";"
 
     def get_elements(self):
+        self.calc(edge_width = 10,
+                  bar_size = 80,
+                  font_size = 11)
         return SVG("g",
                    self.get_bg(),
                    self.get_back_bars(),
@@ -67,15 +65,13 @@ class Cityview(SvgFigGenerator):
             style_f = s
         else:
             style_f = self.random_color
-        for i in range(0, 5):
+        for i in range(0, self.get_row_count() - 1):
             m = 100 * min(self.get_row_value(i), self.get_row_value(i+1)) - 20
             if m < 0: continue
             h = int(0.5 * m + 0.5 * random.random() * m)
-            # logging.info("front(" + str(i) + "):" + str(h))            
-            # 300 = 0 + 60 + 0, 5 + 50 + 5
-            x = 5 + 60 * i
+            x = (self.calc.left(i) + self.calc.left(i+1)) / 2
             bar = SVG("rect", x=x, height=h, style=style_f(),
-                      width=50, y=150-h+1)
+                      width=int(self.calc.bar_width * 1.2), y=150-h+1)
             bars.append(bar)
         return bars
 
@@ -87,13 +83,12 @@ class Cityview(SvgFigGenerator):
             style_f = s
         else:
             style_f = self.random_color
-        for i in range(0, 5):
+        for i in range(0, self.get_row_count() - 1):
             h = int(random.random() * 100)
-            # logging.info("back(" + str(i) + "):" + str(h))
-            # 300 = 0 + 60 + 0, 5 + 50 + 5
-            x = 32 + 47 * i
+            r0 = int(random.random() * 10)
+            x = (self.calc.left(i) + self.calc.left(i+1)) / 2 - r0
             bar = SVG("rect", x=x, height=h, style=style_f(),
-                      width=41, y=150-h+1)
+                      width=int(self.calc.bar_width * 1.2), y=150-h+1)
             bars.append(bar)
         return bars
 
@@ -102,18 +97,19 @@ class Cityview(SvgFigGenerator):
         tsw = "fill:#" + self.bgcolor + ";font-weight:bold;text-anchor:middle;"
         tsb = "fill:#" + self.color + ";font-weight:bold;text-anchor:middle;"
         color = "fill:#" + self.color + ";"
+        fs = self.calc.font_size
         for i in range(0, self.get_row_count()):
             h = self.get_row_value(i) * 100
-            # 300 = 9 + 282 / 6 + 9 -> 47 = 6 + 35 + 6... 9+6 = 15
-            x = 15 + 47 * i
+            x = self.calc.left(i)
             bar = SVG("rect", x=x, height=h, style=color,
-                      width=35, y=150-h)
+                      width=self.calc.bar_width, y=150-h)
             bars.append(bar)
-            name = self.get_row_name(i, max_len=7)
+            name = self.get_row_name(i, max_len=6)
+            xm = self.calc.middle(i)
             if h < 20:
-                t = Text(x+17, 148-h, name, font_size=8, style=tsb).SVG()
+                t = Text(xm, 148-h, name, font_size=fs, style=tsb).SVG()
             else:
-                t = Text(x+17, 162-h, name, font_size=8, style=tsw).SVG()
+                t = Text(xm, 162-h, name, font_size=fs, style=tsw).SVG()
             bars.append(t)
         return bars
 
@@ -137,4 +133,4 @@ class Cityview(SvgFigGenerator):
                 fgtitle, fgbars_onecolor, fgbars_color]
 
     def get_version(self):
-        return 1
+        return 2
