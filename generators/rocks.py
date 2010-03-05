@@ -66,8 +66,7 @@ class Rocks(SvgFigGenerator):
 
     def _get_one(self, x_base, width, val):
         g = SVG("g")
-        size = self.rock_size # 10.0 # * (width / 30.0)
-        logging.info("w: " + str(size))
+        size = self.rock_size
         dy = 0.0
         last_dx = width * 1.0
         while dy < val:
