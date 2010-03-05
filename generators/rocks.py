@@ -3,7 +3,7 @@ import math
 from random import Random as Rnd
 
 from svgfig_base import SvgFigGenerator
-from attributes.common import Random, Choice
+from attributes.common import Choice, Integer, Color, Boolean
 
 from lib.svgfig import *
 from lib.utils import *
@@ -13,16 +13,22 @@ class Rocks(SvgFigGenerator):
 
     def __init__(self):
         SvgFigGenerator.__init__(self)
-        self.random = Rnd()
-        self.seed = 1000
         self.color_set = 1
-
-    def get_defs(self):
-        defs = SVG("defs", id="defs")
-        return defs
+        self.rock_size = 12
+        self.tcolor = "000000"
+        self.has_ground = True
+        self.gcolor = "008000"
+        self.random = Rnd()
+        self.random.seed(1000)
 
     def get_elements(self):
-        return SVG("g", self._get_bars())
+        self.calc(edge_width = 10,
+                  bar_size = 90,
+                  font_size = 13)
+        return SVG("g",
+                   self._get_ground(),
+                   self._get_bars(),
+                   self._get_names())
 
     def _my_rnd(self):
         return (self.random.random() - 0.5) * 3
@@ -38,11 +44,32 @@ class Rocks(SvgFigGenerator):
              ]
         return c[self.color_set - 1]
 
-    def _get_one(self, x_base, val):
+    def _get_ground(self):
         g = SVG("g")
-        size = 10.0
+        if self.has_ground:
+            g.append(SVG("rect", x=0, y=155, width=300,
+                         height=15, style="fill:#%s;" % self.gcolor))
+            g.append(SVG("rect", x=0, y=185, width=300,
+                         height=15, style="fill:#%s;" % self.gcolor))
+        return g
+
+    def _get_names(self):
+        names = SVG("g")
+        tstyle = "fill:#%s;text-anchor:middle;font-weight:bold;" % self.tcolor
+        for i in range(0, self.get_row_count()):
+            n = "[" + self.get_row_name(i, max_len=7) + "]"
+            t = Text(self.calc.middle(i), 182, n,
+                     font_size = self.calc.font_size,
+                     style = tstyle).SVG()
+            names.append(t)
+        return names
+
+    def _get_one(self, x_base, width, val):
+        g = SVG("g")
+        size = self.rock_size # 10.0 # * (width / 30.0)
+        logging.info("w: " + str(size))
         dy = 0.0
-        last_dx = 40.0
+        last_dx = width * 1.0
         while dy < val:
             dx = 0.0
             while dx < last_dx - size:
@@ -53,7 +80,7 @@ class Rocks(SvgFigGenerator):
                 h = size + self._my_rnd()
                 w = size + self._my_rnd()
                 x0 = x_base + dx + self._my_rnd()
-                x1 = x_base + dx - size + self._my_rnd()
+                x1 = x_base + dx + size + self._my_rnd()
                 y0 = 160 - dy - size + self._my_rnd()
                 y1 = 160 - dy + self._my_rnd()                
                 xr = self._my_rnd()
@@ -75,15 +102,11 @@ class Rocks(SvgFigGenerator):
         return g
 
     def _get_bars(self):
-        self.random.seed(self.seed)
         bars = SVG("g")
-        if len(self.rows) != 6:
-            logging.error("# wrong number of rows")
-        for bar in range(0, 6):
-            # TODO: counting...
-            x = 20 + 50 * bar
-            value = 100.0 * self.rows[bar][1] / (self.max - self.min)
-            bars.append(self._get_one(x, value))
+        for i in range(0, self.get_row_count()):
+            x = self.calc.left(i)
+            value = self.get_row_value(i) * 100.0
+            bars.append(self._get_one(x, self.calc.bar_width, value))
         return bars
 
     def get_description(self):
@@ -93,7 +116,13 @@ class Rocks(SvgFigGenerator):
         return "Rocks"
 
     def get_attributes(self):
-        seed = Random(self, "seed", "Block randomizer")
         color_set = Choice(self, "color_set", "Color set",
                            ["Rainbow", "Grey", "Dark"])
-        return [seed, color_set]
+        rock_size = Integer(self, "rock_size", "Rock size", 10, 20, 12)
+        tcolor = Color(self, "tcolor", "Text color")
+        has_ground = Boolean(self, "has_ground", "Show ground")
+        gcolor = Color(self, "gcolor", "Ground color")
+        return [color_set, rock_size, tcolor, has_ground, gcolor]
+
+    def get_version(self):
+        return 2
