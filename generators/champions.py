@@ -161,7 +161,8 @@ class Figure(object):
         if hasattr(self, "medal"):
             g.append(self.get_medal(t))
         g.append(SVG("rect", x=12, width=40, y=830, height=30,
-                     style="fill:#ffffff;stroke:#000000;stroke-width:3px;stroke-linejoin:round;",
+                     style=("fill:#ffffff;stroke:#000000;stroke-width:3px;" +
+                            "stroke-linejoin:round;"),
                      transform=t))
         g.append(Text(32, 850, self.text,
                       font_size=17,
@@ -193,6 +194,8 @@ class Champions(SvgFigGenerator):
         return SVG("defs", Figure.get_defs())
 
     def get_elements(self):
+        self.calc(edge_width=5,
+                  bar_size=100)
         return SVG("g",
                    self.get_logo(),
                    self.get_meters(),
@@ -216,12 +219,16 @@ class Champions(SvgFigGenerator):
     def get_names(self):
         g = SVG("g")
         bs = "fill:#ffffff;stroke:#000000;stroke-width:1px;"
-        for i in range(0, 6):
-            x = 5 + i * 50
+        w = self.calc.bar_width * 14 / 15
+        x0 = self.calc.bar_width * 1 / 15
+        max_len = 10 - self.get_row_count() / 2
+        for i in range(0, self.get_row_count()):
+            x = x0 + self.calc.left(i)
             if self.has_boxes:
-                g.append(SVG("rect", x=x, width=40, y=160, height=20, style=bs))
-            name = self.get_row_name(i, max_len=6)
-            g.append(Text(x+20, 175, name, font_size=10,
+                g.append(SVG("rect", x=x, width=w, y=160, height=20, style=bs))
+            name = self.get_row_name(i, max_len=max_len)
+            xm = self.calc.middle(i)
+            g.append(Text(xm, 175, name, font_size=self.calc.font_size,
                           style="fill:#000000;text-anchor:middle;").SVG())
         return g
 
@@ -243,7 +250,7 @@ class Champions(SvgFigGenerator):
 
     def get_medalists(self):
         ordered = []
-        for i in range(0, 6):
+        for i in range(0, self.get_row_count()):
             ordered.append([i, self.get_row_value(i)])
         ordered.sort(cmp=lambda a, b: cmp(a[1], b[1]), reverse=True)
         self.gold = ordered[0][0]
@@ -255,13 +262,13 @@ class Champions(SvgFigGenerator):
         colors = ['000080', '008000', '800000',
                   '808000', '008080', '800080']
         self.get_medalists()
-        for i in range(0, 6):
-            # 300 / 6 = 50
+        sizef = (50 - self.calc.bar_width) / 2
+        for i in range(0, self.get_row_count()):
             if self.single_color:
                 c = self.color
             else:
-                c = colors[i]
-            fig = Figure(x = i*50, color = c,
+                c = colors[i % len(colors)]
+            fig = Figure(x = self.calc.left(i) - sizef, color = c,
                          size = self.get_row_value(i),
                          text = self.get_row_value_str(i),
                          has_head = self.has_head)
@@ -294,4 +301,4 @@ class Champions(SvgFigGenerator):
                 figure, single_color, color, has_head, has_medals]
 
     def get_version(self):
-        return 1
+        return 2
