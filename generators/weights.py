@@ -3,9 +3,13 @@ import random
 
 from svgfig_base import SvgFigGenerator
 from attributes.common import Color, Title, Boolean
-from model.number_scaler import NumberScaler
+from lib.number_scaler import NumberScaler
 
 from lib.svgfig import *
+
+
+def _rounder(n):
+    return int(round(n, -len(str(int(n))) + 1))
 
 
 class Weights(SvgFigGenerator):
@@ -20,11 +24,14 @@ class Weights(SvgFigGenerator):
         random.seed(20)
 
     def count_sizes(self):        
-        self.large = (self.max - self.min) / 6
-        self.normal = self.large / 2
-        self.small = self.normal / 2
+        self.small = _rounder((self.max - self.min) / 24.0)
+        self.normal = self.small * 2
+        self.large = self.normal * 2
 
     def get_elements(self):
+        self.calc(edge_width=20,
+                  bar_size=70,
+                  font_size=13)
         self.field_style = ("fill:#" + self.fcolor + ";stroke:#000000;"
                             "stroke-width:2px;stroke-linejoin:round;")
         self.count_sizes()
@@ -37,7 +44,7 @@ class Weights(SvgFigGenerator):
         if move and self.has_random:
             x = x - 3 + int(random.random() * 6)
             y = y - 1 + int(random.random() * 2)
-        return SVG("rect", x=x, y=y, width=30,
+        return SVG("rect", x=x, y=y, width=self.calc.bar_width,
                    height=height, style="fill:#" + color + ";")
 
     def get_large(self, x, y, move=True):
@@ -69,31 +76,33 @@ class Weights(SvgFigGenerator):
         g.append(SVG("rect", x=2, y=168, height=30, width=296,
                      style=self.field_style))
         text_style="fill:#000000;text-anchor:middle;"
-        for i in range(0, 6):
-            name = self.get_row_name(i, max_len=8)
-            x = 25 + 50 * i
-            g.append(Text(x, 185, name, font_size=10, style=text_style).SVG())
+        fs = self.calc.font_size
+        for i in range(0, self.get_row_count()):
+            name = self.get_row_name(i, max_len=6)
+            x = self.calc.middle(i)
+            g.append(Text(x, 185, name, font_size=fs, style=text_style).SVG())
         return g
 
     def get_weights(self):
         g = SVG("g")
-        for i in range(0, 6):
-            x = 25 + 50 * i
-            g.append(SVG("rect", x=x-2, y=50, width=4, height=118,
+        for i in range(0, self.get_row_count()):
+            xm = self.calc.middle(i) - 2
+            g.append(SVG("rect", x=xm, y=50, width=4, height=118,
                          style="fill:#000000;stroke:none"))
             v = self.rows[i][1] - self.min
             y0 = 160
+            x = self.calc.left(i)
             while v >= self.large:
                 y0 -= 15
-                g.append(self.get_large(x-15, y0))
+                g.append(self.get_large(x, y0))
                 v -= self.large
             while v >= self.normal:
                 y0 -= 10
-                g.append(self.get_normal(x-15, y0))
+                g.append(self.get_normal(x, y0))
                 v -= self.normal
             while v >= self.small:
                 y0 -= 7
-                g.append(self.get_small(x-15, y0))
+                g.append(self.get_small(x, y0))
                 v -= self.small
         return g
 
@@ -113,4 +122,4 @@ class Weights(SvgFigGenerator):
         return [has_random, fcolor, title, scolor, ncolor, lcolor]
 
     def get_version(self):
-        return 1
+        return 2
