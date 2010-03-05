@@ -14,6 +14,8 @@ class Plain(SvgFigGenerator):
         self.has_text = False
 
     def get_elements(self):
+        self.calc(edge_width = 35,
+                  bar_size = 75)
         return SVG("g", 
                    self._get_background(),
                    self._get_bars())
@@ -40,26 +42,22 @@ class Plain(SvgFigGenerator):
 
     def _get_bars(self):
         bars = SVG("g")
-        # (300 - (39 + 39)) / 6 = 37
-        # maybe 3+30+3 is good
-        i = 45
-        bar_width=30
-        shs = 3
-        for index in range(0, 6):
+        bar_width=self.calc.bar_width
+        bstyle = "fill:#" + self.color + ";"
+        tstyle = "fill:#" + self.color + "; text-anchor:middle;"
+        fs = self.calc.font_size
+        for index in range(0, self.get_row_count()):
             name = self.get_row_name(index, max_len=6)
             value = self.get_row_value(index) * 135
+            x = self.calc.left(index)
+            xm = self.calc.middle(index)
             pos = 165-value
-            bar = SVG("g",
-                      SVG("rect", id="bar_" + name, width=bar_width, x=i,
-                          y=pos, height=value,
-                          style="fill:#" + self.color + ";"))
+            bar = SVG("rect", id="bar_" + name, width=bar_width, x=x,
+                      y=pos, height=value, style = bstyle)
             if(self.has_text):
-                t = Text(i+bar_width/2.0, 180, name, font_size=11,
-                         style="fill:#" + self.color + "; text-anchor:middle;"
-                         ).SVG()
-                bar.append(t)
+                t = Text(xm, 180, name, font_size=fs, style=tstyle).SVG()
+                bars.append(t)
             bars.append(bar)
-            i += 36
         return bars
 
     def get_description(self):
@@ -72,3 +70,6 @@ class Plain(SvgFigGenerator):
         color = Color(self, "color", "Color")
         has_text = Boolean(self, "has_text", "Show titles")
         return [color, has_text]
+
+    def get_version(self):
+        return 2
