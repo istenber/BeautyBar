@@ -7,7 +7,7 @@ if __name__ == '__main__':
 
 from gui_interface import GuiInterface
 from process_interface import ProcessInterface
-from model.number_scaler import NumberScaler
+from lib.number_scaler import NumberScaler
 
 
 class BaseGenerator(GuiInterface, ProcessInterface):

@@ -4,7 +4,7 @@ from xml.dom import minidom
 
 from base import BaseGenerator
 from attributes.common import Color, Boolean
-from model.number_scaler import NumberScaler
+from lib.number_scaler import NumberScaler
 
 # TODO: read path with some other way?
 template="generators/standard/template.svg"
