@@ -23,22 +23,25 @@ class Sunnysky(SvgFigGenerator):
         self.sun_sl_a = 10
         self.sun_sl_l = 40
 
-    def get_elements(self):        
+    def get_elements(self):
+        self.calc(edge_width=0,
+                  bar_size=60,
+                  font_size=10)
         return SVG("g",
                    self.get_bg(),
                    self.get_sun(),
                    self.get_bars(),
-                   self.get_names(self.textcolor, 25, 50, 180, 10))
+                   self.get_names(self.textcolor, 180))
 
-    # TODO: move to common funcs..
-    def get_names(self, color, b0, bx, y, fs, bold=True):
+    def get_names(self, color, y, bold=True):
         g = SVG("g")
         if bold:
             ts = "fill:#%s;text-anchor:middle;font-weight:bold;" % color
         else:
             ts = "fill:#%s;text-anchor:middle;" % color
-        for i in range(0, 6):
-            x = b0 + bx * i
+        fs = self.calc.font_size
+        for i in range(0, self.get_row_count()):
+            x = self.calc.middle(i)
             name = self.get_row_name(i, max_len=6)
             g.append(Text(x, y, name, font_size=fs, style=ts).SVG())
         return g
@@ -75,10 +78,11 @@ class Sunnysky(SvgFigGenerator):
             s = "fill:#%s;stroke:#000000;strokewidth:1px;" % self.barcolor
         else:
             s = "fill:#%s;" % self.barcolor
-        for i in range(0, 6):
+        w = self.calc.bar_width
+        for i in range(0, self.get_row_count()):
             h = self.get_row_value(i) * 160
-            x = 50 * i
-            g.append(SVG("rect", x=x+10, y=170-h, height=h, width=30, style=s))
+            x = self.calc.left(i)
+            g.append(SVG("rect", x=x, y=170-h, height=h, width=w, style=s))
                          
         return g
 
@@ -107,4 +111,4 @@ class Sunnysky(SvgFigGenerator):
                 sun_rot0, sun_rots, sun_sl_a, sun_sl_l]
 
     def get_version(self):
-        return 1
+        return 2
