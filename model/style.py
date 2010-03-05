@@ -17,7 +17,7 @@ class Style(object):
     def default(cls):
         # TODO: add all default parameters
         s = cls.objfac('Style', name= "default style")
-        g = cls.objfac('Generator', name="standard")
+        g = cls.objfac('Generator', name="gradient")
         s.add_generator(g)
         s.active_generator = g
         return s
