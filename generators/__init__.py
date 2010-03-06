@@ -17,18 +17,19 @@ import logging
 
 __all__ = ['get_instance', 'get_rating', 'get_list']
 
+# version 1 generators disabled
 generators = {
     'nature'     : 4,
-    'standard'   : 3,
+#    'standard'   : 3,
     'plain'      : 4,
-    'equalizer'  : 2,
+#    'equalizer'  : 2,
     'rocks'      : 2,
-    'blocks'     : 1,
-    'shiny'      : 1,
-    'balls'      : 1,
-    'paper'      : 1,
-    'slices'     : 1,
-    'plates'     : 2,
+#    'blocks'     : 1,
+#    'shiny'      : 1,
+#    'balls'      : 1,
+#    'paper'      : 1,
+#    'slices'     : 1,
+#    'plates'     : 2,
     'bottombar'  : 3,
     'gradient'   : 5,
     'cityview'   : 3,
@@ -37,6 +38,7 @@ generators = {
     'weights'    : 2,
     'twocolors'  : 2,
     'sunnysky'   : 2,
+    'greyarea'   : 2,
     }
 
 
