@@ -39,6 +39,7 @@ generators = {
     'twocolors'  : 2,
     'sunnysky'   : 2,
     'greyarea'   : 2,
+    'ground'     : 2,
     }
 
 
