@@ -11,7 +11,7 @@ class Greyarea(SvgFigGenerator):
 
     def __init__(self):
         SvgFigGenerator.__init__(self)
-        self.gcolor = "00ff00"
+        self.gcolor = "cccccc"
         self.bcolor = "00ff00"
         self.r0 = 15
 
