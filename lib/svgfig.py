@@ -1847,7 +1847,7 @@ class Text:
   def __init__(self, x, y, d, **attr):
     self.x = x
     self.y = y
-    self.d = str(d)
+    self.d = unicode(d)
     self.attr = dict(self.defaults)
     self.attr.update(attr)
 
@@ -1874,7 +1874,7 @@ class TextGlobal:
   def __init__(self, x, y, d, **attr):
     self.x = x
     self.y = y
-    self.d = str(d)
+    self.d = unicode(d)
     self.attr = dict(self.defaults)
     self.attr.update(attr)
 
