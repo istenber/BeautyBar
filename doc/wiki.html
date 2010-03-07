@@ -572,12 +572,8 @@ of search term and image format. For example coffee.png should return image of c
 format. There should also be specification for what size images service would give. Maybe /size45x45/ as url path
 would be best option. So, if an user want picture of sun as jpg and sized 50x50, he would call /size50x50/sun.jpg.</pre>
 </div>
-<div title="KnownBugs" modifier="istenber" created="201001300016" modified="201002021156" changecount="2">
-<pre>* bug: svgweb does not work with (linux) Internet Explorer 6!!!
-* bug: izip missing? most likely something to do with cache corruption after files recompiled
-* bug: Opera+chrome+safari &quot;carousel&quot; show up and down buttons both in bottom
-* bug: fix admin/view_sessions to use new db model
-* bug: if flash is disabled - and svg, does not work
+<div title="KnownBugs" modifier="istenber" created="201001300016" modified="201003041125" changecount="3">
+<pre>* bug: if flash is disabled - and svg, does not work
 * bug: if javascript is disabled, does not work
 * bug: if cookies are disabled, does not work</pre>
 </div>
@@ -606,30 +602,47 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201003031120" changecount="181">
-<pre>TODO
+<div title="MainStuff" modifier="istenber" created="201001032032" modified="201003071752" changecount="205">
+<pre>NEXT RELEASE
 
-* improve feedback view/send feedback button to ajax?
-* generators should have scale method!!! decorator should be extracted to generator/base.py
+* user should not be able to overwrite chart (or style) made by others
+* spreadsheet-gadget
+** support for ä and ö (non-ascii characters)?
+** error handling: don't show default chart but error msg
+** to have more options (all defaults)
+** not read datasource, but use visualization api workaround
+* docs
+** new tutorial video
+** pdf document with chart, and odf document, google docs document
+** more preview things.. google docs, blogger entry, igoogle, etc.
+* ie testing
+* remove beta logo
+** gadget needs to published/verified: http://docs.google.com/support/bin/answer.py?hl=en&amp;answer=160111&amp;hl=en
+** inform visualization api team about gadget
+
+TODO
+
+* change all generators to use number scaler
+* attribute &quot;bar style&quot; which allows many charts to use common bars
+* all integer and float attribute selectors as scroll element (jquery?)
+* fix generators scale support
+* disable &quot;add row&quot; and &quot;del row&quot; buttons if it is not possible to del or add rows
+* reorder data page to fit better in area - maybe use some tool to show chart
+* preview image scale differently based on data rows
+* browser content gzipped?
+* make svg clean up program
+* jquery for javascript
+* chart_api optimizations
+* scaling for generators (interface version 3)
+** decorator should be extracted to generator/base.py
+* make &quot;make test&quot; target to run all unit tests - write more unit tests and for ui code some tests
 * make common attributes! 
 ** corporate name
 ** color theme?
-* fix generators scale support, 3-10 row support
-* (gadget + chart_api + mainpage) ie testing
-* gadget/chart_api error handling: don't show default chart but error msg
-* more preview things.. google docs, blogger entry, igoogle, etc.
-* user should not be able to overwrite chart (or style) made by others
-* spreadsheet gadget:
-** data/titles vs. titles/data
-** more than 6 rows, less than 6 rows
-** first row is last bar or first bar?
-** gadget needs to published/verified: http://docs.google.com/support/bin/answer.py?hl=en&amp;answer=160111&amp;hl=en
-* change all generators to use number scaler
+* spreadsheet gadget data/titles vs. titles/data
 * more admin views, which control system
 * use image server to store more images and change generators (nature) to use it
-* pdf document with chart, and odf document, google docs document
 * montage.sh does not work in /tmp/export (aka. send-to-google.sh script)
-* ui data editpage to support 3-10 rows
 
 BIGS
 
@@ -672,11 +685,8 @@ Data
 ** title: alphabetical, numbers (years for example)
 ** random order
 ** reverse any
-* for large numbers generators might use some kind of logic to convert number to string: 5 000 000, is 5M and 5 000 is 5k?
-* change default datas to something nicer, and make button &quot;clean all datas&quot;
-* different size data sets: 3 to 10 bars and 1 to 2 dimensions?
+* one or two dimensions in bars
 * import data should use range (min, max) somehow
-* feedback sending better... it should inform when feedback is sent, not when button is pressed
 * live data sources, imports from open office, excel and google docs
 * some fields benefit from different sets of data for relative size and another for visible: for example slalom, 50/1.12:30, 40/1.12:55
 
@@ -766,10 +776,6 @@ Documentation and plans
 * InterestingPages
 
 SvgTools to edit and translate svg files
-
-
-
-
 </pre>
 </div>
 <div title="RandomMarks" modifier="istenber" created="201001092258" modified="201001162319" changecount="6">
