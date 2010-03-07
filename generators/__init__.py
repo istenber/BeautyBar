@@ -15,7 +15,7 @@ and generator rating
 import logging
 
 
-__all__ = ['get_instance', 'get_rating', 'get_list']
+__all__ = ['get_instance', 'get_error_instance', 'get_rating', 'get_list']
 
 # version 1 generators disabled
 generators = {
@@ -52,6 +52,9 @@ def get_instance(name):
     except ImportError, error:
         logging.error("missing generator: " + modulename)
     return None
+
+def get_error_instance():
+    return get_instance('errormsg')
 
 def get_rating(name):
     return generators[name]

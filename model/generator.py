@@ -63,6 +63,12 @@ class Generator(object):
     def me(self):
         return generators.get_instance(self.name)
 
+    @classmethod
+    def error(cls, msg):
+        chart = generators.get_error_instance()
+        chart.set_msg(msg)
+        return Decorator(chart)
+
 
 class Attribute(object):
 

@@ -2,43 +2,35 @@ import logging
 
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
-from model.data import Item, Data
-from model.session import Session
-from model.output import Output
-from model.style import Style
 import ui.dao
 
 class ChartPage(webapp.RequestHandler):
 
     # TODO: output should be png image!
+    # TODO: unknown options should cause error
+    # TODO: unsupported options should cause error
 
-    # specification:
-    # /chart?cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World
+    def _error_chart(self, msg):
+        logging.info(msg)
+        return ui.dao.Generator.error(msg)
 
-    # test:
-    # http://localhost:8080/chart?cht=def&chd=t:10,11,12,13,14,20&chs=250x100&chl=Hello|World|a|b|helo|worl
-
-    def _default_style(self, msg):
-        logging.info("# " + msg)
-        return ui.dao.Style.default()
-
-    def _get_style(self):
+    def _get_chart(self):
+        self.size = self.request.get("chs")
+        if self.size == "":
+            self.size = "300x200"
+            return self._error_chart("Missing chs")
         filename = self.request.get("cht")
-        if filename == "": return self._default_style("Missing style")
+        if filename == "":
+            return self._error_chart("Missing cht")
         # TODO: now style loading is based on session, fix it to
         #       use style when there is style naming
         session = ui.dao.Session.load_file(filename)
         if session is None:
-            return self._default_style("Session \"" + filename + "\" not found")
-        s = session.style
-        if s is None:
-            return self._default_style("Style not found")
-        # logging.info("# STYLE: \"" + s.name + "\"  \"" + session.name + "\"")
-        return s
-
-    def _default_data(self, msg):
-        logging.info("# " + msg)
-        return ui.dao.Data.default()
+            return self._error_chart("cht \"%s\" not found" % filename)
+        data = self._get_data()
+        if data == "":
+            return self._error_chart(self.data_error)
+        return session.style.get_active_generator().build_chart(data)
 
     # TODO: move encoders to model.data
     def _convert_values(self, value_str, encoding):
@@ -48,7 +40,8 @@ class ChartPage(webapp.RequestHandler):
             return self._extended_encoding(value_str)
         if encoding == "s:":
             return self._simple_encoding(value_str)
-        return None
+        self.data_error = "Incorrect data encoding: \"%s\"" % encoding[0]
+        return ""
 
     def _text_encoding(self, value_str):
         chds = self.request.get("chds")
@@ -81,8 +74,9 @@ class ChartPage(webapp.RequestHandler):
             elif a == ord("."):
                 val = 63 * 64
             else:
-                logging.info("Cannot encode char: \"" +
-                             value_str[index] + "\"")
+                self.data_error = ("Cannot encode char: \"" +
+                                   value_str[index] + "\"")
+                return ""
             if (b >= ord("A") and b <= ord("Z")):
                 val += (b - ord("A"))
             elif (b >= ord("a") and b <= ord("z")):
@@ -94,8 +88,9 @@ class ChartPage(webapp.RequestHandler):
             elif b == ord("."):
                 val += 63
             else:
-                logging.info("Cannot encode char: \"" +
-                             value_str[index+1] + "\"")
+                self.data_error = ("Cannot encode char: \"" +
+                                   value_str[index+1] + "\"")
+                return ""
             values.append(val)
         return values
 
@@ -115,33 +110,35 @@ class ChartPage(webapp.RequestHandler):
                 # TODO: is missing value 0?
                 values.append(0)
             else:
-                logging.info("Cannot encode char: \"" +
-                             value_str[index] + "\"")
+                self.data_error = ("Cannot encode char: \"" +
+                                   value_str[index] + "\"")
+                return ""
         return values
 
     def _get_data(self):
-        self.size = self.request.get("chs")
-        if self.size == "":
-            logging.info("# Using default chart size 300x200")
-            self.size = "300x200"
         value_str = self.request.get("chd")
-        if value_str == "": return self._default_data("Missing data values")
+        if value_str == "":
+            self.data_error = "Missing chd"
+            return ""
         name_str = self.request.get("chl")
-        if name_str == "": return self._default_data("Missing data names")
+        if name_str == "":
+            self.data_error = "Missing chl"
+            return ""
         names = name_str.split("|")
         encoding = value_str[:2]
         values = self._convert_values(value_str[2:], encoding)
+        if values == "":
+            return ""
         if len(values) != len(names):
-            return self._default_data("Names len is not equal to values len")
-        # TODO: allow variable number of values in future
-        if not Data.is_valid_len(len(values)):
-            return self._default_data("Wrong amount of data")
-        if values is None:
-            return self._default_data("Incorrect encoding: \"" +
-                                      encoding[1:] + "\"")
+            self.data_error = "chl and chd should have same lenght"
+            return ""
+        if not ui.dao.Data.is_valid_len(len(values)):
+            self.data_error = "Invalid number of rows"
+            return ""
         d = ui.dao.Data.from_arrays(self.data_min, self.data_max, names, values)
         if d is None:
-            return self._default_data("Problems with data")
+            self.data_error = "Problems with data"
+            return ""
         return d
 
     def cache_key(self):
@@ -149,7 +146,7 @@ class ChartPage(webapp.RequestHandler):
         for arg in self.request.arguments():
             key += arg + "=" + self.request.get(arg) + "&"
         key = key[:-1]
-        logging.debug("# memcache key: " + key)
+        logging.debug("Memcache key: " + key)
         return key
 
     def in_cache(self, key):
@@ -160,17 +157,12 @@ class ChartPage(webapp.RequestHandler):
         self.response.headers['Content-Type'] = "image/svg+xml"
         key = self.cache_key()
         if self.in_cache(key):
-            logging.debug("# found in cache")
+            logging.debug("Found in cache")
             out = self.cached_data
         else:
             # TODO: lets save this with output, or is it required?
             # o = Output()
-            s = self._get_style()
-            d = self._get_data()
-            # TODO: handle size (chs)
-            g = s.get_active_generator()
-            # logging.debug("# ChartAPI")
-            chart = g.build_chart(d)
+            chart = self._get_chart()
             chart.resize_str(self.size)
             out = chart.output()
             memcache.add(key, out, 60)
