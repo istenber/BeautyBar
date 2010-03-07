@@ -4,6 +4,7 @@ import os
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 from google.appengine.ext import db
+from ui.basepage import SessionPage
 
 
 class Feedback(db.Model):
@@ -24,25 +25,21 @@ class FeedbackReader(webapp.RequestHandler):
         self.response.out.write(template.render(path, values))  
 
 
-class FeedbackProcessor(webapp.RequestHandler):
+class FeedbackProcessor(SessionPage):
 
-    def get_session_id(self):
-        if self.request.cookies.has_key("session"):
-            return str(self.request.cookies["session"])
-        else:
-            return "no session found"
-
-    def get(self):
+    def post(self):
+        self.get_session()
         feedback = self.request.get("feedback")
         user = self.request.get("user")
         if feedback == "": 
-            logging.info("# feedback missing.")
+            feedback = "MISSING"
         if user == "":
-            logging.info("# user missing.")
+            user = "MISSING"
         fb = Feedback()
         fb.user = user
         fb.message = feedback
-        fb.session = self.get_session_id()
-        fb.put()        
-        self.redirect("/about")
-
+        fb.session = self.session.cookie
+        fb.put()
+        msg = "Thank you for your feedback."
+        self.response.headers['Content-Type'] = "text/plain"
+        self.response.out.write("out:" + msg)

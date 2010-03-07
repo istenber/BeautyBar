@@ -9,6 +9,5 @@ class MainPage(Page, SessionPage):
         #       generate own sessions
         self.get_session()
         return { 'complex'        : True,
-                 'use_javascript' : True,
                  'generators'     : generators.get_list(),
                  }
