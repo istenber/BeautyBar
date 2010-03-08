@@ -31,10 +31,12 @@ show_image = function(cookie) {
 <td valign="top">{{ user.user.user_id }}</td>
 <td valign="top">
 {% for session in user.sessions %}
+{% ifnotequal session "-" %}
 <span id="{{ session }}_span">
 <a href="javascript:" onclick="show_image('{{ session }}');" >{{ session }}</a>
 </span>
 <br />
+{% endifnotequal %}
 {% endfor %}
 </td>
 </tr>
