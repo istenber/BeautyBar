@@ -20,6 +20,7 @@ from ui.admin_pages import ViewSessions, AdminMainPage, UploadImage
 from ui.error_pages  import MissingPage
 from ui.content_preview import ContentPreview
 from ui.image import ServeImage
+from ui.replace_script import ReplaceScript
 import lib.datastore_cache
 
 
@@ -39,6 +40,7 @@ def get_admin_pages():
             ('/admin/sessions', ViewSessions),
             ('/admin/preview', AdminPreviewImage),
             ('/admin/upload_image', UploadImage),
+            ('/admin/run_once', ReplaceScript),
             ('/admin/', AdminMainPage),
             ]
 
