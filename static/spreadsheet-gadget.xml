@@ -12,10 +12,12 @@
 <Require feature="locked-domain" />
 </ModulePrefs>
 <UserPref name="_style_name" display_name="Style name"
-          default_value="plain" datatype="enum" required="true">
-<EnumValue value="plain" display_value="Plain"/>
+          default_value="gradient" datatype="enum" required="true">
+<EnumValue value="gradient" display_value="Gradient"/>
 <EnumValue value="nature" display_value="Nature"/>
-<EnumValue value="standard" display_value="Standard"/>
+<EnumValue value="plain" display_value="Plain"/>
+<EnumValue value="towers" display_value="Towers"/>
+<EnumValue value="bottombar" display_value="Bottom Bar"/>
 <EnumValue value="other" display_value="Other..."/>
 </UserPref>
 <UserPref name="_style_name_other" display_name="Style name, if other" />
