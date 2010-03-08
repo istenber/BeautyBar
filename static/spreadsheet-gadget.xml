@@ -47,24 +47,34 @@ Receiving data from <a href="http://beauty-bar.appspot.com" target="_top">http:/
 <script>
 
 var beautybar_url = 'http://beauty-bar.appspot.com/';
-var style_name = 'standard';
+var style_name = 'gradient';
+var gadgetHelper = null;
 
-_IG_RegisterOnloadHandler(sleepAndLoad);
+_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
-function sleepAndLoad() {
-  setTimeout('createChart();', 1000);
+function loadVisualizationAPI() {
+  google.load("visualization", "1");
+  google.setOnLoadCallback(sendQuery);
 }
 
-function createChart() {
+function sendQuery() {
   var prefs = new _IG_Prefs();
   style_name = prefs.getString('_style_name');
   if(style_name == 'other') {
     style_name = prefs.getString('_style_name_other');
   }
-  var datasource_url = convertAmpersand(prefs.getString('_table_query_url'));
+  gadgetHelper = new google.visualization.GadgetHelper();
+  var query = gadgetHelper.createQueryFromPrefs(prefs);
+  query.send(handleQueryResponse);
+}
+
+function handleQueryResponse(response) {
+  if (!gadgetHelper.validateResponse(response)) {
+    return;
+  var datastr = datastringify(response.getDataTable());
   var size = document.body.clientWidth + 'x' + document.body.clientHeight;
   var url = beautybar_url + 'gadget?size=' + size + '&style=' + style_name +
-            '&rnd=' + Math.random() + '&datasource="' + datasource_url + '"';
+            '&rnd=' + Math.random() + '&datastring=' + datastr;
   var svg_image = document.createElement('object', true);
   svg_image.setAttribute('type', 'image/svg+xml');
   svg_image.setAttribute('data', url);
@@ -76,16 +86,29 @@ function createChart() {
   svgweb.appendChild(svg_image, my_chart);
 };
 
-function convertAmpersand(text) {
-  return text.replace(/&/g, '_amp_');
-}
-
-function escapeHtml(text) {
+function escape(text) {
   if (text == null) {
     return '';
   }
-  return _hesc(text);
+  str = str.replace('"', "'");
+  str = str.replace(/[^a-zA-Z0-9_-~^:@$!?{()}|\[\]\*\'\=\/]/g, '_');
+  return _hesc(str);
 } 
+
+function datastringify(table) {
+  var str = '';
+  var r = table.getNumberOfRows();
+  var c = table.getNumberOfColumns();
+  if(c > 2) { return ""; }
+  if(r > 12) { return ""; }
+  for(var i = 0; i < r; i++) {
+    for(var j = 0; j < c; j++) {
+      str += escape(table.getFormattedValue(i, j)) + '\\t';
+    }
+    str = str.substring(str.lenght - 2) + '\\n';
+  }
+  return '"' + str + '"';
+}
 
 </script> 
 ]]>

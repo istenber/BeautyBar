@@ -4,33 +4,76 @@ from google.appengine.ext import webapp
 from google.appengine.api import memcache
 import ui.dao
 
-class ChartPage(webapp.RequestHandler):
+class ApiPage(webapp.RequestHandler):
 
     # TODO: output should be png image!
     # TODO: unknown options should cause error
     # TODO: unsupported options should cause error
 
-    def _error_chart(self, msg):
+    def error_chart(self, msg):
         logging.info(msg)
         return ui.dao.Generator.error(msg)
 
-    def _get_chart(self):
-        self.size = self.request.get("chs")
+    def get_chart(self, params):
+        self.size = self.request.get(params['size'])
         if self.size == "":
             self.size = "300x200"
-            return self._error_chart("Missing chs")
-        filename = self.request.get("cht")
+            return self.error_chart("Missing %s" % params['size'])
+        filename = self.request.get(params['style'])
         if filename == "":
-            return self._error_chart("Missing cht")
+            return self.error_chart("Missing %s" % params['style'])
         # TODO: now style loading is based on session, fix it to
         #       use style when there is style naming
         session = ui.dao.Session.load_file(filename)
         if session is None:
-            return self._error_chart("cht \"%s\" not found" % filename)
-        data = self._get_data()
+            return self.error_chart("%s \"%s\" not found" % (params['style'],
+                                                             filename))
+        data = self.get_data()
         if data == "":
-            return self._error_chart(self.data_error)
+            return self.error_chart(self.data_error)
         return session.style.get_active_generator().build_chart(data)
+
+    def cache_key(self):
+        key = ""
+        for arg in self.request.arguments():
+            key += arg + "=" + self.request.get(arg) + "&"
+        key = key[:-1]
+        logging.debug("Memcache key: " + key)
+        return key
+
+    def in_cache(self, key):
+        self.cached_data = memcache.get(key)
+        return self.cached_data is not None
+
+    def get_data(self):
+        """ Override """
+        self.data_error = "Server failure"
+        return ""
+
+    def get_chart_params(self):
+        """ Override """
+        return { 'size': "", 'style': "" }
+
+    def get(self):
+        self.response.headers['Content-Type'] = "image/svg+xml"
+        key = self.cache_key()
+        if self.in_cache(key):
+            logging.debug("Found in cache")
+            out = self.cached_data
+        else:
+            # TODO: lets save this with output, or is it required?
+            # o = Output()
+            chart = self.get_chart(self.get_chart_params())
+            chart.resize_str(self.size)
+            out = chart.output()
+            memcache.add(key, out, 60)
+        self.response.out.write(out)
+
+
+class ChartPage(ApiPage):
+
+    def get_chart_params(self):
+        return { 'size': "chs", 'style': "cht" }
 
     # TODO: move encoders to model.data
     def _convert_values(self, value_str, encoding):
@@ -115,7 +158,7 @@ class ChartPage(webapp.RequestHandler):
                 return ""
         return values
 
-    def _get_data(self):
+    def get_data(self):
         value_str = self.request.get("chd")
         if value_str == "":
             self.data_error = "Missing chd"
@@ -141,29 +184,3 @@ class ChartPage(webapp.RequestHandler):
             return ""
         return d
 
-    def cache_key(self):
-        key = ""
-        for arg in self.request.arguments():
-            key += arg + "=" + self.request.get(arg) + "&"
-        key = key[:-1]
-        logging.debug("Memcache key: " + key)
-        return key
-
-    def in_cache(self, key):
-        self.cached_data = memcache.get(key)
-        return self.cached_data is not None
-
-    def get(self):
-        self.response.headers['Content-Type'] = "image/svg+xml"
-        key = self.cache_key()
-        if self.in_cache(key):
-            logging.debug("Found in cache")
-            out = self.cached_data
-        else:
-            # TODO: lets save this with output, or is it required?
-            # o = Output()
-            chart = self._get_chart()
-            chart.resize_str(self.size)
-            out = chart.output()
-            memcache.add(key, out, 60)
-        self.response.out.write(out)

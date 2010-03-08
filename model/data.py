@@ -13,7 +13,6 @@ import lib.string_utils
 max_items=10
 min_items=3
 
-
 def to_float(value):
     """ Convert value to float
 
@@ -431,11 +430,40 @@ class Data(object):
           None
 
         """
+        return cls._from_string(csv, [',', '.', ':', '\t'], '\n')
+
+    @classmethod
+    def from_datastring(cls, string):
+        """ Datastring to data object.
+          >>> ds = 't\\\\t30\\\\nv\\\\t15\\\\nd\\\\t30\\\\n'
+          >>> d = Data.from_datastring(ds)
+          >>> for i in d.as_list():
+          ...   print unicode(i)
+          ...
+          name: t, value: 30.0, row 1
+          name: v, value: 15.0, row 2
+          name: d, value: 30.0, row 3
+
+          Valid chars for gadget:
+            a-z, A-Z, 0-9, _-/?!=*'~^:@${[()]}|
+          Specials characters:
+            %  = %dd gives ascii code number dd
+            +  = disappears?
+            \\ = is transformed to \
+            \t = value separator
+            \n = line separator
+
+        """
+        string = string.replace('\\\\', '\\')
+        return cls._from_string(string, ['\\t'], '\\n')
+
+    @classmethod
+    def _from_string(cls, string, value_seps, line_sep):
         lines = []
-        for line in csv.splitlines():
+        for line in string.split(line_sep):
             if line.strip() == '': continue
             lines.append(line)
-        for delim in [',', '.', ':', '\t']:
+        for delim in value_seps:
             d = cls.objfac('Data', name='', min=0.0, max=50.0, locked=False)
             d.autorange()
             line_nro = 1
@@ -443,8 +471,10 @@ class Data(object):
                 try:
                     vals = line.split(delim)
                 except ValueError, e:
-                    logging.debug('Error in CSV line: \"' + line + '\"')
+                    logging.debug('Parse error in line: \"' + line + '\"')
                     return None
+                # logging.info(":::" + str(vals[0]) + ":" + str(vals[1]))
+
                 if len(vals) == 2:
                     name = lib.string_utils.unquote(vals[0])
                     item = cls.objfac('Item', name=name, row=line_nro)
@@ -457,10 +487,13 @@ class Data(object):
                         return None
                     else:
                         line_nro += 1
+                else:
+                    logging.debug('Needs two rows')
+                    logging.debug('line: ' + str(line))
             if d.is_valid():
                 d.autorange()
                 return d
-        logging.debug('Cannot parse CSV')
+        logging.debug('Cannot parse string')
         return None
 
     @classmethod
