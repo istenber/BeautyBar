@@ -3,6 +3,7 @@
 import logging
 
 from model.generator import Generator
+import generators
 
 
 class Style(object):
@@ -47,9 +48,13 @@ class Style(object):
     def set_active_generator(self, name):
         g = self._find_generator(name)
         if not g:
-            g = self.objfac('Generator', name=name)
-            self.add_generator(g)
+            if generators.valid(name):
+                g = self.objfac('Generator', name=name)
+                self.add_generator(g)
+                return True
+            return False
         self.active_generator = g
+        return True
 
 def main():
     pass

@@ -6,15 +6,13 @@ from google.appengine.ext.webapp import template
 from ui.ajax_modify import AjaxBase
 import lib.string_utils
 import ui.dao
-import generators
 
 
 class AjaxGenerator(AjaxBase):
 
     def real_get(self):
         name = self.request.get("name")
-        if generators.valid(name):
-            self.session.style.set_active_generator(name)
+        if self.session.style.set_active_generator(name):
             self.session.style.put()
             return "ok."
         else:
