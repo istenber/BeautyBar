@@ -4,8 +4,8 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from ui.basepage import SessionPage
+import lib.string_utils
 import ui.dao
-from model.utils import unquote
 
 
 class Dataset(SessionPage):
@@ -17,7 +17,6 @@ class Dataset(SessionPage):
             return
         if not name in ['google', 'clean', 'simple']:
             return
-
         for item in self.session.data.get_items():
             item.delete()
         self.session.data.delete()
@@ -29,7 +28,7 @@ class SaveData(SessionPage):
 
     def get(self):
         self.get_session()
-        filename = unquote(self.request.get("name"))
+        filename = lib.string_utils.unquote(self.request.get("name"))
         if not filename.find("@") == -1:
             self.response.out.write("@ is reserved char")
             return
@@ -59,7 +58,7 @@ class LoadData(SessionPage):
 
     def get(self):
         self.get_session()
-        filename = unquote(self.request.get("name"))
+        filename = lib.string_utils.unquote(self.request.get("name"))
         old_file = ui.dao.Session.load_file(filename)
         if old_file is None:
             self.response.out.write("Cannot find " + filename)

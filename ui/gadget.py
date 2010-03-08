@@ -4,7 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.api import memcache
 from lib.google_datasource import GoogleDataSource
 from model.data import Data
-from model.utils import unquote
+import lib.string_utils
 import ui.dao
 
 
@@ -46,7 +46,7 @@ class GadgetPage(webapp.RequestHandler):
         return (None, ui.dao.Data.default())
 
     def _get_signature_and_data(self):
-        datasource = unquote(self.request.get("datasource"))
+        datasource = lib.string_utils.unquote(self.request.get("datasource"))
         if datasource == "": return self._default_data("Missing datasource")
         datasource = self._convert_ampersand(datasource)
         ds = GoogleDataSource()

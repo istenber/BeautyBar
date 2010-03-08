@@ -4,7 +4,7 @@ import os
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from ui.ajax_modify import AjaxBase
-from model.utils import unquote
+import lib.string_utils
 import ui.dao
 
 class AjaxGenerator(AjaxBase):
@@ -22,7 +22,7 @@ class AjaxSetAttribute(AjaxBase):
         g = self.session.style.get_active_generator()
         for attr in g.me().get_attributes():
             n = attr.get_name()
-            v = unquote(self.request.get(n))
+            v = lib.string_utils.unquote(self.request.get(n))
             if v != "":
                 # logging.info("# got \"" + n + "\" as \"" + i + "\"")
                 # TODO: we cannot do this, or all "random" name variables
@@ -60,7 +60,8 @@ class AjaxAttributes(webapp.RequestHandler):
         # TODO: very hackish attribute setting. refactor to better
         ag = self.session.style.get_active_generator()
         for attr in generator.get_attributes():
-            db_val = unquote(ag.get_attribute(attr.get_name()).value)
+            val = ag.get_attribute(attr.get_name()).value
+            db_val = lib.string_utils.unquote(val)
             attr.set_value(db_val)
             part = self._get_html(attr)
             if part is not None:

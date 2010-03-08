@@ -7,7 +7,7 @@ validation and modifications.
 import logging
 import math
 
-from model.utils import unquote
+import lib.string_utils
 
 
 max_items=10
@@ -446,9 +446,9 @@ class Data(object):
                     logging.debug('Error in CSV line: \"' + line + '\"')
                     return None
                 if len(vals) == 2:
-                    name = unquote(vals[0])
+                    name = lib.string_utils.unquote(vals[0])
                     item = cls.objfac('Item', name=name, row=line_nro)
-                    if not d.value_ok(unquote(vals[1])):
+                    if not d.value_ok(lib.string_utils.unquote(vals[1])):
                         logging.debug('Value not acceptable')
                         return None
                     item.set_value(vals[1])
@@ -501,7 +501,7 @@ class Data(object):
         for row in range(0, l):
             value = values[row]
             if not d.value_ok(value):
-                value = unquote(value)
+                value = lib.string_utils.unquote(value)
             if not d.value_ok(value):
                 logging.debug('Value not accetable')
                 return None

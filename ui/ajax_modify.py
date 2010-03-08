@@ -3,8 +3,8 @@ import logging
 from django.template.defaultfilters import floatformat
 from google.appengine.ext import webapp
 from model.data import Item, Data
-from model.utils import unquote
 from ui.basepage import SessionPage
+import lib.string_utils
 import ui.dao
 
 
@@ -57,7 +57,7 @@ class AjaxModifyName(AjaxBase):
             logging.info("Missing or incorrect row")
             return 0
         item = self.data.get_items()[row]
-        val = unquote(self.request.get("val"))
+        val = lib.string_utils.unquote(self.request.get("val"))
         item.set_name(val)
         item.put()
         return item.name
@@ -72,7 +72,7 @@ class AjaxModifyValue(AjaxBase):
             logging.info("Missing or incorrect row")
             return 0
         item = self.data.get_items()[row]
-        val = unquote(self.request.get("val"))
+        val = lib.string_utils.unquote(self.request.get("val"))
         if ',' in val: val = val.replace(',', '.', 1)
         if not self.data.value_ok(val):
             # Data is out of range.

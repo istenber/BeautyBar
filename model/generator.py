@@ -3,7 +3,7 @@
 import logging
 
 import generators
-from model.utils import unquote
+import lib.string_utils
 from model.decorator import Decorator
 from model.data import Data
 
@@ -49,7 +49,8 @@ class Generator(object):
     def build_chart(self, data):
         chart = self.me()
         for attr in chart.get_attributes():
-            v = unquote(self.get_attribute(attr.get_name()).value)
+            val = self.get_attribute(attr.get_name()).value
+            v = lib.string_utils.unquote(val)
             if v != "":
                 attr.set_value(v)
         if not data.is_valid():

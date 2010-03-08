@@ -4,6 +4,8 @@
 Here are some general use utils that are used throughout the code.
 """
 
+__all__ = ['unquote']
+
 def unquote(string):
     """Removes double quotes from string
 
