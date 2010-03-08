@@ -15,7 +15,8 @@ and generator rating
 import logging
 
 
-__all__ = ['get_instance', 'get_error_instance', 'get_rating', 'get_list']
+__all__ = ['get_instance', 'get_error_instance', 'get_rating', 'get_list',
+           'valid']
 
 # version 1 generators disabled
 generators = {
@@ -68,6 +69,17 @@ def get_list(rated=True):
     else:
         names = generators.keys()
     return [get_instance(name) for name in names]
+
+def valid(name):
+    """
+
+      >>> valid('helloworld')
+      False
+      >>> valid('gradient')
+      True
+
+    """
+    return name in generators.keys()
 
 
 if __name__ == '__main__':
