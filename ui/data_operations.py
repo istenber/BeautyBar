@@ -4,8 +4,12 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from ui.basepage import SessionPage
+from google.appengine.api import users
 import lib.string_utils
 import ui.dao
+
+
+DEFAULT_STYLES = ['gradient', 'nature', 'plain', 'towers', 'bottombar']
 
 
 class Dataset(SessionPage):
@@ -31,6 +35,9 @@ class SaveData(SessionPage):
         filename = lib.string_utils.unquote(self.request.get("name"))
         if not filename.find("@") == -1:
             self.response.out.write("@ is reserved char")
+            return
+        if (filename in DEFAULT_STYLES) and (not users.is_current_user_admin()):
+            self.response.out.write("%s is reserved name" % filename)
             return
         old_file = ui.dao.Session.load_file(filename)
         if old_file is None:
