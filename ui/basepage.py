@@ -5,7 +5,9 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
+from ui.user import UserStats
 import ui.dao
+
 
 class Page(webapp.RequestHandler):
 
@@ -15,6 +17,7 @@ class Page(webapp.RequestHandler):
 
     def get_values(self):
         """Override me!"""
+        pass
 
     def is_development(self):
         return os.environ["SERVER_SOFTWARE"].startswith("Development")
@@ -22,6 +25,8 @@ class Page(webapp.RequestHandler):
     def get_user(self):
         self.values['user'] = users.get_current_user()
         if self.values['user']:
+            cookie = self.session.cookie if hasattr(self, "session") else "-"
+            UserStats(self.values['user'], cookie)
             self.values['user_url'] = users.create_logout_url(self.request.url)
         else:
             self.values['user_url'] = users.create_login_url(self.request.url)

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<script type="text/javascript">
+
+show_image = function(cookie) {
+  var obj = document.getElementById(cookie + "_span");
+  obj.innerHTML = "<object data=\"/admin/preview?cookie=" + cookie + "\" " +
+                  "type=\"image/svg+xml\" height=\"200\" width=\"300\" />";
+};
+
+</script>
+<title>Admin / User viewer</title>
+</head>
+<body>
+
+<h1>Admin / User viewer</h1>
+
+<table border="1">
+<tr>
+<th>Nickname</th>
+<th>Email</th>
+<th>ID</th>
+<th>Sessions</th>
+</tr>
+{% for user in users %}
+<tr>
+<td valign="top">{{ user.user.nickname }}</td>
+<td valign="top">{{ user.user.email }}</td>
+<td valign="top">{{ user.user.user_id }}</td>
+<td valign="top">
+{% for session in user.sessions %}
+<span id="{{ session }}_span">
+<a href="javascript:" onclick="show_image('{{ session }}');" >{{ session }}</a>
+</span>
+<br />
+{% endfor %}
+</td>
+</tr>
+{% endfor %}
+</table>
+<hr />
+
+</body>
+</html>

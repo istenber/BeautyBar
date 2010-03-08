@@ -15,6 +15,7 @@ from ui.ajax_main import AjaxMain
 from ui.chart_api import ChartPage
 from ui.gadget import GadgetPage
 from ui.feedback import FeedbackProcessor, FeedbackReader
+from ui.user import UserViewer
 from ui.admin_pages import ViewSessions, AdminMainPage, UploadImage
 from ui.error_pages  import MissingPage
 from ui.content_preview import ContentPreview
@@ -34,6 +35,7 @@ webapp.template.register_template_library('lib.templatetags')
 def get_admin_pages():
     # TODO: these should be protected by password...
     return [('/admin/feedback', FeedbackReader),
+            ('/admin/users', UserViewer),
             ('/admin/sessions', ViewSessions),
             ('/admin/preview', AdminPreviewImage),
             ('/admin/upload_image', UploadImage),
