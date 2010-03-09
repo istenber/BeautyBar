@@ -284,7 +284,7 @@ class Data(object):
             return
         self.min = 0.0
         m = max(self.get_items(), key=lambda x: x.value)
-        n = math.pow(10, math.floor(math.log(m.value, 10)) + 1)
+        n = math.pow(10, math.floor(math.log(m.value - 1, 10)) + 1)
         self.max = math.ceil(m.value / n) * n
         del self.autorange_on
         return
