@@ -2,10 +2,12 @@
 <Module>
 <ModulePrefs title="Beauty Bar Google Docs Gadget"
 	     title_url="http://beauty-bar.appspot.com/"
-             description="Beauty Bar / Beta version (http://beauty-bar.appspot.com/) is a tool to create nice charts. Beta version does only allow data that have two columns (names and values) and six rows. Output is SVG image, which might not work with all browsers."
+             description="Beauty Bar is a tool to create nice bar charts. One can design chart based on template with online tool, or use one of our default chart styles."
              author="Ilpo Stenberg"
              author_affiliation="Beauty Bar"
+             author_location="Internet"
              author_email="istenber@gmail.com"
+             directory_title="beautybar"
              screenshot="http://beauty-bar.appspot.com/images/spreadsheet-image.png"
              thumbnail="http://beauty-bar.appspot.com/images/spreadsheet-thumb.png" >
 <Require feature="idi" />
