@@ -1,21 +1,21 @@
 
 var preview = {
     init: function() {
-	preview.preload();
-	preview.f = $('preview_show');
-	preview.l = $('preview_load');
-	svgweb.appendChild(preview._output_img, preview.f);
-	preview.processing = false;
+	this.preload();
+	this.f = $('preview_show');
+	this.l = $('preview_load');
+	svgweb.appendChild(this._output_img, this.f);
+	this.processing = false;
     },
     preload: function() {
 	if(Prototype.Browser.IE) {
-	    preview.use_load_image = false;
+	    this.use_load_image = false;
 	} else if(Prototype.Browser.Opera) {
-	    preview.use_load_image = false;
+	    this.use_load_image = false;
 	} else {
-	    preview.use_load_image = true;
+	    this.use_load_image = true;
 	}
-	preview._output_img = preview._load_image();
+	this._output_img = this._load_image();
     },
     _load_image: function() {
 	var svg_image = document.createElement('object', true);
@@ -29,26 +29,26 @@ var preview = {
 	return svg_image;
     },
     update: function() {
-	if(preview.processing == true) { return false; }
-	preview.processing = true;
+	if(this.processing == true) { return false; }
+	this.processing = true;
 	if(Prototype.Browser.IE) {
-	    preview._output_img = $('preview_image');
+	    this._output_img = $('preview_image');
 	}
-	svgweb.removeChild(preview._output_img, preview.f);
-	preview._output_img = preview._load_image();
-	svgweb.appendChild(preview._output_img, preview.f);
-	if(preview.use_load_image) {
-	    preview.f.hide();
-	    preview.l.show();
+	svgweb.removeChild(this._output_img, this.f);
+	this._output_img = this._load_image();
+	svgweb.appendChild(this._output_img, this.f);
+	if(this.use_load_image) {
+	    this.f.hide();
+	    this.l.show();
 	}
 	return true;
     },
     _image_loaded: function() {
-	if(preview.use_load_image) {
-	    preview.f.show();
-	    preview.l.hide();
+	if(this.use_load_image) {
+	    this.f.show();
+	    this.l.hide();
 	}
-	preview.processing = false;
+	this.processing = false;
     }
 };
 
@@ -118,7 +118,7 @@ var parts = {
 
 var file = {
     clean: function() {
-	file.enable_edit();
+	this.enable_edit();
 	$('f_savefile').setValue('');
 	$('f_loadfile').setValue('');
 	$('load_span').innerHTML = '';
