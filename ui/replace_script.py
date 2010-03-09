@@ -22,8 +22,8 @@ class ReplaceScript(webapp.RequestHandler):
                     count += 1
                     style.set_active_generator('gradient')
                     style.put()
-            if len(styles) != FETCHSET:
-                self.response.out.write("replaced %d instances" % count)
-                return
+            # if len(styles) != FETCHSET:
+            self.response.out.write("replaced %d instances" % count)
+            return
         return
 
