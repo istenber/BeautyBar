@@ -31,6 +31,9 @@ var preview = {
     update: function() {
 	if(preview.processing == true) { return false; }
 	preview.processing = true;
+	if(Prototype.Browser.IE) {
+	    preview._output_img = $('preview_image');
+	}
 	svgweb.removeChild(preview._output_img, preview.f);
 	preview._output_img = preview._load_image();
 	svgweb.appendChild(preview._output_img, preview.f);
