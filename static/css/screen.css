@@ -312,6 +312,10 @@
      border            : none;
  }
 
+ a:focus, a:hover, a:active {
+     outline           : none;
+ }
+
  .attr_cell {
      height            : 25px;
      width             : 250px;
