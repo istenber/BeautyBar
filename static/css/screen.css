@@ -316,3 +316,36 @@
      height            : 25px;
      width             : 250px;
  }
+
+ .mbut {
+     width               : 94px;
+     height              : 30px;
+     display             : block;
+     background-image    : url('/images/editbuttons.png');
+     background-repeat   : no-repeat;
+     vertical-align      : bottom;
+ }
+
+ #mbut_style_on {
+     background-position : 0px 0px;
+ }
+
+ #mbut_style_off {
+     background-position : 0px -30px;
+ }
+
+ #mbut_data_on {
+     background-position : -94px 0px;
+ }
+
+ #mbut_data_off {
+     background-position : -94px -30px;
+ }
+
+ #mbut_file_on {
+     background-position : -188px 0px;
+ }
+
+ #mbut_file_off {
+     background-position : -188px -30px;
+ }

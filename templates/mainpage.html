@@ -103,19 +103,22 @@
     <tr>
       <td class="beh_space"></td>
       <td class="beh_button">
-	<a href="javascript:">
-<img class="himg" src="/images/style_on.png" alt="style" onclick="process_button('style');" id="style_img" />
+	<a href="javascript:" onclick="editor.set_active('style');">
+	  <span class="mbut" id="mbut_style_on"></span>
+	  <span class="mbut" style="display: none;" id="mbut_style_off"></span>
 	</a>
       </td>
       <td class="beh_button">
-	<a href="javascript:">
-<img class="himg" src="/images/data_off.png" alt="data" onclick="process_button('data');" id="data_img" />
+	<a href="javascript:" onclick="editor.set_active('data');">
+	  <span class="mbut" style="display: none;" id="mbut_data_on"></span>
+	  <span class="mbut" id="mbut_data_off"></span>
 	</a>
       </td>
       <td class="beh_sep"></td>
       <td class="beh_button">
-	<a href="javascript:">
-<img class="himg" src="/images/file_off.png" alt="file" onclick="process_button('file');" id="file_img" />
+	<a href="javascript:" onclick="editor.set_active('file');">
+	  <span class="mbut" style="display: none;" id="mbut_file_on"></span>
+	  <span class="mbut" id="mbut_file_off"></span>
 	</a>
       </td>
       <td class="beh_space"></td>

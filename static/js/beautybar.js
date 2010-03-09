@@ -65,28 +65,22 @@ var ajaxWrapper = function(url, postprocessor, data) {
 
 var editor = {
     current: 'style',
-    init: function() {
-	this.buttons = {'style': [true, "style_img", this.load_images("style")],
-			'data': [false, "data_img", this.load_images("data")],
-			'file': [false, "file_img", this.load_images("file")]};
-    },
-    load_images: function(name) {
-	var on = new Image();
-	on.src = "/images/" + name + "_on.png";
-	var off = new Image();
-	off.src = "/images/" + name + "_off.png";
-	return [on, off];
-    },
-    set_state: function(struct, state) {
-	if(struct[0] == state) { return; }
-	struct[0] = state;
-	$(struct[1]).src = struct[2][struct[0] ? 0 : 1].src;
+    _set_state: function(name) {
+	if(name == this.current) {
+	    $('mbut_' + name + '_on').show();
+	    $('mbut_' + name + '_off').hide();
+	} else {
+	    $('mbut_' + name + '_off').show();
+	    $('mbut_' + name + '_on').hide();
+	}
     },
     set_active: function(name) {
 	if(name == this.current) { return; }
-	this.set_state(this.buttons[this.current], false);
-	this.set_state(this.buttons[name], true);
 	this.current = name;
+	this._set_state('style');
+	this._set_state('data');
+	this._set_state('file');
+	parts.update('edit');
     },
     _attribute_updater: function(out) {
 	$('attribute_table').update(out.responseText);
@@ -172,6 +166,7 @@ var file = {
 	this._timer = setTimeout('file.clean()', 3000);
     }
 };
+
 
 var attr = {
     _updater: function(out) {
@@ -266,15 +261,8 @@ var data = {
 };
 
 
-process_button = function(button) {
-    editor.set_active(button);
-    parts.update('edit');
-};
-
-
 init = function() {
     preview.init();
-    editor.init();
     parts.update('info');
     parts.update('edit');
     var carousel_attributes = { duration: 0.1, visibleSlides: 3}
