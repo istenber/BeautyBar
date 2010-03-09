@@ -1,2 +1,2 @@
-Yes:<input type="radio" name="{{ name }}" {% ifequal value "true" %}checked="true" {% endifequal %} onchange="attr.set_boolean('{{ name }}', true);">
-No:<input type="radio" name="{{ name }}" {% ifequal value "false" %}checked="true" {% endifequal %} onchange="attr.set_boolean('{{ name }}', false);">
+Yes:<input type="radio" name="{{ name }}" {% ifequal value "true" %}checked="true" {% endifequal %} onclick="attr.set_boolean('{{ name }}', true);">
+No:<input type="radio" name="{{ name }}" {% ifequal value "false" %}checked="true" {% endifequal %} onclick="attr.set_boolean('{{ name }}', false);">
