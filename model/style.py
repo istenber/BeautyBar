@@ -48,11 +48,10 @@ class Style(object):
     def set_active_generator(self, name):
         g = self._find_generator(name)
         if not g:
-            if generators.valid(name):
-                g = self.objfac('Generator', name=name)
-                self.add_generator(g)
-                return True
-            return False
+            if not generators.valid(name):
+                return False
+            g = self.objfac('Generator', name=name)
+            self.add_generator(g)
         self.active_generator = g
         return True
 
