@@ -8,11 +8,8 @@ var preview = {
 	this.processing = false;
     },
     preload: function() {
-	if(Prototype.Browser.IE) {
-	    this.use_load_image = false;
-	} else if(Prototype.Browser.Opera) {
-	    this.use_load_image = false;
-	} else {
+	this.use_load_image = false;
+	if(Prototype.Browser.Gecko) {
 	    this.use_load_image = true;
 	}
 	this._output_img = this._load_image();
