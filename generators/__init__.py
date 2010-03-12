@@ -41,6 +41,7 @@ generators = {
     'sunnysky'   : 2,
     'greyarea'   : 2,
     'ground'     : 2,
+    'lights'     : 1,
     }
 
 
