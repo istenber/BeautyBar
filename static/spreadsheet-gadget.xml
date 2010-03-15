@@ -37,8 +37,7 @@
 	 preferred_height="300"
 	 preferred_width="200"><![CDATA[
 
-<script type="text/javascript" src="http://beauty-bar.appspot.com/svgweb/svg.js"
-        data-path="http://beauty-bar.appspot.com/svgweb"></script>
+<script type="text/javascript" src="http://beauty-bar.appspot.com/svgweb/svg.js" data-path="svgweb"></script>
 
 <script src="http://www.google.com/jsapi" type="text/javascript"></script>
 
