@@ -85,7 +85,8 @@ def valid(name):
 
 if __name__ == '__main__':
     import sys
-    sys.path.append('/home/sankari/dev/beautybar')
+    import os
+    sys.path.append(os.path.abspath(os.path.dirname('..')))
     logging.getLogger().setLevel(logging.DEBUG)
     import doctest
     doctest.testmod()

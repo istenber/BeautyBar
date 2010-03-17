@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+if __name__ == '__main__':
+    import sys
+    import os
+    sys.path.append(os.path.abspath(os.path.dirname('..')))
+
 
 class ProcessInterface(object):
     """All chart processing should go through this interface."""
@@ -22,9 +27,6 @@ class ProcessInterface(object):
 
 
 def tester(usage_msg):
-    import sys
-    sys.path.append('/home/sankari/dev/beautybar')
-
     import random
     import getopt
     import generators

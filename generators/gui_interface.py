@@ -2,7 +2,8 @@
 
 if __name__ == '__main__':
     import sys
-    sys.path.append('/home/sankari/dev/beautybar')
+    import os
+    sys.path.append(os.path.abspath(os.path.dirname('..')))
 
 
 from generators.__init__ import get_rating

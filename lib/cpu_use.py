@@ -3,8 +3,8 @@
 import resource
 import time
 import sys
-
-sys.path.append('/home/sankari/dev/beautybar')
+import os
+sys.path.append(os.path.abspath(os.path.dirname('..')))
 
 from model.generator_factory import GeneratorFactory
 

@@ -2,7 +2,9 @@
 
 if __name__ == "__main__":
     import sys
-    sys.path.append("/home/sankari/dev/beautybar")
+    import os
+    sys.path.append(os.path.abspath(os.path.dirname('..')))
+
 
 import logging
 from lib.svgfig import *

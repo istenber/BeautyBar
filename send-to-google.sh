@@ -2,8 +2,8 @@
 
 APP_FILE=app.yaml
 TMP_FOLDER=/tmp/export
-APP_ENGINE_PATH=/home/sankari/dev/google_appengine/
-GIT_REPO=file:///home/sankari/dev/beautybar/.git/
+APP_ENGINE_PATH=$PWD/../google_appengine/
+GIT_REPO=file://$PWD/.git/
 
 PARAM=$1
 
