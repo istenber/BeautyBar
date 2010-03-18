@@ -2232,6 +2232,47 @@ class Rect(Curve):
 
 ######################################################################
 
+class RoundedRect(Curve):
+  """Draws a rectangle with rounded corners.
+
+  RoundedRect(x1, y1, x2, y2, r, attribute=value)
+
+  x1, y1                  required        the starting point
+  x2, y2                  required        the ending point
+  r                       required        the amount of rounding
+  attribute=value pairs   keyword list    SVG attributes
+  """
+  defaults = {}
+
+  def __repr__(self):
+    return "<RoundedRect (%g, %g), (%g, %g) r=%g %s>" % (self.x1, self.y1, self.x2, self.y2, self.r, self.attr)
+
+  def __init__(self, x1, y1, x2, y2, r, **attr):
+    self.x1, self.y1, self.x2, self.y2, self.r = x1, y1, x2, y2, r
+
+    self.attr = dict(self.defaults)
+    self.attr.update(attr)
+
+  def Path(self, trans=None, local=False):
+    """Apply the transformation "trans" and return a Path object in
+    global coordinates.  If local=True, return a Path in local coordinates
+    (which must be transformed again)."""
+    if trans == None:
+      return Path([("M", self.x1, self.y1 + self.r, not local),
+                   ("C", self.x1, self.y1, not local, self.x1, self.y1, not local, self.x1 + self.r, self.y1, not local),
+                   ("L", self.x2 - self.r, self.y1, not local),
+                   ("C", self.x2, self.y1, not local, self.x2, self.y1, not local, self.x2, self.y1 + self.r, not local),
+                   ("L", self.x2, self.y2 - self.r, not local),
+                   ("C", self.x2, self.y2, not local, self.x2, self.y2, not local, self.x2 - self.r, self.y2, not local),
+                   ("L", self.x1 + self.r, self.y2, not local),
+                   ("C", self.x1, self.y2, not local, self.x1, self.y2, not local, self.x1, self.y2 - self.r, not local),
+                   ("L", self.x1, self.y1 + self.r, not local), ("Z",)], **self.attr)
+    else:
+      # TODO: missing
+      raise NotImplementedError
+
+######################################################################
+
 class Ellipse(Curve):
   """Draws an ellipse from a semimajor vector (ax,ay) and a semiminor
   length (b).
