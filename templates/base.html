@@ -65,7 +65,7 @@ pageTracker._trackPageview();
   <table border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td class="hlogo" rowspan="2">
-	<img class="himg" src="/images/logo.png">
+	<img class="hlogo_img" src="/images/logo.png" alt="logo">
       </td>
       <td class="hlogin" colspan="4">
 	  {% if user %}
@@ -79,17 +79,17 @@ pageTracker._trackPageview();
       <td class="hspace"></td>
       <td class="hbutton">
 	<a href="/">
-	  <img class="himg" src="/images/build_{{page.build}}.png" />
+	  <span class="tbut" id="tbut_build_{{page.build}}"></span>
 	</a>
       </td>
       <td class="hbutton">
 	<a href="/learn">
-	  <img class="himg" src="/images/learn_{{page.learn}}.png" />
+	  <span class="tbut" id="tbut_learn_{{page.learn}}"></span>
 	</a>
       </td>
       <td class="hbutton">
 	<a href="/about">
-	  <img class="himg" src="/images/about_{{page.about}}.png" />
+	  <span class="tbut" id="tbut_about_{{page.about}}"></span>
 	</a>
       </td>
     </tr>
