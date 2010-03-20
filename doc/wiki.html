@@ -572,10 +572,32 @@ of search term and image format. For example coffee.png should return image of c
 format. There should also be specification for what size images service would give. Maybe /size45x45/ as url path
 would be best option. So, if an user want picture of sun as jpg and sized 50x50, he would call /size50x50/sun.jpg.</pre>
 </div>
-<div title="KnownBugs" modifier="istenber" created="201001300016" modified="201003041125" changecount="3">
-<pre>* bug: if flash is disabled - and svg, does not work
-* bug: if javascript is disabled, does not work
-* bug: if cookies are disabled, does not work</pre>
+<div title="KnownBugs" modifier="sankari" created="201001300016" modified="201003200801" changecount="4">
+<pre>* Internet explorer
+** buttons disappear (style and data) after click
+** ie image &quot;flash&quot; when cursor is over (span a hrefs) - maybe related to previous
+** google docs does not work with IE, as htc (svgweb ms behavior) does not allow cross domain references
+** set preview window elements with exact size - fix ie preview window bugs
+** ie shows links as blinking cursor
+** (prototype.js line 1715) Out of stack space (prototype.js / delete cache bug)
+** (svg.js line 1 char 23404) Object doesn't support this property or method
+* svgweb flashplayer
+** dashed grid line does not work with ie (svgweb flash player?)
+* opera
+** opera does not support scandic chars in svg
+* common
+** fix lightbox.css
+** some td elements missing close tag?
+** fix preview part size to match edit part
+** two colors generators zero values
+** (prototype.js line 4481) 'handler' is null or not an object
+*** https://prototype.lighthouseapp.com/projects/8886/tickets/407-ie7-i8-report-handler-is-null-or-not-an-object
+
+General issues
+
+* if flash is disabled - and svg, does not work
+* if javascript is disabled, does not work
+* if cookies are disabled, does not work</pre>
 </div>
 <div title="LessImportantIdeas" modifier="istenber" created="201001300013" modified="201001311333" changecount="5">
 <pre>* generators common options: medals(gold, silver, bronze), frames
@@ -602,33 +624,30 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="istenber" created="201001032032" modified="201003152207" changecount="233">
+<div title="MainStuff" modifier="sankari" created="201001032032" modified="201003200802" changecount="244">
 <pre>NEXT RELEASE
 
-* opera does not support scandic chars in svg
-* google docs does not work with IE, as htc (svgweb ms behavior) does not allow cross domain references
+* fix bugs (KnownBugs)
+* sign up for google javascript api key http://code.google.com/intl/fi/apis/ajaxsearch/signup.html
+* change generators background to white box (decorator?)
+* &quot;save&quot; should only save current active generator
 * docs - wait gadget publishing as only after it one can &quot;share&quot; documents with gadgets
 ** new tutorial video
 ** pdf document with chart, and odf document, google docs document
 ** more preview things.. google docs, blogger entry, igoogle, etc.
-* ie testing
-* remove beta logo
 * inform visualization api team about gadget
-* fig ie bugs:
-** stack overflow error 1716
-** buttons disappear (style and data) after click
-** ie image &quot;flash&quot; when cursor is over (span a hrefs) - maybe related to previous
-** logo corners (remove beta tag sametime)
 
 TODO
 
+* move and zoom to preview image - maybe with viewport? or scale?
+** should we have additional menu about size properties, or maybe file page new button setting which open lightbox
+* mouse over bar could show some interaction. for example value of bar
+* create tspan text class to svgfig
+* create symbol elements in defs, and use them in page
+* make tests for all ui - especially ajax - code. e.g. 1. test that generator is default, 2. run ajax code to change generator, 3. check that generator have changed, but rest of db is same!
 * make chart that have different style depending what data is
 ** weather: -3 is cold!?, +20 is hot
-
-* business plan
-* customers
-* company build money?
-
+* grouping for generator attributes - and collapse group by pressing plus, etc.
 * user should not be able to overwrite chart (or style) made by others
 * move export (png and svg) to file page and make fields for size there
 * generator interface version 3: support scaling
@@ -654,7 +673,6 @@ TODO
 * spreadsheet gadget data/titles vs. titles/data
 * more admin views, which control system
 * use image server to store more images and change generators (nature) to use it
-* montage.sh does not work in /tmp/export (aka. send-to-google.sh script)
 
 BIGS
 
@@ -748,11 +766,8 @@ Other
 * bug: style is not always saved correctly? when and why are still open
 * make security checks for ajax interface: now it fails with # chars?
 * google-chrome bug: it have preview part (bp_main) 10 pixels too short
-* new tutorial video with new ui
 * publish button (to file page) which publish style to _gallery_, and from _gallery_ users can see best styles and rate them, maybe tag clouds?
 * renaming
-** model/utils.py to lib/string_tools.py
-** model/number_scaler.py to lib/number_scaler.py
 ** lib/utils.py to lib/svg_tools.py
 ** all external components to ext/ : jscolor, svgweb, svgfig, etc.
 
