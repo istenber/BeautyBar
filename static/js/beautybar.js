@@ -191,19 +191,9 @@ var attr = {
     set_color: function(val) {
 	this.set_value(val);
     },
-    set_float: function(val, min, max) {
-	var v = $(val).getValue();
-	if (!parseFloat(v)) { $(val).setValue(1.0); }
-	if (v > max) { $(val).setValue(max); }
-	if (v < min) { $(val).setValue(min); }
-	this.set_value(val);
-    },
-    set_integer: function(val, min, max, def) {
-	var v = $(val).getValue();
-	if (isNaN(parseInt(v))) { $(val).setValue(def); }
-	if (v > max) { $(val).setValue(max); }
-	if (v < min) { $(val).setValue(min); }
-	this.set_value(val);
+    set_num: function(name, val) {
+	ajaxWrapper('/set_attr?' + name + '=\"' + val + '\"',
+		    this._updater);
     },
     _generator_updater: function(out) {
 	preview.update();

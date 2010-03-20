@@ -1,1 +1,11 @@
-<input type="text" id="{{ name }}" maxlength="4" size="4" value="{{ value }}" onblur="attr.set_float('{{ name }}', {{ attr.min }}, {{ attr.max }});">
+<script type="text/javascript">
+new Control.Slider('h_{{ name }}', 't_{{ name }}', {
+  range: $R({{ attr.min }}, {{ attr.max }}),
+  sliderValue: {{ value }},
+  onChange: function(v) { attr.set_num('{{ name }}', v); }
+});
+</script>
+
+<div id="t_{{ name }}" class="slider_track">
+  <div id="h_{{ name }}" class="slider_handle"></div>
+</div>

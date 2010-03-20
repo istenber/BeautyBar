@@ -402,3 +402,23 @@
  #gbut_right {
      background-position : -40px 0px;
  }
+
+ .slider_track {
+     background-color    : black;
+     position            : relative;
+     height              : 5px;
+     width               : 80px;
+     cursor              : pointer;
+     z-index             : 0;
+     top                 : 10px;
+ }
+
+ .slider_handle {
+     background-color    : green;
+     position            : absolute;
+     height              : 15px;
+     width               : 10px;
+     top                 : -5px;
+     cursor              : move;
+     z-index             : 2;
+ }
