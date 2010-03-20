@@ -386,3 +386,19 @@
  #mbut_file_off {
      background-position : -188px -30px;
  }
+
+ .gbut {
+     width               : 40px;
+     height              : 100px;
+     display             : block;
+     background-image    : url('/images/glbuttons.png');
+     background-repeat   : no-repeat;
+ }
+
+ #gbut_left {
+     background-position : 0px 0px;
+ }
+
+ #gbut_right {
+     background-position : -40px 0px;
+ }
