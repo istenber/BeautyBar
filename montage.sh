@@ -66,6 +66,7 @@ make_css() {
 	POS=`expr $POS + 100`
 	SIZE=`expr $SIZE + 110`
     done
+    SIZE=`expr $SIZE - 10`
     echo "
  #carousel-content {
      width               : ${SIZE}px;
