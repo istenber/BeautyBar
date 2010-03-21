@@ -10,7 +10,12 @@ from generators.__init__ import get_rating
 
 
 class GuiInterface(object):
-    """Interface to show diagram info for users."""
+    """Interface to show diagram info for users.
+
+    Different version have different capabilities:
+     1. Support only datasets with six rows and fixed size 300x200
+     2. Can have three to eight rows
+    """
 
     def __init__(self):
         if self.__class__ is GuiInterface:
@@ -39,9 +44,7 @@ class GuiInterface(object):
         return "no description"
 
     def get_version(self):
-        """Generator version: version 1 support only datasets with six
-        rows and fixed size 300x200, version 2 can have three to eight
-        rows and different sizes."""
+        """Get generator version"""
         return 1
 
     def get_rating(self):
