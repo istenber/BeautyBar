@@ -11,23 +11,24 @@ from lib.svgfig import *
 from cStringIO import StringIO
 
 
+def _to_pixels(string):
+    if "px" in string:
+        string = string.replace("px", "")
+    try:
+        return float(string)
+    except ValueError:
+        return 0
+
+
 class Decorator(object):
 
     def __init__(self, generator):
         self.generator = generator
         # needed if cStringIO is used
-        utf16_str = self.generator.output().encode("UTF-16")
+        utf16_str = self.generator.output().encode("UTF-8")
         self.svg = load_stream(StringIO(utf16_str))
-        self.width = self._to_pixels(self.svg.attr['width'])
-        self.height = self._to_pixels(self.svg.attr['height'])
-
-    def _to_pixels(self, string):
-        if "px" in string:
-            string = string.replace("px", "")
-        try:
-            return float(string)
-        except ValueError:
-            return 0
+        self.width = _to_pixels(self.svg.attr['width'])
+        self.height = _to_pixels(self.svg.attr['height'])
 
     def resize_str(self, resize_str):
         """Get new image size as string: \"300x200\""""
@@ -82,8 +83,7 @@ class Decorator(object):
             self.svg[self._ip()]["transform"] = matrix
         else:
             scaler = SVG("g", id="full_scaler", transform=matrix)
-            for e in self.svg[self._ip():]:
-                scaler.append(e)
+            scaler.sub += self.svg[self._ip():]
             self.svg[self._ip()] = scaler
             self.svg[(self._ip() + 1):] = ""
         self.width = 300 * sx
@@ -100,6 +100,11 @@ class Decorator(object):
         title = SVG("g", title_bg, title_text.SVG())
         self.svg.append(title)
 
+    def add_background(self, color):
+        r = SVG("rect", x=0, y=0, width=self.width, height=self.height,
+                style="fill:#%s;" % color)
+        self.svg.sub.insert(self._ip(), SVG("g", r))
+
     def resize(self, width, height):
         self.scale_xy(width / self.width, height / self.height, move=False)
 
@@ -110,11 +115,8 @@ class Decorator(object):
         self.svg.attr["width"] = self.width
         self.svg.attr["height"] = self.height
         return self.svg.standalone_xml()
-        
 
-def main():
-    logging.getLogger().setLevel(logging.DEBUG)
-    svg = """<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>
+TEST_GEN_SVG = u"""<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>
 <svg
    xmlns:svg=\"http://www.w3.org/2000/svg\"
    xmlns=\"http://www.w3.org/2000/svg\"
@@ -131,10 +133,17 @@ def main():
    <rect
      y=\"50\" x=\"50\" height=\"10\" width=\"10\" id=\"rectangle2\"
      style=\"fill:#00ffff;\" />
-</svg>
+</svg>"""
 
-"""
-    print Decorator(svg).output()
+def main():
+    logging.getLogger().setLevel(logging.DEBUG)
+    class TestGen(object):
+        def output(self):
+            return TEST_GEN_SVG
+    d = Decorator(TestGen())
+    d.scale(0.9)
+    d.add_background("00ff00")
+    print d.output()
 
 if __name__ == "__main__":
     main()

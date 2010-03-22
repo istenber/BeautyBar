@@ -59,7 +59,9 @@ class Generator(object):
         for item in data.as_list():
             chart.add_row(item.name, item.value)
         chart.set_range(data.min, data.max)
-        return Decorator(chart)
+        d = Decorator(chart)
+        d.add_background("ffffff")
+        return d
 
     def me(self):
         return generators.get_instance(self.name)
