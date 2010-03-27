@@ -572,7 +572,7 @@ of search term and image format. For example coffee.png should return image of c
 format. There should also be specification for what size images service would give. Maybe /size45x45/ as url path
 would be best option. So, if an user want picture of sun as jpg and sized 50x50, he would call /size50x50/sun.jpg.</pre>
 </div>
-<div title="KnownBugs" modifier="sankari" created="201001300016" modified="201003200801" changecount="4">
+<div title="KnownBugs" modifier="sankari" created="201001300016" modified="201003271149" changecount="7">
 <pre>* Internet explorer
 ** buttons disappear (style and data) after click
 ** ie image &quot;flash&quot; when cursor is over (span a hrefs) - maybe related to previous
@@ -589,9 +589,9 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 ** fix lightbox.css
 ** some td elements missing close tag?
 ** fix preview part size to match edit part
-** two colors generators zero values
 ** (prototype.js line 4481) 'handler' is null or not an object
 *** https://prototype.lighthouseapp.com/projects/8886/tickets/407-ie7-i8-report-handler-is-null-or-not-an-object
+** carousel bug: a.stop is not a function
 
 General issues
 
@@ -599,24 +599,8 @@ General issues
 * if javascript is disabled, does not work
 * if cookies are disabled, does not work</pre>
 </div>
-<div title="LessImportantIdeas" modifier="istenber" created="201001300013" modified="201001311333" changecount="5">
-<pre>* generators common options: medals(gold, silver, bronze), frames
-* all data stored MUST be converted to unicode - go through unicode(s) method
-* make cronjobs to collect statistics
-* make cronjobs to remove _deleted items
-* default datas - something to that is always in application, like few default styles
-** these styles then can be used as drop down list in spreadsheet-gadget-xxx.xml
-** for each style default should be default data
-* send spreadsheet-gadget.xml to google docs listing
-* admin database tools?
-* update db model image
-* create &quot;autorange&quot; which takes set of data and counts some nice range to it
-* add svgfig library functions like: text to path
-
-* modify copy_model_instance nicer and send it to djangosnipets.org
-* lot of testing after changes and then remove beta from header
-* new tutorial video
-</pre>
+<div title="LessImportantIdeas" modifier="sankari" created="201001300013" modified="201003271124" changecount="7">
+<pre></pre>
 </div>
 <div title="MainMenu" modifier="istenber" created="201001032038" modified="201001032051" changecount="4">
 <pre>MainStuff
@@ -624,21 +608,27 @@ General issues
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="sankari" created="201001032032" modified="201003200802" changecount="244">
+<div title="MainStuff" modifier="sankari" created="201001032032" modified="201003271158" changecount="252">
 <pre>NEXT RELEASE
 
 * fix bugs (KnownBugs)
 * sign up for google javascript api key http://code.google.com/intl/fi/apis/ajaxsearch/signup.html
-* change generators background to white box (decorator?)
 * &quot;save&quot; should only save current active generator
 * docs - wait gadget publishing as only after it one can &quot;share&quot; documents with gadgets
 ** new tutorial video
 ** pdf document with chart, and odf document, google docs document
 ** more preview things.. google docs, blogger entry, igoogle, etc.
 * inform visualization api team about gadget
+* two colors generators zero values -- check
+* business plan
+
+* specify generator interface versions
+** v3: support different sizes: font scaling, line scaling
+** v4: common parameters background, company logo, etc.
 
 TODO
 
+* color themes as common parameter
 * move and zoom to preview image - maybe with viewport? or scale?
 ** should we have additional menu about size properties, or maybe file page new button setting which open lightbox
 * mouse over bar could show some interaction. for example value of bar
@@ -673,6 +663,14 @@ TODO
 * spreadsheet gadget data/titles vs. titles/data
 * more admin views, which control system
 * use image server to store more images and change generators (nature) to use it
+* generators common options: medals(gold, silver, bronze), frames
+* all data stored MUST be converted to unicode - go through unicode(s) method
+* make cronjobs to collect statistics
+* make cronjobs to remove _deleted items
+* admin database tools?
+* update db model image
+* add svgfig library functions like: text to path
+* modify copy_model_instance nicer and send it to djangosnipets.org
 
 BIGS
 
@@ -773,7 +771,6 @@ Other
 
 KnownBugs is our bug database
 RandomMarks aka. small ideas
-LessImportantIdeas
 WorkSchedule contains time estimates for each task.
 
 Integrations
@@ -805,7 +802,7 @@ Documentation and plans
 SvgTools to edit and translate svg files
 </pre>
 </div>
-<div title="RandomMarks" modifier="istenber" created="201001092258" modified="201001162319" changecount="6">
+<div title="RandomMarks" modifier="sankari" created="201001092258" modified="201003201248" changecount="7">
 <pre>We could use some kind of image maps to let user *find* best style. For example dimensions might be simple
 versus complex and all (or some) styles should be positioned in that scale. Map could be placed at style list 
 part of application.
@@ -818,9 +815,6 @@ and that text fit in reserved space. Maybe we should specify that title text for
 rectangle size 35x10, and maybe we can create cut path that verifies that it is so. Or if there is a tool that
 calculates size of text that would be nice - or could it be even svg standard part that we can make box that
 forces text to fit!
-
-Generators with gradient backgrounds: top screen is darker that bottom. Also with bars, so that one can
-see from value from color of the bar. 
 
 Do research and check what kind of charts/bars big players are using. For example news corporations,
 magazines and statistical institutes. CNN, Foxnews, bloombergs, yle, mtv3, etc.
@@ -841,7 +835,7 @@ how much internet traffic there is.
 
 Font server!
 
-</pre>
+Background images to image server</pre>
 </div>
 <div title="SharedImage" modifier="istenber" created="201001032101" modified="201001032101" changecount="2">
 <pre>It is possible to share image though XMPP protocol with app engine. There is support for it in Inkscape as well. It is called as Inkboard and it uses Pedro XMPP protocol to share image. I haven't get it working yet though, so it is only theory. Anyway, the idea would be that one can create bar chart with Beauty Bar and then *connect* to it by using image edit programs. Then one should be able to edit this chart further by syncing both edits: onces from Beauty Bar and others from Inkscape (or other image edit program).
