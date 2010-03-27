@@ -58,7 +58,7 @@ class Twocolors(SvgFigGenerator):
             g.append(SVG("rect", x=x, y=180-h, width=self.calc.bar_width,
                          height=h, style="fill:#" + self.color1 + ";"))
             g.append(SVG("rect", x=x+self.rd+2, y=180-h+2,
-                         width=w, height=h-4,
+                         width=w, height=max(h-4, 0),
                          style="fill:#" + self.color2 + ";"))
         return g
 
