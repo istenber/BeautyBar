@@ -572,12 +572,11 @@ of search term and image format. For example coffee.png should return image of c
 format. There should also be specification for what size images service would give. Maybe /size45x45/ as url path
 would be best option. So, if an user want picture of sun as jpg and sized 50x50, he would call /size50x50/sun.jpg.</pre>
 </div>
-<div title="KnownBugs" modifier="sankari" created="201001300016" modified="201003271149" changecount="7">
+<div title="KnownBugs" modifier="sankari" created="201001300016" modified="201003291158" changecount="8">
 <pre>* Internet explorer
 ** buttons disappear (style and data) after click
 ** ie image &quot;flash&quot; when cursor is over (span a hrefs) - maybe related to previous
 ** google docs does not work with IE, as htc (svgweb ms behavior) does not allow cross domain references
-** set preview window elements with exact size - fix ie preview window bugs
 ** ie shows links as blinking cursor
 ** (prototype.js line 1715) Out of stack space (prototype.js / delete cache bug)
 ** (svg.js line 1 char 23404) Object doesn't support this property or method
@@ -588,7 +587,6 @@ would be best option. So, if an user want picture of sun as jpg and sized 50x50,
 * common
 ** fix lightbox.css
 ** some td elements missing close tag?
-** fix preview part size to match edit part
 ** (prototype.js line 4481) 'handler' is null or not an object
 *** https://prototype.lighthouseapp.com/projects/8886/tickets/407-ie7-i8-report-handler-is-null-or-not-an-object
 ** carousel bug: a.stop is not a function
@@ -608,7 +606,7 @@ General issues
 [[GettingStarted]]
 </pre>
 </div>
-<div title="MainStuff" modifier="sankari" created="201001032032" modified="201003271158" changecount="252">
+<div title="MainStuff" modifier="sankari" created="201001032032" modified="201003291158" changecount="253">
 <pre>NEXT RELEASE
 
 * fix bugs (KnownBugs)
@@ -619,7 +617,10 @@ General issues
 ** pdf document with chart, and odf document, google docs document
 ** more preview things.. google docs, blogger entry, igoogle, etc.
 * inform visualization api team about gadget
-* two colors generators zero values -- check
+* check bug fixes:
+** two colors generators zero values
+** set preview window elements with exact size - fix ie preview window bugs
+
 * business plan
 
 * specify generator interface versions
