@@ -172,6 +172,14 @@
      vertical-align    : middle;
  }
 
+ .bpm_info {
+     height            : 70px;
+ }
+
+ .bpm_preview {
+     height            : 250px;
+ }
+
  .be_header {
      width             : 510px;
      height            : 40px;
