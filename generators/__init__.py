@@ -44,6 +44,7 @@ generators = {
     'lights'     : 1,
     'graveyard'  : 2,
     'earthart'   : 3,
+    'pilars'     : 2,
     }
 
 
