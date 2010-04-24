@@ -19,6 +19,7 @@
 import re, codecs, os, platform, copy, itertools, math, cmath, random, sys, copy
 _epsilon = 1e-5
 
+import generator_shapes as gs
 
 if re.search("windows", platform.system(), re.I):
   try:
