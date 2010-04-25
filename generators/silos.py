@@ -3,6 +3,7 @@ import logging
 from lib.svgfig import *
 from svgfig_base import SvgFigGenerator
 from attributes.common import Color, Boolean
+from lib.number_scaler import NumberScaler
 
 
 # TODO: make "image choose" attribute type,
@@ -13,10 +14,13 @@ class Silos(SvgFigGenerator):
     def __init__(self):
         SvgFigGenerator.__init__(self)
         # TODO: set default values
-        # self.color = "000000"
+        self.color = "000000"
         # self.has_x = True
         self.font_size = 13
         self.bar_width = 80
+        self.grid_count = 8
+        self.top_line = 5
+        self.has_meter = True
 
     def get_defs(self):
         # TODO: bar styles
@@ -32,8 +36,12 @@ class Silos(SvgFigGenerator):
                    self.get_bg(),
                    self.get_bars(),
                    gs.Grid(min_level = 160,
+                           max_level = 20 + self.top_line,
+                           line_height = 1,
+                           line_count = self.grid_count,
                            has_bline = False).SVG(),
                    self.get_bline(),
+                   self.get_top_bar(),
                    self.get_grid_titles(),
                    self.get_titles())
 
@@ -41,13 +49,17 @@ class Silos(SvgFigGenerator):
         g = SVG("g")
         style = "fill:#%s;text-anchor:end;font-weight:bold;" % "ffffff"
         bstyle = "fill:#%s;text-anchor:end;font-weight:bold;" % "000000"
-        k = (160 - 20) / 6
-        steps = self.get_steps(5)
+        k = (160 - (20 + self.top_line)) / (self.grid_count - 1)
+        steps = self.get_steps(self.grid_count)
         g.append(Text(30, 165, str(steps[0]), font_size=13, style=bstyle).SVG())
-        for i in range(1, 6):
+        if self.top_line >= 5:
+            gc = self.grid_count
+        else:
+            gc = self.grid_count - 1
+        for i in range(1, gc):
             y = 160 - i * k
-            t = str(steps[i])
-            g.append(Text(30, y + 5, t, font_size=13, style=style).SVG())
+            t = NumberScaler().scale(str(steps[i]))
+            g.append(Text(30, y + 4, t, font_size=13, style=style).SVG())
         return g        
 
     def get_steps(self, count):
@@ -64,8 +76,8 @@ class Silos(SvgFigGenerator):
 
     def get_bg(self):
         g = SVG("g")
-        g.append(SVG("rect", x=0, y=20, width=300, height=180,
-                     style="fill:#000000;"))
+        g.append(RoundedRect(0, 20, 300, 200, 20,
+                             style="fill:#000000;").SVG())
         g.append(SVG("rect", x=0, y=150, width=300, height=20,
                      style="fill:#ffffff;"))
         return g
@@ -77,7 +89,7 @@ class Silos(SvgFigGenerator):
         bw2 = bw / 2
         for i in range(0, self.get_row_count()):
             x = self.calc.left(i)
-            h = self.get_row_value(i) * 150
+            h = self.get_row_value(i) * 140 - self.top_line
             g.append(SVG("rect",
                          x = x + 10,
                          y = 0,
@@ -91,6 +103,10 @@ class Silos(SvgFigGenerator):
                          height = h,
                          style = "fill:#%s;" % self.color))
         return g
+
+    def get_top_bar(self):
+        return SVG("rect", x=10, y=20, width=280, height=self.top_line,
+                   style="fill:#000000;")
 
     def get_titles(self):
         g = SVG("g")

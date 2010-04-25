@@ -34,7 +34,7 @@ class Grid(object):
                                 x = a['bline_x0'], width = bline_width,
                                 y = a['min_level'], height = a['bline_height'],
                                 style="fill:#%s;" % a['color']))
-        k = (a['min_level'] - a['max_level']) / a['line_count']
+        k = (a['min_level'] - a['max_level']) / (a['line_count'] - 1)
         for i in range(1, a['line_count']):
             y = a['min_level'] - i * k
             g.append(svgfig.SVG("rect",
