@@ -16,7 +16,7 @@ make_png() {
     for G in $GENERATORS; do
 	NAME=`printf "%0.3d.$G" $COUNT`
 	./generators/process_interface.py print generators/$G.py | sed 's/xlink:href=\"\/images\//xlink:href=\"static\/images\//g' > $TMPDIR/$NAME.svg
-	inkscape $TMPDIR/$NAME.svg -z -a 0:-20:300:220 -h 80 -e $TMPDIR/$NAME.png > /dev/null 2>&1
+	inkscape $TMPDIR/$NAME.svg -z -a 0:0:300:200 -w 100 -e $TMPDIR/$NAME.png > /dev/null 2>&1
 	COUNT=`expr $COUNT + 1`
     done
     montage $TMPDIR/*.png -geometry 100x80+0+0 -tile $COUNT $TMPDIR/montage.png
