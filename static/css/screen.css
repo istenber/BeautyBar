@@ -430,3 +430,15 @@
      cursor              : move;
      z-index             : 2;
  }
+
+ .imgc_cell {
+     vertical-align      : middle;
+     width               : 40px;
+     height              : 20px;
+     text-align          : center;
+     background-color    : white;
+ }
+
+ .imgc_on {
+     background-color    : lightgrey;
+ }

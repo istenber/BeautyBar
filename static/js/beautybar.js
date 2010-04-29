@@ -188,6 +188,16 @@ var attr = {
 	ajaxWrapper('/set_attr?' + val + '=\"' + c + '\"',
 		    this._updater);
     },
+    set_imagechoice: function(val, c) {
+	$$('.imgc_cell').each(function(e) {
+		if((e.identify().indexOf(val + '_') != -1) &&
+		   (e.hasClassName('imgc_on')))
+		   e.removeClassName('imgc_on');
+	    });
+	$(val + '_' + c).addClassName('imgc_on');
+	ajaxWrapper('/set_attr?' + val + '=\"' + c + '\"',
+		    this._updater);
+    },
     set_color: function(val) {
 	this.set_value(val);
     },
