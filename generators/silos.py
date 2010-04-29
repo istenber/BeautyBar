@@ -2,25 +2,24 @@ import logging
 
 from lib.svgfig import *
 from svgfig_base import SvgFigGenerator
-from attributes.common import Color, Boolean
+from attributes.common import Color, Boolean, Title
+from attributes.images import Imagechoice
 from lib.number_scaler import NumberScaler
 
-
-# TODO: make "image choose" attribute type,
-# TODO:  and use set all attributes descriped in design
 
 class Silos(SvgFigGenerator):
 
     def __init__(self):
         SvgFigGenerator.__init__(self)
-        # TODO: set default values
-        self.color = "000000"
-        # self.has_x = True
         self.font_size = 13
         self.bar_width = 80
         self.grid_count = 8
         self.top_line = 5
+        self.bar_head = 1
+        self.bar_line = 1
+        self.bar_color = "800000"
         self.has_meter = True
+        self.has_grid = False
 
     def get_defs(self):
         # TODO: bar styles
@@ -32,20 +31,25 @@ class Silos(SvgFigGenerator):
         self.calc(edge_width = 20,
                   bar_size = 90,
                   font_size = self.font_size)
-        return SVG("g",
-                   self.get_bg(),
-                   self.get_bars(),
-                   gs.Grid(min_level = 160,
-                           max_level = 20 + self.top_line,
-                           line_height = 1,
-                           line_count = self.grid_count,
-                           has_bline = False).SVG(),
-                   self.get_bline(),
-                   self.get_top_bar(),
-                   self.get_grid_titles(),
-                   self.get_titles())
+        g = SVG("g")
+        g.append(self.get_bg())
+        g.append(self.get_bar_silos())
+        if self.has_grid:
+            g.append(gs.Grid(min_level = 160,
+                             max_level = 20 + self.top_line,
+                             line_height = 1,
+                             line_count = self.grid_count,
+                             has_bline = False).SVG())
+        g.append(self.get_bars())
+        g.append(self.get_bline())
+        g.append(self.get_top_bar())
+        if self.has_meter:
+            # TODO: remove black side
+            g.append(self.get_meters())
+        g.append(self.get_titles())
+        return g
 
-    def get_grid_titles(self):
+    def get_meters(self):
         g = SVG("g")
         style = "fill:#%s;text-anchor:end;font-weight:bold;" % "ffffff"
         bstyle = "fill:#%s;text-anchor:end;font-weight:bold;" % "000000"
@@ -86,7 +90,19 @@ class Silos(SvgFigGenerator):
         g = SVG("g")
         bw = self.calc.bar_width * self.bar_width / 100
         bw_x0 = (self.calc.bar_width - bw) / 2
-        bw2 = bw / 2
+        for i in range(0, self.get_row_count()):
+            x = self.calc.left(i)
+            h = self.get_row_value(i) * 140 - self.top_line
+            g.append(SVG("rect",
+                         x = x + 10 + bw_x0,
+                         y = 160-h,
+                         width = bw,
+                         height = h,
+                         style = "fill:#%s;" % self.bar_color))
+        return g
+
+    def get_bar_silos(self):
+        g = SVG("g")
         for i in range(0, self.get_row_count()):
             x = self.calc.left(i)
             h = self.get_row_value(i) * 140 - self.top_line
@@ -96,12 +112,6 @@ class Silos(SvgFigGenerator):
                          width = self.calc.bar_width,
                          height = 190,
                          style = "fill:#ffffff;"))
-            g.append(SVG("rect",
-                         x = x + 10 + bw_x0,
-                         y = 160-h,
-                         width = bw,
-                         height = h,
-                         style = "fill:#%s;" % self.color))
         return g
 
     def get_top_bar(self):
@@ -124,12 +134,17 @@ class Silos(SvgFigGenerator):
     def get_ui_name(self):
         return "Silos"
 
-    # TODO: add attributes
     def get_attributes(self):
-        # color = Color(self, "color", "Color")
-        # has_x = Boolean(self, "has_x", "Has x?")
-        # return [color, has_x]
-        return []
+        has_grid = Boolean(self, "has_grid", "Grid?")
+        has_meter = Boolean(self, "has_meter", "Meter?")
+        bar_title = Title(self, "Bar")
+        # TODO: implement
+        bar_head = Imagechoice(self, "bar_head", "Head",
+                               ["silos1", "silos2", "silos3"])
+        bar_line = Imagechoice(self, "bar_line", "Lines",
+                               ["silos1", "silos4", "silos5"])
+        bar_color = Color(self, "bar_color", "Color")
+        return [has_grid, has_meter, bar_title, bar_head, bar_line, bar_color]
 
     def get_version(self):
         return 2
