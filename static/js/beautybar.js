@@ -263,5 +263,5 @@ init = function() {
 };
 
 
-Event.observe(window, 'load', init, false); 
+Event.observe(window, 'load', init);
 
