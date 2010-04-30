@@ -1,15 +1,13 @@
-
-
-<table>
+<table cellpadding="0" cellspacing="0">
 <tr>
-
 {% for choice in attr.choices %}
-<td {% ifstrequal value forloop.counter %}class="imgc_cell imgc_on"{% else %}class="imgc_cell"{% endifstrequal %} id="{{ name }}_{{ forloop.counter }}">
+<td>
 <a href="javascript:" onclick="attr.set_imagechoice('{{ name }}', {{ forloop.counter }});">
+<div {% ifstrequal value forloop.counter %}class="imgc_cell{% if forloop.first %} imgc_first{% endif %}{% if forloop.last %} imgc_last{% endif %} imgc_on"{% else %}class="imgc_cell{% if forloop.first %} imgc_first{% endif %}{% if forloop.last %} imgc_last{% endif %}"{% endifstrequal %} id="{{ name }}_{{ forloop.counter }}">
 <img src="images/{{ choice }}.png" />
+</div>
 </a>
 </td>
 {% endfor %}
-
 </tr>
 </table>

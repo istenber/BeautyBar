@@ -433,12 +433,27 @@
 
  .imgc_cell {
      vertical-align      : middle;
-     width               : 40px;
+     width               : 43px;
      height              : 20px;
      text-align          : center;
-     background-color    : white;
+     background-color    : lightyellow;
+     background-image    : url('/images/imgc_frame.png');
+     background-repeat   : no-repeat;
+     background-position : -49px 0px;
+     margin            : 0px 0px 0px 0px;
+     padding           : 0px 0px 0px 0px;
+ }
+
+ .imgc_first {
+     width               : 49px;
+     background-position : 0px 0px;
+ }
+
+ .imgc_last {
+     width               : 48px;
+     background-position : -92px 0px;
  }
 
  .imgc_on {
-     background-color    : lightgrey;
+     background-color    : lightgreen;
  }
