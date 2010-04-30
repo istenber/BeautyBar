@@ -4,7 +4,7 @@
 <td>
 <a href="javascript:" onclick="attr.set_imagechoice('{{ name }}', {{ forloop.counter }});">
 <div {% ifstrequal value forloop.counter %}class="imgc_cell{% if forloop.first %} imgc_first{% endif %}{% if forloop.last %} imgc_last{% endif %} imgc_on"{% else %}class="imgc_cell{% if forloop.first %} imgc_first{% endif %}{% if forloop.last %} imgc_last{% endif %}"{% endifstrequal %} id="{{ name }}_{{ forloop.counter }}">
-<img src="images/{{ choice }}.png" />
+<img src="images/{{ choice }}.png" style="vertical-align:middle;" />
 </div>
 </a>
 </td>
