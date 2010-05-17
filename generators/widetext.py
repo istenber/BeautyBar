@@ -16,6 +16,7 @@ class Widetext(SvgFigGenerator):
         self.y0 = 0
         self.font_size = 20
         self.x0 = 1.0
+        self.font_weight = 3
 
     # TODO: add cut paths?
     def get_defs(self):
@@ -39,7 +40,14 @@ class Widetext(SvgFigGenerator):
         h = (200 - self.y0 * 2) / self.get_row_count()
         h0 = self.y0 + ((200 - self.y0 * 2) % self.get_row_count()) / 2
         style = "fill:#%s;" % self.border_color
-        for i in range(1, self.get_row_count()):
+        for i in range(0, self.get_row_count()):
+            w = self.get_row_value(i) * 300
+            g.append(SVG("rect",
+                         x = w - 1,
+                         y = h0 + h * i,
+                         width = 2,
+                         height = h,
+                         style = style))
             g.append(SVG("rect",
                          x = 0,
                          y = h0 + h * i - 1,
@@ -84,22 +92,25 @@ class Widetext(SvgFigGenerator):
 
     def get_titles(self):
         g = SVG("g")
+        # TODO: make font processing library for svg
+        fs = int(self.font_size * (6 / self.get_row_count()))
         h = (200 - self.y0 * 2) / self.get_row_count()
         h0 = (self.y0 + ((200 - self.y0 * 2) % self.get_row_count()) / 2 +
-              h / 2 + self.font_size / 2)
-        style_a = "fill:#%s;text-anchor:middle;font-weight:bold;" % self.color_a
-        style_b = "fill:#%s;text-anchor:middle;font-weight:bold;" % self.color_b
+              h / 2 + fs / 2)
+        text_style = "text-anchor:middle;font-weight:900;"
+        style_a = (text_style + "fill:none;" +
+                   "stroke-width:%spx;" % self.font_weight +
+                   "stroke:#%s;" % self.color_a)
+        style_b = text_style + "fill:#%s;" % self.color_b
         x0 = 50 + self.x0 * 200 / 2
         for i in range(0, self.get_row_count()):
             w = self.get_row_value(i) * 300
             name = self.get_row_name(i, max_len=10)
             y = h0 + h * i
-            # TODO: cut path to w
             g.append(Text(x0, y, name, 
-                          font_size=self.font_size + 1, style=style_a).SVG())
-            # TODO: cut path from w
+                          font_size=fs, style=style_a).SVG())
             g.append(Text(x0, y, name, 
-                          font_size=self.font_size - 1, style=style_b).SVG())
+                          font_size=fs, style=style_b).SVG())
         return g
 
     def get_description(self):
@@ -113,10 +124,13 @@ class Widetext(SvgFigGenerator):
         color_b = Color(self, "color_b", "Empty color")
         has_borders = Boolean(self, "has_borders", "Borders?")
         border_color = Color(self, "border_color", "Border color")
-        y0 = Integer(self, "y0", "Top space", 0, 20, 10)
-        font_size = Integer(self, "font_size", "Font size", 10, 25, 20)
+        y0 = Integer(self, "y0", "Aspect ratio", 0, 20, 10)
+        font_size = Integer(self, "font_size", "Font size", 15, 25, 20)
         x0 = Float(self, "x0", "Title position", 0.0, 2.0)
-        return [color_a, color_b, has_borders, border_color, y0, font_size, x0]
+        font_weight = Integer(self, "font_weight", "Font weight",
+                              1, 5, 3)
+        return [color_a, color_b, has_borders, border_color, y0,
+                font_size, x0, font_weight]
 
     def get_version(self):
         return 2
