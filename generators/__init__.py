@@ -42,6 +42,8 @@ generators = {
     'greyarea'   : 2,
     'ground'     : 2,
     'lights'     : 1,
+    'widetext'   : 2,
+    'fromdark'   : 3,
     }
 
 
