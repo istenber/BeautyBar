@@ -10,3 +10,5 @@ index.yaml
 # folder for random temp files
 tmp/*
 
+# dynamic images folder
+dynamic_images/*

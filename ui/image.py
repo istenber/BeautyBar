@@ -16,16 +16,28 @@ class Image(db.Model):
 
 class ServeImage(webapp.RequestHandler):
 
-    def get(self, name):
-        if name[3:] != ".png":
-            logging.info("incorrect image: " + name)
-            self.error(404)
-        image = Image.get_by_name(name[:-4])
-        if image:
+    def image_type_ok(self, name):
+        postfix = name[-3:]
+        if postfix == "png":
+            # TODO: check that is ok!
             self.response.headers['Content-type'] = "image/png"
-            self.response.out.write(image.data)
-            return 
+            return True
+        elif postfix == "jpg":
+            # TODO: check that is ok!
+            # if is_ok...
+            self.response.headers['Content-type'] = "image/jpg"
+            return True
         else:
+            logging.info("incorrect image: " + name)
+
+    def get(self, name):
+        if not self.image_type_ok(name):
+            self.error(404)
+            return
+        image = Image.get_by_name(name[:-4])
+        if not image:
             logging.info("image not found: " + name)
             self.error(404)
+            return
+        self.response.out.write(image.data)
             
