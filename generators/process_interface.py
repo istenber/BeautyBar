@@ -97,6 +97,8 @@ Usage: ./generators/process_interface.py <dataset> <filename.py>
 """)
     start = cpu_time();
     out = diagram.output()
+    out = out.replace("/dbimages", "dynamic_images")
+    out = out.replace("/images", "static/images")
     end = cpu_time();
     logging.info("CPU time used: " + str(end - start))
     print out
