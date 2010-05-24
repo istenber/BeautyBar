@@ -4,10 +4,14 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 
 
+IMAGE_ROLES = ['other', 'attribute']
+
+
 class Image(db.Model):
 
     name = db.StringProperty()
     data = db.BlobProperty()
+    role = db.StringProperty(default='other', choices=IMAGE_ROLES)
 
     @classmethod
     def get_by_name(cls, name):

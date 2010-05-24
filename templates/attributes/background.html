@@ -1,0 +1,9 @@
+<select id="{{ name }}" name="{{ name }}" onchange="attr.set_value('{{ name }}');">
+
+{% for choice in attr.choices %}
+
+<option {% ifstrequal value choice %}selected="true" {% endifstrequal %}
+ value="{{ choice }}" >{{ choice }}</option>
+{% endfor %}
+
+</select>

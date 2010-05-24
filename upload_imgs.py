@@ -53,6 +53,7 @@ def send_img(name):
     image = Image()
     image.name = name
     image.data = db.Blob(data)
+    image.role = 'attribute'
     image.put()
     logging.debug("sent ok")
     return True

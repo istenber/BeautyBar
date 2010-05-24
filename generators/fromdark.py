@@ -3,10 +3,7 @@ import logging
 from lib.svgfig import *
 from svgfig_base import SvgFigGenerator
 from attributes.common import Color, Float, Choice, Boolean
-
-
-# IMGPATH="file:///home/ippe/dev/beautybar/static/images"
-IMGPATH="/images"
+from attributes.complex import Background
 
 
 class Fromdark(SvgFigGenerator):
@@ -17,9 +14,9 @@ class Fromdark(SvgFigGenerator):
         self.text_color = "ff0000"
         self.darkest = 0.8
         self.bar_fill = 0.8
-        self.img_id = 1
         self.has_splitter = True
         self.titles_clean = True
+        self.background = 'rocks'
 
     def get_elements(self):
         self.calc(edge_width = 16,
@@ -57,7 +54,7 @@ class Fromdark(SvgFigGenerator):
     def get_bg(self):
         return SVG("image", id="bg_image",x=33, y=0,
                    width=267, height=200,
-                   xlink__href=IMGPATH + "/fromdark-%s.png" % self.img_id)
+                   xlink__href="/dbimages/nature/%s.jpg" % self.background)
 
     def get_steps(self, count):
         step = int((self.max - self.min) / count)
@@ -148,12 +145,11 @@ class Fromdark(SvgFigGenerator):
         bar_fill = Float(self, "bar_fill", "Bar opacity", 0.2, 1.8)
         text_color = Color(self, "text_color", "Text color")
         darkest = Float(self, "darkest", "Darkness of left side", 0.2, 1.4)
-        img_id = Choice(self, "img_id", "Background image",
-                        ["Sky", "Wood", "House"])
+        background = Background(self, "background", "Background")
         has_splitter = Boolean(self, "has_splitter", "Splitters?")
         titles_clean = Boolean(self, "titles_clean", "Titles on white?")
         return [bar_color, bar_fill, text_color, darkest, 
-                img_id, has_splitter, titles_clean]
+                background, has_splitter, titles_clean]
 
     def get_version(self):
         return 2
