@@ -4,7 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from ui.mainpage import MainPage
-from ui.extra_pages import LearnPage, AboutPage
+from ui.extra_pages import LearnPage, AboutPage, PopularPage
 from ui.output_image import PreviewImage, SvgImage, AdminPreviewImage
 from ui.data_operations import (CleanData, LoadData, SaveData,
                                 ImportData, Dataset)
@@ -56,6 +56,7 @@ def main():
 
              ('/about', AboutPage),
              ('/learn', LearnPage),
+             ('/popular', PopularPage),
 
              ('/set_name', AjaxModifyName),
              ('/set_value', AjaxModifyValue),

@@ -19,3 +19,9 @@ class AboutPage(ExtraPage):
     
     def get_values(self):
         return { }
+
+
+class PopularPage(ExtraPage):
+
+    def get_values(self):
+        return { }
