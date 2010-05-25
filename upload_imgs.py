@@ -25,11 +25,14 @@ from ui.image import Image
 
 IMG_PATH='dynamic_images/'
 
-# TODO: for real server as well...
 # TODO: save image format!?
 
 def dev_passfunc():
     return ('test@example.com', 'nopass')
+
+def production_passfunc():
+    import getpass
+    return raw_input('Username: '), getpass.getpass('Password: ')
 
 def only_images(filename):
     return filename[-3:] in ['jpg', 'png']
@@ -79,10 +82,22 @@ def main():
         return
     app_id = "beauty-bar"
     host = "localhost:8080"
+    passfunc = dev_passfunc
+    if len(sys.argv) != 1:
+        mode = sys.argv[1]
+        if mode == 'production':
+            host = 'beauty-bar.appspot.com'
+            passfunc = production_passfunc
+        elif mode == 'dev':
+            pass
+        else:
+            logging.info("wrong mode %s" % mode)
+            return
     remote_api_stub.ConfigureRemoteDatastore(app_id, 
                                              '/remote_api', 
-                                             dev_passfunc, 
+                                             passfunc,
                                              host)
+    # send_img("nature/plains.jpg", 'attribute')
     send_bgs()
     send_popular()
 
