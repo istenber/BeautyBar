@@ -3,6 +3,20 @@ import logging
 from ui.basepage import ExtraPage
 
 
+MAX_COUNT = 20
+POPULAR_IMAGES = None
+
+# TODO: make common function with attributes/complex!!
+def populars_from_db():
+    global POPULAR_IMAGES
+    if POPULAR_IMAGES is None:
+        from ui.image import Image
+        objs = Image.gql("WHERE role = :1", "popular").fetch(MAX_COUNT)
+        POPULAR_IMAGES = sorted(map(lambda x: x.name.split("/")[1], objs))
+    return POPULAR_IMAGES
+
+
+
 class LearnPage(ExtraPage):
     
     def _is_valid_page(self, page):
@@ -21,7 +35,17 @@ class AboutPage(ExtraPage):
         return { }
 
 
+# TODO:
+# - make automatic image creation?
+# - make popular page link from mainpage
+# - give star ratings for populars
+# - do paging and tablezing for populars
+# - rethink dbimages naming?
+# command to make image:
+# sed ... xlink:href="/dbimages/
+# with .. xlink:href="/home/ippe/dev/beautybar/dynamic_images/
+# inkscape img.svg -z -a 0:0:300:200 -h 150 -e outname.png
 class PopularPage(ExtraPage):
 
     def get_values(self):
-        return { }
+        return { 'populars' : populars_from_db() }

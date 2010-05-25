@@ -1,5 +1,42 @@
 <div class="textpage">
 
-<h1>HELLO WORLD</h1>
+<h1>The most popular styles!</h1>
+
+<div style="text-align:center;font-weight:bold;">
+<table border="0" width="100%">
+<tr>
+{% for popular in populars %}
+<td>
+<a href="/load?name={{ popular }}&redirect=yes">
+<img src="/dbimages/popular/{{ popular }}.png" width="225" height="150" /></a>
+<br />
+<a href="/load?name={{ popular }}&redirect=yes">
+{{ popular }}
+</a>
+</td>
+{% endfor %}
+</tr>
+<tr>
+<td>
+<img src="..." width="225" height="150" /><br />
+One
+</td>
+<td>
+<img src="..." width="225" height="150" /><br />
+Two
+</td>
+<td>
+<img src="..." width="225" height="150" /><br />
+Three
+</td>
+</tr>
+</table>
+</div>
+
+<div style="text-align:right;">
+<br />
+More [ <a href="">1</a> | 2 | 3 | 4 ]
+</div>
+
 
 </div>

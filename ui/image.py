@@ -4,7 +4,7 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 
 
-IMAGE_ROLES = ['other', 'attribute']
+IMAGE_ROLES = ['other', 'attribute', 'popular']
 
 
 class Image(db.Model):

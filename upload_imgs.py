@@ -31,13 +31,12 @@ IMG_PATH='dynamic_images/'
 def dev_passfunc():
     return ('test@example.com', 'nopass')
 
-def only_jpgs(filename):
-    return ".jpg" in filename
+def only_images(filename):
+    return filename[-3:] in ['jpg', 'png']
 
-def send_img(name):
-    if name.endswith('.jpg'):
-        name = name[:-4]
-    filename = IMG_PATH + name + '.jpg'
+def send_img(name, role):
+    filename = IMG_PATH + name
+    name = name[:-4]
     logging.debug("try to send %s" % name)
     img = Image.gql("WHERE name = :1", name).get()
     if img is not None:
@@ -53,10 +52,24 @@ def send_img(name):
     image = Image()
     image.name = name
     image.data = db.Blob(data)
-    image.role = 'attribute'
+    image.role = role
     image.put()
     logging.debug("sent ok")
     return True
+
+def send_folder(folder, role):
+    imgs = filter(only_images, os.listdir(IMG_PATH + '/' + folder))
+    for img in imgs:
+        if send_img("%s/%s" % (folder, img), role):
+            logging.info("%s succeed!!" % img)
+        else:
+            logging.info("%s failed!!" % img)
+
+def send_bgs():
+    send_folder('nature', 'attribute')
+
+def send_popular():
+    send_folder('popular', 'popular')
 
 def main():
     # logging.getLogger().setLevel(logging.DEBUG)
@@ -70,13 +83,8 @@ def main():
                                              '/remote_api', 
                                              dev_passfunc, 
                                              host)
-    imgs = filter(only_jpgs, os.listdir(IMG_PATH + '/nature'))
-    for img in imgs:
-        if send_img("nature/%s" % img):
-            logging.info("%s succeed!!" % img)
-        else:
-            logging.info("%s failed!!" % img)
-
+    send_bgs()
+    send_popular()
 
 if __name__ == '__main__':
     main()

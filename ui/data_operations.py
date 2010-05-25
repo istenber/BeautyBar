@@ -77,6 +77,9 @@ class LoadData(SessionPage):
         self.session.name = "_deleted"
         self.session.cookie = ""
         self.session.put()
+        if self.request.get("redirect") == "yes":
+            self.redirect("/")
+            return
         self.response.out.write(filename + " loaded")
 
 
