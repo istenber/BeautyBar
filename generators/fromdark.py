@@ -2,7 +2,7 @@ import logging
 
 from lib.svgfig import *
 from svgfig_base import SvgFigGenerator
-from attributes.common import Color, Float, Choice, Boolean
+from attributes.common import Color, Float, Choice, Boolean, Title
 from attributes.complex import Background
 
 
@@ -17,6 +17,7 @@ class Fromdark(SvgFigGenerator):
         self.has_splitter = True
         self.titles_clean = True
         self.background = 'rocks'
+        self.bg_opacity = 1.0
 
     def get_elements(self):
         self.calc(edge_width = 16,
@@ -54,7 +55,8 @@ class Fromdark(SvgFigGenerator):
     def get_bg(self):
         return SVG("image", id="bg_image",x=33, y=0,
                    width=267, height=200,
-                   xlink__href="/dbimages/nature/%s.jpg" % self.background)
+                   xlink__href="/dbimages/nature/%s.jpg" % self.background,
+                   style="opacity:%s;" % self.bg_opacity)
 
     def get_steps(self, count):
         step = int((self.max - self.min) / count)
@@ -141,15 +143,21 @@ class Fromdark(SvgFigGenerator):
         return "From dark"
 
     def get_attributes(self):
-        bar_color = Color(self, "bar_color", "Bar color")
-        bar_fill = Float(self, "bar_fill", "Bar opacity", 0.2, 1.8)
+        bar_title = Title(self, "Bar")
+        bar_color = Color(self, "bar_color", "Color")
+        bar_fill = Float(self, "bar_fill", "Opacity", 0.2, 1.8)
+        bg_title = Title(self, "Background")
+        background = Background(self, "background", "Image")
+        bg_opacity = Float(self, "bg_opacity", "Opacity", 0.2, 1.8)
+        other_title = Title(self, "Other")
         text_color = Color(self, "text_color", "Text color")
         darkest = Float(self, "darkest", "Darkness of left side", 0.2, 1.4)
-        background = Background(self, "background", "Background")
-        has_splitter = Boolean(self, "has_splitter", "Splitters?")
+        has_splitter = Boolean(self, "has_splitter", "Lines between bars?")
         titles_clean = Boolean(self, "titles_clean", "Titles on white?")
-        return [bar_color, bar_fill, text_color, darkest, 
-                background, has_splitter, titles_clean]
+        return [bar_title, bar_color, bar_fill,
+                bg_title, background, bg_opacity,
+                other_title, text_color, darkest, has_splitter, titles_clean]
+
 
     def get_version(self):
         return 2
