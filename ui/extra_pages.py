@@ -41,10 +41,6 @@ class AboutPage(ExtraPage):
 # - give star ratings for populars
 # - do paging and tablezing for populars
 # - rethink dbimages naming?
-# command to make image:
-# sed ... xlink:href="/dbimages/
-# with .. xlink:href="/home/ippe/dev/beautybar/dynamic_images/
-# inkscape img.svg -z -a 0:0:300:200 -h 150 -e outname.png
 class PopularPage(ExtraPage):
 
     def get_values(self):
