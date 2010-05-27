@@ -5,7 +5,6 @@
 static/css/generators.css
 static/images/generators.png
 
-# app engine index file
 index.yaml
 
 # folder for random temp files
