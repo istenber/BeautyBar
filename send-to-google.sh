@@ -67,7 +67,9 @@ git clone ${GIT_REPO} ${TMP_FOLDER}/beautybar
 # build generator list image and css
 CURDIR=`pwd`
 cd ${TMP_FOLDER}/beautybar
+ln -s ${CURDIR}/dynamic_images .
 ./montage.sh
+rm dynamic_images
 cd ${CURDIR}
 
 # remove unneeded files
