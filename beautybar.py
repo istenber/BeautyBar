@@ -22,6 +22,7 @@ from ui.content_preview import ContentPreview
 from ui.image import ServeImage
 from ui.replace_script import ReplaceScript
 from ui.to_png import ToPng
+from ui.printpage import PrintPage
 import lib.datastore_cache
 
 
@@ -75,6 +76,7 @@ def main():
 
              ('/dbimages/(.*)', ServeImage),
 
+             ('/print', PrintPage),
              ('/attr_table', AjaxAttributes),
              ('/chart', ChartPage),
              ('/gadget', GadgetPage),

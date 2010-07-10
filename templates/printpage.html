@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<script type="text/javascript" src="/svgweb/svg.js" data-path="svgweb"></script>
+<title>BeautyBar</title>
+</head>
+<body>
+
+<h1>[ chart saved name? ]</h1>
+
+<table>
+<tr>
+<td>
+<object data="/preview" type="image/svg+xml" width="300" height="200" />
+</td>
+<tr>
+<td>
+
+<table border="1" width="100%">
+<tr>
+<th>
+Names
+</th>
+<th>
+Values
+</th>
+</tr>
+
+{% for item in items %}
+<tr>
+<td>
+{{ item.name }}
+</td>
+<td>
+{{ item.value|floatformat }}
+</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</td>
+</table>
+
+
+</body>
+</html>
