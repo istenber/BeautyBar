@@ -48,6 +48,7 @@ generators = {
     'earthart'   : 3,
     'pilars'     : 2,
     'silos'      : 2,
+    'dots'       : 1,
     }
 
 
