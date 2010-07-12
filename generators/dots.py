@@ -50,7 +50,9 @@ class Dots(SvgFigGenerator, CommonAttributesBase):
         self.dots_x = 30
         self.dots_y = 20
         self.big_dot = 4
-        self.small_dot = 1
+        self.small_dot = 2
+        self.style = 2
+        self.dot_fill = True
 
     def get_elements(self):
         self.calc(edge_width = 10,
@@ -62,14 +64,18 @@ class Dots(SvgFigGenerator, CommonAttributesBase):
 
     def get_dots(self):
         g = SVG("g")
-        style_a = ("fill:none;stroke-width:%spx;stroke:#%s;" %
-                   (self.big_dot, self.color))
-        style_b = ("fill:none;stroke-width:%spx;stroke:#%s;" %
-                   (self.small_dot, self.color))
-        # xplus = int(300 / self.dots_x)
-        # yplus = int(200 / self.dots_y)
-        # xp2 = int(xplus / 2)
-        # yp2 = int(yplus / 2)
+        if self.dot_fill:
+            fill = "#" + self.color
+        else:
+            fill = "none"
+        base_style = "fill:%s;stroke:#%s;" % (fill, self.color)
+        if self.style == 1:
+            style_a = (base_style +
+                       "stroke-width:%spx;" % self.big_dot)
+        elif self.style == 2:
+            style_a = ("fill:none;stroke:none;")
+        style_b = (base_style +
+                   "stroke-width:%spx;" % self.small_dot)
         xplus = 300.0 / self.dots_x
         yplus = 200.0 / self.dots_y
         xp2 = xplus / 2.0
