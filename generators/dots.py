@@ -19,45 +19,72 @@ class CommonAttributesBase(object):
         return [color, bgcolor]
 
 
+def precalc_bar_areas(generator, h, h0):
+    """
+    h  = height of bar
+    h0 = distance from top
+    """
+    m = []
+    for i in range(0, generator.get_row_count()):
+        x0 = generator.calc.left(i)
+        x1 = x0 + generator.calc.bar_width
+        y0 = h0 + h - generator.get_row_value(i) * h
+        y1 = h0 + h
+        bar = (x0, y0, x1, y1)
+        m.append(bar)
+    return m
+
+def in_limits(areas, x, y):
+    for (x0, y0, x1, y1) in areas:
+        if x > x0 and x < x1 and y > y0 and y < y1:
+            return True
+    return False
+
+
 class Dots(SvgFigGenerator, CommonAttributesBase):
 
     def __init__(self):
         SvgFigGenerator.__init__(self)
         CommonAttributesBase.__init__(self)
         self.has_x = True
+        self.dots_x = 30
+        self.dots_y = 20
+        self.big_dot = 4
+        self.small_dot = 1
 
     def get_elements(self):
         self.calc(edge_width = 10,
                   bar_size = 60,
                   font_size = 12)
+        self.areas = precalc_bar_areas(self, 170, 10)
         return SVG("g",
                    self.get_dots())
 
-    def in_limits(self, x, y):
-        for i in range(0, self.get_row_count()):
-            x0 = self.calc.left(i)
-            x1 = x0 + self.calc.bar_width
-            y0 = self.get_row_value(i) * 170
-            y1 = 170
-            if x > x0 and x < x1 and y > y0 and y < y1:
-                return True
-        return False
-
     def get_dots(self):
         g = SVG("g")
-        style_a = "fill:none;stroke-width:5px;stroke:#%s;" % self.color
-        style_b = "fill:none;stroke-width:1px;stroke:#%s;" % self.color
-        for xi in range(0, 30):
-            for yi in range(0, 20):
-                x = xi * 10 + 5 - 1
-                y = yi * 10 + 5 - 1
-                if self.in_limits(x, y):
+        style_a = ("fill:none;stroke-width:%spx;stroke:#%s;" %
+                   (self.big_dot, self.color))
+        style_b = ("fill:none;stroke-width:%spx;stroke:#%s;" %
+                   (self.small_dot, self.color))
+        # xplus = int(300 / self.dots_x)
+        # yplus = int(200 / self.dots_y)
+        # xp2 = int(xplus / 2)
+        # yp2 = int(yplus / 2)
+        xplus = 300.0 / self.dots_x
+        yplus = 200.0 / self.dots_y
+        xp2 = xplus / 2.0
+        yp2 = yplus / 2.0
+        for xi in range(0, self.dots_x):
+            for yi in range(0, self.dots_y):
+                x = xi * xplus + xp2
+                y = yi * yplus + yp2
+                if in_limits(self.areas, x, y):
                     style = style_a
                 else:
                     style = style_b
                 g.append(SVG("rect",
-                             x = x,
-                             y = y,
+                             x = int(x) - 1,
+                             y = int(y) - 1,
                              width = 2,
                              height = 2,
                              style = style))
