@@ -35,12 +35,13 @@ class Bars3d(SvgFigGenerator, CommonAttributesBase):
               "stroke-width:2px;stroke:#%s;" % self.color)
         y0 = 170
         sp = 5
+        top_space = 30
         for i in range(0, self.get_row_count()):
             s = sb + "fill:#%s;" % colors[i % len(colors)]            
             x0 = self.calc.left(i)
             x1 = self.calc.middle(i)
             x2 = x0 + self.calc.bar_width
-            h = self.get_row_value(i) * y0
+            h = y0 - self.get_row_value(i) * (y0 - top_space)
             g.append(SVG("path",
                          d = (" M %s,%s L %s,%s" % (x0, y0, x0, h) +
                               " L %s,%s L %s,%s z" % (x1, h + sp, x1, y0 + sp)),
