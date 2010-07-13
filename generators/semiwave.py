@@ -31,10 +31,12 @@ class Semiwave(SvgFigGenerator, CommonAttributesBase):
             x0 = 10
         y0 = 170
         sp = 8
+        yn = 30
         for i in range(0, self.get_row_count()):
+            if self.get_row_value(i) < 0.1: continue
             x1 = self.calc.left(i)
             x2 = x1 + self.calc.bar_width
-            h = self.get_row_value(i) * y0
+            h = y0 - self.get_row_value(i) * (y0 - yn)
             g.append(SVG("path",
                          d = (" M %s,%s L %s,%s" % (x0, y0, x1, y0) +
                               " L %s,%s L %s,%s" % (x1, h, x2, h)),
