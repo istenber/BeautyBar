@@ -49,6 +49,7 @@ generators = {
     'pilars'     : 2,
     'silos'      : 2,
     'dots'       : 1,
+    'semiwave'   : 1,
     }
 
 
