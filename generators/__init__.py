@@ -50,6 +50,7 @@ generators = {
     'silos'      : 2,
     'dots'       : 1,
     'semiwave'   : 1,
+    'bars3d'     : 1,
     }
 
 
