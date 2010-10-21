@@ -21,6 +21,7 @@ from ui.error_pages  import MissingPage
 from ui.content_preview import ContentPreview
 from ui.image import ServeImage
 from ui.replace_script import ReplaceScript
+from ui.to_png import ToPng
 import lib.datastore_cache
 
 
@@ -80,6 +81,7 @@ def main():
              ('/feedback', FeedbackProcessor),
              ('/export.svg', SvgImage),
              ('/content_preview', ContentPreview),
+             ('/export.png', ToPng),
              ('/preview', PreviewImage)]
     application = webapp.WSGIApplication(pages +
                                          get_admin_pages() +
