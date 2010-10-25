@@ -1,0 +1,463 @@
+
+1. Architecture
+---------------
+We should write document that describes architecture of whole beauty bar 
+system. It should based on idea that we have model, view, controller (MVC)
+system, where *model* is under *model* -folder and *view* and *controller*
+are both mixed and under *ui* -folder. From model we then call generators, 
+which do the actual processing.
+
+We need to also document all services that exists or should be 
+implemented, like: 
+* svg-to-png image conversion service
+* live-data-import -service to get data from many sources 
+  (undata, stat.fi, etc.) and convert them to suitable format
+* image-store -service, where all final images are stored
+* icon-creator -service, which creates small image out of request: 
+  coffee.png gives coffee icon in png format
+* font server
+* "Shared image" (xmpp and inkboard stuff)
+
+Then we need to find out what database tools are for google app engine 
+and how to use them to backup data and take care of it.
+
+We need also design hooks in code which collect information about usage 
+statistics and help to understand how user use the service. Maybe they can 
+be finally used to automatically suggest the user various chart styles.
+
+Logging policies, as well as variable and class naming conventions and other
+coding conventions should be written and make clear. Even files in system 
+should have some kind of meaning full structure. 
+
+1.1. Needs decissions
+---------------
+* Should we use *staticmethods* or only *classmethods* (Python reflections)?
+* Should we use prototype.js or switch to JQuery? 
+* Is there any advantages of using JQuery?
+* We could do onblur for modified fields after few seconds, 
+  as well as when blurring.
+
+1.2. Generator Controls
+---------------
+* preload generator parts
+* create *update* button, as now update happens onBlur (should be onblur!!!)
+* make common parameters for all generators
+** font
+** screen color
+
+1.3. Google Docs Integration
+---------------
+Google docs integration can be made using google database gadgets, 
+see more: http://code.google.com/apis/spreadsheets/gadgets/
+
+1.4. Image Server
+---------------
+It would be nice to create separate service which will provide images
+for titles for Beauty Bar. It could be run as a totally separate service
+so that any one could use it. Interface would be *url* based where url
+would consist of search term and image format. For example coffee.png
+should return image of coffee - maybe coffee cup - in .png format. There
+should also be specification for what size images service would give.
+Maybe /size45x45/ as url path would be best option. So, if an user want
+picture of sun as jpg and sized 50x50, he would call /size50x50/sun.jpg.
+
+1.5. SVG to PNG converter
+---------------
+Done, but needs documenting. Still missing text support and lot of more...
+Reason... As we don't know what fonts and what level svg support host have,
+it will quite often cause bad result. Even Firefox cannot handle font
+twisting and all shadowing effect well - if at all.
+
+1.6. Shared Image
+---------------
+It is possible to share image though XMPP protocol with app engine.
+There is support for it in Inkscape as well. It is called as Inkboard
+and it uses Pedro XMPP protocol to share image. I haven't get it working
+yet though, so it is only theory. Anyway, the idea would be that one can
+create bar chart with Beauty Bar and then *connect* to it by using image
+edit programs. Then one should be able to edit this chart further by
+syncing both edits: onces from Beauty Bar and others from Inkscape
+(or other image edit program).
+
+This requires lot of work from Inkscape side as Inkboard is not fully
+working product. It would be nice to have some kind of Pedro XMPP client
+as web page, which would then show in real time what the image looks like.
+
+
+2. Improvements
+---------------
+
+Misc improvements
+
+2.1. Code Refactoring
+---------------
+There are many parts of code that need refactoring:
+
+* Output image producing, needs use some sort of caching
+* Javascript, if we want to use some fancy jquery library for example
+* Generator interface: interface is good, but requires few extra features
+** another dimension (aka. previous year figures)
+* Generators should produce images as layers
+** background
+** meters
+** bars (and titles)
+** decorators
+* resize could be sent to generator as optional parameter. 
+  If resize exists then execute it, otherwise use default scaling.
+
+2.2. Fix bugs
+---------------
+* Internet explorer
+** buttons disappear (style and data) after click
+** ie image "flash" when cursor is over (span a hrefs) - maybe 
+   related to previous
+** google docs does not work with IE, as htc (svgweb ms behavior) does 
+   not allow cross domain references
+** ie shows links as blinking cursor
+** (prototype.js line 1715) Out of stack space 
+   (prototype.js / delete cache bug)
+** (svg.js line 1 char 23404) Object doesn't support this property or method
+* svgweb flashplayer
+** dashed grid line does not work with ie (svgweb flash player?)
+* opera
+** opera does not support scandic chars in svg
+* common
+** fix lightbox.css
+** some td elements missing close tag?
+** (prototype.js line 4481) 'handler' is null or not an object
+*** https://prototype.lighthouseapp.com/projects/8886/tickets/ \\
+      407-ie7-i8-report-handler-is-null-or-not-an-object
+** carousel bug: a.stop is not a function
+
+2.3. General issues
+---------------
+* if flash is disabled - and svg, does not work
+* if javascript is disabled, does not work
+* if cookies are disabled, does not work
+
+2.4. Next TODO
+---------------
+* Fix bugs (KnownBugs)
+* Sign up for google javascript api key 
+  http://code.google.com/intl/fi/apis/ajaxsearch/signup.html
+* "save" should only save current active generator
+* Google Docs gadget publishing,
+   as only after it one can "share" documents with gadgets
+* New tutorial video
+** pdf document with chart, and odf document, google docs document
+** more preview things.. google docs, blogger entry, igoogle, etc.
+* inform visualization api team about gadget
+* check bug fixes:
+** two colors generators zero values
+** set preview window elements with exact size - fix ie preview window bugs
+* make &quot;news&quot; section in about page with info about bugs and new features
+* scaling should keep texts untouch - so fonts can use more space
+* business plan
+* specify generator interface versions
+** v3: support different sizes: font scaling, line scaling
+** v4: common parameters background, company logo, etc.
+
+2.5. Some Ideas
+---------------
+* remove "close preview" from print output
+* color themes as common parameter
+* move and zoom to preview image - maybe with viewport? or scale?
+** should we have additional menu about size properties, or maybe file page 
+   new button setting which open lightbox
+* mouse over bar could show some interaction. for example value of bar
+* create tspan text class to svgfig
+* create symbol elements in defs, and use them in page
+* make tests for all ui - especially ajax - code. e.g. 
+    1. test that generator is default 
+    2. run ajax code to change generator 
+    3. check that generator have changed, but rest of db is same!
+* make chart that have different style depending what data is
+** weather: -3 is cold!?, +20 is hot
+* grouping for generator attributes - and collapse group by pressing plus, etc.
+* user should not be able to overwrite chart (or style) made by others
+* move export (png and svg) to file page and make fields for size there
+* generator interface version 3: support scaling
+* more tutorial videos: 
+    one for chart api
+    one for command line tool
+    one for google docs
+    one for standard use
+    one for style design
+* make undata search example
+* change all generators to use number scaler
+* attribute &quot;bar style&quot; which allows many charts to use common bars
+* all integer and float attribute selectors as scroll element (jquery?)
+* fix generators scale support
+* disable add and del row buttons if it is not possible to del or add rows
+* reorder data page to fit better in area - maybe use some tool to show chart
+* preview image scale differently based on data rows
+* browser content gzipped?
+* make svg clean up program
+* jquery for javascript
+* chart_api optimizations
+* scaling for generators (interface version 3)
+** decorator should be extracted to generator/base.py
+* make "make test" target to run all unit tests 
+   write more unit tests and for ui code some tests
+* make common attributes! 
+** corporate name
+** color theme?
+* spreadsheet gadget data/titles vs. titles/data
+* more admin views, which control system
+* use image server to store more images and change generators (nature) to use it
+* generators common options: medals(gold, silver, bronze), frames
+* all data stored MUST be converted to unicode - go through unicode(s) method
+* make cronjobs to collect statistics
+* make cronjobs to remove _deleted items
+* admin database tools?
+* update db model image
+* add svgfig library functions like: text to path
+* modify copy_model_instance nicer and send it to djangosnipets.org
+
+2.6. Big things
+---------------
+* spreadsheet-gadget is hack as datasources needs
+  authentication (or public datasources)
+* make boolean attribute so that if it is true (or false) some other
+  fields are disabled (for example has_bgcolor and bgcolor)
+
+2.6.1. Generators
+---------------
+* generators with images: houses, barrels, factories, batteries
+* generator which uses only scaled names: bigs are bigger, smalls are smaller
+* different title sets:
+** years
+** company departments: it, sales, ...
+** week days
+** continents: asia, europe, north america
+* different figures based on title set: management could be picture of 
+  manager or black hat, worker blue hat
+* flags as bars, when chart about nations, similar for different groups
+* roman numbers for titles: mmx (2010)
+* restaurant stats: coffee mug, plate, bier, etc.
+* create &quot;company&quot; generator with company logos
+* should these be here or decorator: title for chart? axis names?
+** maybe decorator could contain defaults that we could override
+* do we need titles for axises? x-axis years?
+* do we need title for chart?
+* would it be useful to support combined bars? for example 2008: 
+  total 130 of which 30 "education" and 100 "other"
+* inverse colors for print and presentations?
+* how to set title_mapper datas in db: city names, countries, etc...
+  (or could we use external service)
+* some cases title naming might cause scale names to change: for example 
+  if titles are languages, scale could be basic, good, perfect
+* change all generators to use title mapper
+* title_mapper should calculate width of title - and we should use it
+
+2.6.2. Data
+---------------
+* allow set_range to support scalable values 1k, should be scaled to 1000
+* spreadsheet gadget title rows? title rows in general?
+* logarithmic scale vs. normal scale
+* is min in scale required, all bars should start from 0?
+* for all generators, we could use data in various order
+** set by user
+** value size
+** title: alphabetical, numbers (years for example)
+** random order
+** reverse any
+* one or two dimensions in bars
+* import data should use range (min, max) somehow
+* live data sources, imports from open office, excel and google docs
+* some fields benefit from different sets of data for relative size and
+  another for visible: for example slalom, 50/1.12:30, 40/1.12:55
+
+2.6.3. User Interface
+---------------
+* export size option [nnn] x [mmm] input fields to generator info part, or how?
+* generator list split to categories: business, sport, science, ...
+* common parameters: frame, medals, flowers
+* add caching for google chart api (or spreadsheet widget) before scaling
+* implement CTRL-s or some other kind (for example save button) 
+  way to save style all the time
+* file/save should have by default old saved name, if chart is saved before
+* saved chart should only save active generator, or?
+* fix chart api not save anything to database 
+  (and not making therefore any puts which make it slow)
+* ui could contain some "hidden" fields which activate when
+  advanced option is selected
+* user could define some settings: use png images instead of svg,
+  force flash rendering?
+* could svg image made interactive with javascript
+  (or maybe png with image map?)
+* implement user accounts
+* separate deleted data in db
+* make some database analytics hooks: maybe one analytic base class,
+  which collects information when user enters page
+* svg image update could send only diffs... big improvement,
+  but hard to implement
+* check for timeout errors (500 page)
+
+2.6.4. SVG tools
+---------------
+...to edit and translate svg files
+
+svg supports fonts by css specification. We could try to use web fonts 
+that download font from server in svg images, and why not with html 
+content as well:
+http://www.josbuivenga.demon.nl/tallys.html
+http://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#q47
+http://www.w3.org/TR/SVG11/fonts.html#SVGFonts
+http://www.w3.org/TR/SVG11/
+http://www.openfontlibrary.org/
+
+One good tool would be such that it would extract all bars and titles, etc.
+from svg image, and then make convert it to generator. This way we could
+do very easily new generators or even let users do them by themselves. 
+
+Tool that removes all extra content from svg file, would be nice.
+It could also simplify calculations so that if there is first some matrix
+calculation and then simple objects (like rectangles), it would
+remove the matrix part and count numbers in to object values.
+well... that is not so clearly stated.
+
+We also need improve *decorator* to not always scale generator output
+automatically, but ask generator to do scaling them selves. There are 
+dozens of other improvements for *decorator* as well.
+
+2.6.5. Misc
+---------------
+* change spreadsheet-gadget.xml to use some javascript in image 
+  part as choosing option: best style images and load field
+* make few blogs (or blog entries) with some nice charts
+* make few google docs with nice charts - and otherwise nice as well
+* find some page with crappy chart but otherwise nice,
+  and replace it with page with nice charts
+* comment: latest version of svgweb should support setting
+  data-path with meta tag
+* bug: svgweb works for IE - main page svg image does not work,
+  but lightbox does!!! (stack overflow: 1716)
+* doctests for all methods in model
+* unittest with Client to all methods in ui
+* testing with Client (create page and save, and load it)
+  (tmp/run-app-engine-client.py)
+* add get_description, rating and session.version to db model
+* invent use cases or user scenarios
+* make error checks every place
+* check google python coding guidelines
+* XHTML compliant checking (maybe some tool to automate this)
+* pychecker and lint rules?
+* internalization
+* sitemap.xml
+* beauty-doc, same as beauty-bar but for full documents
+* spreadsheet gadget update time
+* spreadsheet gadget: scale choosing: min, max or automatic
+* hardcode some default styles, at least those in spreadsheet-gadget.xml
+  (nature, plain, standard), and store them in db
+* bug? does chart api mess data of saved chart, no but it still saves some data?
+* bug: style is not always saved correctly? when and why are still open
+* make security checks for ajax interface: now it fails with # chars?
+* google-chrome bug: it have preview part (bp_main) 10 pixels too short
+* publish button (to file page) which publish style to _gallery_,
+  and from _gallery_ users can see best styles and rate them, maybe tag clouds?
+* renaming
+** lib/utils.py to lib/svg_tools.py
+** all external components to ext/ : jscolor, svgweb, svgfig, etc.
+
+
+3. Testing
+---------------
+
+3.1. System Testing
+---------------
+We should test software with many browsers and many versions of those. As well
+as with different resolutions and maybe even with cellphones?
+First it would be nice to test with these browsers:
+* Firefox 2.0
+* Firefox 3.0
+* Safari x.x
+* Links/Lynx (should say does not work?)
+* Opera x.x (maybe couple versions)
+* KDE browsers?
+* Chrome
+
+Test scenarios could be quite simple
+"All pages should work"
+
+Mainpage loads correctly - all elements: 
+* generator info
+* preview image
+* list of generators
+* data part
+... loads correctly. Then we should try to change generator check
+that it works. Try to change to *style* tab and *file* tab. Test
+*Export as SVG* and also *Export as PNG*. Try different (all!)
+attributes from *style* tab. Try *Start from scratch* from *file* tab. 
+Try *Import data* (if possible). There are so many combinations and
+choices that these should be made a bit explorative manner, but so
+that we will cover all described cases.
+
+Then we should also test that other pages - learn and about - work.
+
+3.2. Load Testing
+---------------
+We should maybe include somewhere counters that try to estimate
+system resource usage and then we could estimate real load.
+Maybe it could be possible to create simple shell script that
+tries to edit various beauty bar instance simultaneously and by
+that we get some info, how many user could be served.
+
+3.3. Pre-Upgrade Testing
+---------------
+We should write a couple automated tests that check that most
+of pages work before uploading it to google. It is of course
+important to manually check pages as well, before activating
+it as *default*.
+
+
+4. (even more) Random Marks
+---------------
+
+We could use some kind of image maps to let user *find* best style.
+For example dimensions might be simple versus complex and all (or some)
+styles should be positioned in that scale. Map could be placed at style list
+part of application.
+
+There should be separate button "save as google spreadsheet style" or at 
+least "save style", otherwise it is not clear what is saved.
+
+Text for svg images should be preprocessed so that we can be sure that there
+are no overlapping characters, and that text fit in reserved space. Maybe we
+should specify that title text for one bar should always use rectangle size
+35x10, and maybe we can create cut path that verifies that it is so. Or if
+there is a tool that calculates size of text that would be nice - or could it
+be even svg standard part that we can make box that forces text to fit!
+
+Do research and check what kind of charts/bars big players are using.
+For example news corporations, 
+magazines and statistical institutes. CNN, Foxnews, bloombergs, yle, mtv3, etc.
+
+Think possible use cases for charts: 
+for example finance, years, nature?, population, eras, diseases, etc.
+Then think how these can be visually attractive way presented and what
+would be more specific use scenario: world population during time is too common.
+
+Things that we should take account when making chart:
+* Data should be clearly seen from it
+* Quality should be good, so one can use it
+* It should fit color theme (green for nature, something else for wordpress)
+* Print quality 900dpi?
+* Propagandist factors - do we want show real things or how things should be seen
+
+Ideas should start from real need: what data set would benefit our lives? 
+For example I enjoy knowing how much internet traffic there is.
+
+Move Background images to image server
+
+Title Mappings: Title names should be mapped in maybe images or
+something similar. For example if you type *coffee* as a title,
+the program could suggest you to use image of coffee cup instead.
+
+User Accounts: We need user accounts to make sure that users don't 
+remove styles made by others. Following stuff is needed:
+* Separate style save
+* Save should ask do you want replace if style/data already exists
+* Only user who created style can load it - or maybe not?
+* Only user who created style can replace it
+* So we need user name to style db model as well?
