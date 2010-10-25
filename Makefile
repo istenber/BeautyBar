@@ -1,7 +1,10 @@
 DEV_SERVER=../google_appengine/dev_appserver.py
 
-all:
+all: montage
 	python2.5 $(DEV_SERVER) .
+
+montage:
+	./montage.sh
 
 apidoc:
 	-mkdir apidoc
