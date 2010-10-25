@@ -10,7 +10,13 @@ import urllib2, urllib, lib.MultipartPostHandler
 import time
 
 
-IMAGE_SERVER_URL = "http://localhost:8000"
+import os
+if os.environ["SERVER_SOFTWARE"].startswith("Development"):
+    IMAGE_SERVER_URL = "http://localhost:8000"
+else:
+    IMAGE_SERVER_URL = "http://beauty-bar-tools.appspot.com"
+
+
 DEFAULT_PNG_WIDTH = 300
 DEFAULT_PNG_HEIGHT = 200
 
@@ -72,8 +78,8 @@ class ToPng(SessionPage):
         self.get_session()
         # to let browsers to download image instead of showing it,
         # we use application/text mime type
-        self.response.headers['Content-Type'] = "image/png"
-        # self.response.headers['Content-Type'] = "application/text"
+        # self.response.headers['Content-Type'] = "image/png"
+        self.response.headers['Content-Type'] = "application/text"
         self.set_image_size()
         g = self.session.style.get_active_generator()
         out = g.build_chart(self.session.data).output()        
