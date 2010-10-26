@@ -4,6 +4,7 @@ import os
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 from google.appengine.ext import db
+from google.appengine.api import mail
 from ui.basepage import SessionPage
 
 
@@ -40,6 +41,14 @@ class FeedbackProcessor(SessionPage):
         fb.message = feedback
         fb.session = self.session.cookie
         fb.put()
+        self.send_feedback_email(fb.user, fb.message, fb.session)
         msg = "Thank you for your feedback."
         self.response.headers['Content-Type'] = "text/plain"
         self.response.out.write("out:" + msg)
+
+    def send_feedback_email(self, sender, feedback, session):
+        # TODO: change to read addresses from database
+        mail.send_mail("Beauty Bar <istenber@gmail.com>",
+                       "istenber@gmail.com",
+                       "Beauty Bar Feedback: " + str(sender),
+                       str(feedback) + "\n" + str(session))
