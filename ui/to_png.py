@@ -75,6 +75,10 @@ class ToPng(SessionPage):
             self.png_height = DEFAULT_PNG_HEIGHT
 
     def get(self):
+        # TODO: disabled for now
+        self.redirect("/images/pngerror.png")
+        return
+
         self.get_session()
         # to let browsers to download image instead of showing it,
         # we use application/text mime type
